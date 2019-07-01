@@ -1,10 +1,13 @@
 package net.silentchaos512.mechanisms;
 
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.silentchaos512.mechanisms.init.ModBlocks;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,8 +25,16 @@ public final class SilentMechanisms {
     public static SilentMechanisms INSTANCE;
     public static SideProxy PROXY;
 
+    public static ItemGroup ITEM_GROUP = new ItemGroup(MOD_ID) {
+        @Override
+        public ItemStack createIcon() {
+            return new ItemStack(ModBlocks.crusher);
+        }
+    };
+
     public SilentMechanisms() {
         INSTANCE = this;
+        //noinspection Convert2MethodRef
         PROXY = DistExecutor.runForDist(() -> () -> new SideProxy.Client(), () -> () -> new SideProxy.Server());
     }
 

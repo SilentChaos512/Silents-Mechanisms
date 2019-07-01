@@ -9,11 +9,12 @@ import net.minecraft.item.ItemGroup;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.silentchaos512.mechanisms.block.crusher.CrusherBlock;
 
 import javax.annotation.Nullable;
 
 public final class ModBlocks {
-    public static Block example;
+    public static CrusherBlock crusher;
 
     private ModBlocks() {}
 
@@ -22,9 +23,9 @@ public final class ModBlocks {
         if (!event.getName().equals(ForgeRegistries.BLOCKS.getRegistryName())) return;
 
         // Register your blocks here
-        example = register("example_block", new Block(Block.Properties
-                .create(Material.ROCK)
-                .hardnessAndResistance(4, 20)
+        crusher = register("crusher", new CrusherBlock(Block.Properties
+                .create(Material.IRON)
+                .hardnessAndResistance(6, 20)
         ));
     }
 
