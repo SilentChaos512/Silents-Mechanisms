@@ -1,0 +1,40 @@
+# eclipse
+bin
+*.launch
+.settings
+.settings/*
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# gradle
+build
+.gradle
+
+# other
+eclipse
+run
+classes
+
+/README.txt
+/forge-*-changelog.txt
+
+secret.json
+libs/*
+!/libs/README.txt
+curse_logo.png
+image_test/
+
+.DS_Store
+
+version.properties
+*.png~
+
+todo_list\.md
