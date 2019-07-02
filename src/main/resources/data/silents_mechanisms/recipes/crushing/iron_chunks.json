@@ -2,11 +2,11 @@
     "type": "silents_mechanisms:crushing",
     "process_time": 400,
     "ingredient": {
-        "tag": "forge:ores/gold"
+        "tag": "forge:ores/iron"
     },
     "results": [
         {
-            "item": "silents_mechanisms:gold_dust",
+            "item": "silents_mechanisms:iron_chunks",
             "count": 2
         },
         {

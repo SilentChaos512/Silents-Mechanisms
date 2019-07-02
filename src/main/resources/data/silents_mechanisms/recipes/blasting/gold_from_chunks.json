@@ -1,7 +1,7 @@
 {
     "type": "minecraft:blasting",
     "ingredient": {
-        "item": "silents_mechanisms:gold_dust"
+        "item": "silents_mechanisms:gold_chunks"
     },
     "result": "minecraft:gold_ingot",
     "experience": 1.0,

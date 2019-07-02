@@ -1,8 +1,11 @@
 {
+    "block.silents_mechanisms.battery_box": "Battery Box",
     "block.silents_mechanisms.coal_generator": "Coal Generator",
     "block.silents_mechanisms.crusher": "Crusher",
-    "item.silents_mechanisms.gold_dust": "Gold Dust",
-    "item.silents_mechanisms.iron_dust": "Iron Dust",
+    "block.silents_mechanisms.electric_furnace": "Electric Furnace",
+    "block.silents_mechanisms.wire": "Wire",
+    "item.silents_mechanisms.gold_chunks": "Gold Ore Chunks",
+    "item.silents_mechanisms.iron_chunks": "Iron Ore Chunks",
     "itemGroup.silents_mechanisms": "Silent's Mechanisms",
     "jei.silents_mechanisms.category.crushing": "Crushing"
 }

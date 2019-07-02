@@ -6,7 +6,7 @@
             "entries": [
                 {
                     "type": "minecraft:item",
-                    "name": "silents_mechanisms:example_block"
+                    "name": "silents_mechanisms:crusher"
                 }
             ],
             "conditions": [
