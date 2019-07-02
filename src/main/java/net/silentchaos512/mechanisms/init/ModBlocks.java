@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.block.batterybox.BatteryBoxBlock;
 import net.silentchaos512.mechanisms.block.crusher.CrusherBlock;
 import net.silentchaos512.mechanisms.block.generator.CoalGeneratorBlock;
 import net.silentchaos512.mechanisms.block.wire.WireBlock;
@@ -15,16 +16,18 @@ import net.silentchaos512.mechanisms.block.wire.WireBlock;
 import javax.annotation.Nullable;
 
 public final class ModBlocks {
-    public static CoalGeneratorBlock coalGenerator;
     public static CrusherBlock crusher;
+    public static CoalGeneratorBlock coalGenerator;
+    public static BatteryBoxBlock batteryBox;
     public static WireBlock wire;
 
     private ModBlocks() {}
 
     public static void registerAll(RegistryEvent.Register<Block> event) {
         // Register your blocks here
-        coalGenerator = register("coal_generator", new CoalGeneratorBlock());
         crusher = register("crusher", new CrusherBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(6, 20)));
+        coalGenerator = register("coal_generator", new CoalGeneratorBlock());
+        batteryBox = register("battery_box", new BatteryBoxBlock());
         wire = register("wire", new WireBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
     }
 

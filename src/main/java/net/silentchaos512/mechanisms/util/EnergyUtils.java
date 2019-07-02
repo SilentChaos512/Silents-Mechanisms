@@ -6,7 +6,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
-import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.IEnergyHandler;
 
 public final class EnergyUtils {
@@ -29,12 +28,12 @@ public final class EnergyUtils {
                 int toSend = energy.extractEnergy(maxSend, true);
                 int sent = other.receiveEnergy(toSend, false);
                 energy.extractEnergy(sent, false);
-                if (sent > 0) {
-                    SilentMechanisms.LOGGER.debug("send {} from {} -> {} (e={}, o={})",
-                            sent, world.getTileEntity(pos), tileEntity, energy.getClass(), other.getClass());
-                    SilentMechanisms.LOGGER.debug("{}, {}",
-                            energy.getEnergyStored(), other.getEnergyStored());
-                }
+//                if (sent > 0) {
+//                    SilentMechanisms.LOGGER.debug("send {} from {} -> {} (e={}, o={})",
+//                            sent, world.getTileEntity(pos), tileEntity, energy.getClass(), other.getClass());
+//                    SilentMechanisms.LOGGER.debug("{}, {}",
+//                            energy.getEnergyStored(), other.getEnergyStored());
+//                }
             });
         }
     }
