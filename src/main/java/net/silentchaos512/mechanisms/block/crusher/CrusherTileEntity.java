@@ -140,33 +140,48 @@ public class CrusherTileEntity extends LockableSidedInventoryTileEntity implemen
     private boolean hasRoomInOutput(CrushingRecipe recipe) {
         // Determine if all possible results could fit
         Set<ItemStack> results = recipe.getPossibleResults(this);
-        int i = INPUT_SLOT_COUNT;
         for (ItemStack stack : results) {
-            ItemStack output = getStackInSlot(i);
-            if (!canItemsStack(stack, output)) {
+            if (!hasRoomForOutputItem(stack)) {
                 return false;
             }
-            ++i;
         }
         return true;
     }
 
+    private boolean hasRoomForOutputItem(ItemStack stack) {
+        // Determine if the item can fit in any output slot
+        for (int i : SLOTS_OUTPUT) {
+            ItemStack output = getStackInSlot(i);
+            if (canItemsStack(stack, output)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private static boolean canItemsStack(ItemStack a, ItemStack b) {
+        // Determine if the item stacks can be merged
         if (a.isEmpty() || b.isEmpty()) return true;
         return ItemHandlerHelper.canItemStacksStack(a, b) && a.getCount() + b.getCount() <= a.getMaxStackSize();
     }
 
     private void createAndStoreResults(CrushingRecipe recipe) {
-        List<ItemStack> results = recipe.getResults(this);
-        int i = INPUT_SLOT_COUNT;
-        for (ItemStack stack : results) {
+        // Create results and store them in the output slots (assumes there is room)
+        recipe.getResults(this).forEach(this::storeResultItem);
+    }
+
+    private void storeResultItem(ItemStack stack) {
+        // Merge the item into any output slot it can fit in
+        for (int i : SLOTS_OUTPUT) {
             ItemStack output = getStackInSlot(i);
-            if (output.isEmpty()) {
-                setInventorySlotContents(i, stack);
-            } else {
-                output.setCount(output.getCount() + stack.getCount());
+            if (canItemsStack(stack, output)) {
+                if (output.isEmpty()) {
+                    setInventorySlotContents(i, stack);
+                } else {
+                    output.setCount(output.getCount() + stack.getCount());
+                }
+                return;
             }
-            ++i;
         }
     }
 
