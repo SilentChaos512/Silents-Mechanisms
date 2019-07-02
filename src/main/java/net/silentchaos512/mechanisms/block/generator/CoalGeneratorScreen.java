@@ -1,4 +1,4 @@
-package net.silentchaos512.mechanisms.block.crusher;
+package net.silentchaos512.mechanisms.block.generator;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -7,11 +7,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 
-public class CrusherScreen extends ContainerScreen<CrusherContainer> {
-    public static final ResourceLocation TEXTURE = SilentMechanisms.getId("textures/gui/crusher.png");
+public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer> {
+    public static final ResourceLocation TEXTURE = SilentMechanisms.getId("textures/gui/coal_generator.png");
 
-    public CrusherScreen(CrusherContainer containerIn, PlayerInventory playerInventoryIn, ITextComponent titleIn) {
-        super(containerIn, playerInventoryIn, titleIn);
+    public CoalGeneratorScreen(CoalGeneratorContainer container, PlayerInventory playerInventory, ITextComponent titleIn) {
+        super(container, playerInventory, titleIn);
     }
 
     @Override
@@ -30,11 +30,11 @@ public class CrusherScreen extends ContainerScreen<CrusherContainer> {
         int yPos = (this.height - this.ySize) / 2;
         blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
-        // Progress arrow
-        int progress = container.tileEntity.getProgress();
-        int processTime = container.tileEntity.getProcessTime();
-        int length = processTime > 0 && progress > 0 && progress < processTime ? progress * 24 / processTime : 0;
-        blit(xPos + 49, yPos + 34, 176, 14, length + 1, 16);
+        // Fuel remaining
+        if (container.tileEntity.isBurning()) {
+            int height = getFlameIconHeight();
+            blit(xPos + 81, yPos + 53 + 12 - height, 176, 12 - height, 14, height + 1);
+        }
 
         // Debug text
         int y = 5;
@@ -42,5 +42,11 @@ public class CrusherScreen extends ContainerScreen<CrusherContainer> {
             font.drawString(line, 5, y, 0xFFFFFF);
             y += 10;
         }
+    }
+
+    private int getFlameIconHeight() {
+        int total = container.tileEntity.getTotalBurnTime();
+        if (total == 0) total = 200;
+        return container.tileEntity.getBurnTime() * 13 / total;
     }
 }

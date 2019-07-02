@@ -9,18 +9,23 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.block.generator.CoalGeneratorScreen;
 import net.silentchaos512.mechanisms.block.crusher.CrusherContainer;
 import net.silentchaos512.mechanisms.block.crusher.CrusherScreen;
+import net.silentchaos512.mechanisms.block.generator.CoalGeneratorContainer;
 
 public class ModContainers {
+    public static ContainerType<CoalGeneratorContainer> coalGenerator;
     public static ContainerType<CrusherContainer> crusher;
 
     public static void registerAll(RegistryEvent.Register<ContainerType<?>> event) {
+        coalGenerator = register("coal_generator", CoalGeneratorContainer::new);
         crusher = register("crusher", CrusherContainer::new);
     }
 
     @OnlyIn(Dist.CLIENT)
     public static void registerScreens(FMLClientSetupEvent event) {
+        ScreenManager.registerFactory(coalGenerator, CoalGeneratorScreen::new);
         ScreenManager.registerFactory(crusher, CrusherScreen::new);
     }
 

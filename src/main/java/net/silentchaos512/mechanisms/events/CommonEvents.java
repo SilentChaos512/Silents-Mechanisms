@@ -12,6 +12,7 @@ import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
 public class CommonEvents {
     @SubscribeEvent
     public void onAttachTileEntityCaps(AttachCapabilitiesEvent<TileEntity> event) {
+        // TODO: Is this even needed?
         if (event.getObject() instanceof CrusherTileEntity) {
             SilentMechanisms.LOGGER.debug("attach energy cap to {}", event.getObject());
             event.addCapability(SilentMechanisms.getId("energy"), new EnergyStorageImpl(100_000, 100, 100));

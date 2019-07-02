@@ -1,4 +1,8 @@
 {
-  "block.silents_mechanisms.example_block": "Example Block",
-  "item.silents_mechanisms.example_item": "Example Item"
+    "block.silents_mechanisms.coal_generator": "Coal Generator",
+    "block.silents_mechanisms.crusher": "Crusher",
+    "item.silents_mechanisms.gold_dust": "Gold Dust",
+    "item.silents_mechanisms.iron_dust": "Iron Dust",
+    "itemGroup.silents_mechanisms": "Silent's Mechanisms",
+    "jei.silents_mechanisms.category.crushing": "Crushing"
 }

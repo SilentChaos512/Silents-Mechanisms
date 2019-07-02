@@ -1,0 +1,19 @@
+{
+    "parent": "block/cube",
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [ 0, 135, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.40, 0.40, 0.40 ]
+        }
+    },
+    "textures": {
+        "particle": "silents_mechanisms:block/coal_generator_front",
+        "down": "silents_mechanisms:block/coal_generator_bottom",
+        "up": "silents_mechanisms:block/coal_generator_top",
+        "north": "silents_mechanisms:block/coal_generator_front",
+        "east": "silents_mechanisms:block/coal_generator_side",
+        "south": "silents_mechanisms:block/coal_generator_bottom",
+        "west": "silents_mechanisms:block/coal_generator_side"
+    }
+}

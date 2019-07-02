@@ -7,13 +7,16 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.crusher.CrusherTileEntity;
+import net.silentchaos512.mechanisms.block.generator.CoalGeneratorTileEntity;
 
 import java.util.function.Supplier;
 
 public class ModTileEntities {
+    public static TileEntityType<CoalGeneratorTileEntity> coalGenerator;
     public static TileEntityType<CrusherTileEntity> crusher;
 
     public static void registerAll(RegistryEvent.Register<TileEntityType<?>> event) {
+        coalGenerator = register("coal_generator", CoalGeneratorTileEntity::new, ModBlocks.coalGenerator);
         crusher = register("crusher", CrusherTileEntity::new, ModBlocks.crusher);
     }
 

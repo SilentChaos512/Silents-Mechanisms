@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.block.crusher;
 
+import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
@@ -12,6 +13,9 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
@@ -21,8 +25,8 @@ import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.IntStream;
@@ -31,7 +35,7 @@ public class CrusherTileEntity extends LockableSidedInventoryTileEntity implemen
     // Energy constant
     public static final int MAX_ENERGY = 100_000;
     public static final int MAX_SEND_RECEIVE = 1_000;
-    public static final int ENERGY_USED_PER_TICK = 100;
+    public static final int ENERGY_USED_PER_TICK = 25;
 
     // Inventory constants
     static final int INPUT_SLOT_COUNT = 1;
@@ -48,7 +52,8 @@ public class CrusherTileEntity extends LockableSidedInventoryTileEntity implemen
     @SyncVariable(name = "ProcessTime")
     private int processTime;
 
-    private IEnergyStorage energy = new EnergyStorageImpl(MAX_ENERGY, MAX_SEND_RECEIVE, MAX_SEND_RECEIVE, 0);
+    private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() ->
+            new EnergyStorageImpl(MAX_ENERGY, MAX_SEND_RECEIVE, MAX_SEND_RECEIVE, 0));
 
     final IIntArray fields = new IIntArray() {
         @Override
@@ -59,7 +64,7 @@ public class CrusherTileEntity extends LockableSidedInventoryTileEntity implemen
                 case 1:
                     return processTime;
                 case 2:
-                    return energy.getEnergyStored();
+                    return getEnergyStored();
                 default:
                     return 0;
             }
@@ -75,9 +80,7 @@ public class CrusherTileEntity extends LockableSidedInventoryTileEntity implemen
                     processTime = value;
                     break;
                 case 2:
-                    if (energy instanceof EnergyStorageImpl) {
-                        ((EnergyStorageImpl) energy).setEnergyDirectly(value);
-                    }
+                    setEnergyStored(value);
                     break;
             }
         }
@@ -97,11 +100,11 @@ public class CrusherTileEntity extends LockableSidedInventoryTileEntity implemen
         if (world == null || world.isRemote) return;
 
         CrushingRecipe recipe = world.getRecipeManager().getRecipe(CrushingRecipe.RECIPE_TYPE, this, world).orElse(null);
-        if (recipe != null && hasRoomInOutput(recipe) && energy.getEnergyStored() >= ENERGY_USED_PER_TICK) {
+        if (recipe != null && hasRoomInOutput(recipe) && getEnergyStored() >= ENERGY_USED_PER_TICK) {
             // Process
             processTime = recipe.getProcessTime();
             ++progress;
-            energy.extractEnergy(ENERGY_USED_PER_TICK, false);
+            energy.ifPresent(e -> e.extractEnergy(ENERGY_USED_PER_TICK, false));
 
             if (progress > processTime) {
                 // Create results
@@ -114,9 +117,6 @@ public class CrusherTileEntity extends LockableSidedInventoryTileEntity implemen
         } else if (recipe == null) {
             setNeutralState();
         }
-
-        // testing energy
-        energy.receiveEnergy(100, false);
     }
 
     private void sendUpdate() {
@@ -189,6 +189,22 @@ public class CrusherTileEntity extends LockableSidedInventoryTileEntity implemen
         decrStackSize(0, 1);
     }
 
+    public int getEnergyStored() {
+        return energy.isPresent() ? energy.orElseThrow(IllegalStateException::new).getEnergyStored() : 0;
+    }
+
+    private void setEnergyStored(int value) {
+        energy.ifPresent(e -> {
+            if (e instanceof EnergyStorageImpl) {
+                ((EnergyStorageImpl) e).setEnergyDirectly(value);
+            }
+        });
+    }
+
+    public int getMaxEnergyStored() {
+        return energy.isPresent() ? energy.orElseThrow(IllegalStateException::new).getMaxEnergyStored() : 0;
+    }
+
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
     @Override
     public int[] getSlotsForFace(Direction side) {
@@ -223,14 +239,14 @@ public class CrusherTileEntity extends LockableSidedInventoryTileEntity implemen
     public void read(CompoundNBT tags) {
         super.read(tags);
         SyncVariable.Helper.readSyncVars(this, tags);
-        this.energy = new EnergyStorageImpl(MAX_ENERGY, MAX_SEND_RECEIVE, MAX_SEND_RECEIVE, tags.getInt("Energy"));
+        setEnergyStored(tags.getInt("Energy"));
     }
 
     @Override
     public CompoundNBT write(CompoundNBT tags) {
         super.write(tags);
         SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
-        tags.putInt("Energy", energy.getEnergyStored());
+        energy.ifPresent(e -> tags.putInt("Energy", e.getEnergyStored()));
         return tags;
     }
 
@@ -238,24 +254,33 @@ public class CrusherTileEntity extends LockableSidedInventoryTileEntity implemen
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         super.onDataPacket(net, packet);
         SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
-        if (energy instanceof EnergyStorageImpl) {
-            ((EnergyStorageImpl) energy).setEnergyDirectly(packet.getNbtCompound().getInt("Energy"));
-        }
+        setEnergyStored(packet.getNbtCompound().getInt("Energy"));
     }
 
     @Override
     public CompoundNBT getUpdateTag() {
         CompoundNBT tags = super.getUpdateTag();
         SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
-        tags.putInt("Energy", energy.getEnergyStored());
+        energy.ifPresent(e -> tags.putInt("Energy", e.getEnergyStored()));
         return tags;
     }
 
+    @Nullable
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (!this.removed && cap == CapabilityEnergy.ENERGY) {
+            return energy.cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
     List<String> getDebugText() {
-        List<String> list = new ArrayList<>();
-        list.add("progress = " + progress);
-        list.add("processTime = " + processTime);
-        list.add("energy = " + energy.getEnergyStored() + " FE / " + energy.getMaxEnergyStored() + " FE");
-        return list;
+        return ImmutableList.of(
+                "progress = " + progress,
+                "processTime = " + processTime,
+                "energy = " + getEnergyStored() + " FE / " + getMaxEnergyStored() + " FE",
+                "ENERGY_USED_PER_TICK = " + ENERGY_USED_PER_TICK,
+                "MAX_SEND_RECEIVE = " + MAX_SEND_RECEIVE
+        );
     }
 }
