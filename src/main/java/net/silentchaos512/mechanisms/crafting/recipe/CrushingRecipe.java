@@ -3,6 +3,7 @@ package net.silentchaos512.mechanisms.crafting.recipe;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.util.Constants;
 import net.silentchaos512.utils.MathUtils;
 
 import java.util.*;
@@ -26,7 +27,7 @@ public class CrushingRecipe implements IRecipe<IInventory> {
     public static final IRecipeType<CrushingRecipe> RECIPE_TYPE = new IRecipeType<CrushingRecipe>() {
         @Override
         public String toString() {
-            return SilentMechanisms.getId("crushing").toString();
+            return Constants.CRUSHING.toString();
         }
     };
     public static final Serializer SERIALIZER = new Serializer();
@@ -47,6 +48,15 @@ public class CrushingRecipe implements IRecipe<IInventory> {
      */
     public int getProcessTime() {
         return processTime;
+    }
+
+    /**
+     * Get the input ingredient for the recipe
+     *
+     * @return The input ingredient
+     */
+    public Ingredient getIngredient() {
+        return ingredient;
     }
 
     /**
@@ -72,6 +82,12 @@ public class CrushingRecipe implements IRecipe<IInventory> {
      */
     public Set<ItemStack> getPossibleResults(IInventory inv) {
         return results.keySet();
+    }
+
+    public List<Pair<ItemStack, Float>> getPossibleResultsWithChances() {
+        return results.entrySet().stream()
+                .map(e -> new Pair<>(e.getKey(), e.getValue()))
+                .collect(Collectors.toList());
     }
 
     @Override

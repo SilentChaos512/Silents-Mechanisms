@@ -8,7 +8,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 
 public class CrusherScreen extends ContainerScreen<CrusherContainer> {
-    private static final ResourceLocation TEXTURE = SilentMechanisms.getId("textures/gui/crusher.png");
+    public static final ResourceLocation TEXTURE = SilentMechanisms.getId("textures/gui/crusher.png");
 
     public CrusherScreen(CrusherContainer containerIn, PlayerInventory playerInventoryIn, ITextComponent titleIn) {
         super(containerIn, playerInventoryIn, titleIn);

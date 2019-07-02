@@ -3,12 +3,17 @@ package net.silentchaos512.mechanisms;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityType;
-import net.silentchaos512.mechanisms.init.*;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.event.lifecycle.*;
+import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.silentchaos512.mechanisms.init.*;
 
-class SideProxy {
+class SideProxy implements IProxy {
+    private MinecraftServer server = null;
+
     SideProxy() {
         // Add listeners for common events
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
@@ -21,6 +26,9 @@ class SideProxy {
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, ModItems::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(TileEntityType.class, ModTileEntities::registerAll);
 
+        // Other events
+        MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
+
         ModRecipes.init();
     }
 
@@ -31,6 +39,15 @@ class SideProxy {
     }
 
     private void imcProcess(InterModProcessEvent event) {
+    }
+
+    private void serverAboutToStart(FMLServerAboutToStartEvent event) {
+        server = event.getServer();
+    }
+
+    @Override
+    public MinecraftServer getServer() {
+        return server;
     }
 
     static class Client extends SideProxy {

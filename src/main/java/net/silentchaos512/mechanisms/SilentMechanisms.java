@@ -23,7 +23,7 @@ public final class SilentMechanisms {
     public static final Random RANDOM = new Random();
 
     public static SilentMechanisms INSTANCE;
-    public static SideProxy PROXY;
+    public static IProxy PROXY;
 
     public static ItemGroup ITEM_GROUP = new ItemGroup(MOD_ID) {
         @Override
