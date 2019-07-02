@@ -20,6 +20,8 @@ class SideProxy {
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ContainerType.class, ModContainers::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, ModItems::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(TileEntityType.class, ModTileEntities::registerAll);
+
+        ModRecipes.init();
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

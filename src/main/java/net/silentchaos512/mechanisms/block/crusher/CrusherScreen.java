@@ -31,10 +31,10 @@ public class CrusherScreen extends ContainerScreen<CrusherContainer> {
         blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
-//        int progress = container.tileEntity.getProgress();
-//        int cost = container.tileEntity.getProcessTime();
-//        int length = cost > 0 && progress > 0 && progress < cost ? progress * 24 / cost : 0;
-//        blit(xPos + 102, yPos + 34, 176, 14, length + 1, 16);
+        int progress = container.tileEntity.getProgress();
+        int processTime = container.tileEntity.getProcessTime();
+        int length = processTime > 0 && progress > 0 && progress < processTime ? progress * 24 / processTime : 0;
+        blit(xPos + 49, yPos + 34, 176, 14, length + 1, 16);
     }
 
     @Override
