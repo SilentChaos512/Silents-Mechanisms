@@ -10,12 +10,14 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.crusher.CrusherBlock;
 import net.silentchaos512.mechanisms.block.generator.CoalGeneratorBlock;
+import net.silentchaos512.mechanisms.block.wire.WireBlock;
 
 import javax.annotation.Nullable;
 
 public final class ModBlocks {
     public static CoalGeneratorBlock coalGenerator;
     public static CrusherBlock crusher;
+    public static WireBlock wire;
 
     private ModBlocks() {}
 
@@ -23,6 +25,7 @@ public final class ModBlocks {
         // Register your blocks here
         coalGenerator = register("coal_generator", new CoalGeneratorBlock());
         crusher = register("crusher", new CrusherBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(6, 20)));
+        wire = register("wire", new WireBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
     }
 
     private static <T extends Block> T register(String name, T block) {

@@ -16,23 +16,26 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.IEnergyStorage;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 import net.silentchaos512.lib.tile.SyncVariable;
+import net.silentchaos512.mechanisms.block.IEnergyHandler;
 import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.EnergyUtils;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity implements ITickableTileEntity {
+public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity implements IEnergyHandler, ITickableTileEntity {
     // Energy constants
     public static final int MAX_ENERGY = 100_000;
-    public static final int MAX_SEND_RECEIVE = 1_000;
+    public static final int MAX_SEND = 1_000;
     public static final int ENERGY_CREATED_PER_TICK = 25;
 
     @Getter
@@ -42,8 +45,7 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
     @SyncVariable(name = "TotalBurnTime")
     private int totalBurnTime;
 
-    private final LazyOptional<IEnergyStorage> energy = LazyOptional.of(() ->
-            new EnergyStorageImpl(MAX_ENERGY, MAX_SEND_RECEIVE, MAX_SEND_RECEIVE, 0));
+    private final EnergyStorageImpl energy;
 
     final IIntArray fields = new IIntArray() {
         @Override
@@ -70,7 +72,7 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
                     totalBurnTime = value;
                     break;
                 case 2:
-                    setEnergyStored(value);
+                    setEnergyStoredDirectly(value);
                     break;
             }
         }
@@ -83,6 +85,7 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
 
     public CoalGeneratorTileEntity() {
         super(ModTileEntities.coalGenerator, 1);
+        energy = new EnergyStorageImpl(MAX_ENERGY, 0, MAX_SEND, this);
     }
 
     @Override
@@ -92,7 +95,7 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
         if (isBurning()) {
             // Currently burning fuel
             --burnTime;
-            energy.ifPresent(e -> e.receiveEnergy(ENERGY_CREATED_PER_TICK, false));
+            energy.createEnergy(ENERGY_CREATED_PER_TICK);
 
             sendUpdate();
         } else {
@@ -118,7 +121,7 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
             }
         }
 
-        energy.ifPresent(e -> EnergyUtils.trySendToNeighbors(world, pos, e, MAX_SEND_RECEIVE));
+        EnergyUtils.trySendToNeighbors(world, pos, this, MAX_SEND);
     }
 
     private void sendUpdate() {
@@ -143,20 +146,9 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
         return ForgeEventFactory.getItemBurnTime(stack, ret == -1 ? AbstractFurnaceTileEntity.getBurnTimes().getOrDefault(stack.getItem(), 0) : ret);
     }
 
-    public int getEnergyStored() {
-        return energy.isPresent() ? energy.orElseThrow(IllegalStateException::new).getEnergyStored() : 0;
-    }
-
-    private void setEnergyStored(int value) {
-        energy.ifPresent(e -> {
-            if (e instanceof EnergyStorageImpl) {
-                ((EnergyStorageImpl) e).setEnergyDirectly(value);
-            }
-        });
-    }
-
-    public int getMaxEnergyStored() {
-        return energy.isPresent() ? energy.orElseThrow(IllegalStateException::new).getMaxEnergyStored() : 0;
+    @Override
+    public EnergyStorageImpl getEnergyImpl() {
+        return energy;
     }
 
     @Override
@@ -188,14 +180,14 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
     public void read(CompoundNBT tags) {
         super.read(tags);
         SyncVariable.Helper.readSyncVars(this, tags);
-        setEnergyStored(tags.getInt("Energy"));
+        readEnergy(tags);
     }
 
     @Override
     public CompoundNBT write(CompoundNBT tags) {
         super.write(tags);
         SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
-        energy.ifPresent(e -> tags.putInt("Energy", e.getEnergyStored()));
+        writeEnergy(tags);
         return tags;
     }
 
@@ -203,15 +195,24 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         super.onDataPacket(net, packet);
         SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
-        setEnergyStored(packet.getNbtCompound().getInt("Energy"));
+        readEnergy(packet.getNbtCompound());
     }
 
     @Override
     public CompoundNBT getUpdateTag() {
         CompoundNBT tags = super.getUpdateTag();
         SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
-        energy.ifPresent(e -> tags.putInt("Energy", e.getEnergyStored()));
+        writeEnergy(tags);
         return tags;
+    }
+
+    @Nullable
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (!this.removed && cap == CapabilityEnergy.ENERGY) {
+            return getEnergy(side).cast();
+        }
+        return super.getCapability(cap, side);
     }
 
     public List<String> getDebugText() {
@@ -220,7 +221,7 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
                 "totalBurnTime = " + totalBurnTime,
                 "energy = " + getEnergyStored() + " FE / " + getMaxEnergyStored() + " FE",
                 "ENERGY_CREATED_PER_TICK = " + ENERGY_CREATED_PER_TICK,
-                "MAX_SEND_RECEIVE = " + MAX_SEND_RECEIVE
+                "MAX_SEND = " + MAX_SEND
         );
     }
 }

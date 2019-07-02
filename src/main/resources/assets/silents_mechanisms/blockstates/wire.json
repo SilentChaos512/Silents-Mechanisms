@@ -1,0 +1,25 @@
+{
+    "multipart": [
+        {
+            "apply": { "model": "silents_mechanisms:block/wire" }
+        },
+        {   "when": { "north": true },
+            "apply": { "model": "silents_mechanisms:block/wire_side" }
+        },
+        {   "when": { "east": true },
+            "apply": { "model": "silents_mechanisms:block/wire_side", "y": 90, "uvlock": true }
+        },
+        {   "when": { "south": true },
+            "apply": { "model": "silents_mechanisms:block/wire_side", "y": 180, "uvlock": true }
+        },
+        {   "when": { "west": true },
+            "apply": { "model": "silents_mechanisms:block/wire_side", "y": 270, "uvlock": true }
+        },
+        {   "when": { "up": true },
+            "apply": { "model": "silents_mechanisms:block/wire_side", "x": 270, "uvlock": true }
+        },
+        {   "when": { "down": true },
+            "apply": { "model": "silents_mechanisms:block/wire_side", "x": 90, "uvlock": true }
+        }
+    ]
+}

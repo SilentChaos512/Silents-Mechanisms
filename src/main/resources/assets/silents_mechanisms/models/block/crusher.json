@@ -8,12 +8,12 @@
         }
     },
     "textures": {
-        "particle": "silents_mechanisms:block/crusher_front",
-        "down": "silents_mechanisms:block/crusher_bottom",
-        "up": "silents_mechanisms:block/crusher_top",
-        "north": "silents_mechanisms:block/crusher_front",
-        "east": "silents_mechanisms:block/crusher_side",
-        "south": "silents_mechanisms:block/crusher_bottom",
-        "west": "silents_mechanisms:block/crusher_side"
+        "particle": "silents_mechanisms:block/crusher/front",
+        "down": "silents_mechanisms:block/crusher/bottom",
+        "up": "silents_mechanisms:block/crusher/top",
+        "north": "silents_mechanisms:block/crusher/front",
+        "east": "silents_mechanisms:block/crusher/side",
+        "south": "silents_mechanisms:block/crusher/back",
+        "west": "silents_mechanisms:block/crusher/side"
     }
 }
