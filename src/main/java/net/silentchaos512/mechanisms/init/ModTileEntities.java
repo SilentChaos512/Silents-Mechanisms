@@ -8,6 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.batterybox.BatteryBoxTileEntity;
 import net.silentchaos512.mechanisms.block.crusher.CrusherTileEntity;
+import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceTileEntity;
 import net.silentchaos512.mechanisms.block.generator.CoalGeneratorTileEntity;
 import net.silentchaos512.mechanisms.block.wire.WireTileEntity;
 
@@ -17,12 +18,14 @@ public class ModTileEntities {
     public static TileEntityType<BatteryBoxTileEntity> batteryBox;
     public static TileEntityType<CoalGeneratorTileEntity> coalGenerator;
     public static TileEntityType<CrusherTileEntity> crusher;
+    public static TileEntityType<ElectricFurnaceTileEntity> electricFurnace;
     public static TileEntityType<WireTileEntity> wire;
 
     public static void registerAll(RegistryEvent.Register<TileEntityType<?>> event) {
         batteryBox = register("battery_box", BatteryBoxTileEntity::new, ModBlocks.batteryBox);
         coalGenerator = register("coal_generator", CoalGeneratorTileEntity::new, ModBlocks.coalGenerator);
         crusher = register("crusher", CrusherTileEntity::new, ModBlocks.crusher);
+        electricFurnace = register("electric_furnace", ElectricFurnaceTileEntity::new, ModBlocks.electricFurnace);
         wire = register("wire", WireTileEntity::new, ModBlocks.wire);
     }
 
