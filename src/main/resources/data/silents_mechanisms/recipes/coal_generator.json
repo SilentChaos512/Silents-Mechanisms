@@ -13,13 +13,13 @@
             "tag": "forge:ingots/redstone_alloy"
         },
         "X": {
-            "tag": "forge:gems/diamond"
+            "item": "minecraft:furnace"
         },
         "O": {
             "item": "minecraft:smooth_stone"
         }
     },
     "result": {
-        "item": "silents_mechanisms:crusher"
+        "item": "silents_mechanisms:coal_generator"
     }
 }

@@ -8,7 +8,12 @@ import net.silentchaos512.utils.TextUtils;
 
 public enum CraftingItems implements IItemProvider {
     IRON_CHUNKS,
-    GOLD_CHUNKS;
+    IRON_DUST,
+    GOLD_CHUNKS,
+    GOLD_DUST,
+    REDSTONE_ALLOY_INGOT,
+    REDSTONE_ALLOY_NUGGET,
+    REDSTONE_ALLOY_DUST;
 
     private final Lazy<Item> item;
 

@@ -5,7 +5,12 @@
     "block.silents_mechanisms.electric_furnace": "Electric Furnace",
     "block.silents_mechanisms.wire": "Wire",
     "item.silents_mechanisms.gold_chunks": "Gold Ore Chunks",
+    "item.silents_mechanisms.gold_dust": "Gold Dust",
     "item.silents_mechanisms.iron_chunks": "Iron Ore Chunks",
+    "item.silents_mechanisms.iron_dust": "Iron Dust",
+    "item.silents_mechanisms.redstone_alloy_dust": "Redstone Alloy Dust",
+    "item.silents_mechanisms.redstone_alloy_ingot": "Redstone Alloy Ingot",
+    "item.silents_mechanisms.redstone_alloy_nugget": "Redstone Alloy Nugget",
     "itemGroup.silents_mechanisms": "Silent's Mechanisms",
     "jei.silents_mechanisms.category.crushing": "Crushing"
 }
