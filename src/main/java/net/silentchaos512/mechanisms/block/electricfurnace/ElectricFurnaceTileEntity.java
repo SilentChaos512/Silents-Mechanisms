@@ -1,37 +1,26 @@
 package net.silentchaos512.mechanisms.block.electricfurnace;
 
 import com.google.common.collect.ImmutableList;
-import lombok.Getter;
+import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.items.ItemHandlerHelper;
-import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
-import net.silentchaos512.lib.tile.SyncVariable;
-import net.silentchaos512.mechanisms.block.IEnergyHandler;
-import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
+import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
+import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class ElectricFurnaceTileEntity extends LockableSidedInventoryTileEntity implements IEnergyHandler, ITickableTileEntity {
+public class ElectricFurnaceTileEntity extends AbstractMachineTileEntity<AbstractCookingRecipe> {
     // Energy constant
     public static final int MAX_ENERGY = 100_000;
     public static final int MAX_RECEIVE = 1_000;
@@ -43,132 +32,52 @@ public class ElectricFurnaceTileEntity extends LockableSidedInventoryTileEntity 
     private static final int[] SLOTS_OUTPUT = {1};
     private static final int[] SLOTS_ALL = {0, 1};
 
-    @Getter
-    @SyncVariable(name = "Progress")
-    private int progress;
-    @Getter
-    @SyncVariable(name = "ProcessTime")
-    private int processTime;
-
-    private final EnergyStorageImpl energy;
-
-    final IIntArray fields = new IIntArray() {
-        @Override
-        public int get(int index) {
-            switch (index) {
-                case 0:
-                    return progress;
-                case 1:
-                    return processTime;
-                case 2:
-                    return getEnergyStored();
-                default:
-                    return 0;
-            }
-        }
-
-        @Override
-        public void set(int index, int value) {
-            switch (index) {
-                case 0:
-                    progress = value;
-                    break;
-                case 1:
-                    processTime = value;
-                    break;
-                case 2:
-                    setEnergyStoredDirectly(value);
-                    break;
-            }
-        }
-
-        @Override
-        public int size() {
-            return 3;
-        }
-    };
-
     public ElectricFurnaceTileEntity() {
-        super(ModTileEntities.electricFurnace, INVENTORY_SIZE);
-        energy = new EnergyStorageImpl(MAX_ENERGY, MAX_RECEIVE, 0, this);
+        super(ModTileEntities.electricFurnace, INVENTORY_SIZE, MAX_ENERGY, MAX_RECEIVE, 0);
     }
 
     @Override
-    public void tick() {
-        if (world == null || world.isRemote) return;
-
-        AbstractCookingRecipe recipe = getRecipe();
-        if (recipe != null && hasRoomInOutput(recipe) && getEnergyStored() >= ENERGY_USED_PER_TICK) {
-            // Process
-            processTime = recipe.getCookTime();
-            ++progress;
-            energy.consumeEnergy(ENERGY_USED_PER_TICK);
-
-            if (progress > processTime) {
-                // Create results
-                createAndStoreResults(recipe);
-                consumeIngredients(recipe);
-                progress = 0;
-            }
-
-            sendUpdate();
-        } else if (recipe == null) {
-            setNeutralState();
-        }
+    protected int getEnergyUsedPerTick() {
+        return ENERGY_USED_PER_TICK;
     }
 
-    private void sendUpdate() {
-        if (world != null) {
-            BlockState state = world.getBlockState(pos);
-            world.notifyBlockUpdate(pos, state, state, 3);
-        }
+    @Override
+    protected BlockState getActiveState() {
+        return ModBlocks.electricFurnace.getDefaultState().with(AbstractFurnaceBlock.LIT, true);
     }
 
-    private void setNeutralState() {
-        boolean update = false;
-        if (progress > 0) {
-            progress = 0;
-            update = true;
-        }
-        if (update) {
-            sendUpdate();
-        }
+    @Override
+    protected BlockState getInactiveState() {
+        return ModBlocks.electricFurnace.getDefaultState();
     }
 
+    @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
+    @Override
+    protected int[] getOutputSlots() {
+        return SLOTS_OUTPUT;
+    }
+
+    @Override
     @Nullable
-    private AbstractCookingRecipe getRecipe() {
+    protected AbstractCookingRecipe getRecipe() {
         if (world == null) return null;
 
-        Optional<BlastingRecipe> optional = world.getRecipeManager().getRecipe(IRecipeType.BLASTING, this, world);
+        RecipeManager recipeManager = world.getRecipeManager();
+        Optional<BlastingRecipe> optional = recipeManager.getRecipe(IRecipeType.BLASTING, this, world);
         if (optional.isPresent()) return optional.get();
 
-        Optional<FurnaceRecipe> optional1 = world.getRecipeManager().getRecipe(IRecipeType.SMELTING, this, world);
+        Optional<FurnaceRecipe> optional1 = recipeManager.getRecipe(IRecipeType.SMELTING, this, world);
         return optional1.orElse(null);
     }
 
-    private boolean hasRoomInOutput(IRecipe<IInventory> recipe) {
-        ItemStack output = getStackInSlot(1);
-        return canItemsStack(recipe.getCraftingResult(this), output);
+    @Override
+    protected int getProcessTime(AbstractCookingRecipe recipe) {
+        return recipe.getCookTime();
     }
 
-    private static boolean canItemsStack(ItemStack a, ItemStack b) {
-        // Determine if the item stacks can be merged
-        if (a.isEmpty() || b.isEmpty()) return true;
-        return ItemHandlerHelper.canItemStacksStack(a, b) && a.getCount() + b.getCount() <= a.getMaxStackSize();
-    }
-
-    private void createAndStoreResults(IRecipe<IInventory> recipe) {
-        ItemStack output = getStackInSlot(1);
-        ItemStack craftingResult = recipe.getCraftingResult(this);
-        if (output.isEmpty()) {
-            setInventorySlotContents(1, craftingResult);
-        } else {
-            output.setCount(output.getCount() + craftingResult.getCount());
-        }
-    }
-
-    private void consumeIngredients(IRecipe<IInventory> recipe) {
-        decrStackSize(0, 1);
+    @Override
+    protected Collection<ItemStack> getProcessResults(AbstractCookingRecipe recipe) {
+        return Collections.singleton(recipe.getCraftingResult(this));
     }
 
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
@@ -198,51 +107,7 @@ public class ElectricFurnaceTileEntity extends LockableSidedInventoryTileEntity 
 
     @Override
     protected Container createMenu(int id, PlayerInventory playerInventory) {
-        return new ElectricFurnaceContainer(id, playerInventory, this);
-    }
-
-    @Override
-    public EnergyStorageImpl getEnergyImpl() {
-        return energy;
-    }
-
-    @Override
-    public void read(CompoundNBT tags) {
-        super.read(tags);
-        SyncVariable.Helper.readSyncVars(this, tags);
-        readEnergy(tags);
-    }
-
-    @Override
-    public CompoundNBT write(CompoundNBT tags) {
-        super.write(tags);
-        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
-        writeEnergy(tags);
-        return tags;
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-        super.onDataPacket(net, packet);
-        SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
-        readEnergy(packet.getNbtCompound());
-    }
-
-    @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT tags = super.getUpdateTag();
-        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
-        writeEnergy(tags);
-        return tags;
-    }
-
-    @Nullable
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.removed && cap == CapabilityEnergy.ENERGY) {
-            return getEnergy(side).cast();
-        }
-        return super.getCapability(cap, side);
+        return new ElectricFurnaceContainer(id, playerInventory, this, this.fields);
     }
 
     List<String> getDebugText() {

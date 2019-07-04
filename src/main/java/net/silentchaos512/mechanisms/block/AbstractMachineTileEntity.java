@@ -35,11 +35,11 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Lo
         public int get(int index) {
             switch (index) {
                 case 0:
-                    return progress;
+                    return AbstractMachineTileEntity.this.progress;
                 case 1:
-                    return processTime;
+                    return AbstractMachineTileEntity.this.processTime;
                 case 2:
-                    return getEnergyStored();
+                    return AbstractMachineTileEntity.this.getEnergyStored();
                 default:
                     return 0;
             }
@@ -49,13 +49,13 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Lo
         public void set(int index, int value) {
             switch (index) {
                 case 0:
-                    progress = value;
+                    AbstractMachineTileEntity.this.progress = value;
                     break;
                 case 1:
-                    processTime = value;
+                    AbstractMachineTileEntity.this.processTime = value;
                     break;
                 case 2:
-                    setEnergyStoredDirectly(value);
+                    AbstractMachineTileEntity.this.setEnergyStoredDirectly(value);
                     break;
             }
         }
@@ -86,12 +86,22 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Lo
 
     protected abstract Collection<ItemStack> getProcessResults(R recipe);
 
+    @Deprecated
     public int getProgress() {
         return progress;
     }
 
+    public int getProgressClient() {
+        return fields.get(0);
+    }
+
+    @Deprecated
     public int getProcessTime() {
         return processTime;
+    }
+
+    public int getProcessTimeClient() {
+        return fields.get(1);
     }
 
     protected void sendUpdate() {
@@ -101,7 +111,11 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Lo
 
     protected void sendUpdate(BlockState newState) {
         if (world == null) return;
-        world.notifyBlockUpdate(pos, world.getBlockState(pos), newState, 3);
+        BlockState oldState = world.getBlockState(pos);
+        if (oldState != newState) {
+            world.setBlockState(pos, newState, 3);
+            world.notifyBlockUpdate(pos, oldState, newState, 3);
+        }
     }
 
     protected void setInactiveState() {
@@ -177,6 +191,10 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Lo
 
     protected void consumeIngredients(R recipe) {
         decrStackSize(0, 1);
+    }
+
+    public IIntArray getFields() {
+        return fields;
     }
 
     @Override

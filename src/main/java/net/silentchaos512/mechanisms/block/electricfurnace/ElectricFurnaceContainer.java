@@ -2,36 +2,27 @@ package net.silentchaos512.mechanisms.block.electricfurnace;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
+import net.silentchaos512.mechanisms.block.AbstractMachineContainer;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
-public class ElectricFurnaceContainer extends Container {
-    final ElectricFurnaceTileEntity tileEntity;
-
+public class ElectricFurnaceContainer extends AbstractMachineContainer<ElectricFurnaceTileEntity> {
     public ElectricFurnaceContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new ElectricFurnaceTileEntity());
+        this(id, playerInventory, new ElectricFurnaceTileEntity(), new IntArray(3));
     }
 
-    public ElectricFurnaceContainer(int id, PlayerInventory playerInventory, ElectricFurnaceTileEntity tileEntity) {
-        super(ModContainers.electricFurnace, id);
-        this.tileEntity = tileEntity;
+    public ElectricFurnaceContainer(int id, PlayerInventory playerInventory, ElectricFurnaceTileEntity tileEntity, IIntArray fieldsIn) {
+        super(ModContainers.electricFurnace, id, tileEntity, fieldsIn);
 
         this.addSlot(new Slot(this.tileEntity, 0, 56, 35));
         this.addSlot(new SlotOutputOnly(this.tileEntity, 1, 117, 35));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
-
-        func_216961_a(this.tileEntity.fields);
-    }
-
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        // TODO
-        return true;
     }
 
     @Override

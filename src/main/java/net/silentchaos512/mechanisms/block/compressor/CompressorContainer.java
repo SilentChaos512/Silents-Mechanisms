@@ -2,38 +2,27 @@ package net.silentchaos512.mechanisms.block.compressor;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
+import net.silentchaos512.mechanisms.block.AbstractMachineContainer;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
-public class CompressorContainer extends Container {
-    final CompressorTileEntity tileEntity;
-
+public class CompressorContainer extends AbstractMachineContainer<CompressorTileEntity> {
     public CompressorContainer(int id, PlayerInventory playerInventory) {
         this(id, playerInventory, new CompressorTileEntity(), new IntArray(3));
     }
 
     public CompressorContainer(int id, PlayerInventory playerInventory, CompressorTileEntity tileEntity, IIntArray fieldsIn) {
-        super(ModContainers.electricFurnace, id);
-        this.tileEntity = tileEntity;
+        super(ModContainers.compressor, id, tileEntity, fieldsIn);
 
         this.addSlot(new Slot(this.tileEntity, 0, 56, 35));
         this.addSlot(new SlotOutputOnly(this.tileEntity, 1, 117, 35));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
-
-        func_216961_a(fieldsIn);
-    }
-
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        // TODO
-        return true;
     }
 
     @Override

@@ -31,14 +31,14 @@ public class CrusherScreen extends ContainerScreen<CrusherContainer> {
         blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
-        int progress = container.tileEntity.getProgress();
-        int processTime = container.tileEntity.getProcessTime();
+        int progress = container.getProgress();
+        int processTime = container.getProcessTime();
         int length = processTime > 0 && progress > 0 && progress < processTime ? progress * 24 / processTime : 0;
         blit(xPos + 49, yPos + 34, 176, 14, length + 1, 16);
 
         // Debug text
         int y = 5;
-        for (String line : container.tileEntity.getDebugText()) {
+        for (String line : container.getTileEntity().getDebugText()) {
             font.drawString(line, 5, y, 0xFFFFFF);
             y += 10;
         }

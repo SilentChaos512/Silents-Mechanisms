@@ -104,9 +104,9 @@ public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingR
 
     List<String> getDebugText() {
         return ImmutableList.of(
-                "progress = " + progress,
-                "processTime = " + processTime,
-                "energy = " + getEnergyStored() + " FE / " + getMaxEnergyStored() + " FE",
+                "progress = " + this.fields.get(0),
+                "processTime = " + this.fields.get(1),
+                "energy = " + this.fields.get(2) + " FE / " + getMaxEnergyStored() + " FE",
                 "ENERGY_USED_PER_TICK = " + ENERGY_USED_PER_TICK,
                 "MAX_RECEIVE = " + MAX_RECEIVE
         );
