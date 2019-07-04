@@ -8,31 +8,20 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.event.ForgeEventFactory;
-import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 import net.silentchaos512.lib.tile.SyncVariable;
-import net.silentchaos512.mechanisms.block.IEnergyHandler;
-import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
+import net.silentchaos512.mechanisms.block.AbstractEnergyInventoryTileEntity;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
-import net.silentchaos512.mechanisms.util.EnergyUtils;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity implements IEnergyHandler, ITickableTileEntity {
+public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
     // Energy constants
     public static final int MAX_ENERGY = 100_000;
     public static final int MAX_SEND = 1_000;
@@ -45,18 +34,16 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
     @SyncVariable(name = "TotalBurnTime")
     private int totalBurnTime;
 
-    private final EnergyStorageImpl energy;
-
-    final IIntArray fields = new IIntArray() {
+    private final IIntArray fields = new IIntArray() {
         @Override
         public int get(int index) {
             switch (index) {
                 case 0:
-                    return burnTime;
-                case 1:
-                    return totalBurnTime;
-                case 2:
                     return getEnergyStored();
+                case 1:
+                    return burnTime;
+                case 2:
+                    return totalBurnTime;
                 default:
                     return 0;
             }
@@ -66,13 +53,13 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
         public void set(int index, int value) {
             switch (index) {
                 case 0:
-                    burnTime = value;
+                    setEnergyStoredDirectly(value);
                     break;
                 case 1:
-                    totalBurnTime = value;
+                    burnTime = value;
                     break;
                 case 2:
-                    setEnergyStoredDirectly(value);
+                    totalBurnTime = value;
                     break;
             }
         }
@@ -84,8 +71,7 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
     };
 
     public CoalGeneratorTileEntity() {
-        super(ModTileEntities.coalGenerator, 1);
-        energy = new EnergyStorageImpl(MAX_ENERGY, 0, MAX_SEND, this);
+        super(ModTileEntities.coalGenerator, 1, MAX_ENERGY, 0, MAX_SEND);
     }
 
     @Override
@@ -121,7 +107,7 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
             }
         }
 
-        EnergyUtils.trySendToNeighbors(world, pos, this, MAX_SEND);
+        super.tick();
     }
 
     private void sendUpdate() {
@@ -147,11 +133,6 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
     }
 
     @Override
-    public EnergyStorageImpl getEnergyImpl() {
-        return energy;
-    }
-
-    @Override
     public int[] getSlotsForFace(Direction side) {
         return new int[]{0};
     }
@@ -173,46 +154,7 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
 
     @Override
     protected Container createMenu(int id, PlayerInventory playerInventory) {
-        return new CoalGeneratorContainer(id, playerInventory, this);
-    }
-
-    @Override
-    public void read(CompoundNBT tags) {
-        super.read(tags);
-        SyncVariable.Helper.readSyncVars(this, tags);
-        readEnergy(tags);
-    }
-
-    @Override
-    public CompoundNBT write(CompoundNBT tags) {
-        super.write(tags);
-        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
-        writeEnergy(tags);
-        return tags;
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-        super.onDataPacket(net, packet);
-        SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
-        readEnergy(packet.getNbtCompound());
-    }
-
-    @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT tags = super.getUpdateTag();
-        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
-        writeEnergy(tags);
-        return tags;
-    }
-
-    @Nullable
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.removed && cap == CapabilityEnergy.ENERGY) {
-            return getEnergy(side).cast();
-        }
-        return super.getCapability(cap, side);
+        return new CoalGeneratorContainer(id, playerInventory, this, this.fields);
     }
 
     public List<String> getDebugText() {

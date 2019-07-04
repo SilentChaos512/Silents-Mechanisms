@@ -5,7 +5,6 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.silentchaos512.mechanisms.block.AbstractEnergyInventoryTileEntity;
@@ -23,28 +22,6 @@ public class BatteryBoxTileEntity extends AbstractEnergyInventoryTileEntity {
 
     static final int INVENTORY_SIZE = 6;
     private static final int[] SLOTS = IntStream.range(0, INVENTORY_SIZE).toArray();
-
-    final IIntArray fields = new IIntArray() {
-        @Override
-        public int get(int index) {
-            if (world != null) {
-                return world.getBlockState(pos).get(BatteryBoxBlock.BATTERIES);
-            }
-            return 0;
-        }
-
-        @Override
-        public void set(int index, int value) {
-            if (world != null && value >= 0 && value < 7) {
-                world.setBlockState(pos, world.getBlockState(pos).getBlockState().with(BatteryBoxBlock.BATTERIES, value));
-            }
-        }
-
-        @Override
-        public int size() {
-            return 1;
-        }
-    };
 
     public BatteryBoxTileEntity() {
         super(ModTileEntities.batteryBox, 6, MAX_ENERGY, MAX_RECEIVE, MAX_SEND);
@@ -92,7 +69,7 @@ public class BatteryBoxTileEntity extends AbstractEnergyInventoryTileEntity {
 
     @Override
     protected Container createMenu(int id, PlayerInventory playerInventory) {
-        return new BatteryBoxContainer(id, playerInventory, this);
+        return new BatteryBoxContainer(id, playerInventory, this, this.getFields());
     }
 
     public List<String> getDebugText() {

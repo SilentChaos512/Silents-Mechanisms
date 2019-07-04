@@ -2,33 +2,40 @@ package net.silentchaos512.mechanisms.block.generator;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
 import net.silentchaos512.lib.util.InventoryUtils;
+import net.silentchaos512.mechanisms.block.AbstractEnergyStorageContainer;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
-public class CoalGeneratorContainer extends Container {
+public class CoalGeneratorContainer extends AbstractEnergyStorageContainer {
     final CoalGeneratorTileEntity tileEntity;
 
     public CoalGeneratorContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new CoalGeneratorTileEntity());
+        this(id, playerInventory, new CoalGeneratorTileEntity(), new IntArray(3));
     }
 
-    public CoalGeneratorContainer(int id, PlayerInventory playerInventory, CoalGeneratorTileEntity tileEntity) {
-        super(ModContainers.coalGenerator, id);
+    public CoalGeneratorContainer(int id, PlayerInventory playerInventory, CoalGeneratorTileEntity tileEntity, IIntArray fieldsIn) {
+        super(ModContainers.coalGenerator, id, fieldsIn);
         this.tileEntity = tileEntity;
 
         this.addSlot(new Slot(this.tileEntity, 0, 80, 33));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
-
-        func_216961_a(this.tileEntity.fields);
     }
 
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return true;
+    public int getBurnTime() {
+        return fields.get(1);
+    }
+
+    public int getTotalBurnTime() {
+        return fields.get(2);
+    }
+
+    public boolean isBurning() {
+        return getBurnTime() > 0;
     }
 
     @Override

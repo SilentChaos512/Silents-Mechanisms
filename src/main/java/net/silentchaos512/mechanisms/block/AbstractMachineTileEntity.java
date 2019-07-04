@@ -3,32 +3,19 @@ package net.silentchaos512.mechanisms.block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 import net.silentchaos512.lib.tile.SyncVariable;
-import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
 
-public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends LockableSidedInventoryTileEntity implements IEnergyHandler, ITickableTileEntity {
+public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends AbstractEnergyInventoryTileEntity {
     @SyncVariable(name = "Progress")
     protected int progress;
     @SyncVariable(name = "ProcessTime")
     protected int processTime;
-
-    private final EnergyStorageImpl energy;
 
     protected final IIntArray fields = new IIntArray() {
         @Override
@@ -67,8 +54,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Lo
     };
 
     protected AbstractMachineTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract) {
-        super(typeIn, inventorySize);
-        this.energy = new EnergyStorageImpl(maxEnergy, maxReceive, maxExtract, this);
+        super(typeIn, inventorySize, maxEnergy, maxReceive, maxExtract);
     }
 
     protected abstract int getEnergyUsedPerTick();
@@ -193,51 +179,8 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Lo
         decrStackSize(0, 1);
     }
 
+    @Override
     public IIntArray getFields() {
         return fields;
-    }
-
-    @Override
-    public EnergyStorageImpl getEnergyImpl() {
-        return energy;
-    }
-
-    @Override
-    public void read(CompoundNBT tags) {
-        super.read(tags);
-        SyncVariable.Helper.readSyncVars(this, tags);
-        readEnergy(tags);
-    }
-
-    @Override
-    public CompoundNBT write(CompoundNBT tags) {
-        super.write(tags);
-        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
-        writeEnergy(tags);
-        return tags;
-    }
-
-    @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-        super.onDataPacket(net, packet);
-        SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
-        readEnergy(packet.getNbtCompound());
-    }
-
-    @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT tags = super.getUpdateTag();
-        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
-        writeEnergy(tags);
-        return tags;
-    }
-
-    @Nullable
-    @Override
-    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.removed && cap == CapabilityEnergy.ENERGY) {
-            return getEnergy(side).cast();
-        }
-        return super.getCapability(cap, side);
     }
 }

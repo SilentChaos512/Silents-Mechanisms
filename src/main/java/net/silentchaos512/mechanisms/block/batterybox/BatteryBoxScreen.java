@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.util.TextUtil;
 
 public class BatteryBoxScreen extends ContainerScreen<BatteryBoxContainer> {
     public static final ResourceLocation TEXTURE = SilentMechanisms.getId("textures/gui/battery_box.png");
@@ -22,6 +23,15 @@ public class BatteryBoxScreen extends ContainerScreen<BatteryBoxContainer> {
     }
 
     @Override
+    protected void renderHoveredToolTip(int mouseX, int mouseY) {
+        if (isPointInRegion(153, 17, 166, 68, mouseX, mouseY)) {
+            ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.tileEntity.getMaxEnergyStored());
+            renderTooltip(text.getFormattedText(), mouseX, mouseY);
+        }
+        super.renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         if (minecraft == null) return;
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -29,6 +39,12 @@ public class BatteryBoxScreen extends ContainerScreen<BatteryBoxContainer> {
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
         blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
+
+        // Energy meter
+        int energyBarHeight = 50 * container.getEnergyStored() / container.tileEntity.getMaxEnergyStored();
+        if (energyBarHeight > 0) {
+            blit(xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
+        }
 
         // Debug text
         int y = 5;

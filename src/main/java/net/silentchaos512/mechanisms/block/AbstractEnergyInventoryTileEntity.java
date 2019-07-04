@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
@@ -16,8 +17,25 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInventoryTileEntity implements IEnergyHandler, ITickableTileEntity {
-    private final EnergyStorageImpl energy;
+    protected final EnergyStorageImpl energy;
     private final int maxExtract;
+
+    private final IIntArray fields = new IIntArray() {
+        @Override
+        public int get(int index) {
+            return getEnergyStored();
+        }
+
+        @Override
+        public void set(int index, int value) {
+            energy.setEnergyDirectly(value);
+        }
+
+        @Override
+        public int size() {
+            return 1;
+        }
+    };
 
     protected AbstractEnergyInventoryTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract) {
         super(typeIn, inventorySize);
@@ -28,6 +46,10 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
     @Override
     public EnergyStorageImpl getEnergyImpl() {
         return energy;
+    }
+
+    public IIntArray getFields() {
+        return fields;
     }
 
     @Override

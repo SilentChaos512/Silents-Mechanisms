@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.util.TextUtil;
 
 public class ElectricFurnaceScreen extends ContainerScreen<ElectricFurnaceContainer> {
     public static final ResourceLocation TEXTURE = SilentMechanisms.getId("textures/gui/electric_furnace.png");
@@ -22,6 +23,15 @@ public class ElectricFurnaceScreen extends ContainerScreen<ElectricFurnaceContai
     }
 
     @Override
+    protected void renderHoveredToolTip(int mouseX, int mouseY) {
+        if (isPointInRegion(153, 17, 166, 68, mouseX, mouseY)) {
+            ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getTileEntity().getMaxEnergyStored());
+            renderTooltip(text.getFormattedText(), mouseX, mouseY);
+        }
+        super.renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         if (minecraft == null) return;
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -35,6 +45,12 @@ public class ElectricFurnaceScreen extends ContainerScreen<ElectricFurnaceContai
         int processTime = container.getProcessTime();
         int length = processTime > 0 && progress > 0 && progress < processTime ? progress * 24 / processTime : 0;
         blit(xPos + 79, yPos + 35, 176, 14, length + 1, 16);
+
+        // Energy meter
+        int energyBarHeight = 50 * container.getEnergyStored() / container.getTileEntity().getMaxEnergyStored();
+        if (energyBarHeight > 0) {
+            blit(xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
+        }
 
         // Debug text
         int y = 5;

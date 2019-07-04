@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.util.TextUtil;
 
 public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer> {
     public static final ResourceLocation TEXTURE = SilentMechanisms.getId("textures/gui/coal_generator.png");
@@ -22,6 +23,15 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
     }
 
     @Override
+    protected void renderHoveredToolTip(int mouseX, int mouseY) {
+        if (isPointInRegion(153, 17, 166, 68, mouseX, mouseY)) {
+            ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.tileEntity.getMaxEnergyStored());
+            renderTooltip(text.getFormattedText(), mouseX, mouseY);
+        }
+        super.renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
         if (minecraft == null) return;
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
@@ -31,9 +41,15 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Fuel remaining
-        if (container.tileEntity.isBurning()) {
+        if (container.isBurning()) {
             int height = getFlameIconHeight();
             blit(xPos + 81, yPos + 53 + 12 - height, 176, 12 - height, 14, height + 1);
+        }
+
+        // Energy meter
+        int energyBarHeight = 50 * container.getEnergyStored() / container.tileEntity.getMaxEnergyStored();
+        if (energyBarHeight > 0) {
+            blit(xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
         }
 
         // Debug text
@@ -45,8 +61,8 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
     }
 
     private int getFlameIconHeight() {
-        int total = container.tileEntity.getTotalBurnTime();
+        int total = container.getTotalBurnTime();
         if (total == 0) total = 200;
-        return container.tileEntity.getBurnTime() * 13 / total;
+        return container.getBurnTime() * 13 / total;
     }
 }

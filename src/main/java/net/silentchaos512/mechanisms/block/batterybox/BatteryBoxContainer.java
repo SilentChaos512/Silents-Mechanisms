@@ -2,22 +2,24 @@ package net.silentchaos512.mechanisms.block.batterybox;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.silentchaos512.lib.util.InventoryUtils;
+import net.silentchaos512.mechanisms.block.AbstractEnergyStorageContainer;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
-public class BatteryBoxContainer extends Container {
+public class BatteryBoxContainer extends AbstractEnergyStorageContainer {
     final BatteryBoxTileEntity tileEntity;
 
     public BatteryBoxContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new BatteryBoxTileEntity());
+        this(id, playerInventory, new BatteryBoxTileEntity(), new IntArray(1));
     }
 
-    public BatteryBoxContainer(int id, PlayerInventory playerInventory, BatteryBoxTileEntity tileEntity) {
-        super(ModContainers.batteryBox, id);
+    public BatteryBoxContainer(int id, PlayerInventory playerInventory, BatteryBoxTileEntity tileEntity, IIntArray fieldsIn) {
+        super(ModContainers.batteryBox, id, fieldsIn);
         this.tileEntity = tileEntity;
 
         this.addSlot(new Slot(this.tileEntity, 0, 71, 19));
@@ -28,18 +30,6 @@ public class BatteryBoxContainer extends Container {
         this.addSlot(new Slot(this.tileEntity, 5, 89, 55));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
-
-        func_216961_a(this.tileEntity.fields);
-    }
-
-    @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
-        return true;
-    }
-
-    @Override
-    public void detectAndSendChanges() {
-        super.detectAndSendChanges();
     }
 
     @Override
