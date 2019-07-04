@@ -1,6 +1,6 @@
 {
     "type": "silents_mechanisms:crushing",
-    "process_time": 400,
+    "process_time": 300,
     "ingredient": {
         "item": "silents_mechanisms:gold_chunks"
     },

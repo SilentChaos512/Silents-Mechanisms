@@ -4,10 +4,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 
 import javax.annotation.Nonnull;
@@ -15,12 +13,12 @@ import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.EnumMap;
 
-public class EnergyStorageImpl extends EnergyStorage implements ICapabilityProvider {
+public class EnergyStorageImpl extends EnergyStorageImplBase {
     private final EnumMap<Direction, LazyOptional<Connection>> connections = new EnumMap<>(Direction.class);
     private final TileEntity tileEntity;
 
     public EnergyStorageImpl(int capacity, int maxReceive, int maxExtract, TileEntity tileEntity) {
-        super(capacity, maxReceive, maxExtract, 0);
+        super(capacity, maxReceive, maxExtract);
         this.tileEntity = tileEntity;
         Arrays.stream(Direction.values()).forEach(d -> connections.put(d, LazyOptional.of(Connection::new)));
     }
@@ -28,8 +26,8 @@ public class EnergyStorageImpl extends EnergyStorage implements ICapabilityProvi
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        LazyOptional<IEnergyStorage> inst = side == null ? LazyOptional.of(() -> this) : connections.get(side).cast();
-        return CapabilityEnergy.ENERGY.orEmpty(cap, inst);
+        if (side == null) return super.getCapability(cap, null);
+        return CapabilityEnergy.ENERGY.orEmpty(cap, connections.get(side).cast());
     }
 
     /**

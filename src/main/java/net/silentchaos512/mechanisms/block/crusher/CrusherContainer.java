@@ -41,14 +41,20 @@ public class CrusherContainer extends Container {
         return true;
     }
 
+    @Override
     public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
         Slot slot = this.inventorySlots.get(index);
         if (slot != null && slot.getHasStack()) {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
-            if (index >= 1 && index < 5) {
-                if (!this.mergeItemStack(itemstack1, 3, 39, true)) {
+
+            final int inventorySize = 5;
+            final int playerInventoryEnd = inventorySize + 27;
+            final int playerHotbarEnd = playerInventoryEnd + 9;
+
+            if (index == 1) {
+                if (!this.mergeItemStack(itemstack1, inventorySize, playerHotbarEnd, true)) {
                     return ItemStack.EMPTY;
                 }
 
@@ -58,14 +64,14 @@ public class CrusherContainer extends Container {
                     if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= 5 && index < 32) {
-                    if (!this.mergeItemStack(itemstack1, 30, 39, false)) {
+                } else if (index < playerInventoryEnd) {
+                    if (!this.mergeItemStack(itemstack1, playerInventoryEnd, playerHotbarEnd, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index >= 32 && index < 41 && !this.mergeItemStack(itemstack1, 5, 32, false)) {
+                } else if (index < playerHotbarEnd && !this.mergeItemStack(itemstack1, inventorySize, playerInventoryEnd, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, 5, 41, false)) {
+            } else if (!this.mergeItemStack(itemstack1, inventorySize, playerHotbarEnd, false)) {
                 return ItemStack.EMPTY;
             }
 

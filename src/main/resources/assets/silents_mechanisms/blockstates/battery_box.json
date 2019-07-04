@@ -1,0 +1,11 @@
+{
+    "variants": {
+        "batteries=0": { "model": "silents_mechanisms:block/battery_box_0"},
+        "batteries=1": { "model": "silents_mechanisms:block/battery_box_1"},
+        "batteries=2": { "model": "silents_mechanisms:block/battery_box_2"},
+        "batteries=3": { "model": "silents_mechanisms:block/battery_box_3"},
+        "batteries=4": { "model": "silents_mechanisms:block/battery_box_4"},
+        "batteries=5": { "model": "silents_mechanisms:block/battery_box_5"},
+        "batteries=6": { "model": "silents_mechanisms:block/battery_box_6"}
+    }
+}

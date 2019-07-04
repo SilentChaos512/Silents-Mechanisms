@@ -2,12 +2,12 @@ package net.silentchaos512.mechanisms.block;
 
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.silentchaos512.lib.tile.LockableSidedInventoryTileEntity;
 import net.silentchaos512.lib.tile.SyncVariable;
 import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
 import net.silentchaos512.mechanisms.util.EnergyUtils;
@@ -15,13 +15,13 @@ import net.silentchaos512.mechanisms.util.EnergyUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class EnergyStoringTileEntity extends TileEntity implements IEnergyHandler, ITickableTileEntity {
+public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInventoryTileEntity implements IEnergyHandler, ITickableTileEntity {
     private final EnergyStorageImpl energy;
     private final int maxExtract;
 
-    public EnergyStoringTileEntity(TileEntityType<?> tileEntityTypeIn, int capacity, int maxReceive, int maxExtract) {
-        super(tileEntityTypeIn);
-        this.energy = new EnergyStorageImpl(capacity, maxReceive, maxExtract, this);
+    protected AbstractEnergyInventoryTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract) {
+        super(typeIn, inventorySize);
+        this.energy = new EnergyStorageImpl(maxEnergy, maxReceive, maxExtract, this);
         this.maxExtract = maxExtract;
     }
 

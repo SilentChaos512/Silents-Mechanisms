@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.item.BatteryItem;
 import net.silentchaos512.mechanisms.item.CraftingItems;
 
 import java.util.Arrays;
@@ -13,12 +14,16 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class ModItems {
+    public static BatteryItem battery;
+
     static final Map<String, BlockItem> BLOCKS_TO_REGISTER = new LinkedHashMap<>();
 
     private ModItems() {}
 
     public static void registerAll(RegistryEvent.Register<Item> event) {
         BLOCKS_TO_REGISTER.forEach(ModItems::register);
+
+        battery = register("battery", new BatteryItem());
 
         Arrays.stream(CraftingItems.values()).forEach(c -> register(c.getName(), c.asItem()));
     }

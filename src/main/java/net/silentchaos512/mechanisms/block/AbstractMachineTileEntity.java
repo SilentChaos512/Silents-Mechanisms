@@ -66,9 +66,9 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Lo
         }
     };
 
-    protected AbstractMachineTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive) {
+    protected AbstractMachineTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract) {
         super(typeIn, inventorySize);
-        this.energy = new EnergyStorageImpl(maxEnergy, maxReceive, 0, this);
+        this.energy = new EnergyStorageImpl(maxEnergy, maxReceive, maxExtract, this);
     }
 
     protected abstract int getEnergyUsedPerTick();

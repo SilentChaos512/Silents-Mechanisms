@@ -136,7 +136,7 @@ public class CoalGeneratorTileEntity extends LockableSidedInventoryTileEntity im
         return burnTime > 0;
     }
 
-    private static boolean isFuel(ItemStack stack) {
+    static boolean isFuel(ItemStack stack) {
         return AbstractFurnaceTileEntity.isFuel(stack);
     }
 

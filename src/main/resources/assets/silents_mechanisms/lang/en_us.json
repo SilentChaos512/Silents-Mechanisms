@@ -5,6 +5,7 @@
     "block.silents_mechanisms.crusher": "Crusher",
     "block.silents_mechanisms.electric_furnace": "Electric Furnace",
     "block.silents_mechanisms.wire": "Wire",
+    "item.silents_mechanisms.battery": "Battery",
     "item.silents_mechanisms.compressed_iron_ingot": "Compressed Iron Ingot",
     "item.silents_mechanisms.gold_chunks": "Gold Ore Chunks",
     "item.silents_mechanisms.gold_dust": "Gold Dust",
@@ -15,5 +16,8 @@
     "item.silents_mechanisms.redstone_alloy_nugget": "Redstone Alloy Nugget",
     "itemGroup.silents_mechanisms": "Silent's Mechanisms",
     "jei.silents_mechanisms.category.crushing": "Crushing",
-    "part.silents_mechanisms.main.compressed_iron": "Compressed Iron"
+    "misc.silents_mechanisms.energy": "%s FE",
+    "misc.silents_mechanisms.energyWithMax": "%s / %s FE",
+    "part.silents_mechanisms.main.compressed_iron": "Compressed Iron",
+    "part.silents_mechanisms.main.redstone_alloy": "Redstone Alloy"
 }

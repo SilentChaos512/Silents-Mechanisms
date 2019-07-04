@@ -1,0 +1,49 @@
+{
+    "type": "silentgear:main",
+    "stats": [
+        {"name": "durability",      "value":  840},
+        {"name": "armor_durability","value":   20},
+        {"name": "enchantability",  "value":   18},
+        {"name": "harvest_level",   "value":    2},
+        {"name": "harvest_speed",   "value":   11},
+        {"name": "melee_damage",    "value":    2},
+        {"name": "magic_damage",    "value":    4},
+        {"name": "attack_speed",    "value":  0.2},
+        {"name": "armor",           "value":   17},
+        {"name": "armor_toughness", "value":    1},
+        {"name": "magic_armor",     "value":   10},
+        {"name": "ranged_damage",   "value":    1},
+        {"name": "ranged_speed",    "value":  0.2},
+        {"name": "rarity",          "value":   30},
+        {"name": "chargeability",   "value":  0.8}
+    ],
+    "traits": [
+        {"name": "silentgear:malleable", "level": 4}
+    ],
+    "crafting_items": {
+        "normal": {
+            "item": "silents_mechanisms:redstone_alloy_ingot",
+            "tag": "forge:ingots/redstone_alloy"
+        },
+        "small": {
+            "tag": "forge:nuggets/redstone_alloy",
+            "size": 9
+        }
+    },
+    "name": {
+        "translate": true,
+        "name": "part.silents_mechanisms.main.redstone_alloy"
+    },
+    "textures": {
+        "all": {
+            "texture_domain": "silentgear",
+            "texture_suffix": "generic_hc",
+            "normal_color": "#FFA396",
+            "broken_color": "#FFA396"
+        }
+    },
+    "availability": {
+        "tier": 2,
+        "tool_blacklist": []
+    }
+}

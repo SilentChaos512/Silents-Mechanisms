@@ -31,7 +31,7 @@ public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingR
     private static final int[] SLOTS_ALL = {0, 1};
 
     public CompressorTileEntity() {
-        super(ModTileEntities.compressor, 2, MAX_ENERGY, MAX_RECEIVE);
+        super(ModTileEntities.compressor, 2, MAX_ENERGY, MAX_RECEIVE, 0);
     }
 
     @Override

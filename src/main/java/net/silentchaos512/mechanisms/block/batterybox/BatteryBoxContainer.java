@@ -1,27 +1,31 @@
-package net.silentchaos512.mechanisms.block.electricfurnace;
+package net.silentchaos512.mechanisms.block.batterybox;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
-import net.silentchaos512.lib.inventory.SlotOutputOnly;
+import net.minecraftforge.energy.CapabilityEnergy;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
-public class ElectricFurnaceContainer extends Container {
-    final ElectricFurnaceTileEntity tileEntity;
+public class BatteryBoxContainer extends Container {
+    final BatteryBoxTileEntity tileEntity;
 
-    public ElectricFurnaceContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new ElectricFurnaceTileEntity());
+    public BatteryBoxContainer(int id, PlayerInventory playerInventory) {
+        this(id, playerInventory, new BatteryBoxTileEntity());
     }
 
-    public ElectricFurnaceContainer(int id, PlayerInventory playerInventory, ElectricFurnaceTileEntity tileEntity) {
-        super(ModContainers.electricFurnace, id);
+    public BatteryBoxContainer(int id, PlayerInventory playerInventory, BatteryBoxTileEntity tileEntity) {
+        super(ModContainers.batteryBox, id);
         this.tileEntity = tileEntity;
 
-        this.addSlot(new Slot(this.tileEntity, 0, 56, 35));
-        this.addSlot(new SlotOutputOnly(this.tileEntity, 1, 117, 35));
+        this.addSlot(new Slot(this.tileEntity, 0, 71, 19));
+        this.addSlot(new Slot(this.tileEntity, 1, 71, 37));
+        this.addSlot(new Slot(this.tileEntity, 2, 71, 55));
+        this.addSlot(new Slot(this.tileEntity, 3, 89, 19));
+        this.addSlot(new Slot(this.tileEntity, 4, 89, 37));
+        this.addSlot(new Slot(this.tileEntity, 5, 89, 55));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
 
@@ -30,8 +34,12 @@ public class ElectricFurnaceContainer extends Container {
 
     @Override
     public boolean canInteractWith(PlayerEntity playerIn) {
-        // TODO
         return true;
+    }
+
+    @Override
+    public void detectAndSendChanges() {
+        super.detectAndSendChanges();
     }
 
     @Override
@@ -42,19 +50,13 @@ public class ElectricFurnaceContainer extends Container {
             ItemStack itemstack1 = slot.getStack();
             itemstack = itemstack1.copy();
 
-            final int inventorySize = 2;
+            final int inventorySize = BatteryBoxTileEntity.INVENTORY_SIZE;
             final int playerInventoryEnd = inventorySize + 27;
             final int playerHotbarEnd = playerInventoryEnd + 9;
 
-            if (index == 1) {
-                if (!this.mergeItemStack(itemstack1, inventorySize, playerHotbarEnd, true)) {
-                    return ItemStack.EMPTY;
-                }
-
-                slot.onSlotChange(itemstack1, itemstack);
-            } else if (index != 0) {
-                if (this.isSmeltingIngredient(itemstack1)) {
-                    if (!this.mergeItemStack(itemstack1, 0, 1, false)) {
+            if (index > inventorySize) {
+                if (this.isBattery(itemstack1)) {
+                    if (!this.mergeItemStack(itemstack1, 0, inventorySize, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (index < playerInventoryEnd) {
@@ -84,8 +86,7 @@ public class ElectricFurnaceContainer extends Container {
         return itemstack;
     }
 
-    private boolean isSmeltingIngredient(ItemStack stack) {
-        // TODO
-        return true;
+    private boolean isBattery(ItemStack stack) {
+        return stack.getCapability(CapabilityEnergy.ENERGY).isPresent();
     }
 }

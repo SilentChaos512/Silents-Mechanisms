@@ -1,0 +1,22 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "# #",
+        "/X/",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "tag": "minecraft:planks"
+        },
+        "/": {
+            "tag": "forge:ingots/redstone_alloy"
+        },
+        "X": {
+            "item": "silents_mechanisms:battery"
+        }
+    },
+    "result": {
+        "item": "silents_mechanisms:battery_box"
+    }
+}
