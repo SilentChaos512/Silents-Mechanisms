@@ -1,0 +1,10 @@
+{
+    "type": "silents_mechanisms:compressing",
+    "process_time": 800,
+    "ingredient": {
+        "tag": "forge:storage_blocks/coal"
+    },
+    "result": {
+        "item": "minecraft:diamond"
+    }
+}

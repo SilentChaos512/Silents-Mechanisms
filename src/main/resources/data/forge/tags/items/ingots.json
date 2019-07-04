@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
+        "#forge:ingots/compressed_iron",
         "#forge:ingots/redstone_alloy"
     ]
 }

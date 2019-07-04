@@ -2,6 +2,8 @@ package net.silentchaos512.mechanisms.block.crusher;
 
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.particles.ParticleTypes;
@@ -17,8 +19,8 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class CrusherBlock extends AbstractFurnaceBlock {
-    public CrusherBlock(Properties builder) {
-        super(builder);
+    public CrusherBlock() {
+        super(Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
     }
 
     @Override

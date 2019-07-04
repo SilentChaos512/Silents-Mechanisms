@@ -9,6 +9,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.batterybox.BatteryBoxBlock;
+import net.silentchaos512.mechanisms.block.compressor.CompressorBlock;
 import net.silentchaos512.mechanisms.block.crusher.CrusherBlock;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceBlock;
 import net.silentchaos512.mechanisms.block.generator.CoalGeneratorBlock;
@@ -17,6 +18,7 @@ import net.silentchaos512.mechanisms.block.wire.WireBlock;
 import javax.annotation.Nullable;
 
 public final class ModBlocks {
+    public static CompressorBlock compressor;
     public static CrusherBlock crusher;
     public static CoalGeneratorBlock coalGenerator;
     public static BatteryBoxBlock batteryBox;
@@ -27,7 +29,8 @@ public final class ModBlocks {
 
     public static void registerAll(RegistryEvent.Register<Block> event) {
         // Register your blocks here
-        crusher = register("crusher", new CrusherBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(6, 20)));
+        compressor = register("compressor", new CompressorBlock());
+        crusher = register("crusher", new CrusherBlock());
         electricFurnace = register("electric_furnace", new ElectricFurnaceBlock());
         coalGenerator = register("coal_generator", new CoalGeneratorBlock());
         batteryBox = register("battery_box", new BatteryBoxBlock());

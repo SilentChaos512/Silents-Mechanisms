@@ -99,6 +99,8 @@ dependencies {
         exclude module: "forge"
     }
 
+    runtimeOnly "net.silentchaos512:silent-gear-${project.mc_version}:1.+"
+
     // JEI
 //    compile 'com.github.mezz:JustEnoughItems:1.13-SNAPSHOT'
     // compile against the JEI API but do not include it at runtime

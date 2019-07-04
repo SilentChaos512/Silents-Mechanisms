@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#X#",
+        "/X/",
+        "OTO"
+    ],
+    "key": {
+        "#": {
+            "tag": "forge:ingots/iron"
+        },
+        "/": {
+            "tag": "forge:ingots/redstone_alloy"
+        },
+        "X": {
+            "tag": "forge:gems/diamond"
+        },
+        "O": {
+            "item": "minecraft:obsidian"
+        },
+        "T": [
+            {
+                "item": "minecraft:piston"
+            },
+            {
+                "item": "minecraft:sticky_piston"
+            }
+        ]
+    },
+    "result": {
+        "item": "silents_mechanisms:compressor"
+    }
+}

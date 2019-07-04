@@ -18,7 +18,7 @@ public class CoalGeneratorContainer extends Container {
         super(ModContainers.coalGenerator, id);
         this.tileEntity = tileEntity;
 
-        this.addSlot(new Slot(this.tileEntity, 0, 79, 32));
+        this.addSlot(new Slot(this.tileEntity, 0, 80, 33));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
 
