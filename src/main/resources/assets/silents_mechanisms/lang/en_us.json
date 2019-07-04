@@ -15,6 +15,7 @@
     "item.silents_mechanisms.redstone_alloy_ingot": "Redstone Alloy Ingot",
     "item.silents_mechanisms.redstone_alloy_nugget": "Redstone Alloy Nugget",
     "itemGroup.silents_mechanisms": "Silent's Mechanisms",
+    "jei.silents_mechanisms.category.compressing": "Compressing",
     "jei.silents_mechanisms.category.crushing": "Crushing",
     "misc.silents_mechanisms.energy": "%s FE",
     "misc.silents_mechanisms.energyWithMax": "%s / %s FE",

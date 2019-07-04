@@ -11,9 +11,12 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.block.compressor.CompressorContainer;
+import net.silentchaos512.mechanisms.block.compressor.CompressorScreen;
 import net.silentchaos512.mechanisms.block.crusher.CrusherContainer;
 import net.silentchaos512.mechanisms.block.crusher.CrusherScreen;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceScreen;
+import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.util.Constants;
@@ -33,11 +36,13 @@ public class SMechanismsJeiPlugin implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
+        registration.addRecipeCategories(new CompressingRecipeCategoryJei(guiHelper));
         registration.addRecipeCategories(new CrushingRecipeCategoryJei(guiHelper));
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
+        registration.addRecipes(getRecipesOfType(CompressingRecipe.RECIPE_TYPE), Constants.COMPRESSING);
         registration.addRecipes(getRecipesOfType(CrushingRecipe.RECIPE_TYPE), Constants.CRUSHING);
     }
 
@@ -49,17 +54,21 @@ public class SMechanismsJeiPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addRecipeClickArea(CompressorScreen.class, 78, 32, 28, 23, Constants.COMPRESSING);
         registration.addRecipeClickArea(CrusherScreen.class, 45, 32, 28, 23, Constants.CRUSHING);
-        registration.addRecipeClickArea(ElectricFurnaceScreen.class, 78, 32, 28, 23, VanillaRecipeCategoryUid.FURNACE);
+        registration.addRecipeClickArea(ElectricFurnaceScreen.class, 78, 32, 28, 23,
+                VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
     }
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+        registration.addRecipeTransferHandler(CompressorContainer.class, Constants.COMPRESSING, 0, 1, 2, 36);
         registration.addRecipeTransferHandler(CrusherContainer.class, Constants.CRUSHING, 0, 1, 5, 36);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.compressor), Constants.COMPRESSING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.crusher), Constants.CRUSHING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.electricFurnace),
                 VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
