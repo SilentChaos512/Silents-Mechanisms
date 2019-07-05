@@ -1,0 +1,19 @@
+{
+    "parent": "block/cube",
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [ 0, 135, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.40, 0.40, 0.40 ]
+        }
+    },
+    "textures": {
+        "particle": "silents_mechanisms:block/electric_furnace/front_on",
+        "down": "silents_mechanisms:block/electric_furnace/bottom",
+        "up": "silents_mechanisms:block/electric_furnace/top_on",
+        "north": "silents_mechanisms:block/electric_furnace/front_on",
+        "east": "silents_mechanisms:block/electric_furnace/side_on",
+        "south": "silents_mechanisms:block/electric_furnace/back",
+        "west": "silents_mechanisms:block/electric_furnace/side_on"
+    }
+}

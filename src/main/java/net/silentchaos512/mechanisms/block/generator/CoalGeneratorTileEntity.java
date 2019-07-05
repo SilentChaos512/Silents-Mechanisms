@@ -114,7 +114,10 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
         if (world != null) {
             BlockState oldState = world.getBlockState(pos);
             BlockState newState = oldState.with(AbstractFurnaceBlock.LIT, isBurning());
-            world.notifyBlockUpdate(pos, oldState, newState, 3);
+            if (oldState != newState) {
+                world.setBlockState(pos, newState, 3);
+                world.notifyBlockUpdate(pos, oldState, newState, 3);
+            }
         }
     }
 

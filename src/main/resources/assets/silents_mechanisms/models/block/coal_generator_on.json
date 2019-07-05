@@ -13,7 +13,7 @@
         "up": "silents_mechanisms:block/coal_generator/top_on",
         "north": "silents_mechanisms:block/coal_generator/front_on",
         "east": "silents_mechanisms:block/coal_generator/side_on",
-        "south": "silents_mechanisms:block/coal_generator/back",
+        "south": "silents_mechanisms:block/coal_generator/bottom",
         "west": "silents_mechanisms:block/coal_generator/side_on"
     }
 }
