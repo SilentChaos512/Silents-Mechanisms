@@ -3,17 +3,20 @@
     "pattern": [
         "# #",
         "/X/",
-        "###"
+        "#C#"
     ],
     "key": {
         "#": {
-            "tag": "minecraft:planks"
+            "tag": "forge:stone"
         },
         "/": {
             "tag": "forge:ingots/redstone_alloy"
         },
         "X": {
             "item": "silents_mechanisms:battery"
+        },
+        "C": {
+            "item": "silents_mechanisms:circuit_board"
         }
     },
     "result": {

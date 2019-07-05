@@ -8,13 +8,13 @@ modLoader="javafml" #mandatory
 # A version range to match for said mod loader - for regular FML @Mod it will be the forge version
 loaderVersion="[27,)" #mandatory (24 is current forge version)
 # A URL to refer people to when problems occur with this mod
-issueTrackerURL="http://my.issue.tracker/" #optional
+issueTrackerURL="https://github.com/SilentChaos512/Silents-Mechanisms/issues" #optional
 # A URL for the "homepage" for this mod, displayed in the mod UI
-displayURL="http://example.com/" #optional
+displayURL="https://www.curseforge.com/minecraft/mc-mods/silents-mechanisms" #optional
 # A file name (in the root of the mod JAR) containing a logo for display
 logoFile="logo.png" #optional
 # A text field displayed in the mod UI
-credits="Thanks for this example mod goes to Java" #optional
+credits="Code by Silent, concept and textures by geddy135" #optional
 # A text field displayed in the mod UI
 authors="SilentChaos512" #optional
 # A list of mods - how many allowed here is determined by the individual mod loader
@@ -26,14 +26,10 @@ authors="SilentChaos512" #optional
      # A display name for the mod
     displayName="Silent's Mechanisms" #mandatory
     # A URL to query for updates for this mod. See the JSON update specification <here>
-    updateJSONURL="http://myurl.me/" #optional
+    #updateJSONURL="http://myurl.me/" #optional
     # The description text for the mod (multi line!) (#mandatory)
     description='''
-    This is a long form description of the mod. You can write whatever you want here
-
-    Have some lorem ipsum.
-
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed mollis lacinia magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed sagittis luctus odio eu tempus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque volutpat ligula eget lacus auctor sagittis. In hac habitasse platea dictumst. Nunc gravida elit vitae sem vehicula efficitur. Donec mattis ipsum et arcu lobortis, eleifend sagittis sem rutrum. Cras pharetra quam eget posuere fermentum. Sed id tincidunt justo. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+    Simple machines and energy-generating blocks
     '''
 
 # A dependency - use the . to indicate dependency for a specific modid. Dependencies are optional.

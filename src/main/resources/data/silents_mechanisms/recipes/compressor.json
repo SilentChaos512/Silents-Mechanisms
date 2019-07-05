@@ -3,7 +3,7 @@
     "pattern": [
         "#X#",
         "/X/",
-        "OTO"
+        "OCO"
     ],
     "key": {
         "#": {
@@ -16,16 +16,11 @@
             "tag": "forge:gems/diamond"
         },
         "O": {
-            "item": "minecraft:obsidian"
+            "item": "minecraft:smooth_stone"
         },
-        "T": [
-            {
-                "item": "minecraft:piston"
-            },
-            {
-                "item": "minecraft:sticky_piston"
-            }
-        ]
+        "C": {
+            "item": "silents_mechanisms:circuit_board"
+        }
     },
     "result": {
         "item": "silents_mechanisms:compressor"

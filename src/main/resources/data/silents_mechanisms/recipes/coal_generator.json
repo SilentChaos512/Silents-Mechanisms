@@ -16,7 +16,7 @@
             "item": "minecraft:furnace"
         },
         "O": {
-            "item": "minecraft:smooth_stone"
+            "tag": "forge:cobblestone"
         }
     },
     "result": {

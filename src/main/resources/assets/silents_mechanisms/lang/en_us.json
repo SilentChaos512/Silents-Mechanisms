@@ -6,6 +6,7 @@
     "block.silents_mechanisms.electric_furnace": "Electric Furnace",
     "block.silents_mechanisms.wire": "Wire",
     "item.silents_mechanisms.battery": "Battery",
+    "item.silents_mechanisms.circuit_board": "Circuit Board",
     "item.silents_mechanisms.compressed_iron_ingot": "Compressed Iron Ingot",
     "item.silents_mechanisms.gold_chunks": "Gold Ore Chunks",
     "item.silents_mechanisms.gold_dust": "Gold Dust",

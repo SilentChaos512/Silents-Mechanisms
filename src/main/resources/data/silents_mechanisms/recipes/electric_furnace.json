@@ -3,7 +3,7 @@
     "pattern": [
         "###",
         "/X/",
-        "OOO"
+        "OCO"
     ],
     "key": {
         "#": {
@@ -17,6 +17,9 @@
         },
         "O": {
             "item": "minecraft:smooth_stone"
+        },
+        "C": {
+            "item": "silents_mechanisms:circuit_board"
         }
     },
     "result": {

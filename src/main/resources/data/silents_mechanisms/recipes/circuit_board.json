@@ -1,0 +1,21 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "/G/",
+        "###"
+    ],
+    "key": {
+        "#": {
+            "tag": "forge:nuggets/iron"
+        },
+        "G": {
+            "tag": "forge:ingots/gold"
+        },
+        "/": {
+            "tag": "forge:ingots/redstone_alloy"
+        }
+    },
+    "result": {
+        "item": "silents_mechanisms:circuit_board"
+    }
+}

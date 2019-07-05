@@ -14,7 +14,8 @@ public enum CraftingItems implements IItemProvider {
     REDSTONE_ALLOY_INGOT,
     REDSTONE_ALLOY_NUGGET,
     REDSTONE_ALLOY_DUST,
-    COMPRESSED_IRON_INGOT;
+    COMPRESSED_IRON_INGOT,
+    CIRCUIT_BOARD;
 
     private final Lazy<Item> item;
 
