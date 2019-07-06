@@ -72,6 +72,11 @@ public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingR
         return Collections.singleton(recipe.getCraftingResult(this));
     }
 
+    @Override
+    protected void consumeIngredients(CompressingRecipe recipe) {
+        decrStackSize(0, recipe.getIngredientCount());
+    }
+
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
     @Override
     public int[] getSlotsForFace(Direction side) {

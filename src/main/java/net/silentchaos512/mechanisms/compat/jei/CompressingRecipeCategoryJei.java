@@ -16,8 +16,10 @@ import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.util.Constants;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 public class CompressingRecipeCategoryJei implements IRecipeCategory<CompressingRecipe> {
     private static final int GUI_START_X = 55;
@@ -76,7 +78,13 @@ public class CompressingRecipeCategoryJei implements IRecipeCategory<Compressing
         itemStacks.init(1, false, 115 - GUI_START_X, 34 - GUI_START_Y);
 
         // Should only be one ingredient...
-        itemStacks.set(0, Arrays.asList(recipe.getIngredient().getMatchingStacks()));
+        List<ItemStack> inputs = new ArrayList<>();
+        Arrays.stream(recipe.getIngredient().getMatchingStacks()).map(s -> {
+            ItemStack stack = s.copy();
+            stack.setCount(recipe.getIngredientCount());
+            return stack;
+        }).forEach(inputs::add);
+        itemStacks.set(0, inputs);
         itemStacks.set(1, recipe.getRecipeOutput());
     }
 

@@ -23,6 +23,7 @@ public class CompressingRecipe implements IRecipe<IInventory> {
     private final ResourceLocation recipeId;
     private int processTime;
     private Ingredient ingredient;
+    private int ingredientCount;
     private ItemStack result;
 
     public CompressingRecipe(ResourceLocation recipeId) {
@@ -37,9 +38,14 @@ public class CompressingRecipe implements IRecipe<IInventory> {
         return ingredient;
     }
 
+    public int getIngredientCount() {
+        return ingredientCount;
+    }
+
     @Override
     public boolean matches(IInventory inv, World worldIn) {
-        return ingredient.test(inv.getStackInSlot(0));
+        ItemStack stack = inv.getStackInSlot(0);
+        return ingredient.test(stack) && stack.getCount() >= ingredientCount;
     }
 
     @Override
@@ -73,6 +79,7 @@ public class CompressingRecipe implements IRecipe<IInventory> {
             CompressingRecipe recipe = new CompressingRecipe(recipeId);
             recipe.processTime = JSONUtils.getInt(json, "process_time", 400);
             recipe.ingredient = Ingredient.deserialize(json.get("ingredient"));
+            recipe.ingredientCount = JSONUtils.getInt(json.get("ingredient").getAsJsonObject(), "count", 1);
             recipe.result = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
             return recipe;
         }
@@ -82,6 +89,7 @@ public class CompressingRecipe implements IRecipe<IInventory> {
             CompressingRecipe recipe = new CompressingRecipe(recipeId);
             recipe.processTime = buffer.readVarInt();
             recipe.ingredient = Ingredient.read(buffer);
+            recipe.ingredientCount = buffer.readByte();
             recipe.result = buffer.readItemStack();
             return recipe;
         }
@@ -90,6 +98,7 @@ public class CompressingRecipe implements IRecipe<IInventory> {
         public void write(PacketBuffer buffer, CompressingRecipe recipe) {
             buffer.writeVarInt(recipe.processTime);
             recipe.ingredient.write(buffer);
+            buffer.writeByte(recipe.ingredientCount);
             buffer.writeItemStack(recipe.result);
         }
     }

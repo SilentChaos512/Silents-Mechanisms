@@ -15,11 +15,13 @@
     "item.silents_mechanisms.redstone_alloy_dust": "Redstone Alloy Dust",
     "item.silents_mechanisms.redstone_alloy_ingot": "Redstone Alloy Ingot",
     "item.silents_mechanisms.redstone_alloy_nugget": "Redstone Alloy Nugget",
+    "item.silents_mechanisms.refined_iron_ingot": "Refined Iron Ingot",
     "itemGroup.silents_mechanisms": "Silent's Mechanisms",
     "jei.silents_mechanisms.category.compressing": "Compressing",
     "jei.silents_mechanisms.category.crushing": "Crushing",
     "misc.silents_mechanisms.energy": "%s FE",
     "misc.silents_mechanisms.energyWithMax": "%s / %s FE",
     "part.silents_mechanisms.main.compressed_iron": "Compressed Iron",
-    "part.silents_mechanisms.main.redstone_alloy": "Redstone Alloy"
+    "part.silents_mechanisms.main.redstone_alloy": "Redstone Alloy",
+    "part.silents_mechanisms.main.refined_iron": "Refined Iron"
 }

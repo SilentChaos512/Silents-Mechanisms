@@ -2,6 +2,7 @@
     "replace": false,
     "values": [
         "#forge:ingots/compressed_iron",
-        "#forge:ingots/redstone_alloy"
+        "#forge:ingots/redstone_alloy",
+        "#forge:ingots/refined_iron"
     ]
 }

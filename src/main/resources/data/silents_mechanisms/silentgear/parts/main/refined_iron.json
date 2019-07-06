@@ -1,0 +1,49 @@
+{
+    "type": "silentgear:main",
+    "stats": [
+        {"name": "durability",      "value":  512},
+        {"name": "armor_durability","value":   20},
+        {"name": "enchantability",  "value":   15},
+        {"name": "harvest_level",   "value":    2},
+        {"name": "harvest_speed",   "value":    7},
+        {"name": "melee_damage",    "value":    3},
+        {"name": "magic_damage",    "value":    2},
+        {"name": "attack_speed",    "value":  0.0},
+        {"name": "armor",           "value":   18},
+        {"name": "armor_toughness", "value":    0},
+        {"name": "magic_armor",     "value":    7},
+        {"name": "ranged_damage",   "value":    2},
+        {"name": "ranged_speed",    "value":  0.0},
+        {"name": "rarity",          "value":   25},
+        {"name": "chargeability",   "value":  0.8}
+    ],
+    "traits": [
+        {"name": "silentgear:malleable", "level": 5}
+    ],
+    "crafting_items": {
+        "normal": {
+            "item": "silents_mechanisms:refined_iron_ingot",
+            "tag": "forge:ingots/refined_iron"
+        },
+        "small": {
+            "tag": "forge:nuggets/refined_iron",
+            "size": 9
+        }
+    },
+    "name": {
+        "translate": true,
+        "name": "part.silents_mechanisms.main.refined_iron"
+    },
+    "textures": {
+        "all": {
+            "texture_domain": "silentgear",
+            "texture_suffix": "generic_hc",
+            "normal_color": "#D7D7D7",
+            "broken_color": "#D7D7D7"
+        }
+    },
+    "availability": {
+        "tier": 2,
+        "tool_blacklist": []
+    }
+}
