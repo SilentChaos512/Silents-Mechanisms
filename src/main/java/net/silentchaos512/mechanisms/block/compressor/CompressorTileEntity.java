@@ -1,8 +1,6 @@
 package net.silentchaos512.mechanisms.block.compressor;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.block.AbstractFurnaceBlock;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
@@ -10,7 +8,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
-import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
@@ -21,8 +18,8 @@ import java.util.List;
 
 public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingRecipe> {
     // Energy constant
-    public static final int MAX_ENERGY = 100_000;
-    public static final int MAX_RECEIVE = 1_000;
+    public static final int MAX_ENERGY = 50_000;
+    public static final int MAX_RECEIVE = 500;
     public static final int ENERGY_USED_PER_TICK = 25;
 
     // Inventory constants

@@ -30,7 +30,7 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
 
         @Override
         public void set(int index, int value) {
-            energy.setEnergyDirectly(value);
+            getEnergyImpl().setEnergyDirectly(value);
         }
 
         @Override

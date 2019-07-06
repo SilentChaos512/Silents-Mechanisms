@@ -18,8 +18,8 @@ import java.util.stream.IntStream;
 
 public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe> {
     // Energy constant
-    private static final int MAX_ENERGY = 100_000;
-    private static final int MAX_RECEIVE = 1_000;
+    private static final int MAX_ENERGY = 50_000;
+    private static final int MAX_RECEIVE = 500;
     private static final int ENERGY_USED_PER_TICK = 25;
 
     // Inventory constants

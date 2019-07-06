@@ -8,6 +8,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.item.BatteryItem;
 import net.silentchaos512.mechanisms.item.CraftingItems;
+import net.silentchaos512.mechanisms.item.DebugItem;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -26,6 +27,8 @@ public final class ModItems {
         battery = register("battery", new BatteryItem());
 
         Arrays.stream(CraftingItems.values()).forEach(c -> register(c.getName(), c.asItem()));
+
+        register("debug_item", new DebugItem());
     }
 
     private static <T extends Item> T register(String name, T item) {

@@ -19,8 +19,8 @@ import java.util.Optional;
 
 public class ElectricFurnaceTileEntity extends AbstractMachineTileEntity<AbstractCookingRecipe> {
     // Energy constant
-    public static final int MAX_ENERGY = 100_000;
-    public static final int MAX_RECEIVE = 1_000;
+    public static final int MAX_ENERGY = 50_000;
+    public static final int MAX_RECEIVE = 500;
     public static final int ENERGY_USED_PER_TICK = 25;
 
     // Inventory constants

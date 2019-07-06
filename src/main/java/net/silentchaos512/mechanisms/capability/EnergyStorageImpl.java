@@ -70,8 +70,10 @@ public class EnergyStorageImpl extends EnergyStorageImplBase {
             World world = EnergyStorageImpl.this.tileEntity.getWorld();
             if (world == null) return 0;
 
-            this.lastReceiveTick = world.getGameTime();
-            return EnergyStorageImpl.this.receiveEnergy(maxReceive, simulate);
+            int received = EnergyStorageImpl.this.receiveEnergy(maxReceive, simulate);
+            if (received > 0 && !simulate)
+                this.lastReceiveTick = world.getGameTime();
+            return received;
         }
 
         @Override

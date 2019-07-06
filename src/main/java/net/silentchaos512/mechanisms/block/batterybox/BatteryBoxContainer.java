@@ -44,7 +44,7 @@ public class BatteryBoxContainer extends AbstractEnergyStorageContainer {
             final int playerInventoryEnd = inventorySize + 27;
             final int playerHotbarEnd = playerInventoryEnd + 9;
 
-            if (index > inventorySize) {
+            if (index >= inventorySize) {
                 if (this.isBattery(itemstack1)) {
                     if (!this.mergeItemStack(itemstack1, 0, inventorySize, false)) {
                         return ItemStack.EMPTY;

@@ -2,5 +2,25 @@
     "parent": "item/generated",
     "textures": {
         "layer0": "silents_mechanisms:item/battery"
-    }
+    },
+    "overrides": [
+        {
+            "predicate": {
+                "silents_mechanisms:charge": 0.33
+            },
+            "model": "silents_mechanisms:item/battery_1"
+        },
+        {
+            "predicate": {
+                "silents_mechanisms:charge": 0.66
+            },
+            "model": "silents_mechanisms:item/battery_2"
+        },
+        {
+            "predicate": {
+                "silents_mechanisms:charge": 1.0
+            },
+            "model": "silents_mechanisms:item/battery_3"
+        }
+    ]
 }
