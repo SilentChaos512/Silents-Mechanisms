@@ -1,6 +1,8 @@
 package net.silentchaos512.mechanisms.block;
 
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
@@ -54,6 +56,8 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
 
     @Override
     public void tick() {
+        if (world == null || world.isRemote) return;
+
         if (maxExtract > 0) {
             EnergyUtils.trySendToNeighbors(world, pos, this, maxExtract);
         }
@@ -70,6 +74,21 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
     public CompoundNBT write(CompoundNBT tags) {
         super.write(tags);
         SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
+        writeEnergy(tags);
+        return tags;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+        super.onDataPacket(net, packet);
+        SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
+        readEnergy(packet.getNbtCompound());
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tags = super.getUpdateTag();
+        SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.PACKET);
         writeEnergy(tags);
         return tags;
     }

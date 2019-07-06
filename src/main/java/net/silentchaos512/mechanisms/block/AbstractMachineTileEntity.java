@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.block;
 
+import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
@@ -59,9 +60,13 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 
     protected abstract int getEnergyUsedPerTick();
 
-    protected abstract BlockState getActiveState();
+    protected BlockState getActiveState(BlockState currentState) {
+        return currentState.with(AbstractFurnaceBlock.LIT, true);
+    }
 
-    protected abstract BlockState getInactiveState();
+    protected BlockState getInactiveState(BlockState currentState) {
+        return currentState.with(AbstractFurnaceBlock.LIT, false);
+    }
 
     protected abstract int[] getOutputSlots();
 
@@ -71,29 +76,6 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     protected abstract int getProcessTime(R recipe);
 
     protected abstract Collection<ItemStack> getProcessResults(R recipe);
-
-    @Deprecated
-    public int getProgress() {
-        return progress;
-    }
-
-    public int getProgressClient() {
-        return fields.get(0);
-    }
-
-    @Deprecated
-    public int getProcessTime() {
-        return processTime;
-    }
-
-    public int getProcessTimeClient() {
-        return fields.get(1);
-    }
-
-    protected void sendUpdate() {
-        if (world == null) return;
-        sendUpdate(world.getBlockState(pos));
-    }
 
     protected void sendUpdate(BlockState newState) {
         if (world == null) return;
@@ -105,9 +87,10 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     }
 
     protected void setInactiveState() {
+        if (world == null) return;
         if (progress > 0) {
             progress = 0;
-            sendUpdate(getInactiveState());
+            sendUpdate(getInactiveState(world.getBlockState(pos)));
         }
     }
 
@@ -126,10 +109,17 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
                 // Create result
                 getProcessResults(recipe).forEach(this::storeResultItem);
                 consumeIngredients(recipe);
-                progress = 0;
-            }
 
-            sendUpdate(getActiveState());
+                if (getRecipe() == null) {
+                    // Nothing left to process
+                    setInactiveState();
+                } else {
+                    // Continue processing next output
+                    progress = 0;
+                }
+            } else {
+                sendUpdate(getActiveState(world.getBlockState(pos)));
+            }
         } else if (recipe == null) {
             setInactiveState();
         }

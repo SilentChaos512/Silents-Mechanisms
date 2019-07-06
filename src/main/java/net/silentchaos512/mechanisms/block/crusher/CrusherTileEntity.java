@@ -1,8 +1,6 @@
 package net.silentchaos512.mechanisms.block.crusher;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.block.AbstractFurnaceBlock;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
@@ -10,7 +8,6 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
-import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
@@ -40,16 +37,6 @@ public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe>
     @Override
     protected int getEnergyUsedPerTick() {
         return ENERGY_USED_PER_TICK;
-    }
-
-    @Override
-    protected BlockState getActiveState() {
-        return ModBlocks.crusher.getDefaultState().with(AbstractFurnaceBlock.LIT, true);
-    }
-
-    @Override
-    protected BlockState getInactiveState() {
-        return ModBlocks.crusher.getDefaultState();
     }
 
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")

@@ -39,16 +39,6 @@ public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingR
         return ENERGY_USED_PER_TICK;
     }
 
-    @Override
-    protected BlockState getActiveState() {
-        return ModBlocks.compressor.getDefaultState().with(AbstractFurnaceBlock.LIT, true);
-    }
-
-    @Override
-    protected BlockState getInactiveState() {
-        return ModBlocks.compressor.getDefaultState();
-    }
-
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
     @Override
     protected int[] getOutputSlots() {
