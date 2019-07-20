@@ -20,7 +20,7 @@ public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingR
     // Energy constant
     public static final int MAX_ENERGY = 50_000;
     public static final int MAX_RECEIVE = 500;
-    public static final int ENERGY_USED_PER_TICK = 25;
+    public static final int ENERGY_USED_PER_TICK = 30;
 
     // Inventory constants
     private static final int[] SLOTS_INPUT = {0};

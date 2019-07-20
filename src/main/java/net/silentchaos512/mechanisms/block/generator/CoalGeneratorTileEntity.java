@@ -25,7 +25,7 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
     // Energy constants
     public static final int MAX_ENERGY = 10_000;
     public static final int MAX_SEND = 500;
-    public static final int ENERGY_CREATED_PER_TICK = 25;
+    public static final int ENERGY_CREATED_PER_TICK = 60;
 
     @Getter
     @SyncVariable(name = "BurnTime")

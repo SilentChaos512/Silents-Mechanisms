@@ -12,7 +12,7 @@ public class AbstractEnergyStorageContainer extends Container {
         super(type, id);
         this.fields = fieldsIn;
 
-        func_216961_a(this.fields);
+        trackIntArray(this.fields);
     }
 
     @Override

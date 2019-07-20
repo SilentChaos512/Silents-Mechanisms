@@ -20,7 +20,7 @@ public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe>
     // Energy constant
     private static final int MAX_ENERGY = 50_000;
     private static final int MAX_RECEIVE = 500;
-    private static final int ENERGY_USED_PER_TICK = 25;
+    private static final int ENERGY_USED_PER_TICK = 30;
 
     // Inventory constants
     private static final int INPUT_SLOT_COUNT = 1;

@@ -53,11 +53,11 @@ public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer>
         }
 
         // Debug text
-        int y = 5;
-        for (String line : container.tileEntity.getDebugText()) {
-            font.drawString(line, 5, y, 0xFFFFFF);
-            y += 10;
-        }
+//        int y = 5;
+//        for (String line : container.tileEntity.getDebugText()) {
+//            font.drawString(line, 5, y, 0xFFFFFF);
+//            y += 10;
+//        }
     }
 
     private int getFlameIconHeight() {
