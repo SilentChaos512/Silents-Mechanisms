@@ -1,0 +1,24 @@
+{
+    "conditions": [
+        {
+            "type": "silents_mechanisms:tag_exists",
+            "tag": "forge:ores/tin"
+        }
+    ],
+    "type": "silents_mechanisms:crushing",
+    "process_time": 300,
+    "ingredient": {
+        "item": "silents_mechanisms:tin_chunks"
+    },
+    "results": [
+        {
+            "item": "silents_mechanisms:tin_dust",
+            "count": 1
+        },
+        {
+            "item": "silents_mechanisms:tin_dust",
+            "count": 1,
+            "chance": 0.1
+        }
+    ]
+}

@@ -1,8 +1,13 @@
 {
     "replace": false,
     "values": [
+        "#forge:dusts/copper",
         "#forge:dusts/gold",
         "#forge:dusts/iron",
-        "#forge:dusts/redstone_alloy"
+        "#forge:dusts/lead",
+        "#forge:dusts/nickel",
+        "#forge:dusts/redstone_alloy",
+        "#forge:dusts/silver",
+        "#forge:dusts/tin"
     ]
 }

@@ -7,16 +7,31 @@ import net.silentchaos512.utils.Lazy;
 import net.silentchaos512.utils.TextUtils;
 
 public enum CraftingItems implements IItemProvider {
-    IRON_CHUNKS,
-    IRON_DUST,
-    GOLD_CHUNKS,
-    GOLD_DUST,
     REDSTONE_ALLOY_INGOT,
     REDSTONE_ALLOY_NUGGET,
     REDSTONE_ALLOY_DUST,
     REFINED_IRON_INGOT,
     COMPRESSED_IRON_INGOT,
-    CIRCUIT_BOARD;
+    CIRCUIT_BOARD,
+    IRON_CHUNKS,
+    IRON_DUST,
+    GOLD_CHUNKS,
+    GOLD_DUST,
+    COPPER_CHUNKS,
+    COPPER_DUST,
+    COPPER_INGOT,
+    TIN_CHUNKS,
+    TIN_DUST,
+    TIN_INGOT,
+    SILVER_CHUNKS,
+    SILVER_DUST,
+    SILVER_INGOT,
+    LEAD_CHUNKS,
+    LEAD_DUST,
+    LEAD_INGOT,
+    NICKEL_CHUNKS,
+    NICKEL_DUST,
+    NICKEL_INGOT;
 
     private final Lazy<Item> item;
 

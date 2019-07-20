@@ -1,0 +1,24 @@
+{
+    "conditions": [
+        {
+            "type": "silents_mechanisms:tag_exists",
+            "tag": "forge:ores/nickel"
+        }
+    ],
+    "type": "silents_mechanisms:crushing",
+    "process_time": 400,
+    "ingredient": {
+        "tag": "forge:ores/nickel"
+    },
+    "results": [
+        {
+            "item": "silents_mechanisms:nickel_chunks",
+            "count": 2
+        },
+        {
+            "item": "minecraft:cobblestone",
+            "count": 1,
+            "chance": 0.1
+        }
+    ]
+}

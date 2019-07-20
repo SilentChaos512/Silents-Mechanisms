@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
+        "silents_mechanisms:iron_chunks",
         "silents_mechanisms:iron_dust"
     ]
 }

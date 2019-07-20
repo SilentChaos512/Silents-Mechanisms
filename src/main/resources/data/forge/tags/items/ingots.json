@@ -2,7 +2,12 @@
     "replace": false,
     "values": [
         "#forge:ingots/compressed_iron",
+        "#forge:ingots/copper",
+        "#forge:ingots/lead",
+        "#forge:ingots/nickel",
         "#forge:ingots/redstone_alloy",
-        "#forge:ingots/refined_iron"
+        "#forge:ingots/refined_iron",
+        "#forge:ingots/silver",
+        "#forge:ingots/tin"
     ]
 }
