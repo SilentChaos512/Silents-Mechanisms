@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
 import net.minecraftforge.common.crafting.CraftingHelper;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.crafting.recipe.AlloySmeltingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
 import net.silentchaos512.mechanisms.util.Constants;
@@ -16,8 +17,10 @@ public final class ModRecipes {
     private ModRecipes() {}
 
     public static void init() {
+        registerType(Constants.ALLOY_SMELTING, AlloySmeltingRecipe.RECIPE_TYPE);
         registerType(Constants.COMPRESSING, CompressingRecipe.RECIPE_TYPE);
         registerType(Constants.CRUSHING, CrushingRecipe.RECIPE_TYPE);
+        registerSerializer(Constants.ALLOY_SMELTING, AlloySmeltingRecipe.SERIALIZER);
         registerSerializer(Constants.COMPRESSING, CompressingRecipe.SERIALIZER);
         registerSerializer(Constants.CRUSHING, CrushingRecipe.SERIALIZER);
 

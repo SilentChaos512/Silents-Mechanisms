@@ -9,6 +9,8 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.block.alloysmelter.AlloySmelterContainer;
+import net.silentchaos512.mechanisms.block.alloysmelter.AlloySmelterScreen;
 import net.silentchaos512.mechanisms.block.batterybox.BatteryBoxContainer;
 import net.silentchaos512.mechanisms.block.batterybox.BatteryBoxScreen;
 import net.silentchaos512.mechanisms.block.compressor.CompressorContainer;
@@ -21,6 +23,7 @@ import net.silentchaos512.mechanisms.block.generator.CoalGeneratorContainer;
 import net.silentchaos512.mechanisms.block.generator.CoalGeneratorScreen;
 
 public class ModContainers {
+    public static ContainerType<AlloySmelterContainer> alloySmelter;
     public static ContainerType<BatteryBoxContainer> batteryBox;
     public static ContainerType<CoalGeneratorContainer> coalGenerator;
     public static ContainerType<CompressorContainer> compressor;
@@ -28,6 +31,7 @@ public class ModContainers {
     public static ContainerType<ElectricFurnaceContainer> electricFurnace;
 
     public static void registerAll(RegistryEvent.Register<ContainerType<?>> event) {
+        alloySmelter = register("alloy_smelter", AlloySmelterContainer::new);
         batteryBox = register("battery_box", BatteryBoxContainer::new);
         coalGenerator = register("coal_generator", CoalGeneratorContainer::new);
         compressor = register("compressor", CompressorContainer::new);
@@ -37,6 +41,7 @@ public class ModContainers {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerScreens(FMLClientSetupEvent event) {
+        ScreenManager.registerFactory(alloySmelter, AlloySmelterScreen::new);
         ScreenManager.registerFactory(batteryBox, BatteryBoxScreen::new);
         ScreenManager.registerFactory(coalGenerator, CoalGeneratorScreen::new);
         ScreenManager.registerFactory(compressor, CompressorScreen::new);

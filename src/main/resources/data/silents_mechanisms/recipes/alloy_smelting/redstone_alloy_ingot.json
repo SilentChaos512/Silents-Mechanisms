@@ -1,0 +1,21 @@
+{
+    "conditions": [
+        {
+            "type": "forge:false"
+        }
+    ],
+    "type": "silents_mechanisms:alloy_smelting",
+    "process_time": 200,
+    "ingredients": [
+        {
+            "tag": "forge:nuggets/iron"
+        },
+        {
+            "tag": "forge:dusts/redstone",
+            "count": 2
+        }
+    ],
+    "result": {
+        "item": "silents_mechanisms:redstone_alloy_ingot"
+    }
+}
