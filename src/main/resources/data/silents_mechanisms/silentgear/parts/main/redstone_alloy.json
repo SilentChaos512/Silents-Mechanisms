@@ -22,7 +22,6 @@
     ],
     "crafting_items": {
         "normal": {
-            "item": "silents_mechanisms:redstone_alloy_ingot",
             "tag": "forge:ingots/redstone_alloy"
         },
         "small": {
@@ -36,10 +35,12 @@
     },
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "texture_domain": "silentgear",
             "texture_suffix": "generic_hc",
-            "normal_color": "#FFA396",
-            "broken_color": "#FFA396"
+            "normal_color": "#E60006",
+            "broken_color": "#E60006"
         }
     },
     "availability": {

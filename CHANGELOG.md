@@ -8,6 +8,9 @@ Updated for Forge 28.0.45
 ### Added
 - Drying racks. These have their own recipes, so mods or data packs can add recipes.
 - JEI support for alloy smelter
+- Some missing models, textures, and localized names
+### Changed
+- Some item textures (EnbyChu)
 
 ## [0.2.0] - 2019-07-22
 ### Added

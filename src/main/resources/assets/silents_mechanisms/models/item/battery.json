@@ -6,19 +6,19 @@
     "overrides": [
         {
             "predicate": {
-                "silents_mechanisms:charge": 0.33
+                "silents_mechanisms:charge": 0.3
             },
             "model": "silents_mechanisms:item/battery_1"
         },
         {
             "predicate": {
-                "silents_mechanisms:charge": 0.66
+                "silents_mechanisms:charge": 0.6
             },
             "model": "silents_mechanisms:item/battery_2"
         },
         {
             "predicate": {
-                "silents_mechanisms:charge": 1.0
+                "silents_mechanisms:charge": 0.9
             },
             "model": "silents_mechanisms:item/battery_3"
         }

@@ -22,7 +22,6 @@
     ],
     "crafting_items": {
         "normal": {
-            "item": "silents_mechanisms:refined_iron_ingot",
             "tag": "forge:ingots/refined_iron"
         },
         "small": {
@@ -36,6 +35,8 @@
     },
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "texture_domain": "silentgear",
             "texture_suffix": "generic_hc",
             "normal_color": "#D7D7D7",

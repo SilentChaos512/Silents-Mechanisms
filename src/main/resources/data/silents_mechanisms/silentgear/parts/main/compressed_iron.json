@@ -22,7 +22,6 @@
     ],
     "crafting_items": {
         "normal": {
-            "item": "silents_mechanisms:compressed_iron_ingot",
             "tag": "forge:ingots/compressed_iron"
         },
         "small": {
@@ -36,6 +35,8 @@
     },
     "textures": {
         "all": {
+            "lite_texture": "high_contrast",
+            "highlight": true,
             "texture_domain": "silentgear",
             "texture_suffix": "generic_hc",
             "normal_color": "#A6A6A6",
