@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 Updated for Forge 28.0.45
 ### Added
+- Drying racks. These have their own recipes, so mods or data packs can add recipes.
 - JEI support for alloy smelter
 
 ## [0.2.0] - 2019-07-22

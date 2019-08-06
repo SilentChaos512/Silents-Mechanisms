@@ -1,0 +1,10 @@
+{
+    "type": "silents_mechanisms:drying",
+    "process_time": 400,
+    "ingredient": {
+        "item": "minecraft:mutton"
+    },
+    "result": {
+        "item": "silents_mechanisms:mutton_jerky"
+    }
+}

@@ -7,6 +7,7 @@ public final class Constants {
     public static final ResourceLocation ALLOY_SMELTING = SilentMechanisms.getId("alloy_smelting");
     public static final ResourceLocation COMPRESSING = SilentMechanisms.getId("compressing");
     public static final ResourceLocation CRUSHING = SilentMechanisms.getId("crushing");
+    public static final ResourceLocation DRYING = SilentMechanisms.getId("drying");
 
     private Constants() {throw new IllegalAccessError("Utility class");}
 }

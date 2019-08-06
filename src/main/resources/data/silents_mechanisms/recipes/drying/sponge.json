@@ -1,0 +1,10 @@
+{
+    "type": "silents_mechanisms:drying",
+    "process_time": 800,
+    "ingredient": {
+        "item": "minecraft:wet_sponge"
+    },
+    "result": {
+        "item": "minecraft:sponge"
+    }
+}

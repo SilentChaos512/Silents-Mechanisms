@@ -1,0 +1,14 @@
+{
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "corail_woodcutter"
+        }
+    ],
+    "type": "corail_woodcutter:woodcutting",
+    "ingredient": {
+        "item": "minecraft:oak_log"
+    },
+    "result": "silents_mechanisms:oak_drying_rack",
+    "count": 3
+}

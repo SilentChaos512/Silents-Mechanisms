@@ -12,13 +12,17 @@ import net.silentchaos512.mechanisms.block.alloysmelter.AlloySmelterBlock;
 import net.silentchaos512.mechanisms.block.batterybox.BatteryBoxBlock;
 import net.silentchaos512.mechanisms.block.compressor.CompressorBlock;
 import net.silentchaos512.mechanisms.block.crusher.CrusherBlock;
+import net.silentchaos512.mechanisms.block.dryingrack.DryingRackBlock;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceBlock;
 import net.silentchaos512.mechanisms.block.generator.CoalGeneratorBlock;
 import net.silentchaos512.mechanisms.block.wire.WireBlock;
 
 import javax.annotation.Nullable;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class ModBlocks {
+    public static final List<DryingRackBlock> DRYING_RACKS = new ArrayList<>();
     public static CompressorBlock compressor;
     public static CrusherBlock crusher;
     public static ElectricFurnaceBlock electricFurnace;
@@ -30,7 +34,12 @@ public final class ModBlocks {
     private ModBlocks() {}
 
     public static void registerAll(RegistryEvent.Register<Block> event) {
-        // Register your blocks here
+        DRYING_RACKS.add(register("oak_drying_rack", new DryingRackBlock()));
+        DRYING_RACKS.add(register("birch_drying_rack", new DryingRackBlock()));
+        DRYING_RACKS.add(register("spruce_drying_rack", new DryingRackBlock()));
+        DRYING_RACKS.add(register("jungle_drying_rack", new DryingRackBlock()));
+        DRYING_RACKS.add(register("dark_oak_drying_rack", new DryingRackBlock()));
+        DRYING_RACKS.add(register("acacia_drying_rack", new DryingRackBlock()));
         compressor = register("compressor", new CompressorBlock());
         crusher = register("crusher", new CrusherBlock());
         electricFurnace = register("electric_furnace", new ElectricFurnaceBlock());

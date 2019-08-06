@@ -1,0 +1,8 @@
+{
+    "variants": {
+        "facing=north": { "model":  "silents_mechanisms:block/spruce_drying_rack" },
+        "facing=south": { "model":  "silents_mechanisms:block/spruce_drying_rack", "y": 180 },
+        "facing=west": { "model":  "silents_mechanisms:block/spruce_drying_rack", "y": 270 },
+        "facing=east": { "model":  "silents_mechanisms:block/spruce_drying_rack", "y": 90 }
+    }
+}

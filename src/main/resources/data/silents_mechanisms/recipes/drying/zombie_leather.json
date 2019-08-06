@@ -1,0 +1,10 @@
+{
+    "type": "silents_mechanisms:drying",
+    "process_time": 600,
+    "ingredient": {
+        "item": "minecraft:rotten_flesh"
+    },
+    "result": {
+        "item": "silents_mechanisms:zombie_leather"
+    }
+}

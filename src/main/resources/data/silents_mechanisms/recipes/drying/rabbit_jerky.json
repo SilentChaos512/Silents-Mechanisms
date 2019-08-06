@@ -1,0 +1,10 @@
+{
+    "type": "silents_mechanisms:drying",
+    "process_time": 400,
+    "ingredient": {
+        "item": "minecraft:rabbit"
+    },
+    "result": {
+        "item": "silents_mechanisms:rabbit_jerky"
+    }
+}

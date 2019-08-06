@@ -11,6 +11,7 @@ import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.crafting.recipe.AlloySmeltingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
+import net.silentchaos512.mechanisms.crafting.recipe.DryingRecipe;
 import net.silentchaos512.mechanisms.util.Constants;
 
 public final class ModRecipes {
@@ -20,9 +21,11 @@ public final class ModRecipes {
         registerType(Constants.ALLOY_SMELTING, AlloySmeltingRecipe.RECIPE_TYPE);
         registerType(Constants.COMPRESSING, CompressingRecipe.RECIPE_TYPE);
         registerType(Constants.CRUSHING, CrushingRecipe.RECIPE_TYPE);
+        registerType(Constants.DRYING, DryingRecipe.RECIPE_TYPE);
         registerSerializer(Constants.ALLOY_SMELTING, AlloySmeltingRecipe.SERIALIZER);
         registerSerializer(Constants.COMPRESSING, CompressingRecipe.SERIALIZER);
         registerSerializer(Constants.CRUSHING, CrushingRecipe.SERIALIZER);
+        registerSerializer(Constants.DRYING, DryingRecipe.SERIALIZER);
 
         CraftingHelper.register(SilentMechanisms.getId("tag_exists"), json -> {
             String tagName = JSONUtils.getString(json, "tag");
