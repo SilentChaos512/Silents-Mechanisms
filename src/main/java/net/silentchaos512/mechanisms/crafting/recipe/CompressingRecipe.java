@@ -54,6 +54,11 @@ public class CompressingRecipe implements IRecipe<IInventory> {
     }
 
     @Override
+    public boolean canFit(int width, int height) {
+        return true;
+    }
+
+    @Override
     public ItemStack getRecipeOutput() {
         return result;
     }

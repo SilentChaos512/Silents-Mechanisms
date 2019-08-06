@@ -102,6 +102,11 @@ public class CrushingRecipe implements IRecipe<IInventory> {
         return getRecipeOutput();
     }
 
+    @Override
+    public boolean canFit(int width, int height) {
+        return true;
+    }
+
     @Deprecated
     @Override
     public ItemStack getRecipeOutput() {

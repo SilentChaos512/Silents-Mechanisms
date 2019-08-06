@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.crafting.recipe;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -41,6 +42,10 @@ public class AlloySmeltingRecipe implements IRecipe<IInventory> {
         ingredients.forEach(((ingredient, count) -> InventoryUtils.consumeItems(inv, ingredient, count)));
     }
 
+    public Map<Ingredient, Integer> getIngredientMap() {
+        return ImmutableMap.copyOf(ingredients);
+    }
+
     @Override
     public boolean matches(IInventory inv, World worldIn) {
         for (Ingredient ingredient : ingredients.keySet()) {
@@ -56,6 +61,11 @@ public class AlloySmeltingRecipe implements IRecipe<IInventory> {
     @Override
     public ItemStack getCraftingResult(IInventory inv) {
         return result.copy();
+    }
+
+    @Override
+    public boolean canFit(int width, int height) {
+        return true;
     }
 
     @Override

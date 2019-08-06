@@ -11,11 +11,14 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.block.alloysmelter.AlloySmelterContainer;
+import net.silentchaos512.mechanisms.block.alloysmelter.AlloySmelterScreen;
 import net.silentchaos512.mechanisms.block.compressor.CompressorContainer;
 import net.silentchaos512.mechanisms.block.compressor.CompressorScreen;
 import net.silentchaos512.mechanisms.block.crusher.CrusherContainer;
 import net.silentchaos512.mechanisms.block.crusher.CrusherScreen;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceScreen;
+import net.silentchaos512.mechanisms.crafting.recipe.AlloySmeltingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
 import net.silentchaos512.mechanisms.init.ModBlocks;
@@ -36,12 +39,14 @@ public class SMechanismsJeiPlugin implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         IGuiHelper guiHelper = registration.getJeiHelpers().getGuiHelper();
+        registration.addRecipeCategories(new AlloySmeltingRecipeCategoryJei(guiHelper));
         registration.addRecipeCategories(new CompressingRecipeCategoryJei(guiHelper));
         registration.addRecipeCategories(new CrushingRecipeCategoryJei(guiHelper));
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
+        registration.addRecipes(getRecipesOfType(AlloySmeltingRecipe.RECIPE_TYPE), Constants.ALLOY_SMELTING);
         registration.addRecipes(getRecipesOfType(CompressingRecipe.RECIPE_TYPE), Constants.COMPRESSING);
         registration.addRecipes(getRecipesOfType(CrushingRecipe.RECIPE_TYPE), Constants.CRUSHING);
     }
@@ -54,6 +59,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
 
     @Override
     public void registerGuiHandlers(IGuiHandlerRegistration registration) {
+        registration.addRecipeClickArea(AlloySmelterScreen.class, 90, 32, 28, 23, Constants.ALLOY_SMELTING);
         registration.addRecipeClickArea(CompressorScreen.class, 78, 32, 28, 23, Constants.COMPRESSING);
         registration.addRecipeClickArea(CrusherScreen.class, 45, 32, 28, 23, Constants.CRUSHING);
         registration.addRecipeClickArea(ElectricFurnaceScreen.class, 78, 32, 28, 23,
@@ -62,12 +68,14 @@ public class SMechanismsJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeTransferHandlers(IRecipeTransferRegistration registration) {
+        registration.addRecipeTransferHandler(AlloySmelterContainer.class, Constants.ALLOY_SMELTING, 0, 4, 5, 36);
         registration.addRecipeTransferHandler(CompressorContainer.class, Constants.COMPRESSING, 0, 1, 2, 36);
         registration.addRecipeTransferHandler(CrusherContainer.class, Constants.CRUSHING, 0, 1, 5, 36);
     }
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.alloySmelter), Constants.ALLOY_SMELTING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.compressor), Constants.COMPRESSING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.crusher), Constants.CRUSHING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.electricFurnace),
