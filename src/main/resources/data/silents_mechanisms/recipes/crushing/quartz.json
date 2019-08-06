@@ -1,0 +1,24 @@
+{
+    "type": "silents_mechanisms:crushing",
+    "process_time": 200,
+    "ingredient": [
+        {
+            "item": "minecraft:quartz_block"
+        },
+        {
+            "item": "minecraft:chiseled_quartz_block"
+        },
+        {
+            "item": "minecraft:quartz_pillar"
+        },
+        {
+            "item": "minecraft:smooth_quartz"
+        }
+    ],
+    "results": [
+        {
+            "item": "minecraft:quartz",
+            "count": 4
+        }
+    ]
+}

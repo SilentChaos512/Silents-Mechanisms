@@ -1,4 +1,5 @@
 {
+    "block.silents_mechanisms.alloy_smelter": "Alloy Smelter",
     "block.silents_mechanisms.battery_box": "Battery Box",
     "block.silents_mechanisms.coal_generator": "Coal Generator",
     "block.silents_mechanisms.compressor": "Compressor",
@@ -25,6 +26,7 @@
     "item.silents_mechanisms.redstone_alloy_nugget": "Redstone Alloy Nugget",
     "item.silents_mechanisms.refined_iron_ingot": "Refined Iron Ingot",
     "itemGroup.silents_mechanisms": "Silent's Mechanisms",
+    "jei.silents_mechanisms.category.alloy_smelting": "Alloy Smelting",
     "jei.silents_mechanisms.category.compressing": "Compressing",
     "jei.silents_mechanisms.category.crushing": "Crushing",
     "misc.silents_mechanisms.energy": "%s FE",
