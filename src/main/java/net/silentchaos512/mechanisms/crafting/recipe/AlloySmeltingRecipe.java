@@ -1,6 +1,7 @@
 package net.silentchaos512.mechanisms.crafting.recipe;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -96,12 +97,17 @@ public class AlloySmeltingRecipe implements IRecipe<IInventory> {
             recipe.result = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
 
             JSONUtils.getJsonArray(json, "ingredients").forEach(element -> {
-                Ingredient ingredient = Ingredient.deserialize(element);
+                Ingredient ingredient = deserializeIngredient(element);
                 int count = JSONUtils.getInt(element.getAsJsonObject(), "count", 1);
                 recipe.ingredients.put(ingredient, count);
             });
 
             return recipe;
+        }
+
+        private static Ingredient deserializeIngredient(JsonElement element) {
+            JsonObject json = element.getAsJsonObject();
+            return json.has("values") ? Ingredient.deserialize(json.get("values")) : Ingredient.deserialize(element);
         }
 
         @Override

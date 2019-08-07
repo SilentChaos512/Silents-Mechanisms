@@ -1,8 +1,10 @@
 {
     "replace": false,
     "values": [
+        "#forge:dusts/bronze",
         "#forge:dusts/copper",
         "#forge:dusts/gold",
+        "#forge:dusts/invar",
         "#forge:dusts/iron",
         "#forge:dusts/lead",
         "#forge:dusts/nickel",

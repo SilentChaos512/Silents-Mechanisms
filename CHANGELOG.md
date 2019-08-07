@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 Updated for Forge 28.0.45
 ### Added
 - Drying racks. These have their own recipes, so mods or data packs can add recipes.
+- Bronze and invar (made in the alloy smelter)
+- Recipe for alloy smelter
 - JEI support for alloy smelter
 - Some missing models, textures, and localized names
 ### Changed
