@@ -21,6 +21,7 @@ import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceScreen
 import net.silentchaos512.mechanisms.crafting.recipe.AlloySmeltingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
+import net.silentchaos512.mechanisms.crafting.recipe.DryingRecipe;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.util.Constants;
 
@@ -42,6 +43,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new AlloySmeltingRecipeCategoryJei(guiHelper));
         registration.addRecipeCategories(new CompressingRecipeCategoryJei(guiHelper));
         registration.addRecipeCategories(new CrushingRecipeCategoryJei(guiHelper));
+        registration.addRecipeCategories(new DryingRecipeCategoryJei(guiHelper));
     }
 
     @Override
@@ -49,6 +51,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipes(getRecipesOfType(AlloySmeltingRecipe.RECIPE_TYPE), Constants.ALLOY_SMELTING);
         registration.addRecipes(getRecipesOfType(CompressingRecipe.RECIPE_TYPE), Constants.COMPRESSING);
         registration.addRecipes(getRecipesOfType(CrushingRecipe.RECIPE_TYPE), Constants.CRUSHING);
+        registration.addRecipes(getRecipesOfType(DryingRecipe.RECIPE_TYPE), Constants.DRYING);
     }
 
     private static List<IRecipe<?>> getRecipesOfType(IRecipeType<?> recipeType) {
@@ -78,6 +81,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.alloySmelter), Constants.ALLOY_SMELTING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.compressor), Constants.COMPRESSING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.crusher), Constants.CRUSHING);
+        ModBlocks.DRYING_RACKS.forEach(block -> registration.addRecipeCatalyst(new ItemStack(block), Constants.DRYING));
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.electricFurnace),
                 VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
     }

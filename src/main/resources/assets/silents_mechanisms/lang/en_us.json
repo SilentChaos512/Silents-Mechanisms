@@ -57,6 +57,7 @@
     "jei.silents_mechanisms.category.drying": "Drying",
     "misc.silents_mechanisms.energy": "%s FE",
     "misc.silents_mechanisms.energyWithMax": "%s / %s FE",
+    "misc.silents_mechanisms.timeInSeconds": "Time: %ss",
     "part.silents_mechanisms.main.compressed_iron": "Compressed Iron",
     "part.silents_mechanisms.main.redstone_alloy": "Redstone Alloy",
     "part.silents_mechanisms.main.refined_iron": "Refined Iron"

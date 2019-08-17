@@ -3,7 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.3.1] - 2019-08-16
+### Added
+- JEI support for drying rack
+### Changed
+- Tweaked display of some recipes in JEI (cut empty space on crusher category, fix clipping on compressor category)
+
+## [0.3.0] - 2019-08-06
 Updated for Forge 28.0.45
 ### Added
 - Drying racks. These have their own recipes, so mods or data packs can add recipes.

@@ -30,7 +30,7 @@ public class CrushingRecipeCategoryJei implements IRecipeCategory<CrushingRecipe
     private static final int GUI_START_X = 25;
     private static final int GUI_START_Y = 34;
     private static final int GUI_WIDTH = 151 - GUI_START_X;
-    private static final int GUI_HEIGHT = 70 - GUI_START_Y;
+    private static final int GUI_HEIGHT = 60 - GUI_START_Y;
 
     private final IDrawable background;
     private final IDrawable icon;
