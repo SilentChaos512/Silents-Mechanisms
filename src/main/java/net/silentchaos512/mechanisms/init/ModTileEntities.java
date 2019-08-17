@@ -3,6 +3,8 @@ package net.silentchaos512.mechanisms.init;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -49,6 +51,7 @@ public class ModTileEntities {
         return type;
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(FMLClientSetupEvent event) {
         ClientRegistry.bindTileEntitySpecialRenderer(DryingRackTileEntity.class, new DryingRackTileEntityRenderer());
     }
