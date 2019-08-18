@@ -13,7 +13,7 @@ import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class CrusherContainer extends AbstractMachineContainer<CrusherTileEntity> {
     public CrusherContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new CrusherTileEntity(), new IntArray(3));
+        this(id, playerInventory, new CrusherTileEntity(), new IntArray(4));
     }
 
     public CrusherContainer(int id, PlayerInventory playerInventory, CrusherTileEntity tileEntity, IIntArray fieldsIn) {

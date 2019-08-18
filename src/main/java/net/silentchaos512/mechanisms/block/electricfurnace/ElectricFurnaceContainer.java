@@ -13,7 +13,7 @@ import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class ElectricFurnaceContainer extends AbstractMachineContainer<ElectricFurnaceTileEntity> {
     public ElectricFurnaceContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new ElectricFurnaceTileEntity(), new IntArray(3));
+        this(id, playerInventory, new ElectricFurnaceTileEntity(), new IntArray(4));
     }
 
     public ElectricFurnaceContainer(int id, PlayerInventory playerInventory, ElectricFurnaceTileEntity tileEntity, IIntArray fieldsIn) {

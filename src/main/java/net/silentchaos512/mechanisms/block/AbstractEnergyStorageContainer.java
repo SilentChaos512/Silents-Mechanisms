@@ -5,11 +5,13 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.util.IIntArray;
 
-public class AbstractEnergyStorageContainer extends Container {
+public class AbstractEnergyStorageContainer<T extends AbstractEnergyInventoryTileEntity> extends Container {
+    protected final T tileEntity;
     protected final IIntArray fields;
 
-    protected AbstractEnergyStorageContainer(ContainerType<?> type, int id, IIntArray fieldsIn) {
+    protected AbstractEnergyStorageContainer(ContainerType<?> type, int id, T tileEntityIn, IIntArray fieldsIn) {
         super(type, id);
+        this.tileEntity = tileEntityIn;
         this.fields = fieldsIn;
 
         trackIntArray(this.fields);
@@ -21,11 +23,17 @@ public class AbstractEnergyStorageContainer extends Container {
         return true;
     }
 
+    public T getTileEntity() {
+        return tileEntity;
+    }
+
     public IIntArray getFields() {
         return fields;
     }
 
     public int getEnergyStored() {
-        return fields.get(0);
+        int upper = fields.get(1) & 0xFFFF;
+        int lower = fields.get(0) & 0xFFFF;
+        return (upper << 16) + lower;
     }
 }

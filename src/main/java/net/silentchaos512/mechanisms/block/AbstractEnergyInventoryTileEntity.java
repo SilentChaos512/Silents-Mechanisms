@@ -25,7 +25,17 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
     private final IIntArray fields = new IIntArray() {
         @Override
         public int get(int index) {
-            return getEnergyStored();
+            switch (index) {
+                //Minecraft actually sends fields as shorts, so we need to split energy into 2 fields
+                case 0:
+                    // Energy lower bytes
+                    return AbstractEnergyInventoryTileEntity.this.getEnergyStored() & 0xFFFF;
+                case 1:
+                    // Energy upper bytes
+                    return (AbstractEnergyInventoryTileEntity.this.getEnergyStored() >> 16) & 0xFFFF;
+                default:
+                    return 0;
+            }
         }
 
         @Override
@@ -35,7 +45,7 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
 
         @Override
         public int size() {
-            return 1;
+            return 2;
         }
     };
 

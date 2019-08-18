@@ -13,7 +13,7 @@ import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class AlloySmelterContainer extends AbstractMachineContainer<AlloySmelterTileEntity> {
     public AlloySmelterContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new AlloySmelterTileEntity(), new IntArray(3));
+        this(id, playerInventory, new AlloySmelterTileEntity(), new IntArray(4));
     }
 
     protected AlloySmelterContainer(int id, PlayerInventory playerInventory, AlloySmelterTileEntity tileEntityIn, IIntArray fieldsIn) {

@@ -14,11 +14,11 @@ public class CoalGeneratorContainer extends AbstractEnergyStorageContainer {
     final CoalGeneratorTileEntity tileEntity;
 
     public CoalGeneratorContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new CoalGeneratorTileEntity(), new IntArray(3));
+        this(id, playerInventory, new CoalGeneratorTileEntity(), new IntArray(4));
     }
 
     public CoalGeneratorContainer(int id, PlayerInventory playerInventory, CoalGeneratorTileEntity tileEntity, IIntArray fieldsIn) {
-        super(ModContainers.coalGenerator, id, fieldsIn);
+        super(ModContainers.coalGenerator, id, tileEntity, fieldsIn);
         this.tileEntity = tileEntity;
 
         this.addSlot(new Slot(this.tileEntity, 0, 80, 33));
@@ -27,11 +27,11 @@ public class CoalGeneratorContainer extends AbstractEnergyStorageContainer {
     }
 
     public int getBurnTime() {
-        return fields.get(1);
+        return fields.get(2);
     }
 
     public int getTotalBurnTime() {
-        return fields.get(2);
+        return fields.get(3);
     }
 
     public boolean isBurning() {

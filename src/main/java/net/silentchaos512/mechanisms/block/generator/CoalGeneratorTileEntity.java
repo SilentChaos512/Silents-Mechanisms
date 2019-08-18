@@ -38,11 +38,16 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
         @Override
         public int get(int index) {
             switch (index) {
+                //Minecraft actually sends fields as shorts, so we need to split energy into 2 fields
                 case 0:
-                    return getEnergyStored();
+                    // Energy lower bytes
+                    return CoalGeneratorTileEntity.this.getEnergyStored() & 0xFFFF;
                 case 1:
-                    return burnTime;
+                    // Energy upper bytes
+                    return (CoalGeneratorTileEntity.this.getEnergyStored() >> 16) & 0xFFFF;
                 case 2:
+                    return burnTime;
+                case 3:
                     return totalBurnTime;
                 default:
                     return 0;
@@ -55,10 +60,10 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
                 case 0:
                     setEnergyStoredDirectly(value);
                     break;
-                case 1:
+                case 2:
                     burnTime = value;
                     break;
-                case 2:
+                case 3:
                     totalBurnTime = value;
                     break;
             }
@@ -66,7 +71,7 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
 
         @Override
         public int size() {
-            return 3;
+            return 4;
         }
     };
 

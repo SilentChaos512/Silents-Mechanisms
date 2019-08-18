@@ -13,7 +13,7 @@ import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class CompressorContainer extends AbstractMachineContainer<CompressorTileEntity> {
     public CompressorContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new CompressorTileEntity(), new IntArray(3));
+        this(id, playerInventory, new CompressorTileEntity(), new IntArray(4));
     }
 
     public CompressorContainer(int id, PlayerInventory playerInventory, CompressorTileEntity tileEntity, IIntArray fieldsIn) {

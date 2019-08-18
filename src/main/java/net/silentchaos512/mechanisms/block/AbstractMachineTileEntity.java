@@ -22,12 +22,17 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
         @Override
         public int get(int index) {
             switch (index) {
+                //Minecraft actually sends fields as shorts, so we need to split energy into 2 fields
                 case 0:
-                    return AbstractMachineTileEntity.this.progress;
+                    // Energy lower bytes
+                    return AbstractMachineTileEntity.this.getEnergyStored() & 0xFFFF;
                 case 1:
-                    return AbstractMachineTileEntity.this.processTime;
+                    // Energy upper bytes
+                    return (AbstractMachineTileEntity.this.getEnergyStored() >> 16) & 0xFFFF;
                 case 2:
-                    return AbstractMachineTileEntity.this.getEnergyStored();
+                    return AbstractMachineTileEntity.this.progress;
+                case 3:
+                    return AbstractMachineTileEntity.this.processTime;
                 default:
                     return 0;
             }
@@ -37,20 +42,20 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
         public void set(int index, int value) {
             switch (index) {
                 case 0:
-                    AbstractMachineTileEntity.this.progress = value;
-                    break;
-                case 1:
-                    AbstractMachineTileEntity.this.processTime = value;
+                    AbstractMachineTileEntity.this.setEnergyStoredDirectly(value);
                     break;
                 case 2:
-                    AbstractMachineTileEntity.this.setEnergyStoredDirectly(value);
+                    AbstractMachineTileEntity.this.progress = value;
+                    break;
+                case 3:
+                    AbstractMachineTileEntity.this.processTime = value;
                     break;
             }
         }
 
         @Override
         public int size() {
-            return 3;
+            return 4;
         }
     };
 
