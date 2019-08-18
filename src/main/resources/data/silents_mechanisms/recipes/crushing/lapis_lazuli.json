@@ -1,0 +1,13 @@
+{
+    "type": "silents_mechanisms:crushing",
+    "process_time": 400,
+    "ingredient": {
+        "tag": "forge:ores/lapis"
+    },
+    "results": [
+        {
+            "item": "minecraft:lapis_lazuli",
+            "count": 12
+        }
+    ]
+}

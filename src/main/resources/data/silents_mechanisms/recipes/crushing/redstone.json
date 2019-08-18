@@ -1,0 +1,13 @@
+{
+    "type": "silents_mechanisms:crushing",
+    "process_time": 400,
+    "ingredient": {
+        "tag": "forge:ores/redstone"
+    },
+    "results": [
+        {
+            "item": "minecraft:redstone",
+            "count": 6
+        }
+    ]
+}

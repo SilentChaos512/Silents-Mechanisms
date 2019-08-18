@@ -1,0 +1,23 @@
+{
+    "type": "silents_mechanisms:crushing",
+    "process_time": 400,
+    "ingredient": {
+        "tag": "forge:ores/emerald"
+    },
+    "results": [
+        {
+            "item": "minecraft:emerald",
+            "count": 2
+        },
+        {
+            "item": "minecraft:emerald",
+            "count": 1,
+            "chance": 0.1
+        },
+        {
+            "item": "minecraft:cobblestone",
+            "count": 1,
+            "chance": 0.1
+        }
+    ]
+}

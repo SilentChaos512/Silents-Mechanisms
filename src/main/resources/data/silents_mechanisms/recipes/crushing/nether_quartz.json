@@ -1,0 +1,23 @@
+{
+    "type": "silents_mechanisms:crushing",
+    "process_time": 400,
+    "ingredient": {
+        "tag": "forge:ores/quartz"
+    },
+    "results": [
+        {
+            "item": "minecraft:quartz",
+            "count": 2
+        },
+        {
+            "item": "minecraft:quartz",
+            "count": 1,
+            "chance": 0.1
+        },
+        {
+            "item": "minecraft:netherrack",
+            "count": 1,
+            "chance": 0.1
+        }
+    ]
+}
