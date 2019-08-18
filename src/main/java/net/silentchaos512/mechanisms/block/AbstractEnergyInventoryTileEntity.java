@@ -100,4 +100,10 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
         }
         return super.getCapability(cap, side);
     }
+
+    @Override
+    public void remove() {
+        super.remove();
+        energy.invalidate();
+    }
 }

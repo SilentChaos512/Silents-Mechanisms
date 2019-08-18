@@ -23,4 +23,8 @@ public class EnergyStorageImplBase extends EnergyStorage implements ICapabilityP
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
         return CapabilityEnergy.ENERGY.orEmpty(cap, lazy.cast());
     }
+
+    public void invalidate() {
+        this.lazy.invalidate();
+    }
 }

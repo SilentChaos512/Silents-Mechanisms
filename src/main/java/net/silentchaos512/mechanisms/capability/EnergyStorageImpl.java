@@ -30,6 +30,12 @@ public class EnergyStorageImpl extends EnergyStorageImplBase {
         return CapabilityEnergy.ENERGY.orEmpty(cap, connections.get(side).cast());
     }
 
+    @Override
+    public void invalidate() {
+        super.invalidate();
+        connections.values().forEach(LazyOptional::invalidate);
+    }
+
     /**
      * Add energy, bypassing max receive limit. Useful for generators, which would normally not
      * receive energy from other blocks.
