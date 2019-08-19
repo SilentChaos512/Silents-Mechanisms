@@ -1,0 +1,24 @@
+{
+    "conditions": [
+        {
+            "type": "silents_mechanisms:tag_exists",
+            "tag": "forge:ores/silver"
+        }
+    ],
+    "type": "silents_mechanisms:crushing",
+    "process_time": 300,
+    "ingredient": {
+        "item": "silents_mechanisms:silver_chunks"
+    },
+    "results": [
+        {
+            "item": "silents_mechanisms:silver_dust",
+            "count": 1
+        },
+        {
+            "item": "silents_mechanisms:silver_dust",
+            "count": 1,
+            "chance": 0.1
+        }
+    ]
+}

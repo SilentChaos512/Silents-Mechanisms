@@ -1,0 +1,24 @@
+{
+    "conditions": [
+        {
+            "type": "silents_mechanisms:tag_exists",
+            "tag": "forge:ores/lead"
+        }
+    ],
+    "type": "silents_mechanisms:crushing",
+    "process_time": 400,
+    "ingredient": {
+        "tag": "forge:ores/lead"
+    },
+    "results": [
+        {
+            "item": "silents_mechanisms:lead_chunks",
+            "count": 2
+        },
+        {
+            "item": "minecraft:cobblestone",
+            "count": 1,
+            "chance": 0.1
+        }
+    ]
+}

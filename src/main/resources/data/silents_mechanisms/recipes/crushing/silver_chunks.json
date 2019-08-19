@@ -1,0 +1,24 @@
+{
+    "conditions": [
+        {
+            "type": "silents_mechanisms:tag_exists",
+            "tag": "forge:ores/silver"
+        }
+    ],
+    "type": "silents_mechanisms:crushing",
+    "process_time": 400,
+    "ingredient": {
+        "tag": "forge:ores/silver"
+    },
+    "results": [
+        {
+            "item": "silents_mechanisms:silver_chunks",
+            "count": 2
+        },
+        {
+            "item": "minecraft:cobblestone",
+            "count": 1,
+            "chance": 0.1
+        }
+    ]
+}
