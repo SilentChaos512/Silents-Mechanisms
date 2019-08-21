@@ -1,0 +1,32 @@
+{
+    "type": "silents_mechanisms:alloy_smelting",
+    "process_time": 200,
+    "ingredients": [
+        {
+            "values": [
+                {
+                    "tag": "forge:dusts/copper"
+                },
+                {
+                    "tag": "forge:ingots/copper"
+                }
+            ],
+            "count": 3
+        },
+        {
+            "values": [
+                {
+                    "tag": "forge:dusts/zinc"
+                },
+                {
+                    "tag": "forge:ingots/zinc"
+                }
+            ],
+            "count": 1
+        }
+    ],
+    "result": {
+        "item": "silents_mechanisms:brass_ingot",
+        "count": 4
+    }
+}

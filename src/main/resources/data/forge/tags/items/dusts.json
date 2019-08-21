@@ -1,6 +1,9 @@
 {
     "replace": false,
     "values": [
+        "#forge:dusts/bismuth",
+        "#forge:dusts/bismuth_brass",
+        "#forge:dusts/brass",
         "#forge:dusts/bronze",
         "#forge:dusts/copper",
         "#forge:dusts/gold",
@@ -10,6 +13,7 @@
         "#forge:dusts/nickel",
         "#forge:dusts/redstone_alloy",
         "#forge:dusts/silver",
-        "#forge:dusts/tin"
+        "#forge:dusts/tin",
+        "#forge:dusts/zinc"
     ]
 }

@@ -1,0 +1,43 @@
+{
+    "type": "silents_mechanisms:alloy_smelting",
+    "process_time": 200,
+    "ingredients": [
+        {
+            "values": [
+                {
+                    "tag": "forge:dusts/copper"
+                },
+                {
+                    "tag": "forge:ingots/copper"
+                }
+            ],
+            "count": 2
+        },
+        {
+            "values": [
+                {
+                    "tag": "forge:dusts/zinc"
+                },
+                {
+                    "tag": "forge:ingots/zinc"
+                }
+            ],
+            "count": 1
+        },
+        {
+            "values": [
+                {
+                    "tag": "forge:dusts/bismuth"
+                },
+                {
+                    "tag": "forge:ingots/bismuth"
+                }
+            ],
+            "count": 1
+        }
+    ],
+    "result": {
+        "item": "silents_mechanisms:bismuth_brass_ingot",
+        "count": 4
+    }
+}

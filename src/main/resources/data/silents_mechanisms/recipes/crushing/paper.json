@@ -11,6 +11,11 @@
             "chance": 0.75
         },
         {
+            "item": "minecraft:paper",
+            "count": 1,
+            "chance": 0.25
+        },
+        {
             "item": "minecraft:stick",
             "count": 1,
             "chance": 0.25
