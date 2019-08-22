@@ -2,6 +2,7 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/silents-mechanisms",
     "changelog": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.14/CHANGELOG.md",
     "1.14.4": {
+        "0.4.0": "Add metal ores and blocks, with world generation and config settings",
         "0.3.5": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.14/CHANGELOG.md",
         "0.3.4": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.14/CHANGELOG.md",
         "0.3.3": "Fix server crash (#1)",
@@ -13,7 +14,7 @@
         "0.1.0": "See changelog on GitHub"
     },
     "promos": {
-        "1.14.4-latest": "0.3.5",
-        "1.14.4-recommended": "0.3.5"
+        "1.14.4-latest": "0.4.0",
+        "1.14.4-recommended": "0.4.0"
     }
 }

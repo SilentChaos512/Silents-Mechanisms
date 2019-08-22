@@ -3,9 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.4.0] - 2019-08-22
+- Big thanks to EnbyChu for making all the textures for this update!
+- This is a very large update (over 400 JSON files) because of the addition of ores. Expect recipes to be changes to use the new metals. 
 ### Added
-- Zinc, bismuth, brass, and bismuth brass
+- Metal ores (with configs, including a convenient "master switch" to disable them all at once)
+- Metal blocks and nuggets
+- Zinc, bismuth, brass, bismuth brass, aluminum (bauxite), and uranium
+### Changed
+- Machine textures redone
 
 ## [0.3.5] - 2019-08-19
 ### Added

@@ -1,6 +1,7 @@
 {
     "replace": false,
     "values": [
+        "#forge:ingots/aluminum",
         "#forge:ingots/bismuth",
         "#forge:ingots/bismuth_brass",
         "#forge:ingots/brass",
@@ -13,7 +14,9 @@
         "#forge:ingots/redstone_alloy",
         "#forge:ingots/refined_iron",
         "#forge:ingots/silver",
+        "#forge:ingots/steel",
         "#forge:ingots/tin",
+        "#forge:ingots/uranium",
         "#forge:ingots/zinc"
     ]
 }

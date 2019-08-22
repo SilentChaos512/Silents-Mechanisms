@@ -75,11 +75,11 @@ public class AlloySmeltingRecipeCategoryJei implements IRecipeCategory<AlloySmel
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, AlloySmeltingRecipe recipe, IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-        itemStacks.init(0, true, 17 - GUI_START_X, 34 - GUI_START_Y);
-        itemStacks.init(1, true, 35 - GUI_START_X, 34 - GUI_START_Y);
-        itemStacks.init(2, true, 53 - GUI_START_X, 34 - GUI_START_Y);
-        itemStacks.init(3, true, 71 - GUI_START_X, 34 - GUI_START_Y);
-        itemStacks.init(4, false, 126 - GUI_START_X, 34 - GUI_START_Y);
+        itemStacks.init(0, true, 16 - GUI_START_X, 34 - GUI_START_Y);
+        itemStacks.init(1, true, 34 - GUI_START_X, 34 - GUI_START_Y);
+        itemStacks.init(2, true, 52 - GUI_START_X, 34 - GUI_START_Y);
+        itemStacks.init(3, true, 70 - GUI_START_X, 34 - GUI_START_Y);
+        itemStacks.init(4, false, 125 - GUI_START_X, 34 - GUI_START_Y);
 
         int i = 0;
         for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredientMap().entrySet()) {

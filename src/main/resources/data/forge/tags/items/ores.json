@@ -1,0 +1,14 @@
+{
+    "replace": false,
+    "values": [
+        "#forge:ores/aluminum",
+        "#forge:ores/bismuth",
+        "#forge:ores/copper",
+        "#forge:ores/lead",
+        "#forge:ores/nickel",
+        "#forge:ores/silver",
+        "#forge:ores/tin",
+        "#forge:ores/uranium",
+        "#forge:ores/zinc"
+    ]
+}

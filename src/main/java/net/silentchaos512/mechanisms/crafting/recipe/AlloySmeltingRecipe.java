@@ -14,7 +14,7 @@ import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.mechanisms.util.Constants;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AlloySmeltingRecipe implements IRecipe<IInventory> {
@@ -28,7 +28,7 @@ public class AlloySmeltingRecipe implements IRecipe<IInventory> {
 
     private final ResourceLocation recipeId;
     private int processTime;
-    private final Map<Ingredient, Integer> ingredients = new HashMap<>();
+    private final Map<Ingredient, Integer> ingredients = new LinkedHashMap<>();
     private ItemStack result;
 
     public AlloySmeltingRecipe(ResourceLocation recipeId) {

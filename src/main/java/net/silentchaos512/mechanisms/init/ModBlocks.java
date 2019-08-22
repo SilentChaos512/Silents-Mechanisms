@@ -1,10 +1,12 @@
 package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
@@ -19,6 +21,7 @@ import net.silentchaos512.mechanisms.block.wire.WireBlock;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public final class ModBlocks {
@@ -34,12 +37,16 @@ public final class ModBlocks {
     private ModBlocks() {}
 
     public static void registerAll(RegistryEvent.Register<Block> event) {
+        Arrays.stream(Ores.values()).forEach(ore -> register(ore.getName() + "_ore", ore.getBlock()));
+        Arrays.stream(Metals.values()).forEach(metal -> register(metal.getName() + "_block", metal.getBlock()));
+
         DRYING_RACKS.add(register("oak_drying_rack", new DryingRackBlock()));
         DRYING_RACKS.add(register("birch_drying_rack", new DryingRackBlock()));
         DRYING_RACKS.add(register("spruce_drying_rack", new DryingRackBlock()));
         DRYING_RACKS.add(register("jungle_drying_rack", new DryingRackBlock()));
         DRYING_RACKS.add(register("dark_oak_drying_rack", new DryingRackBlock()));
         DRYING_RACKS.add(register("acacia_drying_rack", new DryingRackBlock()));
+
         compressor = register("compressor", new CompressorBlock());
         crusher = register("crusher", new CrusherBlock());
         electricFurnace = register("electric_furnace", new ElectricFurnaceBlock());
@@ -64,5 +71,13 @@ public final class ModBlocks {
         }
 
         return block;
+    }
+
+    private static Block createMetalBlock() {
+        return new Block(Block.Properties.create(Material.IRON)
+                .harvestTool(ToolType.PICKAXE)
+                .hardnessAndResistance(4, 20)
+                .sound(SoundType.METAL)
+        );
     }
 }

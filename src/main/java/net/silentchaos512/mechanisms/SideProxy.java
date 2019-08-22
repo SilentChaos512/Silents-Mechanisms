@@ -6,10 +6,13 @@ import net.minecraft.item.Item;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.silentchaos512.mechanisms.config.Config;
 import net.silentchaos512.mechanisms.init.*;
+import net.silentchaos512.mechanisms.world.SMWorldFeatures;
 
 class SideProxy implements IProxy {
     private MinecraftServer server = null;
@@ -29,10 +32,13 @@ class SideProxy implements IProxy {
         // Other events
         MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
 
+        Config.init();
+
         ModRecipes.init();
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
+        DeferredWorkQueue.runLater(SMWorldFeatures::addFeaturesToBiomes);
     }
 
     private void imcEnqueue(InterModEnqueueEvent event) {
