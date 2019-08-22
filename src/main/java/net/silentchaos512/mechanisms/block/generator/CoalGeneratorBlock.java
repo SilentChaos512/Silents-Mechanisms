@@ -1,6 +1,5 @@
 package net.silentchaos512.mechanisms.block.generator;
 
-import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -14,11 +13,12 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.silentchaos512.mechanisms.block.AbstractMachineBlock;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class CoalGeneratorBlock extends AbstractFurnaceBlock {
+public class CoalGeneratorBlock extends AbstractMachineBlock {
     public CoalGeneratorBlock() {
         super(Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
     }

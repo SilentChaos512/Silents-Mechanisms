@@ -21,7 +21,7 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class BatteryBoxBlock extends ContainerBlock {
+public class BatteryBoxBlock extends Block {
     public static final IntegerProperty BATTERIES = IntegerProperty.create("batteries", 0, 6);
 
     private static final VoxelShape SHAPE = Block.makeCuboidShape(0, 0, 0, 16, 14, 16);
@@ -31,9 +31,14 @@ public class BatteryBoxBlock extends ContainerBlock {
         this.setDefaultState(this.getStateContainer().getBaseState().with(BATTERIES, 0));
     }
 
+    @Override
+    public boolean hasTileEntity(BlockState state) {
+        return true;
+    }
+
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new BatteryBoxTileEntity();
     }
 
