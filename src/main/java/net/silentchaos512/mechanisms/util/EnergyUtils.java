@@ -8,6 +8,8 @@ import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.silentchaos512.mechanisms.block.IEnergyHandler;
 
+import javax.annotation.Nullable;
+
 public final class EnergyUtils {
     private EnergyUtils() {throw new IllegalAccessError("Utility class");}
 
@@ -28,13 +30,22 @@ public final class EnergyUtils {
                 int toSend = energy.extractEnergy(maxSend, true);
                 int sent = other.receiveEnergy(toSend, false);
                 energy.extractEnergy(sent, false);
-//                if (sent > 0) {
-//                    SilentMechanisms.LOGGER.debug("send {} from {} -> {} (e={}, o={})",
-//                            sent, world.getTileEntity(pos), tileEntity, energy.getClass(), other.getClass());
-//                    SilentMechanisms.LOGGER.debug("{}, {}",
-//                            energy.getEnergyStored(), other.getEnergyStored());
-//                }
             });
         }
+    }
+
+    /**
+     * Gets the energy capability for the block at the given position. If it does not have an energy
+     * capability, or the block is not a tile entity, this returns null.
+     *
+     * @param world The world
+     * @param pos   The position to check
+     * @return The energy capability, or null if not present
+     */
+    @Nullable
+    public static IEnergyStorage getEnergy(IBlockReader world, BlockPos pos) {
+        TileEntity tileEntity = world.getTileEntity(pos);
+        //noinspection ConstantConditions
+        return tileEntity != null ? tileEntity.getCapability(CapabilityEnergy.ENERGY).orElse(null) : null;
     }
 }

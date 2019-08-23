@@ -1,25 +1,59 @@
 {
     "multipart": [
-        {
-            "apply": { "model": "silents_mechanisms:block/wire" }
+        {   "apply": { "model": "silents_mechanisms:block/wire" }},
+        {   "when": { "north": "in" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_in"}
         },
-        {   "when": { "north": true },
-            "apply": { "model": "silents_mechanisms:block/wire_side" }
+        {   "when": { "east": "in" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_in", "y": 90 }
         },
-        {   "when": { "east": true },
-            "apply": { "model": "silents_mechanisms:block/wire_side", "y": 90, "uvlock": true }
+        {   "when": { "south": "in" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_in", "y": 180 }
         },
-        {   "when": { "south": true },
-            "apply": { "model": "silents_mechanisms:block/wire_side", "y": 180, "uvlock": true }
+        {   "when": { "west": "in" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_in", "y": 270 }
         },
-        {   "when": { "west": true },
-            "apply": { "model": "silents_mechanisms:block/wire_side", "y": 270, "uvlock": true }
+        {   "when": { "up": "in" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_in", "x": 270 }
         },
-        {   "when": { "up": true },
-            "apply": { "model": "silents_mechanisms:block/wire_side", "x": 270, "uvlock": true }
+        {   "when": { "down": "out" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_in", "x": 90 }
         },
-        {   "when": { "down": true },
-            "apply": { "model": "silents_mechanisms:block/wire_side", "x": 90, "uvlock": true }
+        {   "when": { "north": "out" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_out"}
+        },
+        {   "when": { "east": "out" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_out", "y": 90 }
+        },
+        {   "when": { "south": "out" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_out", "y": 180 }
+        },
+        {   "when": { "west": "out" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_out", "y": 270 }
+        },
+        {   "when": { "up": "out" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_out", "x": 270 }
+        },
+        {   "when": { "down": "out" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_out", "x": 90 }
+        },
+        {   "when": { "north": "both" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_both"}
+        },
+        {   "when": { "east": "both" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_both", "y": 90 }
+        },
+        {   "when": { "south": "both" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_both", "y": 180 }
+        },
+        {   "when": { "west": "both" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_both", "y": 270 }
+        },
+        {   "when": { "up": "both" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_both", "x": 270 }
+        },
+        {   "when": { "down": "both" },
+            "apply": { "model": "silents_mechanisms:block/wire_side_both", "x": 90 }
         }
     ]
 }

@@ -9,6 +9,7 @@ import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.item.BatteryItem;
 import net.silentchaos512.mechanisms.item.CraftingItems;
 import net.silentchaos512.mechanisms.item.DebugItem;
+import net.silentchaos512.mechanisms.item.WrenchItem;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -28,6 +29,7 @@ public final class ModItems {
 
         Arrays.stream(CraftingItems.values()).forEach(c -> register(c.getName(), c.asItem()));
 
+        register("wrench", new WrenchItem());
         register("debug_item", new DebugItem());
     }
 
