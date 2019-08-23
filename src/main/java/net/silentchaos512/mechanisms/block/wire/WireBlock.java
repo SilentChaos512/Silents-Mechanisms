@@ -78,6 +78,7 @@ public class WireBlock extends SixWayBlock implements IWrenchable {
             if (!(other instanceof WireTileEntity)) {
                 BlockState state1 = cycleProperty(state, FACING_TO_PROPERTY_MAP.get(side));
                 world.setBlockState(pos, state1, 18);
+                WireNetworkManager.invalidateNetwork(world, pos);
                 return ActionResultType.SUCCESS;
             }
         }
@@ -146,6 +147,9 @@ public class WireBlock extends SixWayBlock implements IWrenchable {
     @SuppressWarnings("deprecation")
     @Override
     public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (worldIn.getTileEntity(facingPos) instanceof WireTileEntity)
+            WireNetworkManager.invalidateNetwork(worldIn, currentPos);
+
         EnumProperty<ConnectionType> property = FACING_TO_PROPERTY_MAP.get(facing);
         ConnectionType current = stateIn.get(property);
         return stateIn.with(property, createConnection(worldIn, facingPos, current));

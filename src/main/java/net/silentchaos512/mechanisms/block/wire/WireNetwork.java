@@ -22,6 +22,10 @@ public class WireNetwork implements IEnergyStorage {
         this.world = world;
     }
 
+    public boolean contains(IBlockReader world, BlockPos pos) {
+        return this.world == world && connections.containsKey(pos);
+    }
+
     @Override
     public int receiveEnergy(int maxReceive, boolean simulate) {
         int energySent = 0;

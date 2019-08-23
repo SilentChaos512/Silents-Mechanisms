@@ -6,7 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Wrench item. Rotates some blocks and sets the connection type of wires
-- Wires are now implemented
+- Wires are now implemented. They still require some work, but are usable.
+### Changed
+- Updated Polish translation (Dolores_McDoodle)
 ### Fixed
 - Blocks losing their inventory when broken [#4]
 

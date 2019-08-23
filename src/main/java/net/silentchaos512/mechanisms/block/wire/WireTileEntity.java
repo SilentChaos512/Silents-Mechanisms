@@ -16,16 +16,31 @@ public class WireTileEntity extends TileEntity implements ITickableTileEntity {
         super(ModTileEntities.wire);
     }
 
+    public String getWireNetworkData() {
+        if (world == null) return "world is null";
+
+        WireNetwork net = WireNetworkManager.get(world, pos);
+        return net != null ? net.toString() : "null";
+    }
+
     @Override
     public void tick() {
+    }
+
+    @Override
+    public void remove() {
+        if (world != null) {
+            WireNetworkManager.invalidateNetwork(world, pos);
+        }
+        super.remove();
     }
 
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        // TODO: Probably need to cache the wire network, instead of constructing them constantly
-        if (this.world != null && !this.removed && cap == CapabilityEnergy.ENERGY)
-            return LazyOptional.of(() -> WireNetwork.buildNetwork(this.world, this.pos)).cast();
+        if (world != null && !removed && cap == CapabilityEnergy.ENERGY) {
+            return WireNetworkManager.getLazy(world, pos).cast();
+        }
         return LazyOptional.empty();
     }
 }
