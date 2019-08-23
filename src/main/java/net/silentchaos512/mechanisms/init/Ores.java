@@ -2,9 +2,12 @@ package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.block.Block;
 import net.silentchaos512.mechanisms.block.OreBlockSM;
+import net.silentchaos512.mechanisms.config.Config;
+import net.silentchaos512.mechanisms.config.OreConfig;
 import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
+import java.util.Optional;
 
 /**
  * Handles ore blocks and default ore configs
@@ -38,6 +41,10 @@ public enum Ores {
 
     public DefaultOreConfigs getDefaultOreConfigs() {
         return defaultOreConfigs;
+    }
+
+    public Optional<OreConfig> getConfig() {
+        return Config.COMMON.getOreConfig(this);
     }
 
     public static class DefaultOreConfigs {
