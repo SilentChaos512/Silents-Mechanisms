@@ -125,7 +125,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
             } else {
                 sendUpdate(getActiveState(world.getBlockState(pos)));
             }
-        } else if (recipe == null) {
+        } else {
             setInactiveState();
         }
     }

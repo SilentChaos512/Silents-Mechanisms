@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Machine frames
 - Electrum
+### Changed
+- Machines are now set to their inactive state (and lose progress) when they run out of power
 
 ## [0.4.1] - 2019-08-23
 ### Added
