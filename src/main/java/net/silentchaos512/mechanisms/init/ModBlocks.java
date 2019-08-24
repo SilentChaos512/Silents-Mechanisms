@@ -38,7 +38,7 @@ public final class ModBlocks {
 
     public static void registerAll(RegistryEvent.Register<Block> event) {
         Arrays.stream(Ores.values()).forEach(ore -> register(ore.getName() + "_ore", ore.getBlock()));
-        Arrays.stream(Metals.values()).forEach(metal -> register(metal.getName() + "_block", metal.getBlock()));
+        Arrays.stream(Metals.values()).forEach(metal -> register(metal.getName() + "_block", metal.asBlock()));
 
         DRYING_RACKS.add(register("oak_drying_rack", new DryingRackBlock()));
         DRYING_RACKS.add(register("birch_drying_rack", new DryingRackBlock()));

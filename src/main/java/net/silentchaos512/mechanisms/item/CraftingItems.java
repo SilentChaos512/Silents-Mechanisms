@@ -13,6 +13,7 @@ import javax.annotation.Nullable;
 public enum CraftingItems implements IItemProvider {
     // Crafting items
     CIRCUIT_BOARD,
+    HEATING_ELEMENT,
     // Mod metals
     REDSTONE_ALLOY_INGOT,
     REDSTONE_ALLOY_NUGGET,
@@ -67,6 +68,15 @@ public enum CraftingItems implements IItemProvider {
     BRASS_DUST,
     BRASS_INGOT,
     BRASS_NUGGET,
+    INVAR_DUST,
+    INVAR_INGOT,
+    INVAR_NUGGET,
+    ELECTRUM_DUST,
+    ELECTRUM_INGOT,
+    ELECTRUM_NUGGET,
+    STEEL_DUST,
+    STEEL_INGOT,
+    STEEL_NUGGET,
     BISMUTH_BRASS_DUST,
     BISMUTH_BRASS_INGOT,
     BISMUTH_BRASS_NUGGET,
@@ -76,11 +86,6 @@ public enum CraftingItems implements IItemProvider {
     BISMUTH_STEEL_DUST,
     BISMUTH_STEEL_INGOT,
     BISMUTH_STEEL_NUGGET,
-    INVAR_DUST,
-    INVAR_INGOT,
-    INVAR_NUGGET,
-    STEEL_INGOT,
-    STEEL_NUGGET,
     // Others
     ZOMBIE_LEATHER,
     BEEF_JERKY(Foods.COOKED_BEEF),

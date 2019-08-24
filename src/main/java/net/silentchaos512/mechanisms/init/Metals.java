@@ -1,6 +1,7 @@
 package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.block.Block;
+import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.mechanisms.block.MetalBlock;
 import net.silentchaos512.utils.Lazy;
 
@@ -10,7 +11,7 @@ import java.util.Locale;
  * Holds metal storage blocks. Could possibly store items like ingots and nuggets, but not really
  * necessary right now.
  */
-public enum Metals {
+public enum Metals implements IBlockProvider {
     COPPER,
     TIN,
     SILVER,
@@ -20,11 +21,14 @@ public enum Metals {
     BISMUTH,
     ALUMINUM,
     URANIUM,
-    BISMUTH_BRASS,
-    BRASS,
     BRONZE,
+    BRASS,
     INVAR,
+    ELECTRUM,
     STEEL,
+    BISMUTH_BRASS,
+    ALUMINUM_STEEL,
+    BISMUTH_STEEL,
     ;
 
     private final Lazy<Block> block;
@@ -37,7 +41,8 @@ public enum Metals {
         return name().toLowerCase(Locale.ROOT);
     }
 
-    public Block getBlock() {
+    @Override
+    public Block asBlock() {
         return block.get();
     }
 }
