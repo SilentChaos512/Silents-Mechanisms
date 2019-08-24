@@ -1,5 +1,6 @@
 {
     "block.silents_mechanisms.acacia_drying_rack": "Acacia Drying Rack",
+    "block.silents_mechanisms.alloy_machine_frame": "Alloy Machine Frame",
     "block.silents_mechanisms.alloy_smelter": "Alloy Smelter",
     "block.silents_mechanisms.aluminum_block": "Block of Aluminum",
     "block.silents_mechanisms.aluminum_steel_block": "Block of Aluminum Steel",
@@ -24,7 +25,6 @@
     "block.silents_mechanisms.jungle_drying_rack": "Jungle Drying Rack",
     "block.silents_mechanisms.lead_block": "Block of Lead",
     "block.silents_mechanisms.lead_ore": "Lead Ore",
-    "block.silents_mechanisms.machine_frame": "Machine Frame",
     "block.silents_mechanisms.nickel_block": "Block of Nickel",
     "block.silents_mechanisms.nickel_ore": "Nickel Ore",
     "block.silents_mechanisms.oak_drying_rack": "Oak Drying Rack",
@@ -32,6 +32,7 @@
     "block.silents_mechanisms.silver_ore": "Silver Ore",
     "block.silents_mechanisms.spruce_drying_rack": "Spruce Drying Rack",
     "block.silents_mechanisms.steel_block": "Block of Steel",
+    "block.silents_mechanisms.stone_machine_frame": "Stone Machine Frame",
     "block.silents_mechanisms.tin_block": "Block of Tin",
     "block.silents_mechanisms.tin_ore": "Tin Ore",
     "block.silents_mechanisms.uranium_block": "Block of Uranium",

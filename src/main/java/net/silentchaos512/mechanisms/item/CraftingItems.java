@@ -14,6 +14,7 @@ public enum CraftingItems implements IItemProvider {
     // Crafting items
     CIRCUIT_BOARD,
     HEATING_ELEMENT,
+    POWER_SUPPLY_UNIT,
     // Mod metals
     REDSTONE_ALLOY_INGOT,
     REDSTONE_ALLOY_NUGGET,

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "/#/",
+    "#s#",
+    "/#/"
+  ],
+  "key": {
+    "/": {
+      "item": "minecraft:smooth_stone"
+    },
+    "#": {
+      "item": "minecraft:glass"
+    },
+    "s": {
+      "tag": "forge:ingots/iron"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:stone_machine_frame"
+  }
+}

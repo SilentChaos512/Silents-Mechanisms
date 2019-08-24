@@ -1,6 +1,7 @@
 package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.GlassBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
@@ -46,6 +47,9 @@ public final class ModBlocks {
         DRYING_RACKS.add(register("jungle_drying_rack", new DryingRackBlock()));
         DRYING_RACKS.add(register("dark_oak_drying_rack", new DryingRackBlock()));
         DRYING_RACKS.add(register("acacia_drying_rack", new DryingRackBlock()));
+
+        register("stone_machine_frame", new GlassBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3, 10).sound(SoundType.STONE)));
+        register("alloy_machine_frame", new GlassBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3, 10).sound(SoundType.METAL)));
 
         compressor = register("compressor", new CompressorBlock());
         crusher = register("crusher", new CrusherBlock());

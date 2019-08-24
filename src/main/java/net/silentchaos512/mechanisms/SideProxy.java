@@ -10,9 +10,13 @@ import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.silentchaos512.lib.util.generator.ModelGenerator;
 import net.silentchaos512.mechanisms.config.Config;
 import net.silentchaos512.mechanisms.init.*;
+import net.silentchaos512.mechanisms.item.CraftingItems;
 import net.silentchaos512.mechanisms.world.SMWorldFeatures;
+
+import java.util.Arrays;
 
 class SideProxy implements IProxy {
     private MinecraftServer server = null;
@@ -39,6 +43,11 @@ class SideProxy implements IProxy {
 
     private void commonSetup(FMLCommonSetupEvent event) {
         DeferredWorkQueue.runLater(SMWorldFeatures::addFeaturesToBiomes);
+
+        if (SilentMechanisms.isDevBuild()) {
+            Arrays.stream(CraftingItems.values()).forEach(c -> ModelGenerator.create(c.asItem()));
+            Arrays.stream(Metals.values()).forEach(m -> ModelGenerator.create(m.asBlock()));
+        }
     }
 
     private void imcEnqueue(InterModEnqueueEvent event) {
