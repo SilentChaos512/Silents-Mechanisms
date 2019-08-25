@@ -4,19 +4,24 @@ import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
 import net.minecraftforge.items.ItemHandlerHelper;
-import net.silentchaos512.lib.tile.SyncVariable;
+import net.silentchaos512.mechanisms.api.RedstoneMode;
+import net.silentchaos512.utils.EnumUtils;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 
 public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends AbstractEnergyInventoryTileEntity {
-    @SyncVariable(name = "Progress")
-    protected int progress;
-    @SyncVariable(name = "ProcessTime")
+    public static final int FIELDS_COUNT = 5;
+
+    protected float progress;
     protected int processTime;
+    protected RedstoneMode redstoneMode = RedstoneMode.IGNORED;
 
     protected final IIntArray fields = new IIntArray() {
         @Override
@@ -30,9 +35,11 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
                     // Energy upper bytes
                     return (AbstractMachineTileEntity.this.getEnergyStored() >> 16) & 0xFFFF;
                 case 2:
-                    return AbstractMachineTileEntity.this.progress;
+                    return (int) AbstractMachineTileEntity.this.progress;
                 case 3:
                     return AbstractMachineTileEntity.this.processTime;
+                case 4:
+                    return AbstractMachineTileEntity.this.redstoneMode.ordinal();
                 default:
                     return 0;
             }
@@ -50,12 +57,15 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
                 case 3:
                     AbstractMachineTileEntity.this.processTime = value;
                     break;
+                case 4:
+                    AbstractMachineTileEntity.this.redstoneMode = EnumUtils.byOrdinal(value, RedstoneMode.IGNORED);
+                    break;
             }
         }
 
         @Override
         public int size() {
-            return 4;
+            return FIELDS_COUNT;
         }
     };
 
@@ -73,14 +83,65 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
         return currentState.with(AbstractFurnaceBlock.LIT, false);
     }
 
+    /**
+     * Indexes of output slots. Recipe outputs will be merged into these slots.
+     *
+     * @return The output slots
+     */
     protected abstract int[] getOutputSlots();
 
+    /**
+     * Get the recipe that matches the current inventory.
+     *
+     * @return The recipe to process, or null if there is no matching recipe
+     */
     @Nullable
     protected abstract R getRecipe();
 
+    /**
+     * Get the base time (in ticks) to process the given recipe.
+     *
+     * @param recipe The recipe
+     * @return Process time in ticks
+     */
     protected abstract int getProcessTime(R recipe);
 
+    /**
+     * Get the processing speed. This is added to processing progress every tick. A speed of 1 would
+     * process a 200 tick recipe in 200 ticks, speed 2 would be 100 ticks.
+     *
+     * @return The processing speed
+     */
+    protected float getProcessSpeed() {
+        return 1f;
+    }
+
+    /**
+     * Get the results of the recipe.
+     *
+     * @param recipe The recipe
+     * @return The results of the processing operation
+     */
     protected abstract Collection<ItemStack> getProcessResults(R recipe);
+
+    /**
+     * Get all possible results of processing this recipe. Override if recipes can contain a
+     * variable number of outputs.
+     *
+     * @param recipe The recipe
+     * @return All possible results of the processing operation
+     */
+    protected Collection<ItemStack> getPossibleProcessResult(R recipe) {
+        return getProcessResults(recipe);
+    }
+
+    public RedstoneMode getRedstoneMode() {
+        return redstoneMode;
+    }
+
+    public void setRedstoneMode(RedstoneMode redstoneMode) {
+        this.redstoneMode = redstoneMode;
+    }
 
     protected void sendUpdate(BlockState newState) {
         if (world == null) return;
@@ -104,10 +165,10 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
         if (world == null || world.isRemote) return;
 
         R recipe = getRecipe();
-        if (recipe != null && getEnergyStored() >= getEnergyUsedPerTick() && hasRoomInOutput(getProcessResults(recipe))) {
+        if (recipe != null && canMachineRun(recipe)) {
             // Process
             processTime = getProcessTime(recipe);
-            ++progress;
+            progress += getProcessSpeed();
             energy.consumeEnergy(getEnergyUsedPerTick());
 
             if (progress >= processTime) {
@@ -128,6 +189,13 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
         } else {
             setInactiveState();
         }
+    }
+
+    private boolean canMachineRun(R recipe) {
+        return world != null
+                && getEnergyStored() >= getEnergyUsedPerTick()
+                && hasRoomInOutput(getPossibleProcessResult(recipe))
+                && redstoneMode.shouldRun(world.getRedstonePowerFromNeighbors(pos) > 0);
     }
 
     private boolean hasRoomInOutput(Iterable<ItemStack> results) {
@@ -177,5 +245,44 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     @Override
     public IIntArray getFields() {
         return fields;
+    }
+
+    @Override
+    public void read(CompoundNBT tags) {
+        super.read(tags);
+        readData(tags);
+    }
+
+    private void readData(CompoundNBT tags) {
+        this.progress = tags.getInt("Progress");
+        this.processTime = tags.getInt("ProcessTime");
+        this.redstoneMode = EnumUtils.byOrdinal(tags.getByte("RedstoneMode"), RedstoneMode.IGNORED);
+    }
+
+    @Override
+    public CompoundNBT write(CompoundNBT tags) {
+        super.write(tags);
+        writeData(tags);
+        return tags;
+    }
+
+    private void writeData(CompoundNBT tags) {
+        tags.putInt("Progress", (int) this.progress);
+        tags.putInt("ProcessTime", this.processTime);
+        tags.putByte("RedstoneMode", (byte) this.redstoneMode.ordinal());
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+        super.onDataPacket(net, packet);
+        CompoundNBT tags = packet.getNbtCompound();
+        readData(tags);
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tags = super.getUpdateTag();
+        writeData(tags);
+        return tags;
     }
 }

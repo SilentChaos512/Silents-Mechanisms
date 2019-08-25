@@ -14,6 +14,7 @@ import net.silentchaos512.lib.util.generator.ModelGenerator;
 import net.silentchaos512.mechanisms.config.Config;
 import net.silentchaos512.mechanisms.init.*;
 import net.silentchaos512.mechanisms.item.CraftingItems;
+import net.silentchaos512.mechanisms.network.Network;
 import net.silentchaos512.mechanisms.world.SMWorldFeatures;
 
 import java.util.Arrays;
@@ -37,6 +38,7 @@ class SideProxy implements IProxy {
         MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
 
         Config.init();
+        Network.init();
 
         ModRecipes.init();
     }

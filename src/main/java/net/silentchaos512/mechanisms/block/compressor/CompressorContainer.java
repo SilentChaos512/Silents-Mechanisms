@@ -9,11 +9,12 @@ import net.minecraft.util.IntArray;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.block.AbstractMachineContainer;
+import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class CompressorContainer extends AbstractMachineContainer<CompressorTileEntity> {
     public CompressorContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new CompressorTileEntity(), new IntArray(4));
+        this(id, playerInventory, new CompressorTileEntity(), new IntArray(AbstractMachineTileEntity.FIELDS_COUNT));
     }
 
     public CompressorContainer(int id, PlayerInventory playerInventory, CompressorTileEntity tileEntity, IIntArray fieldsIn) {

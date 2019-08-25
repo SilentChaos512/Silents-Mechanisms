@@ -2,6 +2,8 @@ package net.silentchaos512.mechanisms.block;
 
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.util.IIntArray;
+import net.silentchaos512.mechanisms.api.RedstoneMode;
+import net.silentchaos512.utils.EnumUtils;
 
 public abstract class AbstractMachineContainer<T extends AbstractMachineTileEntity<?>> extends AbstractEnergyStorageContainer<T> {
     protected AbstractMachineContainer(ContainerType<?> containerTypeIn, int id, T tileEntityIn, IIntArray fieldsIn) {
@@ -14,5 +16,13 @@ public abstract class AbstractMachineContainer<T extends AbstractMachineTileEnti
 
     public int getProcessTime() {
         return fields.get(3);
+    }
+
+    public RedstoneMode getRedstoneMode() {
+        return EnumUtils.byOrdinal(fields.get(4), RedstoneMode.IGNORED);
+    }
+
+    public void setRedstoneMode(RedstoneMode mode) {
+        fields.set(4, mode.ordinal());
     }
 }

@@ -2,9 +2,14 @@ package net.silentchaos512.mechanisms.block;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
+import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
+import net.silentchaos512.mechanisms.api.RedstoneMode;
+import net.silentchaos512.mechanisms.client.button.RedstoneModeButton;
+import net.silentchaos512.mechanisms.network.Network;
+import net.silentchaos512.mechanisms.network.SetRedstoneModePacket;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 public abstract class AbstractMachineScreen<C extends AbstractMachineContainer> extends ContainerScreen<C> {
@@ -17,6 +22,15 @@ public abstract class AbstractMachineScreen<C extends AbstractMachineContainer> 
     protected abstract int getProgressArrowPosX(int guiPosX);
 
     protected abstract int getProgressArrowPosY(int guiPosY);
+
+    @Override
+    protected void init() {
+        super.init();
+        this.addButton(new RedstoneModeButton(container, this.guiLeft - 16, this.guiTop, 16, 16, button -> {
+            RedstoneMode mode = ((RedstoneModeButton) button).getMode();
+            Network.channel.sendToServer(new SetRedstoneModePacket(container.tileEntity.getPos(), mode));
+        }));
+    }
 
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
@@ -53,6 +67,16 @@ public abstract class AbstractMachineScreen<C extends AbstractMachineContainer> 
         int energyBarHeight = 50 * container.getEnergyStored() / container.getTileEntity().getMaxEnergyStored();
         if (energyBarHeight > 0) {
             blit(xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
+        }
+    }
+
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        for (Widget widget : this.buttons) {
+            if (widget.isHovered() && widget instanceof RedstoneModeButton) {
+                RedstoneMode mode = ((RedstoneModeButton) widget).getMode();
+                renderTooltip(TextUtil.translate("misc", "redstoneMode", mode.name()).getFormattedText(), mouseX - guiLeft, mouseY - guiTop);
+            }
         }
     }
 }

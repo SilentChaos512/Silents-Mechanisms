@@ -8,13 +8,14 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.block.AbstractEnergyStorageContainer;
+import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class CoalGeneratorContainer extends AbstractEnergyStorageContainer {
     final CoalGeneratorTileEntity tileEntity;
 
     public CoalGeneratorContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new CoalGeneratorTileEntity(), new IntArray(4));
+        this(id, playerInventory, new CoalGeneratorTileEntity(), new IntArray(AbstractMachineTileEntity.FIELDS_COUNT));
     }
 
     public CoalGeneratorContainer(int id, PlayerInventory playerInventory, CoalGeneratorTileEntity tileEntity, IIntArray fieldsIn) {

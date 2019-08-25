@@ -62,6 +62,11 @@ public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe>
         return recipe.getResults(this);
     }
 
+    @Override
+    protected Collection<ItemStack> getPossibleProcessResult(CrushingRecipe recipe) {
+        return recipe.getPossibleResults(this);
+    }
+
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
     @Override
     public int[] getSlotsForFace(Direction side) {

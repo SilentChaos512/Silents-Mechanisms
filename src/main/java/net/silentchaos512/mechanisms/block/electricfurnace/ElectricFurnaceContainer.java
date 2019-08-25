@@ -9,11 +9,12 @@ import net.minecraft.util.IntArray;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.block.AbstractMachineContainer;
+import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class ElectricFurnaceContainer extends AbstractMachineContainer<ElectricFurnaceTileEntity> {
     public ElectricFurnaceContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new ElectricFurnaceTileEntity(), new IntArray(4));
+        this(id, playerInventory, new ElectricFurnaceTileEntity(), new IntArray(AbstractMachineTileEntity.FIELDS_COUNT));
     }
 
     public ElectricFurnaceContainer(int id, PlayerInventory playerInventory, ElectricFurnaceTileEntity tileEntity, IIntArray fieldsIn) {

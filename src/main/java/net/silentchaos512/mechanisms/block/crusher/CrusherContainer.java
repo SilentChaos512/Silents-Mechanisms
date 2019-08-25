@@ -9,11 +9,12 @@ import net.minecraft.util.IntArray;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.block.AbstractMachineContainer;
+import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class CrusherContainer extends AbstractMachineContainer<CrusherTileEntity> {
     public CrusherContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new CrusherTileEntity(), new IntArray(4));
+        this(id, playerInventory, new CrusherTileEntity(), new IntArray(AbstractMachineTileEntity.FIELDS_COUNT));
     }
 
     public CrusherContainer(int id, PlayerInventory playerInventory, CrusherTileEntity tileEntity, IIntArray fieldsIn) {

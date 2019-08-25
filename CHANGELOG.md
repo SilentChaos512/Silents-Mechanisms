@@ -3,12 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.4.2] - 2019-08-24
 ### Added
-- Machine frames
-- Electrum
+- Machines can now be controlled by redstone (defaults to ignore redstone). Does not work on generators yet, expect it next update.
+- Machine frames (no use yet), Electrum
 ### Changed
 - Machines are now set to their inactive state (and lose progress) when they run out of power
+### Fixed
+- Alloy smelter matching the wrong recipes
 
 ## [0.4.1] - 2019-08-23
 ### Added

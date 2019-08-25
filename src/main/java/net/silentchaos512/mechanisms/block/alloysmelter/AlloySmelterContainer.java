@@ -9,11 +9,12 @@ import net.minecraft.util.IntArray;
 import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.block.AbstractMachineContainer;
+import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class AlloySmelterContainer extends AbstractMachineContainer<AlloySmelterTileEntity> {
     public AlloySmelterContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new AlloySmelterTileEntity(), new IntArray(4));
+        this(id, playerInventory, new AlloySmelterTileEntity(), new IntArray(AbstractMachineTileEntity.FIELDS_COUNT));
     }
 
     protected AlloySmelterContainer(int id, PlayerInventory playerInventory, AlloySmelterTileEntity tileEntityIn, IIntArray fieldsIn) {
