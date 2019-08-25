@@ -56,6 +56,24 @@ public class AlloySmeltingRecipe implements IRecipe<IInventory> {
                 return false;
             }
         }
+
+        // Check for non-matching items
+        for (int i = 0; i < inv.getSizeInventory(); ++i) {
+            ItemStack stack = inv.getStackInSlot(i);
+            if (!stack.isEmpty()) {
+                boolean foundMatch = false;
+                for (Ingredient ingredient : ingredients.keySet()) {
+                    if (ingredient.test(stack)) {
+                        foundMatch = true;
+                        break;
+                    }
+                }
+                if (!foundMatch) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
