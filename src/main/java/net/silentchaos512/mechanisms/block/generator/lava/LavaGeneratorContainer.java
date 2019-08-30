@@ -14,7 +14,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseContainer;
-import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
+import net.silentchaos512.mechanisms.block.generator.AbstractFluidFuelGeneratorTileEntity;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class LavaGeneratorContainer extends AbstractMachineBaseContainer<LavaGeneratorTileEntity> {
@@ -22,7 +22,7 @@ public class LavaGeneratorContainer extends AbstractMachineBaseContainer<LavaGen
     private final FluidTank tank = new FluidTank(4000);
 
     public LavaGeneratorContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new LavaGeneratorTileEntity(), new IntArray(AbstractMachineTileEntity.FIELDS_COUNT));
+        this(id, playerInventory, new LavaGeneratorTileEntity(), new IntArray(AbstractFluidFuelGeneratorTileEntity.FIELDS_COUNT));
     }
 
     public LavaGeneratorContainer(int id, PlayerInventory playerInventory, LavaGeneratorTileEntity tileEntity, IIntArray fieldsIn) {
@@ -40,7 +40,7 @@ public class LavaGeneratorContainer extends AbstractMachineBaseContainer<LavaGen
     }
 
     public int getFluidAmount() {
-        return fields.get(4);
+        return fields.get(5);
     }
 
     public IFluidHandler getTank() {

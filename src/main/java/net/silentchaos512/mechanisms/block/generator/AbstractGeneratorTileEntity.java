@@ -1,11 +1,13 @@
 package net.silentchaos512.mechanisms.block.generator;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
+import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
+import net.silentchaos512.utils.EnumUtils;
 
 public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTileEntity {
-
     protected int burnTime;
     protected int totalBurnTime;
 
@@ -21,8 +23,10 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
                     // Energy upper bytes
                     return (AbstractGeneratorTileEntity.this.getEnergyStored() >> 16) & 0xFFFF;
                 case 2:
-                    return burnTime;
+                    return redstoneMode.ordinal();
                 case 3:
+                    return burnTime;
+                case 4:
                     return totalBurnTime;
                 default:
                     return 0;
@@ -32,13 +36,13 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
         @Override
         public void set(int index, int value) {
             switch (index) {
-                case 0:
-                    setEnergyStoredDirectly(value);
-                    break;
                 case 2:
-                    burnTime = value;
+                    redstoneMode = EnumUtils.byOrdinal(value, RedstoneMode.IGNORED);
                     break;
                 case 3:
+                    burnTime = value;
+                    break;
+                case 4:
                     totalBurnTime = value;
                     break;
             }
@@ -46,7 +50,7 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
 
         @Override
         public int size() {
-            return 4;
+            return 5;
         }
     };
 
@@ -54,50 +58,47 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
         super(typeIn, inventorySize, maxEnergy, maxReceive, maxExtract);
     }
 
+    protected abstract boolean hasFuel();
+
+    protected abstract void consumeFuel();
+
+    protected abstract int getEnergyCreatedPerTick();
+
+    protected abstract BlockState getActiveState();
+
+    protected abstract BlockState getInactiveState();
+
     @Override
     public void tick() {
-//        if (world == null || world.isRemote) return;
-//
-//        if (isBurning()) {
-//            // Currently burning fuel
-//            --burnTime;
-//            energy.createEnergy(ENERGY_CREATED_PER_TICK);
-//
-//            sendUpdate();
-//        } else {
-//            ItemStack fuel = getStackInSlot(0);
-//            if (getEnergyStored() < getMaxEnergyStored() && isFuel(fuel)) {
-//                // Not burning, and not at max energy
-//                burnTime = getBurnTime(fuel);
-//                if (isBurning()) {
-//                    totalBurnTime = burnTime;
-//
-//                    // Consume fuel
-//                    if (fuel.hasContainerItem()) {
-//                        setInventorySlotContents(0, fuel.getContainerItem());
-//                    } else if (!fuel.isEmpty()) {
-//                        fuel.shrink(1);
-//                        if (fuel.isEmpty()) {
-//                            setInventorySlotContents(0, fuel.getContainerItem());
-//                        }
-//                    }
-//                }
-//
-//                sendUpdate();
-//            }
-//        }
-//
-//        super.tick();
+        if (canRun()) {
+            if (burnTime <= 0 && hasFuel()) {
+                consumeFuel();
+                sendUpdate(getActiveState(), true);
+            }
+
+            if (burnTime > 0) {
+                --burnTime;
+                energy.createEnergy(getEnergyCreatedPerTick());
+            } else {
+                sendUpdate(getInactiveState(), false);
+            }
+        } else if (burnTime <= 0) {
+            sendUpdate(getInactiveState(), false);
+        }
     }
 
-    private void sendUpdate() {
-//        if (world != null) {
-//            BlockState oldState = world.getBlockState(pos);
-//            BlockState newState = oldState.with(AbstractFurnaceBlock.LIT, isBurning());
-//            if (oldState != newState) {
-//                world.setBlockState(pos, newState, 3);
-//                world.notifyBlockUpdate(pos, oldState, newState, 3);
-//            }
-//        }
+    protected boolean canRun() {
+        return world != null
+                && redstoneMode.shouldRun(world.isBlockPowered(pos))
+                && getEnergyStored() < getMaxEnergyStored();
+    }
+
+    protected void sendUpdate(BlockState newState, boolean force) {
+        if (world == null) return;
+        BlockState oldState = world.getBlockState(pos);
+        if (oldState != newState || force) {
+            world.setBlockState(pos, newState, 3);
+            world.notifyBlockUpdate(pos, oldState, newState, 3);
+        }
     }
 }

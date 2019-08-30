@@ -1,5 +1,8 @@
 package net.silentchaos512.mechanisms.block;
 
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
@@ -53,5 +56,37 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
 
     public void setRedstoneMode(RedstoneMode redstoneMode) {
         this.redstoneMode = redstoneMode;
+    }
+
+    @Override
+    public IIntArray getFields() {
+        return fields;
+    }
+
+    @Override
+    public void read(CompoundNBT tags) {
+        super.read(tags);
+        this.redstoneMode = EnumUtils.byOrdinal(tags.getByte("RedstoneMode"), RedstoneMode.IGNORED);
+    }
+
+    @Override
+    public CompoundNBT write(CompoundNBT tags) {
+        super.write(tags);
+        tags.putByte("RedstoneMode", (byte) this.redstoneMode.ordinal());
+        return tags;
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+        super.onDataPacket(net, packet);
+        CompoundNBT tags = packet.getNbtCompound();
+        this.redstoneMode = EnumUtils.byOrdinal(tags.getByte("RedstoneMode"), RedstoneMode.IGNORED);
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tags = super.getUpdateTag();
+        tags.putByte("RedstoneMode", (byte) this.redstoneMode.ordinal());
+        return tags;
     }
 }

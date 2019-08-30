@@ -241,39 +241,31 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     @Override
     public void read(CompoundNBT tags) {
         super.read(tags);
-        readData(tags);
-    }
-
-    private void readData(CompoundNBT tags) {
         this.progress = tags.getInt("Progress");
         this.processTime = tags.getInt("ProcessTime");
-        this.redstoneMode = EnumUtils.byOrdinal(tags.getByte("RedstoneMode"), RedstoneMode.IGNORED);
     }
 
     @Override
     public CompoundNBT write(CompoundNBT tags) {
         super.write(tags);
-        writeData(tags);
-        return tags;
-    }
-
-    private void writeData(CompoundNBT tags) {
         tags.putInt("Progress", (int) this.progress);
         tags.putInt("ProcessTime", this.processTime);
-        tags.putByte("RedstoneMode", (byte) this.redstoneMode.ordinal());
+        return tags;
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         super.onDataPacket(net, packet);
         CompoundNBT tags = packet.getNbtCompound();
-        readData(tags);
+        this.progress = tags.getInt("Progress");
+        this.processTime = tags.getInt("ProcessTime");
     }
 
     @Override
     public CompoundNBT getUpdateTag() {
         CompoundNBT tags = super.getUpdateTag();
-        writeData(tags);
+        tags.putInt("Progress", (int) this.progress);
+        tags.putInt("ProcessTime", this.processTime);
         return tags;
     }
 }

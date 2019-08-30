@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Lava Generator. Creates Forge Energy from lava. Should interact with fluid pipes from other mods (not tested yet), or you can place lava buckets into its input slot.
+    - Yes, the model is broken and the textures are temporary!
+    - Currently generates 500K FE per lava bucket (feedback appreciated)
+### Changed
+- Generators can now be controlled by redstone like machines (defaults to ignore redstone)
+
 ## [0.4.2] - 2019-08-24
 ### Added
 - Machines can now be controlled by redstone (defaults to ignore redstone). Does not work on generators yet, expect it next update.
