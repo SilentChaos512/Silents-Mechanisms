@@ -2,6 +2,8 @@ package net.silentchaos512.mechanisms.api;
 
 import net.minecraft.util.ResourceLocation;
 
+import javax.annotation.Nullable;
+
 public enum RedstoneMode {
     IGNORED(new ResourceLocation("textures/item/barrier.png")),
     ON(new ResourceLocation("textures/block/redstone_torch.png")),
@@ -11,6 +13,16 @@ public enum RedstoneMode {
 
     RedstoneMode(ResourceLocation texture) {
         this.texture = texture;
+    }
+
+    @Nullable
+    public static RedstoneMode byName(String name) {
+        for (RedstoneMode mode : values()) {
+            if (mode.name().equalsIgnoreCase(name)) {
+                return mode;
+            }
+        }
+        return null;
     }
 
     public boolean shouldRun(boolean isPowered) {

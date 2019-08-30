@@ -6,7 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.silentchaos512.mechanisms.block.AbstractEnergyInventoryTileEntity;
+import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -22,8 +22,8 @@ public final class SMechComputerCraftCompat {
     @Nullable
     private static IPeripheral getPeripheral(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction side) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (tileEntity instanceof AbstractEnergyInventoryTileEntity) {
-            return new MachinePeripheral((AbstractEnergyInventoryTileEntity) tileEntity);
+        if (tileEntity instanceof AbstractMachineBaseTileEntity) {
+            return new MachinePeripheral((AbstractMachineBaseTileEntity) tileEntity);
         }
         return null;
     }

@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- ComputerCraft computers can now get and set the redstone mode on machines
+
 ## [0.5.0] - 2019-08-30
 Updated for Forge 28.0.74+
 ### Added
@@ -10,6 +14,7 @@ Updated for Forge 28.0.74+
     - Yes, the model is broken and the textures are temporary!
     - Currently generates 500K FE per lava bucket (feedback appreciated)
 - Steel recipe [#9]
+- ComputerCraft (CC Tweaked) computers can now read energy levels of machines and generators
 ### Changed
 - Generators can now be controlled by redstone like machines (defaults to ignore redstone)
 - Coal generator now accepts only coal and charcoal (`minecraft:coals`) and coal blocks (`forge:storage_blocks/coal`) by default. Override the `silents_mechanisms:coal_generator_fuels` item tag if you need to change this.

@@ -1,6 +1,5 @@
 package net.silentchaos512.mechanisms.block.batterybox;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
@@ -8,17 +7,16 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.energy.CapabilityEnergy;
-import net.silentchaos512.mechanisms.block.AbstractEnergyInventoryTileEntity;
+import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
 import net.silentchaos512.mechanisms.capability.EnergyStorageWithBatteries;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 import javax.annotation.Nullable;
-import java.util.List;
 import java.util.stream.IntStream;
 
-public class BatteryBoxTileEntity extends AbstractEnergyInventoryTileEntity {
+public class BatteryBoxTileEntity extends AbstractMachineBaseTileEntity {
     public static final int MAX_ENERGY = 500_000;
     public static final int MAX_RECEIVE = 500;
     public static final int MAX_SEND = 500;
@@ -88,14 +86,6 @@ public class BatteryBoxTileEntity extends AbstractEnergyInventoryTileEntity {
     @Override
     protected Container createMenu(int id, PlayerInventory playerInventory) {
         return new BatteryBoxContainer(id, playerInventory, this, this.getFields());
-    }
-
-    public List<String> getDebugText() {
-        return ImmutableList.of(
-                "energy = " + getEnergyStored() + " FE / " + getMaxEnergyStored() + " FE",
-                "MAX_RECEIVE = " + MAX_RECEIVE,
-                "MAX_SEND = " + MAX_SEND
-        );
     }
 
     @Override
