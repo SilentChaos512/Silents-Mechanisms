@@ -1,10 +1,4 @@
 {
-    "conditions": [
-        {
-            "type": "silents_mechanisms:tag_exists",
-            "tag": "forge:ores/zinc"
-        }
-    ],
     "type": "silents_mechanisms:crushing",
     "process_time": 400,
     "ingredient": {
