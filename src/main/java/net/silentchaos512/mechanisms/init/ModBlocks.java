@@ -7,7 +7,6 @@ import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
@@ -17,7 +16,8 @@ import net.silentchaos512.mechanisms.block.compressor.CompressorBlock;
 import net.silentchaos512.mechanisms.block.crusher.CrusherBlock;
 import net.silentchaos512.mechanisms.block.dryingrack.DryingRackBlock;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceBlock;
-import net.silentchaos512.mechanisms.block.generator.CoalGeneratorBlock;
+import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorBlock;
+import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorBlock;
 import net.silentchaos512.mechanisms.block.wire.WireBlock;
 
 import javax.annotation.Nullable;
@@ -32,6 +32,7 @@ public final class ModBlocks {
     public static ElectricFurnaceBlock electricFurnace;
     public static AlloySmelterBlock alloySmelter;
     public static CoalGeneratorBlock coalGenerator;
+    public static LavaGeneratorBlock lavaGenerator;
     public static BatteryBoxBlock batteryBox;
     public static WireBlock wire;
 
@@ -56,6 +57,7 @@ public final class ModBlocks {
         electricFurnace = register("electric_furnace", new ElectricFurnaceBlock());
         alloySmelter = register("alloy_smelter", new AlloySmelterBlock());
         coalGenerator = register("coal_generator", new CoalGeneratorBlock());
+        lavaGenerator = register("lava_generator", new LavaGeneratorBlock());
         batteryBox = register("battery_box", new BatteryBoxBlock());
         wire = register("wire", new WireBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
     }
@@ -75,13 +77,5 @@ public final class ModBlocks {
         }
 
         return block;
-    }
-
-    private static Block createMetalBlock() {
-        return new Block(Block.Properties.create(Material.IRON)
-                .harvestTool(ToolType.PICKAXE)
-                .hardnessAndResistance(4, 20)
-                .sound(SoundType.METAL)
-        );
     }
 }

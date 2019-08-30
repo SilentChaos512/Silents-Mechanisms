@@ -19,16 +19,21 @@ import net.silentchaos512.mechanisms.block.crusher.CrusherContainer;
 import net.silentchaos512.mechanisms.block.crusher.CrusherScreen;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceContainer;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceScreen;
-import net.silentchaos512.mechanisms.block.generator.CoalGeneratorContainer;
-import net.silentchaos512.mechanisms.block.generator.CoalGeneratorScreen;
+import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorContainer;
+import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorScreen;
+import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorContainer;
+import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorScreen;
 
-public class ModContainers {
+public final class ModContainers {
     public static ContainerType<AlloySmelterContainer> alloySmelter;
     public static ContainerType<BatteryBoxContainer> batteryBox;
     public static ContainerType<CoalGeneratorContainer> coalGenerator;
     public static ContainerType<CompressorContainer> compressor;
     public static ContainerType<CrusherContainer> crusher;
     public static ContainerType<ElectricFurnaceContainer> electricFurnace;
+    public static ContainerType<LavaGeneratorContainer> lavaGenerator;
+
+    private ModContainers() {}
 
     public static void registerAll(RegistryEvent.Register<ContainerType<?>> event) {
         alloySmelter = register("alloy_smelter", AlloySmelterContainer::new);
@@ -37,6 +42,7 @@ public class ModContainers {
         compressor = register("compressor", CompressorContainer::new);
         crusher = register("crusher", CrusherContainer::new);
         electricFurnace = register("electric_furnace", ElectricFurnaceContainer::new);
+        lavaGenerator = register("lava_generator", LavaGeneratorContainer::new);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -47,6 +53,7 @@ public class ModContainers {
         ScreenManager.registerFactory(compressor, CompressorScreen::new);
         ScreenManager.registerFactory(crusher, CrusherScreen::new);
         ScreenManager.registerFactory(electricFurnace, ElectricFurnaceScreen::new);
+        ScreenManager.registerFactory(lavaGenerator, LavaGeneratorScreen::new);
     }
 
     private static <C extends Container> ContainerType<C> register(String name, ContainerType.IFactory<C> containerFactory) {

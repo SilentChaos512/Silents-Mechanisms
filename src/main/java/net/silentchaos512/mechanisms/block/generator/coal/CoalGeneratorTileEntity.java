@@ -1,6 +1,5 @@
-package net.silentchaos512.mechanisms.block.generator;
+package net.silentchaos512.mechanisms.block.generator.coal;
 
-import com.google.common.collect.ImmutableList;
 import lombok.Getter;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
@@ -14,14 +13,15 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.silentchaos512.lib.tile.SyncVariable;
-import net.silentchaos512.mechanisms.block.AbstractEnergyInventoryTileEntity;
+import net.silentchaos512.mechanisms.api.RedstoneMode;
+import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.TextUtil;
+import net.silentchaos512.utils.EnumUtils;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
-public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
+public class CoalGeneratorTileEntity extends AbstractMachineBaseTileEntity {
     // Energy constants
     public static final int MAX_ENERGY = 10_000;
     public static final int MAX_SEND = 500;
@@ -41,13 +41,15 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
                 //Minecraft actually sends fields as shorts, so we need to split energy into 2 fields
                 case 0:
                     // Energy lower bytes
-                    return CoalGeneratorTileEntity.this.getEnergyStored() & 0xFFFF;
+                    return getEnergyStored() & 0xFFFF;
                 case 1:
                     // Energy upper bytes
-                    return (CoalGeneratorTileEntity.this.getEnergyStored() >> 16) & 0xFFFF;
+                    return (getEnergyStored() >> 16) & 0xFFFF;
                 case 2:
-                    return burnTime;
+                    return redstoneMode.ordinal();
                 case 3:
+                    return burnTime;
+                case 4:
                     return totalBurnTime;
                 default:
                     return 0;
@@ -57,13 +59,13 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
         @Override
         public void set(int index, int value) {
             switch (index) {
-                case 0:
-                    setEnergyStoredDirectly(value);
-                    break;
                 case 2:
-                    burnTime = value;
+                    redstoneMode = EnumUtils.byOrdinal(value, RedstoneMode.IGNORED);
                     break;
                 case 3:
+                    burnTime = value;
+                    break;
+                case 4:
                     totalBurnTime = value;
                     break;
             }
@@ -71,7 +73,7 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
 
         @Override
         public int size() {
-            return 4;
+            return 5;
         }
     };
 
@@ -91,7 +93,7 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
             sendUpdate();
         } else {
             ItemStack fuel = getStackInSlot(0);
-            if (getEnergyStored() < getMaxEnergyStored() && isFuel(fuel)) {
+            if (canRun() && isFuel(fuel)) {
                 // Not burning, and not at max energy
                 burnTime = getBurnTime(fuel);
                 if (isBurning()) {
@@ -113,6 +115,12 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
         }
 
         super.tick();
+    }
+
+    private boolean canRun() {
+        return world != null
+                && redstoneMode.shouldRun(world.isBlockPowered(pos))
+                && getEnergyStored() < getMaxEnergyStored();
     }
 
     private void sendUpdate() {
@@ -163,15 +171,5 @@ public class CoalGeneratorTileEntity extends AbstractEnergyInventoryTileEntity {
     @Override
     protected Container createMenu(int id, PlayerInventory playerInventory) {
         return new CoalGeneratorContainer(id, playerInventory, this, this.fields);
-    }
-
-    public List<String> getDebugText() {
-        return ImmutableList.of(
-                "burnTime = " + burnTime,
-                "totalBurnTime = " + totalBurnTime,
-                "energy = " + getEnergyStored() + " FE / " + getMaxEnergyStored() + " FE",
-                "ENERGY_CREATED_PER_TICK = " + ENERGY_CREATED_PER_TICK,
-                "MAX_SEND = " + MAX_SEND
-        );
     }
 }

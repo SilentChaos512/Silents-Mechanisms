@@ -1,4 +1,4 @@
-package net.silentchaos512.mechanisms.block.generator;
+package net.silentchaos512.mechanisms.block.generator.lava;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -7,6 +7,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.Direction;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvents;
@@ -18,15 +19,15 @@ import net.silentchaos512.mechanisms.block.AbstractMachineBlock;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class CoalGeneratorBlock extends AbstractMachineBlock {
-    public CoalGeneratorBlock() {
+public class LavaGeneratorBlock extends AbstractMachineBlock {
+    public LavaGeneratorBlock() {
         super(Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
     }
 
     @Override
     protected void interactWith(World worldIn, BlockPos pos, PlayerEntity player) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof CoalGeneratorTileEntity) {
+        if (tileEntity instanceof LavaGeneratorTileEntity) {
             player.openContainer((INamedContainerProvider) tileEntity);
         }
     }
@@ -34,7 +35,7 @@ public class CoalGeneratorBlock extends AbstractMachineBlock {
     @Nullable
     @Override
     public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        return new CoalGeneratorTileEntity();
+        return new LavaGeneratorTileEntity();
     }
 
     @Override
@@ -57,5 +58,10 @@ public class CoalGeneratorBlock extends AbstractMachineBlock {
             double d7 = direction$axis == Direction.Axis.Z ? (double) direction.getZOffset() * 0.52D : d4;
             worldIn.addParticle(ParticleTypes.SMOKE, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
         }
+    }
+
+    @Override
+    public BlockRenderLayer getRenderLayer() {
+        return BlockRenderLayer.CUTOUT;
     }
 }

@@ -7,10 +7,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.lib.util.generator.ModelGenerator;
+import net.silentchaos512.mechanisms.compat.computercraft.SMechComputerCraftCompat;
 import net.silentchaos512.mechanisms.config.Config;
 import net.silentchaos512.mechanisms.init.*;
 import net.silentchaos512.mechanisms.item.CraftingItems;
@@ -45,6 +47,10 @@ class SideProxy implements IProxy {
 
     private void commonSetup(FMLCommonSetupEvent event) {
         DeferredWorkQueue.runLater(SMWorldFeatures::addFeaturesToBiomes);
+
+        if (ModList.get().isLoaded("computercraft")) {
+            SMechComputerCraftCompat.init();
+        }
 
         if (SilentMechanisms.isDevBuild()) {
             Arrays.stream(CraftingItems.values()).forEach(c -> ModelGenerator.create(c.asItem()));

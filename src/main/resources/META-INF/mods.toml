@@ -18,7 +18,7 @@ authors="SilentChaos512"
 [[dependencies.silents_mechanisms]]
     modId="forge"
     mandatory=true
-    versionRange="[28,)"
+    versionRange="[28.0.74,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.silents_mechanisms]]

@@ -16,12 +16,11 @@ import net.silentchaos512.utils.EnumUtils;
 import javax.annotation.Nullable;
 import java.util.Collection;
 
-public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends AbstractEnergyInventoryTileEntity {
+public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends AbstractMachineBaseTileEntity {
     public static final int FIELDS_COUNT = 5;
 
     protected float progress;
     protected int processTime;
-    protected RedstoneMode redstoneMode = RedstoneMode.IGNORED;
 
     protected final IIntArray fields = new IIntArray() {
         @Override
@@ -133,14 +132,6 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
      */
     protected Collection<ItemStack> getPossibleProcessResult(R recipe) {
         return getProcessResults(recipe);
-    }
-
-    public RedstoneMode getRedstoneMode() {
-        return redstoneMode;
-    }
-
-    public void setRedstoneMode(RedstoneMode redstoneMode) {
-        this.redstoneMode = redstoneMode;
     }
 
     protected void sendUpdate(BlockState newState) {

@@ -4,13 +4,13 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.widget.button.Button;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
-import net.silentchaos512.mechanisms.block.AbstractMachineContainer;
+import net.silentchaos512.mechanisms.block.AbstractMachineBaseContainer;
 import net.silentchaos512.utils.EnumUtils;
 
 public class RedstoneModeButton extends Button {
-    private final AbstractMachineContainer container;
+    private final AbstractMachineBaseContainer container;
 
-    public RedstoneModeButton(AbstractMachineContainer container, int x, int y, int width, int height, IPressable onPress) {
+    public RedstoneModeButton(AbstractMachineBaseContainer container, int x, int y, int width, int height, IPressable onPress) {
         super(x, y, width, height, "", button -> {
             ((RedstoneModeButton) button).cycleMode();
             onPress.onPress(button);

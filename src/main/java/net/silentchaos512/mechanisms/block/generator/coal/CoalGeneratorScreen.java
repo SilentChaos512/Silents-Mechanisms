@@ -1,18 +1,23 @@
-package net.silentchaos512.mechanisms.block.generator;
+package net.silentchaos512.mechanisms.block.generator.coal;
 
 import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.block.AbstractMachineBaseScreen;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
-public class CoalGeneratorScreen extends ContainerScreen<CoalGeneratorContainer> {
+public class CoalGeneratorScreen extends AbstractMachineBaseScreen<CoalGeneratorContainer> {
     public static final ResourceLocation TEXTURE = SilentMechanisms.getId("textures/gui/coal_generator.png");
 
     public CoalGeneratorScreen(CoalGeneratorContainer container, PlayerInventory playerInventory, ITextComponent titleIn) {
         super(container, playerInventory, titleIn);
+    }
+
+    @Override
+    public ResourceLocation getGuiTexture() {
+        return TEXTURE;
     }
 
     @Override

@@ -88,6 +88,9 @@ repositories {
         url = "https://modmaven.k-4u.nl"
     }
     maven {
+        url 'https://squiddev.cc/maven/'
+    }
+    maven {
         url 'https://jitpack.io'
     }
 }
@@ -113,7 +116,12 @@ dependencies {
     if (project.hasProperty("hwyla_version")) {
         compile "mcp.mobius.waila:Hwyla:${project.hwyla_version}"
     }
-    
+
+    // CC Tweaked
+    if (project.hasProperty("cctweaked_version")) {
+        implementation fg.deobf("org.squiddev:cc-tweaked-${project.mc_version}:${project.cctweaked_version}")
+    }
+
 //    runtimeOnly 'net.silentchaos512:wit:1.+'
 }
 

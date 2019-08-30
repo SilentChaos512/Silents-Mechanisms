@@ -5,7 +5,7 @@ import net.minecraft.util.IIntArray;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.utils.EnumUtils;
 
-public abstract class AbstractMachineContainer<T extends AbstractMachineTileEntity<?>> extends AbstractEnergyStorageContainer<T> {
+public abstract class AbstractMachineContainer<T extends AbstractMachineTileEntity<?>> extends AbstractMachineBaseContainer<T> {
     protected AbstractMachineContainer(ContainerType<?> containerTypeIn, int id, T tileEntityIn, IIntArray fieldsIn) {
         super(containerTypeIn, id, tileEntityIn, fieldsIn);
     }
@@ -18,10 +18,12 @@ public abstract class AbstractMachineContainer<T extends AbstractMachineTileEnti
         return fields.get(3);
     }
 
+    @Override
     public RedstoneMode getRedstoneMode() {
         return EnumUtils.byOrdinal(fields.get(4), RedstoneMode.IGNORED);
     }
 
+    @Override
     public void setRedstoneMode(RedstoneMode mode) {
         fields.set(4, mode.ordinal());
     }
