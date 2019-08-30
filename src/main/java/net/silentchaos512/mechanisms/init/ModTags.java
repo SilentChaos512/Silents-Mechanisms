@@ -27,8 +27,7 @@ public class ModTags {
     }
 
     public static final class Items {
-        // Item tags work the same way as block tags, so this is "silents_mechanisms:example_item"
-        public static final Tag<Item> EXAMPLE = tag("example_item");
+        public static final Tag<Item> COAL_GENERATOR_FUELS = tag("coal_generator_fuels");
 
         private Items() {}
 

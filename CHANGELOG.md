@@ -3,13 +3,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.5.0] - 2019-08-30
+Updated for Forge 28.0.74+
 ### Added
-- Lava Generator. Creates Forge Energy from lava. Should interact with fluid pipes from other mods (not tested yet), or you can place lava buckets into its input slot.
+- Lava Generator. Creates Forge Energy from lava (anything in the `minecraft:lava` fluid tag). Should interact with fluid pipes from other mods (not tested yet), or you can place lava buckets into its input slot.
     - Yes, the model is broken and the textures are temporary!
     - Currently generates 500K FE per lava bucket (feedback appreciated)
+- Steel recipe [#9]
 ### Changed
 - Generators can now be controlled by redstone like machines (defaults to ignore redstone)
+- Coal generator now accepts only coal and charcoal (`minecraft:coals`) and coal blocks (`forge:storage_blocks/coal`) by default. Override the `silents_mechanisms:coal_generator_fuels` item tag if you need to change this.
 
 ## [0.4.2] - 2019-08-24
 ### Added

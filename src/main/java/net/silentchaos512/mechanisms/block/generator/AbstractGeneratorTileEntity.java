@@ -1,6 +1,9 @@
 package net.silentchaos512.mechanisms.block.generator;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.NetworkManager;
+import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
@@ -8,10 +11,12 @@ import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.utils.EnumUtils;
 
 public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTileEntity {
+    public static final int FIELDS_COUNT = 5;
+
     protected int burnTime;
     protected int totalBurnTime;
 
-    private final IIntArray fields = new IIntArray() {
+    protected final IIntArray fields = new IIntArray() {
         @Override
         public int get(int index) {
             switch (index) {
@@ -50,7 +55,7 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
 
         @Override
         public int size() {
-            return 5;
+            return FIELDS_COUNT;
         }
     };
 
@@ -75,16 +80,16 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
                 consumeFuel();
                 sendUpdate(getActiveState(), true);
             }
+        }
 
-            if (burnTime > 0) {
-                --burnTime;
-                energy.createEnergy(getEnergyCreatedPerTick());
-            } else {
-                sendUpdate(getInactiveState(), false);
-            }
-        } else if (burnTime <= 0) {
+        if (burnTime > 0) {
+            --burnTime;
+            energy.createEnergy(getEnergyCreatedPerTick());
+        } else {
             sendUpdate(getInactiveState(), false);
         }
+
+        super.tick();
     }
 
     protected boolean canRun() {
@@ -100,5 +105,35 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
             world.setBlockState(pos, newState, 3);
             world.notifyBlockUpdate(pos, oldState, newState, 3);
         }
+    }
+
+    @Override
+    public void read(CompoundNBT tags) {
+        super.read(tags);
+        this.burnTime = tags.getInt("BurnTime");
+        this.totalBurnTime = tags.getInt("TotalBurnTime");
+    }
+
+    @Override
+    public CompoundNBT write(CompoundNBT tags) {
+        tags.putInt("BurnTime", this.burnTime);
+        tags.putInt("TotalBurnTime", this.totalBurnTime);
+        return super.write(tags);
+    }
+
+    @Override
+    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
+        super.onDataPacket(net, packet);
+        CompoundNBT tags = packet.getNbtCompound();
+        this.burnTime = tags.getInt("BurnTime");
+        this.totalBurnTime = tags.getInt("TotalBurnTime");
+    }
+
+    @Override
+    public CompoundNBT getUpdateTag() {
+        CompoundNBT tags = super.getUpdateTag();
+        tags.putInt("BurnTime", this.burnTime);
+        tags.putInt("TotalBurnTime", this.totalBurnTime);
+        return tags;
     }
 }
