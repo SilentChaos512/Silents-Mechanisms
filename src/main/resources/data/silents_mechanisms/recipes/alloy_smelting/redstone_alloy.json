@@ -15,11 +15,11 @@
         },
         {
             "tag": "forge:dusts/redstone",
-            "count": 15
+            "count": 4
         }
     ],
     "result": {
         "item": "silents_mechanisms:redstone_alloy_ingot",
-        "count": 18
+        "count": 2
     }
 }

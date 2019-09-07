@@ -79,6 +79,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.alloySmelter), Constants.ALLOY_SMELTING);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.basicAlloySmelter), Constants.ALLOY_SMELTING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.compressor), Constants.COMPRESSING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.crusher), Constants.CRUSHING);
         ModBlocks.DRYING_RACKS.forEach(block -> registration.addRecipeCatalyst(new ItemStack(block), Constants.DRYING));

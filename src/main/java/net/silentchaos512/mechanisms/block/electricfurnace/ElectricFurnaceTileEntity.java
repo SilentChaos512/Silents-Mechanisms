@@ -9,6 +9,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
+import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 import javax.annotation.Nullable;
@@ -30,7 +31,7 @@ public class ElectricFurnaceTileEntity extends AbstractMachineTileEntity<Abstrac
     private static final int[] SLOTS_ALL = {0, 1};
 
     public ElectricFurnaceTileEntity() {
-        super(ModTileEntities.electricFurnace, INVENTORY_SIZE, MAX_ENERGY, MAX_RECEIVE, 0);
+        super(ModTileEntities.electricFurnace, INVENTORY_SIZE, MachineTier.STANDARD);
     }
 
     @Override

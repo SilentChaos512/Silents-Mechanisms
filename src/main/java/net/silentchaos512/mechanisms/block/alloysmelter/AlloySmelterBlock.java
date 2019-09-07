@@ -14,13 +14,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.mechanisms.block.AbstractMachineBlock;
+import net.silentchaos512.mechanisms.init.MachineType;
+import net.silentchaos512.mechanisms.util.MachineTier;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
 public class AlloySmelterBlock extends AbstractMachineBlock {
-    public AlloySmelterBlock() {
+    private final MachineTier tier;
+
+    public AlloySmelterBlock(MachineTier tier) {
         super(Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
+        this.tier = tier;
     }
 
     @Override
@@ -34,7 +39,7 @@ public class AlloySmelterBlock extends AbstractMachineBlock {
     @Nullable
     @Override
     public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        return new AlloySmelterTileEntity();
+        return MachineType.ALLOY_SMELTER.getTileEntityType(tier).create();
     }
 
     @Override

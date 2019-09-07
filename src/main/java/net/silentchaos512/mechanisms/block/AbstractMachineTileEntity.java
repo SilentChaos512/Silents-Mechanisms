@@ -11,14 +11,16 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
+import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.EnumUtils;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 
-public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends AbstractMachineBaseTileEntity {
+public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends AbstractMachineBaseTileEntity implements IMachineInventory {
     public static final int FIELDS_COUNT = 5;
 
+    protected final MachineTier tier;
     protected float progress;
     protected int processTime;
 
@@ -68,8 +70,9 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
         }
     };
 
-    protected AbstractMachineTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract) {
-        super(typeIn, inventorySize, maxEnergy, maxReceive, maxExtract);
+    protected AbstractMachineTileEntity(TileEntityType<?> typeIn, int inventorySize, MachineTier tier) {
+        super(typeIn, inventorySize, tier.getEnergyCapacity(), 500, 0);
+        this.tier = tier;
     }
 
     protected abstract int getEnergyUsedPerTick();
@@ -112,7 +115,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
      * @return The processing speed
      */
     protected float getProcessSpeed() {
-        return 1f;
+        return tier.getProcessingSpeed();
     }
 
     /**
@@ -132,6 +135,11 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
      */
     protected Collection<ItemStack> getPossibleProcessResult(R recipe) {
         return getProcessResults(recipe);
+    }
+
+    @Override
+    public int getInputSlotCount() {
+        return 1;
     }
 
     protected void sendUpdate(BlockState newState) {

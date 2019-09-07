@@ -9,6 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
+import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 import javax.annotation.Nullable;
@@ -28,7 +29,7 @@ public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingR
     private static final int[] SLOTS_ALL = {0, 1};
 
     public CompressorTileEntity() {
-        super(ModTileEntities.compressor, 2, MAX_ENERGY, MAX_RECEIVE, 0);
+        super(ModTileEntities.compressor, 2, MachineTier.STANDARD);
     }
 
     @Override

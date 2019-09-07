@@ -1,28 +1,25 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "#C#",
+        "###",
         "/X/",
-        "OHO"
+        "OCO"
     ],
     "key": {
         "#": {
-            "tag": "forge:ingots/bismuth_brass"
+            "tag": "forge:ingots/iron"
         },
         "/": {
             "tag": "forge:ingots/redstone_alloy"
         },
         "X": {
-            "item": "silents_mechanisms:alloy_machine_frame"
+            "tag": "forge:ingots/gold"
         },
         "O": {
             "item": "minecraft:bricks"
         },
         "C": {
             "item": "silents_mechanisms:circuit_board"
-        },
-        "H": {
-            "item": "silents_mechanisms:heating_element"
         }
     },
     "result": {

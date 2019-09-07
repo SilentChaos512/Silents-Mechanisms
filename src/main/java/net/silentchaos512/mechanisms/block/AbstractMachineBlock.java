@@ -12,7 +12,7 @@ public abstract class AbstractMachineBlock extends AbstractFurnaceBlock {
     protected AbstractMachineBlock(Properties properties) {
         super(properties);
     }
-
+    
     @Override
     public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {

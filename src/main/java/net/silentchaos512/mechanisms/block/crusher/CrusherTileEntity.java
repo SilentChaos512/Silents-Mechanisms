@@ -9,6 +9,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
+import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 import javax.annotation.Nullable;
@@ -31,7 +32,7 @@ public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe>
     private static final int[] SLOTS_ALL = IntStream.range(0, INVENTORY_SIZE).toArray();
 
     public CrusherTileEntity() {
-        super(ModTileEntities.crusher, INVENTORY_SIZE, MAX_ENERGY, MAX_RECEIVE, 0);
+        super(ModTileEntities.crusher, INVENTORY_SIZE, MachineTier.STANDARD);
     }
 
     @Override

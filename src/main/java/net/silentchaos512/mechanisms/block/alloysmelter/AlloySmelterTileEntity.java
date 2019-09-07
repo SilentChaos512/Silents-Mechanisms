@@ -7,7 +7,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.AlloySmeltingRecipe;
-import net.silentchaos512.mechanisms.init.ModTileEntities;
+import net.silentchaos512.mechanisms.init.MachineType;
+import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 import javax.annotation.Nullable;
@@ -28,7 +29,11 @@ public class AlloySmelterTileEntity extends AbstractMachineTileEntity<AlloySmelt
     private static final int[] SLOTS_ALL = IntStream.range(0, INPUT_SLOT_COUNT + 1).toArray();
 
     public AlloySmelterTileEntity() {
-        super(ModTileEntities.alloySmelter, SLOTS_ALL.length, MAX_ENERGY, MAX_RECEIVE, 0);
+        this(MachineTier.STANDARD);
+    }
+
+    public AlloySmelterTileEntity(MachineTier tier) {
+        super(MachineType.ALLOY_SMELTER.getTileEntityType(tier), SLOTS_ALL.length, tier);
     }
 
     @Override
@@ -64,6 +69,11 @@ public class AlloySmelterTileEntity extends AbstractMachineTileEntity<AlloySmelt
         recipe.consumeIngredients(this);
     }
 
+    @Override
+    public int getInputSlotCount() {
+        return INPUT_SLOT_COUNT;
+    }
+
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
     @Override
     public int[] getSlotsForFace(Direction side) {
@@ -92,5 +102,11 @@ public class AlloySmelterTileEntity extends AbstractMachineTileEntity<AlloySmelt
     @Override
     protected Container createMenu(int id, PlayerInventory playerInventory) {
         return new AlloySmelterContainer(id, playerInventory, this, this.fields);
+    }
+
+    public static class Basic extends AlloySmelterTileEntity {
+        public Basic() {
+            super(MachineTier.BASIC);
+        }
     }
 }

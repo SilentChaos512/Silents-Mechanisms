@@ -3,7 +3,6 @@ package net.silentchaos512.mechanisms.crafting.recipe;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.*;
 import net.minecraft.network.PacketBuffer;
@@ -11,13 +10,14 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.silentchaos512.mechanisms.block.IMachineInventory;
 import net.silentchaos512.mechanisms.util.Constants;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class AlloySmeltingRecipe implements IRecipe<IInventory> {
+public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
     public static final IRecipeType<AlloySmeltingRecipe> RECIPE_TYPE = new IRecipeType<AlloySmeltingRecipe>() {
         @Override
         public String toString() {
@@ -39,7 +39,7 @@ public class AlloySmeltingRecipe implements IRecipe<IInventory> {
         return processTime;
     }
 
-    public void consumeIngredients(IInventory inv) {
+    public void consumeIngredients(IMachineInventory inv) {
         ingredients.forEach(((ingredient, count) -> InventoryUtils.consumeItems(inv, ingredient, count)));
     }
 
@@ -48,7 +48,7 @@ public class AlloySmeltingRecipe implements IRecipe<IInventory> {
     }
 
     @Override
-    public boolean matches(IInventory inv, World worldIn) {
+    public boolean matches(IMachineInventory inv, World worldIn) {
         for (Ingredient ingredient : ingredients.keySet()) {
             int required = ingredients.get(ingredient);
             int found = InventoryUtils.getTotalCount(inv, ingredient);
@@ -58,7 +58,7 @@ public class AlloySmeltingRecipe implements IRecipe<IInventory> {
         }
 
         // Check for non-matching items
-        for (int i = 0; i < inv.getSizeInventory(); ++i) {
+        for (int i = 0; i < inv.getInputSlotCount(); ++i) {
             ItemStack stack = inv.getStackInSlot(i);
             if (!stack.isEmpty()) {
                 boolean foundMatch = false;
@@ -78,7 +78,7 @@ public class AlloySmeltingRecipe implements IRecipe<IInventory> {
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack getCraftingResult(IMachineInventory inv) {
         return result.copy();
     }
 
