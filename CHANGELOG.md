@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - ComputerCraft computers can now get and set the redstone mode on machines
+### Fixed
+- Actually added steel recipe this time
 
 ## [0.5.0] - 2019-08-30
 Updated for Forge 28.0.74+
