@@ -1,0 +1,19 @@
+{
+    "parent": "block/cube",
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [ 0, 135, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.40, 0.40, 0.40 ]
+        }
+    },
+    "textures": {
+        "particle": "silents_mechanisms:block/basic_alloy_smelter/front",
+        "down": "silents_mechanisms:block/basic_alloy_smelter/bottom",
+        "up": "silents_mechanisms:block/basic_alloy_smelter/top",
+        "north": "silents_mechanisms:block/basic_alloy_smelter/front",
+        "east": "silents_mechanisms:block/basic_alloy_smelter/side",
+        "south": "silents_mechanisms:block/basic_alloy_smelter/back",
+        "west": "silents_mechanisms:block/basic_alloy_smelter/side"
+    }
+}

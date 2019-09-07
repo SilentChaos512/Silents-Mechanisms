@@ -2,6 +2,7 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/silents-mechanisms",
     "changelog": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.14/CHANGELOG.md",
     "1.14.4": {
+        "0.5.1": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.14/CHANGELOG.md",
         "0.5.0": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.14/CHANGELOG.md",
         "0.4.2": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.14/CHANGELOG.md",
         "0.4.1": "Implement wires, add wrench, fix machines not dropping inventory",
@@ -17,7 +18,7 @@
         "0.1.0": "See changelog on GitHub"
     },
     "promos": {
-        "1.14.4-latest": "0.5.0",
-        "1.14.4-recommended": "0.5.0"
+        "1.14.4-latest": "0.5.1",
+        "1.14.4-recommended": "0.5.1"
     }
 }
