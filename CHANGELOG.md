@@ -5,9 +5,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Basic alloy smelter
 - ComputerCraft computers can now get and set the redstone mode on machines
+### Changed
+- Rebalanced some recipes, more to come
 ### Fixed
 - Actually added steel recipe this time
+- Lava generator consuming lava buckets when full
 
 ## [0.5.0] - 2019-08-30
 Updated for Forge 28.0.74+

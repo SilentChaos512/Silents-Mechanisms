@@ -76,24 +76,33 @@ public class LavaGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEntit
     private void tryFillTankWithBucket(ItemStack input) {
         Fluid fluid = ((BucketItem) input.getItem()).getFluid();
         FluidStack fluidStack = new FluidStack(fluid, 1000);
-        if (tank.isFluidValid(0, fluidStack) && tank.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) == 1000) {
+        if (canAcceptLavaBucket(input, fluidStack)) {
             tank.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
             sendUpdate(getBlockState(), true);
-        }
-        setInventorySlotContents(0, input.getContainerItem());
 
-        // Move buckets to output slot
-        ItemStack input2 = getStackInSlot(0);
-        if (!input2.isEmpty()) {
-            ItemStack output = getStackInSlot(1);
-            if (output.isEmpty()) {
-                setInventorySlotContents(1, input2);
-                setInventorySlotContents(0, ItemStack.EMPTY);
-            } else if (InventoryUtils.canItemsStack(getStackInSlot(0), output)) {
-                output.grow(1);
-                input2.shrink(1);
+            setInventorySlotContents(0, input.getContainerItem());
+
+            // Move buckets to output slot
+            ItemStack input2 = getStackInSlot(0);
+            if (!input2.isEmpty()) {
+                ItemStack output = getStackInSlot(1);
+                if (output.isEmpty()) {
+                    setInventorySlotContents(1, input2);
+                    setInventorySlotContents(0, ItemStack.EMPTY);
+                } else if (InventoryUtils.canItemsStack(getStackInSlot(0), output)) {
+                    output.grow(1);
+                    input2.shrink(1);
+                }
             }
         }
+    }
+
+    private boolean canAcceptLavaBucket(ItemStack input, FluidStack fluid) {
+        ItemStack output = getStackInSlot(1);
+        return tank.isFluidValid(0, fluid)
+                && tank.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == 1000
+                && InventoryUtils.canItemsStack(input.getContainerItem(), output)
+                && output.getCount() < output.getMaxStackSize();
     }
 
     @Override
