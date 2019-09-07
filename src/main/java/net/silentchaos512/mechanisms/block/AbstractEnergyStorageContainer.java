@@ -36,4 +36,10 @@ public class AbstractEnergyStorageContainer<T extends AbstractEnergyInventoryTil
         int lower = fields.get(0) & 0xFFFF;
         return (upper << 16) + lower;
     }
+
+    public int getMaxEnergyStored() {
+        int upper = fields.get(3) & 0xFFFF;
+        int lower = fields.get(2) & 0xFFFF;
+        return (upper << 16) + lower;
+    }
 }

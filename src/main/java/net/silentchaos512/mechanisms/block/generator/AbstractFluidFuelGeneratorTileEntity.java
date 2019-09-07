@@ -19,7 +19,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGeneratorTileEntity {
-    public static final int FIELDS_COUNT = 6;
+    public static final int FIELDS_COUNT = 8;
 
     protected final FluidTank tank;
     private final LazyOptional<IFluidHandler> fluidHandlerCap;
@@ -36,12 +36,16 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
                     // Energy upper bytes
                     return (getEnergyStored() >> 16) & 0xFFFF;
                 case 2:
-                    return redstoneMode.ordinal();
+                    return getMaxEnergyStored() & 0xFFFF;
                 case 3:
-                    return burnTime;
+                    return (getMaxEnergyStored() >> 16) & 0xFFFF;
                 case 4:
-                    return totalBurnTime;
+                    return redstoneMode.ordinal();
                 case 5:
+                    return burnTime;
+                case 6:
+                    return totalBurnTime;
+                case 7:
                     return tank.getFluidAmount();
                 default:
                     return 0;
@@ -51,16 +55,16 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
         @Override
         public void set(int index, int value) {
             switch (index) {
-                case 2:
+                case 4:
                     redstoneMode = EnumUtils.byOrdinal(value, RedstoneMode.IGNORED);
                     break;
-                case 3:
+                case 5:
                     burnTime = value;
                     break;
-                case 4:
+                case 6:
                     totalBurnTime = value;
                     break;
-                case 5:
+                case 7:
                     FluidStack fluid = tank.getFluid();
                     tank.setFluid(new FluidStack(fluid.getFluid(), value));
                     break;

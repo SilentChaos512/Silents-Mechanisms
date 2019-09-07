@@ -33,6 +33,12 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
                 case 1:
                     // Energy upper bytes
                     return (AbstractEnergyInventoryTileEntity.this.getEnergyStored() >> 16) & 0xFFFF;
+                case 2:
+                    // Max energy lower bytes
+                    return AbstractEnergyInventoryTileEntity.this.getMaxEnergyStored() & 0xFFFF;
+                case 3:
+                    // Max energy upper bytes
+                    return (AbstractEnergyInventoryTileEntity.this.getMaxEnergyStored() >> 16) & 0xFFFF;
                 default:
                     return 0;
             }
@@ -45,7 +51,7 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
 
         @Override
         public int size() {
-            return 2;
+            return 4;
         }
     };
 

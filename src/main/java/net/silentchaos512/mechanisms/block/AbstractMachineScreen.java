@@ -36,7 +36,7 @@ public abstract class AbstractMachineScreen<C extends AbstractMachineContainer<?
         blit(getProgressArrowPosX(xPos), getProgressArrowPosY(yPos), 176, 14, length + 1, 16);
 
         // Energy meter
-        int energyBarHeight = 50 * container.getEnergyStored() / container.getTileEntity().getMaxEnergyStored();
+        int energyBarHeight = 50 * container.getEnergyStored() / container.getMaxEnergyStored();
         if (energyBarHeight > 0) {
             blit(xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
         }

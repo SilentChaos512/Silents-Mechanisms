@@ -9,7 +9,7 @@ import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.utils.EnumUtils;
 
 public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInventoryTileEntity {
-    public static final int FIELDS_COUNT = 3;
+    public static final int FIELDS_COUNT = 5;
 
     protected RedstoneMode redstoneMode = RedstoneMode.IGNORED;
 
@@ -25,6 +25,12 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
                     // Energy upper bytes
                     return (AbstractMachineBaseTileEntity.this.getEnergyStored() >> 16) & 0xFFFF;
                 case 2:
+                    // Max energy lower bytes
+                    return AbstractMachineBaseTileEntity.this.getMaxEnergyStored() & 0xFFFF;
+                case 3:
+                    // Max energy upper bytes
+                    return (AbstractMachineBaseTileEntity.this.getMaxEnergyStored() >> 16) & 0xFFFF;
+                case 4:
                     return AbstractMachineBaseTileEntity.this.redstoneMode.ordinal();
                 default:
                     return 0;
@@ -34,7 +40,7 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
         @Override
         public void set(int index, int value) {
             switch (index) {
-                case 2:
+                case 4:
                     AbstractMachineBaseTileEntity.this.redstoneMode = EnumUtils.byOrdinal(value, RedstoneMode.IGNORED);
                     break;
             }

@@ -11,7 +11,7 @@ import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.utils.EnumUtils;
 
 public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTileEntity {
-    public static final int FIELDS_COUNT = 5;
+    public static final int FIELDS_COUNT = 7;
 
     protected int burnTime;
     protected int totalBurnTime;
@@ -28,10 +28,16 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
                     // Energy upper bytes
                     return (AbstractGeneratorTileEntity.this.getEnergyStored() >> 16) & 0xFFFF;
                 case 2:
-                    return redstoneMode.ordinal();
+                    // Max energy lower bytes
+                    return AbstractGeneratorTileEntity.this.getMaxEnergyStored() & 0xFFFF;
                 case 3:
-                    return burnTime;
+                    // Max energy upper bytes
+                    return (AbstractGeneratorTileEntity.this.getMaxEnergyStored() >> 16) & 0xFFFF;
                 case 4:
+                    return redstoneMode.ordinal();
+                case 5:
+                    return burnTime;
+                case 6:
                     return totalBurnTime;
                 default:
                     return 0;
@@ -41,13 +47,13 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
         @Override
         public void set(int index, int value) {
             switch (index) {
-                case 2:
+                case 4:
                     redstoneMode = EnumUtils.byOrdinal(value, RedstoneMode.IGNORED);
                     break;
-                case 3:
+                case 5:
                     burnTime = value;
                     break;
-                case 4:
+                case 6:
                     totalBurnTime = value;
                     break;
             }

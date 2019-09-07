@@ -36,11 +36,11 @@ public class LavaGeneratorContainer extends AbstractMachineBaseContainer<LavaGen
     }
 
     public int getBurnTime() {
-        return fields.get(3);
+        return fields.get(5);
     }
 
     public int getFluidAmount() {
-        return fields.get(5);
+        return fields.get(7);
     }
 
     public IFluidHandler getTank() {

@@ -28,11 +28,11 @@ public class CoalGeneratorContainer extends AbstractMachineBaseContainer<CoalGen
     }
 
     public int getBurnTime() {
-        return fields.get(3);
+        return fields.get(5);
     }
 
     public int getTotalBurnTime() {
-        return fields.get(4);
+        return fields.get(6);
     }
 
     public boolean isBurning() {

@@ -11,10 +11,10 @@ public class AbstractMachineBaseContainer<T extends AbstractMachineBaseTileEntit
     }
 
     public RedstoneMode getRedstoneMode() {
-        return EnumUtils.byOrdinal(fields.get(2), RedstoneMode.IGNORED);
+        return EnumUtils.byOrdinal(fields.get(4), RedstoneMode.IGNORED);
     }
 
     public void setRedstoneMode(RedstoneMode mode) {
-        fields.set(2, mode.ordinal());
+        fields.set(4, mode.ordinal());
     }
 }

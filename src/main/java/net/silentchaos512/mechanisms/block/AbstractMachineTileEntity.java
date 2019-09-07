@@ -18,7 +18,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 
 public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends AbstractMachineBaseTileEntity implements IMachineInventory {
-    public static final int FIELDS_COUNT = 5;
+    public static final int FIELDS_COUNT = 7;
 
     protected final MachineTier tier;
     protected float progress;
@@ -36,11 +36,17 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
                     // Energy upper bytes
                     return (AbstractMachineTileEntity.this.getEnergyStored() >> 16) & 0xFFFF;
                 case 2:
-                    return (int) AbstractMachineTileEntity.this.progress;
+                    // Max energy lower bytes
+                    return AbstractMachineTileEntity.this.getMaxEnergyStored() & 0xFFFF;
                 case 3:
-                    return AbstractMachineTileEntity.this.processTime;
+                    // Max energy upper bytes
+                    return (AbstractMachineTileEntity.this.getMaxEnergyStored() >> 16) & 0xFFFF;
                 case 4:
                     return AbstractMachineTileEntity.this.redstoneMode.ordinal();
+                case 5:
+                    return (int) AbstractMachineTileEntity.this.progress;
+                case 6:
+                    return AbstractMachineTileEntity.this.processTime;
                 default:
                     return 0;
             }
@@ -49,17 +55,14 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
         @Override
         public void set(int index, int value) {
             switch (index) {
-                case 0:
-                    AbstractMachineTileEntity.this.setEnergyStoredDirectly(value);
-                    break;
-                case 2:
-                    AbstractMachineTileEntity.this.progress = value;
-                    break;
-                case 3:
-                    AbstractMachineTileEntity.this.processTime = value;
-                    break;
                 case 4:
                     AbstractMachineTileEntity.this.redstoneMode = EnumUtils.byOrdinal(value, RedstoneMode.IGNORED);
+                    break;
+                case 5:
+                    AbstractMachineTileEntity.this.progress = value;
+                    break;
+                case 6:
+                    AbstractMachineTileEntity.this.processTime = value;
                     break;
             }
         }
