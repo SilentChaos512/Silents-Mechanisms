@@ -101,8 +101,8 @@ public class LavaGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEntit
         ItemStack output = getStackInSlot(1);
         return tank.isFluidValid(0, fluid)
                 && tank.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == 1000
-                && InventoryUtils.canItemsStack(input.getContainerItem(), output)
-                && output.getCount() < output.getMaxStackSize();
+                && (output.isEmpty() || InventoryUtils.canItemsStack(input.getContainerItem(), output))
+                && (output.isEmpty() || output.getCount() < output.getMaxStackSize());
     }
 
     @Override
