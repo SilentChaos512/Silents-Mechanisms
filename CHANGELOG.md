@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+- Crash when opening machines [#14]
 - Coal generator being uncraftable with new recipe progression [#13]
 - Lava generator not accepting lava if output slot is empty [#12]
 - Add loot table for basic alloy smelter

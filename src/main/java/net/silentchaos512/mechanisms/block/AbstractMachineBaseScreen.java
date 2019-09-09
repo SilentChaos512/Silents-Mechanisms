@@ -31,7 +31,7 @@ public abstract class AbstractMachineBaseScreen<C extends AbstractMachineBaseCon
     @Override
     protected void renderHoveredToolTip(int mouseX, int mouseY) {
         if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
-            ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getTileEntity().getMaxEnergyStored());
+            ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
             renderTooltip(text.getFormattedText(), mouseX, mouseY);
         }
         super.renderHoveredToolTip(mouseX, mouseY);
