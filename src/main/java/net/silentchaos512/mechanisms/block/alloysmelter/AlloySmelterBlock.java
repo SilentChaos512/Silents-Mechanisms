@@ -21,11 +21,8 @@ import javax.annotation.Nullable;
 import java.util.Random;
 
 public class AlloySmelterBlock extends AbstractMachineBlock {
-    private final MachineTier tier;
-
     public AlloySmelterBlock(MachineTier tier) {
-        super(Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
-        this.tier = tier;
+        super(tier, Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
     }
 
     @Override

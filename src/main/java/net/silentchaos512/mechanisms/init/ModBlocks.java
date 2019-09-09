@@ -28,11 +28,12 @@ import java.util.List;
 
 public final class ModBlocks {
     public static final List<DryingRackBlock> DRYING_RACKS = new ArrayList<>();
-    public static CompressorBlock compressor;
-    public static CrusherBlock crusher;
-    public static ElectricFurnaceBlock electricFurnace;
     public static AlloySmelterBlock basicAlloySmelter;
     public static AlloySmelterBlock alloySmelter;
+    public static CrusherBlock basicCrusher;
+    public static CrusherBlock crusher;
+    public static CompressorBlock compressor;
+    public static ElectricFurnaceBlock electricFurnace;
     public static CoalGeneratorBlock coalGenerator;
     public static LavaGeneratorBlock lavaGenerator;
     public static BatteryBoxBlock batteryBox;
@@ -54,11 +55,12 @@ public final class ModBlocks {
         register("stone_machine_frame", new GlassBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3, 10).sound(SoundType.STONE)));
         register("alloy_machine_frame", new GlassBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3, 10).sound(SoundType.METAL)));
 
-        compressor = register("compressor", new CompressorBlock());
-        crusher = register("crusher", new CrusherBlock());
-        electricFurnace = register("electric_furnace", new ElectricFurnaceBlock());
         basicAlloySmelter = register("basic_alloy_smelter", new AlloySmelterBlock(MachineTier.BASIC));
         alloySmelter = register("alloy_smelter", new AlloySmelterBlock(MachineTier.STANDARD));
+        basicCrusher = register("basic_crusher", new CrusherBlock(MachineTier.BASIC));
+        crusher = register("crusher", new CrusherBlock(MachineTier.STANDARD));
+        compressor = register("compressor", new CompressorBlock());
+        electricFurnace = register("electric_furnace", new ElectricFurnaceBlock());
         coalGenerator = register("coal_generator", new CoalGeneratorBlock());
         lavaGenerator = register("lava_generator", new LavaGeneratorBlock());
         batteryBox = register("battery_box", new BatteryBoxBlock());

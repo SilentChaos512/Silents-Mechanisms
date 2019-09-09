@@ -14,13 +14,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.mechanisms.block.AbstractMachineBlock;
+import net.silentchaos512.mechanisms.util.MachineTier;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
 public class ElectricFurnaceBlock extends AbstractMachineBlock {
     public ElectricFurnaceBlock() {
-        super(Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
+        super(MachineTier.STANDARD, Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
     }
 
     @Override

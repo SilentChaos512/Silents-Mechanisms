@@ -87,6 +87,8 @@ public enum CraftingItems implements IItemProvider {
     BISMUTH_STEEL_DUST,
     BISMUTH_STEEL_INGOT,
     BISMUTH_STEEL_NUGGET,
+    // Other dusts
+    COAL_DUST,
     // Others
     ZOMBIE_LEATHER,
     BEEF_JERKY(Foods.COOKED_BEEF),

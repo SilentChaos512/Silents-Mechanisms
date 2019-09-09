@@ -1,23 +1,23 @@
 {
     "display": {
         "icon": {
-            "item": "silents_mechanisms:alloy_machine_frame"
+            "item": "silents_mechanisms:electric_furnace"
         },
         "title": {
-            "translate": "advancements.silents_mechanisms.alloy_machine_frame.title"
+            "translate": "advancements.silents_mechanisms.electric_furnace.title"
         },
         "description": {
-            "translate": "advancements.silents_mechanisms.alloy_machine_frame.description"
+            "translate": "advancements.silents_mechanisms.electric_furnace.description"
         }
     },
-    "parent": "silents_mechanisms:basic_crusher",
+    "parent": "silents_mechanisms:alloy_machine_frame",
     "criteria": {
         "get_item": {
             "trigger": "minecraft:inventory_changed",
             "conditions": {
                 "items": [
                     {
-                        "item": "silents_mechanisms:alloy_machine_frame"
+                        "item": "silents_mechanisms:electric_furnace"
                     }
                 ]
             }

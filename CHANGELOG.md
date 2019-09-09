@@ -3,7 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.5.2] - 2019-09-08
+More recipe progression/rebalancing, more to come
+### Added
+- Basic crusher
+- Coal dust
+- Advancements (names and descriptions missing)
+### Changed
+- Steel-like ingot recipes now require coal dust (meaning you need a basic crusher)
 ### Fixed
 - Crash when opening machines [#14]
 - Coal generator being uncraftable with new recipe progression [#13]

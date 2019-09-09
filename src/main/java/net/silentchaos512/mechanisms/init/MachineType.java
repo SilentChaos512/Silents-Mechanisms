@@ -3,6 +3,7 @@ package net.silentchaos512.mechanisms.init;
 import net.minecraft.tileentity.TileEntityType;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.mechanisms.block.alloysmelter.AlloySmelterTileEntity;
+import net.silentchaos512.mechanisms.block.crusher.CrusherTileEntity;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.Lazy;
 
@@ -12,6 +13,10 @@ public class MachineType<T extends AbstractMachineBaseTileEntity, B extends T, S
     public static final MachineType<AlloySmelterTileEntity, AlloySmelterTileEntity.Basic, AlloySmelterTileEntity> ALLOY_SMELTER = new MachineType<>(
             () -> TileEntityType.Builder.create(AlloySmelterTileEntity.Basic::new, ModBlocks.basicAlloySmelter),
             () -> TileEntityType.Builder.create(AlloySmelterTileEntity::new, ModBlocks.alloySmelter)
+    );
+    public static final MachineType<CrusherTileEntity, CrusherTileEntity.Basic, CrusherTileEntity> CRUSHER = new MachineType<>(
+            () -> TileEntityType.Builder.create(CrusherTileEntity.Basic::new, ModBlocks.basicCrusher),
+            () -> TileEntityType.Builder.create(CrusherTileEntity::new, ModBlocks.crusher)
     );
 
     private final Lazy<TileEntityType<B>> basicTileEntityType;

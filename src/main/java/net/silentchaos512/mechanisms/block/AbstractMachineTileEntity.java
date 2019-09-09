@@ -156,6 +156,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 
     protected void setInactiveState() {
         if (world == null) return;
+        progress = 0;
         sendUpdate(getInactiveState(world.getBlockState(pos)));
     }
 

@@ -16,10 +16,10 @@
         {
             "values": [
                 {
-                    "item": "minecraft:coal"
+                    "tag": "forge:dusts/coal"
                 }
             ],
-            "count": 1
+            "count": 3
         },
         {
             "values": [

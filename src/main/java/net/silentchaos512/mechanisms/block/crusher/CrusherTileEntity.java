@@ -1,6 +1,5 @@
 package net.silentchaos512.mechanisms.block.crusher;
 
-import com.google.common.collect.ImmutableList;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
@@ -8,13 +7,12 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
-import net.silentchaos512.mechanisms.init.ModTileEntities;
+import net.silentchaos512.mechanisms.init.MachineType;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
-import java.util.List;
 import java.util.stream.IntStream;
 
 public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe> {
@@ -32,7 +30,11 @@ public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe>
     private static final int[] SLOTS_ALL = IntStream.range(0, INVENTORY_SIZE).toArray();
 
     public CrusherTileEntity() {
-        super(ModTileEntities.crusher, INVENTORY_SIZE, MachineTier.STANDARD);
+        this(MachineTier.STANDARD);
+    }
+
+    public CrusherTileEntity(MachineTier tier) {
+        super(MachineType.CRUSHER.getTileEntityType(tier), INVENTORY_SIZE, tier);
     }
 
     @Override
@@ -98,13 +100,9 @@ public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe>
         return new CrusherContainer(id, playerInventory, this, this.fields);
     }
 
-    List<String> getDebugText() {
-        return ImmutableList.of(
-                "progress = " + progress,
-                "processTime = " + processTime,
-                "energy = " + getEnergyStored() + " FE / " + getMaxEnergyStored() + " FE",
-                "ENERGY_USED_PER_TICK = " + ENERGY_USED_PER_TICK,
-                "MAX_RECEIVE = " + MAX_RECEIVE
-        );
+    public static class Basic extends CrusherTileEntity {
+        public Basic() {
+            super(MachineTier.BASIC);
+        }
     }
 }

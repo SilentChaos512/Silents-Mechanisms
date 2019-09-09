@@ -14,13 +14,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.mechanisms.block.AbstractMachineBlock;
+import net.silentchaos512.mechanisms.init.MachineType;
+import net.silentchaos512.mechanisms.util.MachineTier;
 
 import javax.annotation.Nullable;
 import java.util.Random;
 
 public class CrusherBlock extends AbstractMachineBlock {
-    public CrusherBlock() {
-        super(Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
+    public CrusherBlock(MachineTier tier) {
+        super(tier, Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
     }
 
     @Override
@@ -35,7 +37,7 @@ public class CrusherBlock extends AbstractMachineBlock {
     @Nullable
     @Override
     public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        return new CrusherTileEntity();
+        return MachineType.CRUSHER.getTileEntityType(tier).create();
     }
 
     @Override

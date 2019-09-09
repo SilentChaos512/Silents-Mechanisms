@@ -1,0 +1,19 @@
+{
+    "parent": "block/cube",
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [ 0, 135, 0 ],
+            "translation": [ 0, 0, 0 ],
+            "scale": [ 0.40, 0.40, 0.40 ]
+        }
+    },
+    "textures": {
+        "particle": "silents_mechanisms:block/basic_crusher/front_on",
+        "down": "silents_mechanisms:block/basic_crusher/bottom",
+        "up": "silents_mechanisms:block/basic_crusher/top",
+        "north": "silents_mechanisms:block/basic_crusher/front_on",
+        "east": "silents_mechanisms:block/basic_crusher/side",
+        "south": "silents_mechanisms:block/basic_crusher/back",
+        "west": "silents_mechanisms:block/basic_crusher/side"
+    }
+}

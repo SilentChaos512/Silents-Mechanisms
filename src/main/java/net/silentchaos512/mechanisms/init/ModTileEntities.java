@@ -12,7 +12,6 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.batterybox.BatteryBoxTileEntity;
 import net.silentchaos512.mechanisms.block.compressor.CompressorTileEntity;
-import net.silentchaos512.mechanisms.block.crusher.CrusherTileEntity;
 import net.silentchaos512.mechanisms.block.dryingrack.DryingRackBlock;
 import net.silentchaos512.mechanisms.block.dryingrack.DryingRackTileEntity;
 import net.silentchaos512.mechanisms.block.dryingrack.DryingRackTileEntityRenderer;
@@ -27,7 +26,6 @@ public class ModTileEntities {
     public static TileEntityType<BatteryBoxTileEntity> batteryBox;
     public static TileEntityType<CoalGeneratorTileEntity> coalGenerator;
     public static TileEntityType<CompressorTileEntity> compressor;
-    public static TileEntityType<CrusherTileEntity> crusher;
     public static TileEntityType<DryingRackTileEntity> dryingRack;
     public static TileEntityType<ElectricFurnaceTileEntity> electricFurnace;
     public static TileEntityType<LavaGeneratorTileEntity> lavaGenerator;
@@ -36,10 +34,11 @@ public class ModTileEntities {
     public static void registerAll(RegistryEvent.Register<TileEntityType<?>> event) {
         register("basic_alloy_smelter", MachineType.ALLOY_SMELTER.getBasicTileEntityType());
         register("alloy_smelter", MachineType.ALLOY_SMELTER.getStandardTileEntityType());
+        register("basic_crusher", MachineType.CRUSHER.getBasicTileEntityType());
+        register("crusher", MachineType.CRUSHER.getStandardTileEntityType());
         batteryBox = register("battery_box", BatteryBoxTileEntity::new, ModBlocks.batteryBox);
         coalGenerator = register("coal_generator", CoalGeneratorTileEntity::new, ModBlocks.coalGenerator);
         compressor = register("compressor", CompressorTileEntity::new, ModBlocks.compressor);
-        crusher = register("crusher", CrusherTileEntity::new, ModBlocks.crusher);
         dryingRack = register("drying_rack", DryingRackTileEntity::new, ModBlocks.DRYING_RACKS.toArray(new DryingRackBlock[0]));
         electricFurnace = register("electric_furnace", ElectricFurnaceTileEntity::new, ModBlocks.electricFurnace);
         lavaGenerator = register("lava_generator", LavaGeneratorTileEntity::new, ModBlocks.lavaGenerator);

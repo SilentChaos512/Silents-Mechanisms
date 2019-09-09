@@ -7,10 +7,14 @@ import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.silentchaos512.mechanisms.util.MachineTier;
 
 public abstract class AbstractMachineBlock extends AbstractFurnaceBlock {
-    protected AbstractMachineBlock(Properties properties) {
+    protected final MachineTier tier;
+
+    protected AbstractMachineBlock(MachineTier tier, Properties properties) {
         super(properties);
+        this.tier = tier;
     }
     
     @Override
