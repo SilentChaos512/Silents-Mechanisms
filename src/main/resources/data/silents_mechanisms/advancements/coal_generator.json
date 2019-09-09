@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "silents_mechanisms:coal_generator"
+        },
+        "title": {
+            "translate": "advancements.silents_mechanisms.coal_generator.title"
+        },
+        "description": {
+            "translate": "advancements.silents_mechanisms.coal_generator.description"
+        }
+    },
+    "parent": "silents_mechanisms:stone_machine_frame",
+    "criteria": {
+        "get_item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "silents_mechanisms:coal_generator"
+                    }
+                ]
+            }
+        }
+    }
+}

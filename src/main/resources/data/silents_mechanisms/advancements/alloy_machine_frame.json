@@ -1,0 +1,26 @@
+{
+    "display": {
+        "icon": {
+            "item": "silents_mechanisms:alloy_machine_frame"
+        },
+        "title": {
+            "translate": "advancements.silents_mechanisms.alloy_machine_frame.title"
+        },
+        "description": {
+            "translate": "advancements.silents_mechanisms.alloy_machine_frame.description"
+        }
+    },
+    "parent": "silents_mechanisms:basic_alloy_smelter",
+    "criteria": {
+        "get_item": {
+            "trigger": "minecraft:inventory_changed",
+            "conditions": {
+                "items": [
+                    {
+                        "item": "silents_mechanisms:alloy_machine_frame"
+                    }
+                ]
+            }
+        }
+    }
+}
