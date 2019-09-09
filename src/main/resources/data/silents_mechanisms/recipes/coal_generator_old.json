@@ -3,23 +3,20 @@
     "pattern": [
         "###",
         "/X/",
-        "OAO"
+        "OOO"
     ],
     "key": {
         "#": {
             "tag": "forge:ingots/iron"
         },
         "/": {
-            "tag": "forge:ingots/copper"
+            "tag": "forge:ingots/redstone_alloy"
         },
         "X": {
-            "item": "silents_mechanisms:stone_machine_frame"
+            "item": "minecraft:furnace"
         },
         "O": {
             "tag": "forge:cobblestone"
-        },
-        "A": {
-            "tag": "forge:ingots/refined_iron"
         }
     },
     "result": {
