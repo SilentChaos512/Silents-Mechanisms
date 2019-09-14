@@ -1,25 +1,25 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        " / ",
-        "#X#",
-        "LXL"
+        "# #",
+        "/X/",
+        "#C#"
     ],
     "key": {
         "#": {
-            "tag": "forge:ingots/iron"
+            "tag": "forge:stone"
         },
         "/": {
             "tag": "forge:ingots/redstone_alloy"
         },
         "X": {
-            "tag": "forge:dusts/redstone"
+            "item": "silents_mechanisms:battery"
         },
-        "L": {
-            "tag": "forge:ingots/lead"
+        "C": {
+            "item": "silents_mechanisms:circuit_board"
         }
     },
     "result": {
-        "item": "silents_mechanisms:battery"
+        "item": "silents_mechanisms:battery_box"
     }
 }

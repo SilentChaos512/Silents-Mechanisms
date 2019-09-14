@@ -3,7 +3,7 @@
     "pattern": [
         " / ",
         "#X#",
-        "LXL"
+        "#L#"
     ],
     "key": {
         "#": {
@@ -14,9 +14,6 @@
         },
         "X": {
             "tag": "forge:dusts/redstone"
-        },
-        "L": {
-            "tag": "forge:ingots/lead"
         }
     },
     "result": {
