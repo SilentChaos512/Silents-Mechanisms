@@ -1,6 +1,7 @@
 package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.GlassBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -38,6 +39,7 @@ public final class ModBlocks {
     public static LavaGeneratorBlock lavaGenerator;
     public static BatteryBoxBlock batteryBox;
     public static WireBlock wire;
+    public static FlowingFluidBlock oil;
 
     private ModBlocks() {}
 
@@ -65,6 +67,9 @@ public final class ModBlocks {
         lavaGenerator = register("lava_generator", new LavaGeneratorBlock());
         batteryBox = register("battery_box", new BatteryBoxBlock());
         wire = register("wire", new WireBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
+
+        // Fluids (no items)
+        oil = register("oil", new FlowingFluidBlock(() -> ModFluids.OIL, Block.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops()), null);
     }
 
     private static <T extends Block> T register(String name, T block) {

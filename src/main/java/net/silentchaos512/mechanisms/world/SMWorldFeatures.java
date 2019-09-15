@@ -3,11 +3,15 @@ package net.silentchaos512.mechanisms.world;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.LakesConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
+import net.minecraft.world.gen.placement.LakeChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.Ores;
+import net.silentchaos512.mechanisms.world.feature.OilLakesFeature;
 
 public final class SMWorldFeatures {
     private SMWorldFeatures() {}
@@ -18,6 +22,8 @@ public final class SMWorldFeatures {
                 for (Ores ore : Ores.values()) {
                     addOre(biome, ore);
                 }
+
+                biome.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, Biome.createDecoratedFeature(OilLakesFeature.INSTANCE, new LakesConfig(ModBlocks.oil.getDefaultState()), Placement.WATER_LAKE, new LakeChanceConfig(6)));
             }
         }
     }

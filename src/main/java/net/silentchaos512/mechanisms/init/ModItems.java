@@ -1,7 +1,9 @@
 package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.item.BlockItem;
+import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -17,6 +19,7 @@ import java.util.Map;
 
 public final class ModItems {
     public static BatteryItem battery;
+    public static BucketItem oilBucket;
 
     static final Map<String, BlockItem> BLOCKS_TO_REGISTER = new LinkedHashMap<>();
 
@@ -26,6 +29,7 @@ public final class ModItems {
         BLOCKS_TO_REGISTER.forEach(ModItems::register);
 
         battery = register("battery", new BatteryItem());
+        oilBucket = register("oil_bucket", new BucketItem(() -> ModFluids.OIL, new Item.Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(1).containerItem(Items.BUCKET)));
 
         Arrays.stream(CraftingItems.values()).forEach(c -> register(c.getName(), c.asItem()));
 

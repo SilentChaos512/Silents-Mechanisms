@@ -5,6 +5,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 Even more recipe work!
+### Added
+- Oil, generates is "lakes", usually underground. No function at the moment.
 ### Fixed
 - Add loot table for basic crusher
 
