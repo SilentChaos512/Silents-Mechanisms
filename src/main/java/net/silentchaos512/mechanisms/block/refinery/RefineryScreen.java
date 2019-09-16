@@ -1,19 +1,17 @@
-package net.silentchaos512.mechanisms.block.generator.lava;
+package net.silentchaos512.mechanisms.block.refinery;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseScreen;
-import net.silentchaos512.mechanisms.client.renderer.RenderUtils;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
-public class LavaGeneratorScreen extends AbstractMachineBaseScreen<LavaGeneratorContainer> {
-    public static final ResourceLocation TEXTURE = SilentMechanisms.getId("textures/gui/lava_generator.png");
+public class RefineryScreen extends AbstractMachineBaseScreen<RefineryContainer> {
+    public static final ResourceLocation TEXTURE = SilentMechanisms.getId("textures/gui/refinery.png");
 
-    public LavaGeneratorScreen(LavaGeneratorContainer container, PlayerInventory playerInventory, ITextComponent titleIn) {
+    public RefineryScreen(RefineryContainer container, PlayerInventory playerInventory, ITextComponent titleIn) {
         super(container, playerInventory, titleIn);
     }
 
@@ -31,10 +29,10 @@ public class LavaGeneratorScreen extends AbstractMachineBaseScreen<LavaGenerator
 
     @Override
     protected void renderHoveredToolTip(int mouseX, int mouseY) {
-        if (isPointInRegion(135, 17, 13, 51, mouseX, mouseY)) {
-            ITextComponent text = TextUtil.fluidWithMax(container.getTank());
-            renderTooltip(text.getFormattedText(), mouseX, mouseY);
-        }
+//        if (isPointInRegion(135, 17, 13, 51, mouseX, mouseY)) {
+//            ITextComponent text = TextUtil.fluidWithMax(container.getTank());
+//            renderTooltip(text.getFormattedText(), mouseX, mouseY);
+//        }
         if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
             ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
             renderTooltip(text.getFormattedText(), mouseX, mouseY);
@@ -58,8 +56,7 @@ public class LavaGeneratorScreen extends AbstractMachineBaseScreen<LavaGenerator
         }
 
         // Fluid tank
-        IFluidHandler tank = container.getTank();
-        RenderUtils.renderGuiTank(tank, xPos + 136, yPos + 18, 0, 12, 50);
+//        IFluidHandler tank = container.getTank();
+//        RenderUtils.renderGuiTank(tank, xPos + 136, yPos + 18, 0, 12, 50);
     }
-
 }

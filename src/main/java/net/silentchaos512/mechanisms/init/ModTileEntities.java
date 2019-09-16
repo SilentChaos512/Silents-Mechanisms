@@ -18,18 +18,22 @@ import net.silentchaos512.mechanisms.block.dryingrack.DryingRackTileEntityRender
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceTileEntity;
 import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorTileEntity;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorTileEntity;
+import net.silentchaos512.mechanisms.block.refinery.RefineryTileEntity;
 import net.silentchaos512.mechanisms.block.wire.WireTileEntity;
 
 import java.util.function.Supplier;
 
-public class ModTileEntities {
+public final class ModTileEntities {
     public static TileEntityType<BatteryBoxTileEntity> batteryBox;
     public static TileEntityType<CoalGeneratorTileEntity> coalGenerator;
     public static TileEntityType<CompressorTileEntity> compressor;
     public static TileEntityType<DryingRackTileEntity> dryingRack;
     public static TileEntityType<ElectricFurnaceTileEntity> electricFurnace;
     public static TileEntityType<LavaGeneratorTileEntity> lavaGenerator;
+    public static TileEntityType<RefineryTileEntity> refinery;
     public static TileEntityType<WireTileEntity> wire;
+
+    private ModTileEntities() {}
 
     public static void registerAll(RegistryEvent.Register<TileEntityType<?>> event) {
         register("basic_alloy_smelter", MachineType.ALLOY_SMELTER.getBasicTileEntityType());
@@ -42,6 +46,7 @@ public class ModTileEntities {
         dryingRack = register("drying_rack", DryingRackTileEntity::new, ModBlocks.DRYING_RACKS.toArray(new DryingRackBlock[0]));
         electricFurnace = register("electric_furnace", ElectricFurnaceTileEntity::new, ModBlocks.electricFurnace);
         lavaGenerator = register("lava_generator", LavaGeneratorTileEntity::new, ModBlocks.lavaGenerator);
+        refinery = register("refinery", RefineryTileEntity::new, ModBlocks.refinery);
         wire = register("wire", WireTileEntity::new, ModBlocks.wire);
     }
 

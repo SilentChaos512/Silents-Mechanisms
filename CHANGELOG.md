@@ -6,7 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 Even more recipe work!
 ### Added
-- Oil, generates is "lakes", usually underground. No function at the moment.
+- Oil, generates ii "lakes", usually underground. No function at the moment.
+- Diesel, will be one product of refining oil. Currently no way to produce it.
 ### Fixed
 - Add loot table for basic crusher
 

@@ -23,6 +23,8 @@ import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorContainer
 import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorScreen;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorContainer;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorScreen;
+import net.silentchaos512.mechanisms.block.refinery.RefineryContainer;
+import net.silentchaos512.mechanisms.block.refinery.RefineryScreen;
 
 public final class ModContainers {
     public static ContainerType<AlloySmelterContainer> alloySmelter;
@@ -32,6 +34,7 @@ public final class ModContainers {
     public static ContainerType<CrusherContainer> crusher;
     public static ContainerType<ElectricFurnaceContainer> electricFurnace;
     public static ContainerType<LavaGeneratorContainer> lavaGenerator;
+    public static ContainerType<RefineryContainer> refinery;
 
     private ModContainers() {}
 
@@ -43,6 +46,7 @@ public final class ModContainers {
         crusher = register("crusher", CrusherContainer::new);
         electricFurnace = register("electric_furnace", ElectricFurnaceContainer::new);
         lavaGenerator = register("lava_generator", LavaGeneratorContainer::new);
+        refinery = register("refinery", RefineryContainer::new);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -54,6 +58,7 @@ public final class ModContainers {
         ScreenManager.registerFactory(crusher, CrusherScreen::new);
         ScreenManager.registerFactory(electricFurnace, ElectricFurnaceScreen::new);
         ScreenManager.registerFactory(lavaGenerator, LavaGeneratorScreen::new);
+        ScreenManager.registerFactory(refinery, RefineryScreen::new);
     }
 
     private static <C extends Container> ContainerType<C> register(String name, ContainerType.IFactory<C> containerFactory) {

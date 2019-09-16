@@ -5,6 +5,7 @@ import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.GlassBlock;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -19,6 +20,7 @@ import net.silentchaos512.mechanisms.block.dryingrack.DryingRackBlock;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceBlock;
 import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorBlock;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorBlock;
+import net.silentchaos512.mechanisms.block.refinery.RefineryBlock;
 import net.silentchaos512.mechanisms.block.wire.WireBlock;
 import net.silentchaos512.mechanisms.util.MachineTier;
 
@@ -26,6 +28,7 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Supplier;
 
 public final class ModBlocks {
     public static final List<DryingRackBlock> DRYING_RACKS = new ArrayList<>();
@@ -35,11 +38,13 @@ public final class ModBlocks {
     public static CrusherBlock crusher;
     public static CompressorBlock compressor;
     public static ElectricFurnaceBlock electricFurnace;
+    public static RefineryBlock refinery;
     public static CoalGeneratorBlock coalGenerator;
     public static LavaGeneratorBlock lavaGenerator;
     public static BatteryBoxBlock batteryBox;
     public static WireBlock wire;
     public static FlowingFluidBlock oil;
+    public static FlowingFluidBlock diesel;
 
     private ModBlocks() {}
 
@@ -63,13 +68,15 @@ public final class ModBlocks {
         crusher = register("crusher", new CrusherBlock(MachineTier.STANDARD));
         compressor = register("compressor", new CompressorBlock());
         electricFurnace = register("electric_furnace", new ElectricFurnaceBlock());
+        refinery = register("refinery", new RefineryBlock());
         coalGenerator = register("coal_generator", new CoalGeneratorBlock());
         lavaGenerator = register("lava_generator", new LavaGeneratorBlock());
         batteryBox = register("battery_box", new BatteryBoxBlock());
         wire = register("wire", new WireBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
 
         // Fluids (no items)
-        oil = register("oil", new FlowingFluidBlock(() -> ModFluids.OIL, Block.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops()), null);
+        oil = register("oil", createFluidBlock(() -> ModFluids.OIL), null);
+        diesel = register("diesel", createFluidBlock(() -> ModFluids.DIESEL), null);
     }
 
     private static <T extends Block> T register(String name, T block) {
@@ -87,5 +94,9 @@ public final class ModBlocks {
         }
 
         return block;
+    }
+
+    private static FlowingFluidBlock createFluidBlock(Supplier<FlowingFluid> fluid) {
+        return new FlowingFluidBlock(fluid, Block.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops());
     }
 }

@@ -1,0 +1,11 @@
+{
+    "input": {
+        "tag": "forge:oil"
+    },
+    "outputs": [
+        {
+            "fluid": "silents_mechanisms:diesel",
+            "amount": 1000
+        }
+    ]
+}

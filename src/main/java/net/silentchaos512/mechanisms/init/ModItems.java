@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.init;
 
+import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
@@ -16,10 +17,12 @@ import net.silentchaos512.mechanisms.item.WrenchItem;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Supplier;
 
 public final class ModItems {
     public static BatteryItem battery;
     public static BucketItem oilBucket;
+    public static BucketItem dieselBucket;
 
     static final Map<String, BlockItem> BLOCKS_TO_REGISTER = new LinkedHashMap<>();
 
@@ -29,12 +32,17 @@ public final class ModItems {
         BLOCKS_TO_REGISTER.forEach(ModItems::register);
 
         battery = register("battery", new BatteryItem());
-        oilBucket = register("oil_bucket", new BucketItem(() -> ModFluids.OIL, new Item.Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(1).containerItem(Items.BUCKET)));
+        oilBucket = register("oil_bucket", createBucketItem(() -> ModFluids.OIL));
+        dieselBucket = register("diesel_bucket", createBucketItem(() -> ModFluids.DIESEL));
 
         Arrays.stream(CraftingItems.values()).forEach(c -> register(c.getName(), c.asItem()));
 
         register("wrench", new WrenchItem());
         register("debug_item", new DebugItem());
+    }
+
+    private static BucketItem createBucketItem(Supplier<FlowingFluid> fluid) {
+        return new BucketItem(fluid, new Item.Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(1).containerItem(Items.BUCKET));
     }
 
     private static <T extends Item> T register(String name, T item) {

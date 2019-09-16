@@ -14,6 +14,8 @@ import java.util.function.Supplier;
 public final class ModFluids {
     public static FlowingFluid FLOWING_OIL;
     public static FlowingFluid OIL;
+    public static FlowingFluid FLOWING_DIESEL;
+    public static FlowingFluid DIESEL;
 
     private ModFluids() {}
 
@@ -21,6 +23,10 @@ public final class ModFluids {
         ForgeFlowingFluid.Properties oilProps = properties("oil", () -> OIL, () -> FLOWING_OIL).block(() -> ModBlocks.oil).bucket(() -> ModItems.oilBucket);
         FLOWING_OIL = register("flowing_oil", new ForgeFlowingFluid.Flowing(oilProps));
         OIL = register("oil", new ForgeFlowingFluid.Source(oilProps));
+
+        ForgeFlowingFluid.Properties dieselProps = properties("diesel", () -> DIESEL, () -> FLOWING_DIESEL).block(() -> ModBlocks.diesel).bucket(() -> ModItems.dieselBucket);
+        FLOWING_DIESEL = register("flowing_diesel", new ForgeFlowingFluid.Flowing(dieselProps));
+        DIESEL = register("diesel", new ForgeFlowingFluid.Source(dieselProps));
     }
 
     private static <T extends Fluid> T register(String name, T fluid) {
