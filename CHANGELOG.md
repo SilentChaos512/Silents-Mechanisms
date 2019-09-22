@@ -8,6 +8,8 @@ Even more recipe work!
 ### Added
 - Oil, generates ii "lakes", usually underground. No function at the moment.
 - Diesel, will be one product of refining oil. Currently no way to produce it.
+### Changed
+- Coal generator now also accepts `forge:nuggets/coal` [#18]
 ### Fixed
 - Add loot table for basic crusher
 
