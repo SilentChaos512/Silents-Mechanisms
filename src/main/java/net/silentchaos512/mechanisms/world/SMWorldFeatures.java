@@ -30,7 +30,7 @@ public final class SMWorldFeatures {
 
     private static void addOre(Biome biome, Ores ore) {
         ore.getConfig().ifPresent(config -> {
-            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, Biome.createDecoratedFeature(
+            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
                     Feature.ORE,
                     new OreFeatureConfig(
                             OreFeatureConfig.FillerBlockType.NATURAL_STONE,

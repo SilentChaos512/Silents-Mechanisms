@@ -12,6 +12,7 @@ Even more recipe work!
 ### Changed
 - Coal generator now also accepts `forge:nuggets/coal` [#18]
 ### Fixed
+- Ores generating in wrong generation stage [#19]
 - Add loot table for basic crusher
 
 ## [0.5.2] - 2019-09-08
