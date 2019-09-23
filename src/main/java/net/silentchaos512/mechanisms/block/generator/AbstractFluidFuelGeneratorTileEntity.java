@@ -13,6 +13,7 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
+import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.EnumUtils;
 
 import javax.annotation.Nonnull;
@@ -78,7 +79,7 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
     };
 
     protected AbstractFluidFuelGeneratorTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract, FluidTank tankIn) {
-        super(typeIn, inventorySize, maxEnergy, maxReceive, maxExtract);
+        super(typeIn, inventorySize, maxEnergy, maxReceive, maxExtract, MachineTier.STANDARD);
         this.tank = tankIn;
         this.fluidHandlerCap = LazyOptional.of(() -> tank);
     }

@@ -6,8 +6,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 Even more recipe work!
 ### Added
-- Oil, generates ii "lakes", usually underground. No function at the moment.
+- Oil, generates in "lakes", usually underground. No function at the moment.
 - Diesel, will be one product of refining oil. Currently no way to produce it.
+- Refinery, not functional. Will refine oil into other fluids. Has a "recipe" system which will allow mods or datapacks to use it.
 ### Changed
 - Coal generator now also accepts `forge:nuggets/coal` [#18]
 ### Fixed

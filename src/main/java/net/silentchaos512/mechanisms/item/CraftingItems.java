@@ -11,10 +11,6 @@ import net.silentchaos512.utils.TextUtils;
 import javax.annotation.Nullable;
 
 public enum CraftingItems implements IItemProvider {
-    // Crafting items
-    CIRCUIT_BOARD,
-    HEATING_ELEMENT,
-    POWER_SUPPLY_UNIT,
     // Mod metals
     REDSTONE_ALLOY_INGOT,
     REDSTONE_ALLOY_NUGGET,
@@ -89,6 +85,11 @@ public enum CraftingItems implements IItemProvider {
     BISMUTH_STEEL_NUGGET,
     // Other dusts
     COAL_DUST,
+    // Crafting items
+    CIRCUIT_BOARD,
+    HEATING_ELEMENT,
+    POWER_SUPPLY_UNIT,
+    SOLDER,
     // Others
     ZOMBIE_LEATHER,
     BEEF_JERKY(Foods.COOKED_BEEF),

@@ -9,8 +9,13 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
+import net.minecraft.util.IItemProvider;
 import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
+import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
+import net.silentchaos512.mechanisms.item.MachineUpgradeItem;
+import net.silentchaos512.mechanisms.item.MachineUpgrades;
+import net.silentchaos512.mechanisms.util.Constants;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.EnumUtils;
 
@@ -20,7 +25,6 @@ import java.util.Collection;
 public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends AbstractMachineBaseTileEntity implements IMachineInventory {
     public static final int FIELDS_COUNT = 7;
 
-    protected final MachineTier tier;
     protected float progress;
     protected int processTime;
 
@@ -74,8 +78,12 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     };
 
     protected AbstractMachineTileEntity(TileEntityType<?> typeIn, int inventorySize, MachineTier tier) {
-        super(typeIn, inventorySize, tier.getEnergyCapacity(), 500, 0);
-        this.tier = tier;
+        super(typeIn, inventorySize, tier.getEnergyCapacity(), 500, 0, tier);
+    }
+
+    @Override
+    public EnergyStorageImpl getEnergyImpl() {
+        return super.getEnergyImpl();
     }
 
     protected abstract int getEnergyUsedPerTick();
@@ -113,12 +121,14 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 
     /**
      * Get the processing speed. This is added to processing progress every tick. A speed of 1 would
-     * process a 200 tick recipe in 200 ticks, speed 2 would be 100 ticks.
+     * process a 200 tick recipe in 200 ticks, speed 2 would be 100 ticks. Should account for speed
+     * upgrades.
      *
      * @return The processing speed
      */
     protected float getProcessSpeed() {
-        return tier.getProcessingSpeed();
+        int speedUpgrades = getUpgradeCount(MachineUpgrades.PROCESSING_SPEED);
+        return tier.getProcessingSpeed() + speedUpgrades * Constants.UPGRADE_PROCESSING_SPEED_AMOUNT;
     }
 
     /**
@@ -138,6 +148,28 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
      */
     protected Collection<ItemStack> getPossibleProcessResult(R recipe) {
         return getProcessResults(recipe);
+    }
+
+    public int getUpgradeCount(IItemProvider upgradeItem) {
+        int count = 0;
+        for (int i = getSizeInventory() - tier.getUpgradeSlots(); i < getSizeInventory(); ++i) {
+            ItemStack stack = getStackInSlot(i);
+            if (!stack.isEmpty() && stack.getItem() == upgradeItem.asItem()) {
+                count += stack.getCount();
+            }
+        }
+        return count;
+    }
+
+    private float getUpgradesEnergyMultiplier() {
+        float cost = 1f;
+        for (int i = getSizeInventory() - tier.getUpgradeSlots(); i < getSizeInventory(); ++i) {
+            ItemStack stack = getStackInSlot(i);
+            if (!stack.isEmpty() && stack.getItem() instanceof MachineUpgradeItem) {
+                cost += stack.getCount() * ((MachineUpgradeItem) stack.getItem()).getUpgrade().getEnergyUsageMultiplier();
+            }
+        }
+        return cost;
     }
 
     @Override
@@ -169,7 +201,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
             // Process
             processTime = getProcessTime(recipe);
             progress += getProcessSpeed();
-            energy.consumeEnergy(getEnergyUsedPerTick());
+            energy.consumeEnergy((int) (getEnergyUsedPerTick() * getUpgradesEnergyMultiplier()));
 
             if (progress >= processTime) {
                 // Create result

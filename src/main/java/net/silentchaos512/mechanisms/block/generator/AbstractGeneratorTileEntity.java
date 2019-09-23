@@ -8,6 +8,7 @@ import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
+import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.EnumUtils;
 
 public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTileEntity {
@@ -65,8 +66,8 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
         }
     };
 
-    protected AbstractGeneratorTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract) {
-        super(typeIn, inventorySize, maxEnergy, maxReceive, maxExtract);
+    protected AbstractGeneratorTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract, MachineTier tier) {
+        super(typeIn, inventorySize, maxEnergy, maxReceive, maxExtract, tier);
     }
 
     protected abstract boolean hasFuel();

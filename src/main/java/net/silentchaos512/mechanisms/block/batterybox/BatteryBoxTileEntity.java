@@ -11,6 +11,7 @@ import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
 import net.silentchaos512.mechanisms.capability.EnergyStorageWithBatteries;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
+import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 import javax.annotation.Nullable;
@@ -27,7 +28,7 @@ public class BatteryBoxTileEntity extends AbstractMachineBaseTileEntity {
     private final EnergyStorageWithBatteries<BatteryBoxTileEntity> energy;
 
     public BatteryBoxTileEntity() {
-        super(ModTileEntities.batteryBox, 6, MAX_ENERGY, MAX_RECEIVE, MAX_SEND);
+        super(ModTileEntities.batteryBox, 6, MAX_ENERGY, MAX_RECEIVE, MAX_SEND, MachineTier.BASIC);
         this.energy = new EnergyStorageWithBatteries<>(this, MAX_ENERGY, MAX_RECEIVE, MAX_SEND);
     }
 

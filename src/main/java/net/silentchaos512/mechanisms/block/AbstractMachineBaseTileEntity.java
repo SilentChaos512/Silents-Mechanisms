@@ -6,10 +6,12 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
+import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.EnumUtils;
 
 public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInventoryTileEntity {
     public static final int FIELDS_COUNT = 5;
+    protected final MachineTier tier;
 
     protected RedstoneMode redstoneMode = RedstoneMode.IGNORED;
 
@@ -52,8 +54,9 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
         }
     };
     
-    protected AbstractMachineBaseTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract) {
-        super(typeIn, inventorySize, maxEnergy, maxReceive, maxExtract);
+    protected AbstractMachineBaseTileEntity(TileEntityType<?> typeIn, int inventorySize, int maxEnergy, int maxReceive, int maxExtract, MachineTier tier) {
+        super(typeIn, inventorySize + tier.getUpgradeSlots(), maxEnergy, maxReceive, maxExtract);
+        this.tier = tier;
     }
 
     public RedstoneMode getRedstoneMode() {
@@ -62,6 +65,10 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
 
     public void setRedstoneMode(RedstoneMode redstoneMode) {
         this.redstoneMode = redstoneMode;
+    }
+
+    public MachineTier getMachineTier() {
+        return tier;
     }
 
     @Override

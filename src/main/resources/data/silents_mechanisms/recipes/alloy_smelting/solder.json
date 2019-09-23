@@ -1,0 +1,32 @@
+{
+    "type": "silents_mechanisms:alloy_smelting",
+    "process_time": 200,
+    "ingredients": [
+        {
+            "values": [
+                {
+                    "tag": "forge:dusts/tin"
+                },
+                {
+                    "tag": "forge:ingots/tin"
+                }
+            ],
+            "count": 1
+        },
+        {
+            "values": [
+                {
+                    "tag": "forge:dusts/lead"
+                },
+                {
+                    "tag": "forge:ingots/lead"
+                }
+            ],
+            "count": 1
+        }
+    ],
+    "result": {
+        "item": "silents_mechanisms:solder",
+        "count": 12
+    }
+}

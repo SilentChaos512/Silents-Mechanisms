@@ -17,6 +17,8 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
+import net.silentchaos512.mechanisms.item.MachineUpgrades;
 import net.silentchaos512.mechanisms.util.Constants;
 import net.silentchaos512.utils.MathUtils;
 
@@ -67,8 +69,14 @@ public class CrushingRecipe implements IRecipe<IInventory> {
      * @return Results of crushing
      */
     public List<ItemStack> getResults(IInventory inv) {
+        int outputUpgrades = inv instanceof AbstractMachineTileEntity
+                ? ((AbstractMachineTileEntity) inv).getUpgradeCount(MachineUpgrades.OUTPUT_CHANCE)
+                : 0;
         return results.entrySet().stream()
-                .filter(e -> MathUtils.tryPercentage(e.getValue()))
+                .filter(e -> {
+                    float chance = e.getValue() + outputUpgrades * Constants.UPGRADE_SECONDARY_OUTPUT_AMOUNT;
+                    return MathUtils.tryPercentage(chance);
+                })
                 .map(e -> e.getKey().copy())
                 .collect(Collectors.toList());
     }

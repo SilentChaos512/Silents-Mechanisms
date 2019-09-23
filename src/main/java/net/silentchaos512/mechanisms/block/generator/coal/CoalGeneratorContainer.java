@@ -25,6 +25,8 @@ public class CoalGeneratorContainer extends AbstractMachineBaseContainer<CoalGen
         this.addSlot(new Slot(this.tileEntity, 0, 80, 33));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
+
+        this.addUpgradeSlots();
     }
 
     public int getBurnTime() {

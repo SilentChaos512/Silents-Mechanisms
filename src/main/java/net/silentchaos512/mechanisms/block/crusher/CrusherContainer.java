@@ -10,15 +10,16 @@ import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.block.AbstractMachineContainer;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
-import net.silentchaos512.mechanisms.init.ModContainers;
+import net.silentchaos512.mechanisms.init.MachineType;
+import net.silentchaos512.mechanisms.util.MachineTier;
 
 public class CrusherContainer extends AbstractMachineContainer<CrusherTileEntity> {
-    public CrusherContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new CrusherTileEntity(), new IntArray(AbstractMachineTileEntity.FIELDS_COUNT));
+    public CrusherContainer(int id, PlayerInventory playerInventory, MachineTier tier) {
+        this(id, playerInventory, MachineType.CRUSHER.create(tier), new IntArray(AbstractMachineTileEntity.FIELDS_COUNT));
     }
 
     public CrusherContainer(int id, PlayerInventory playerInventory, CrusherTileEntity tileEntity, IIntArray fieldsIn) {
-        super(ModContainers.crusher, id, tileEntity, fieldsIn);
+        super(MachineType.CRUSHER.getContainerType(tileEntity.getMachineTier()), id, tileEntity, fieldsIn);
 
         this.addSlot(new Slot(this.tileEntity, 0, 26, 35));
         this.addSlot(new SlotOutputOnly(this.tileEntity, 1, 80, 35));
@@ -27,6 +28,8 @@ public class CrusherContainer extends AbstractMachineContainer<CrusherTileEntity
         this.addSlot(new SlotOutputOnly(this.tileEntity, 4, 134, 35));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
+
+        this.addUpgradeSlots();
     }
 
     @Override
@@ -41,7 +44,7 @@ public class CrusherContainer extends AbstractMachineContainer<CrusherTileEntity
             final int playerInventoryEnd = inventorySize + 27;
             final int playerHotbarEnd = playerInventoryEnd + 9;
 
-            if (index == 1) {
+            if (index > 0 && index < inventorySize) {
                 if (!this.mergeItemStack(itemstack1, inventorySize, playerHotbarEnd, true)) {
                     return ItemStack.EMPTY;
                 }

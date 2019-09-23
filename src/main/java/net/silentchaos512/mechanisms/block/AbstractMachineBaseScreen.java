@@ -45,6 +45,11 @@ public abstract class AbstractMachineBaseScreen<C extends AbstractMachineBaseCon
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
         blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
+
+        // Upgrade slots
+        for (int i = 0; i < this.container.tileEntity.tier.getUpgradeSlots(); ++i) {
+            blit(xPos + 5 + 18 * i, yPos - 11, 190, 0, 18, 14);
+        }
     }
 
     @Override

@@ -24,6 +24,8 @@ public class CompressorContainer extends AbstractMachineContainer<CompressorTile
         this.addSlot(new SlotOutputOnly(this.tileEntity, 1, 117, 35));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
+
+        this.addUpgradeSlots();
     }
 
     @Override

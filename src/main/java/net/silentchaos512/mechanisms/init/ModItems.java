@@ -9,10 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
-import net.silentchaos512.mechanisms.item.BatteryItem;
-import net.silentchaos512.mechanisms.item.CraftingItems;
-import net.silentchaos512.mechanisms.item.DebugItem;
-import net.silentchaos512.mechanisms.item.WrenchItem;
+import net.silentchaos512.mechanisms.item.*;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -36,6 +33,8 @@ public final class ModItems {
         dieselBucket = register("diesel_bucket", createBucketItem(() -> ModFluids.DIESEL));
 
         Arrays.stream(CraftingItems.values()).forEach(c -> register(c.getName(), c.asItem()));
+
+        Arrays.stream(MachineUpgrades.values()).forEach(u -> register(u.getName(), u.asItem()));
 
         register("wrench", new WrenchItem());
         register("debug_item", new DebugItem());

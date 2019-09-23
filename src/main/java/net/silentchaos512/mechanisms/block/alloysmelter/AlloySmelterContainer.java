@@ -10,15 +10,16 @@ import net.silentchaos512.lib.inventory.SlotOutputOnly;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.block.AbstractMachineContainer;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
-import net.silentchaos512.mechanisms.init.ModContainers;
+import net.silentchaos512.mechanisms.init.MachineType;
+import net.silentchaos512.mechanisms.util.MachineTier;
 
 public class AlloySmelterContainer extends AbstractMachineContainer<AlloySmelterTileEntity> {
-    public AlloySmelterContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new AlloySmelterTileEntity(), new IntArray(AbstractMachineTileEntity.FIELDS_COUNT));
+    public AlloySmelterContainer(int id, PlayerInventory playerInventory, MachineTier tier) {
+        this(id, playerInventory, MachineType.ALLOY_SMELTER.create(tier), new IntArray(AbstractMachineTileEntity.FIELDS_COUNT));
     }
 
     protected AlloySmelterContainer(int id, PlayerInventory playerInventory, AlloySmelterTileEntity tileEntityIn, IIntArray fieldsIn) {
-        super(ModContainers.alloySmelter, id, tileEntityIn, fieldsIn);
+        super(MachineType.ALLOY_SMELTER.getContainerType(tileEntityIn.getMachineTier()), id, tileEntityIn, fieldsIn);
 
         for (int i = 0; i < AlloySmelterTileEntity.INPUT_SLOT_COUNT; ++i) {
             this.addSlot(new Slot(this.tileEntity, i, 17 + 18 * i, 35));
@@ -26,6 +27,7 @@ public class AlloySmelterContainer extends AbstractMachineContainer<AlloySmelter
         this.addSlot(new SlotOutputOnly(this.tileEntity, AlloySmelterTileEntity.INPUT_SLOT_COUNT, 126, 35));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
+        this.addUpgradeSlots();
     }
 
     @Override

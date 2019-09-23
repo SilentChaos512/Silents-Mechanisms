@@ -7,12 +7,14 @@ import net.minecraft.item.Item;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.silentchaos512.lib.event.Greetings;
 import net.silentchaos512.lib.util.generator.ModelGenerator;
 import net.silentchaos512.mechanisms.compat.computercraft.SMechComputerCraftCompat;
 import net.silentchaos512.mechanisms.config.Config;
@@ -47,6 +49,8 @@ class SideProxy implements IProxy {
         Network.init();
 
         ModRecipes.init();
+
+        Greetings.addMessage(p -> new StringTextComponent("Thanks for trying Silent's Mechanisms! This mod is early in development, expect bugs and changes."));
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {

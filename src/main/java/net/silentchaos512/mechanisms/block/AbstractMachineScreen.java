@@ -1,6 +1,5 @@
 package net.silentchaos512.mechanisms.block;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.text.ITextComponent;
 
@@ -21,13 +20,15 @@ public abstract class AbstractMachineScreen<C extends AbstractMachineContainer<?
     }
 
     @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
+        super.drawGuiContainerForegroundLayer(mouseX, mouseY);
+    }
+
+    @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        if (minecraft == null) return;
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        minecraft.getTextureManager().bindTexture(getGuiTexture());
+        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
-        blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
         int progress = container.getProgress();

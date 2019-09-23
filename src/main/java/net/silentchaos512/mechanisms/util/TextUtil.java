@@ -19,6 +19,11 @@ public class TextUtil {
         return translate("misc", "energy", s1);
     }
 
+    public static ITextComponent energyPerTick(int amount) {
+        String s1 = String.format(ENERGY_FORMAT, amount);
+        return translate("misc", "energyPerTick", s1);
+    }
+
     public static ITextComponent energyWithMax(int amount, int max) {
          String s1 = String.format(ENERGY_FORMAT, amount);
          String s2 = String.format(ENERGY_FORMAT, max);

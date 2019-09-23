@@ -33,6 +33,8 @@ public class LavaGeneratorContainer extends AbstractMachineBaseContainer<LavaGen
         this.addSlot(new Slot(this.tileEntity, 1, 80, 59));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
+
+        this.addUpgradeSlots();
     }
 
     public int getBurnTime() {

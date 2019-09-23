@@ -21,7 +21,7 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity {
     private final FluidTank[] tanks;
 
     public RefineryTileEntity() {
-        super(ModTileEntities.refinery, 0, MachineTier.STANDARD.getEnergyCapacity(), 500, 0);
+        super(ModTileEntities.refinery, 0, MachineTier.STANDARD.getEnergyCapacity(), 500, 0, MachineTier.BASIC);
         tanks = IntStream.range(0, 5).mapToObj(k -> new FluidTank(10_000)).toArray(FluidTank[]::new);
     }
 

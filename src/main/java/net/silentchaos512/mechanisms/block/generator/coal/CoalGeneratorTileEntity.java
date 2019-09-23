@@ -12,6 +12,7 @@ import net.minecraftforge.event.ForgeEventFactory;
 import net.silentchaos512.mechanisms.block.generator.AbstractGeneratorTileEntity;
 import net.silentchaos512.mechanisms.init.ModTags;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
+import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 import javax.annotation.Nullable;
@@ -23,7 +24,7 @@ public class CoalGeneratorTileEntity extends AbstractGeneratorTileEntity {
     public static final int ENERGY_CREATED_PER_TICK = 60;
 
     public CoalGeneratorTileEntity() {
-        super(ModTileEntities.coalGenerator, 1, MAX_ENERGY, 0, MAX_SEND);
+        super(ModTileEntities.coalGenerator, 1, MAX_ENERGY, 0, MAX_SEND, MachineTier.STANDARD);
     }
 
     static boolean isFuel(ItemStack stack) {
