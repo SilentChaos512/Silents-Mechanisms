@@ -3,9 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.6.0] - 2019-09-23
 Even more recipe work!
 ### Added
+- Machine upgrades. Not craftable yet, but 3 of the 4 are functioning. Most machines (except basic ones) will have upgrade slots. Only one upgrade is allowed in each slot, but they can stack elsewhere.
 - Oil, generates in "lakes", usually underground. No function at the moment.
 - Diesel, will be one product of refining oil. Currently no way to produce it.
 - Refinery, not functional. Will refine oil into other fluids. Has a "recipe" system which will allow mods or datapacks to use it.

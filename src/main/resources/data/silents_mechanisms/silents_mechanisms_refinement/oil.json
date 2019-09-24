@@ -6,6 +6,10 @@
         {
             "fluid": "silents_mechanisms:diesel",
             "amount": 1000
+        },
+        {
+            "fluid": "silents_mechanisms:ethane",
+            "amount": 500
         }
     ]
 }

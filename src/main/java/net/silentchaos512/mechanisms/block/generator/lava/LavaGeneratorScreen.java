@@ -32,7 +32,7 @@ public class LavaGeneratorScreen extends AbstractMachineBaseScreen<LavaGenerator
     @Override
     protected void renderHoveredToolTip(int mouseX, int mouseY) {
         if (isPointInRegion(135, 17, 13, 51, mouseX, mouseY)) {
-            ITextComponent text = TextUtil.fluidWithMax(container.getTank());
+            ITextComponent text = TextUtil.fluidWithMax(container.getTank(), 0);
             renderTooltip(text.getFormattedText(), mouseX, mouseY);
         }
         if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {

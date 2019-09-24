@@ -112,6 +112,7 @@ public final class RefiningRecipeManager implements IResourceManagerReloadListen
 
     public static void handleSyncPacket(SyncRefiningRecipesPacket packet, Supplier<NetworkEvent.Context> context) {
         MAP.clear();
+        packet.getRecipes().forEach(r -> MAP.put(r.getId(), r));
         SilentMechanisms.LOGGER.info("Read {} refining recipes from server", MAP.size());
         context.get().setPacketHandled(true);
     }

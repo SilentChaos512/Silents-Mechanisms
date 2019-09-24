@@ -30,11 +30,11 @@ public class TextUtil {
         return translate("misc", "energyWithMax", s1, s2);
     }
 
-    public static ITextComponent fluidWithMax(IFluidHandler tank) {
-        FluidStack fluid = tank.getFluidInTank(0);
+    public static ITextComponent fluidWithMax(IFluidHandler fluidHandler, int tank) {
+        FluidStack fluid = fluidHandler.getFluidInTank(tank);
         ITextComponent fluidName = fluid.getDisplayName();
         String s1 = String.format(ENERGY_FORMAT, fluid.getAmount());
-        String s2 = String.format(ENERGY_FORMAT, tank.getTankCapacity(0));
+        String s2 = String.format(ENERGY_FORMAT, fluidHandler.getTankCapacity(tank));
         return translate("misc", "fluidWithMax", fluidName, s1, s2);
     }
 }

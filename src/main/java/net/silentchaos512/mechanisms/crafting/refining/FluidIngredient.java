@@ -11,21 +11,41 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class FluidIngredient implements Predicate<FluidStack> {
-    private final Tag<Fluid> tag;
-    private final Fluid fluid;
+    @Nullable private final Tag<Fluid> tag;
+    @Nullable private final Fluid fluid;
 
-    public FluidIngredient(Tag<Fluid> tag) {
+    public FluidIngredient(@Nonnull Tag<Fluid> tag) {
         this.tag = tag;
         this.fluid = null;
     }
 
-    public FluidIngredient(Fluid fluid) {
+    public FluidIngredient(@Nonnull Fluid fluid) {
         this.fluid = fluid;
         this.tag = null;
+    }
+
+    @Nullable
+    public Tag<Fluid> getTag() {
+        return tag;
+    }
+
+    public List<FluidStack> getFluids() {
+        if (tag != null) {
+            return tag.getAllElements().stream().map(f -> new FluidStack(f, 1000)).collect(Collectors.toList());
+        }
+        if (fluid != null) {
+            return Collections.singletonList(new FluidStack(fluid, 1000));
+        }
+        return Collections.emptyList();
     }
 
     @Override

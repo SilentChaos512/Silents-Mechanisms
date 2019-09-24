@@ -29,13 +29,23 @@ public class RefineryScreen extends AbstractMachineBaseScreen<RefineryContainer>
 
     @Override
     protected void renderHoveredToolTip(int mouseX, int mouseY) {
-//        if (isPointInRegion(135, 17, 13, 51, mouseX, mouseY)) {
-//            ITextComponent text = TextUtil.fluidWithMax(container.getTank());
-//            renderTooltip(text.getFormattedText(), mouseX, mouseY);
-//        }
+        if (isPointInRegion(28, 17, 13, 51, mouseX, mouseY)) {
+            renderTooltip(TextUtil.fluidWithMax(container.getTileEntity(), 0).getFormattedText(), mouseX, mouseY);
+        }
+        if (isPointInRegion(68, 17, 13, 51, mouseX, mouseY)) {
+            renderTooltip(TextUtil.fluidWithMax(container.getTileEntity(), 1).getFormattedText(), mouseX, mouseY);
+        }
+        if (isPointInRegion(84, 17, 13, 51, mouseX, mouseY)) {
+            renderTooltip(TextUtil.fluidWithMax(container.getTileEntity(), 2).getFormattedText(), mouseX, mouseY);
+        }
+        if (isPointInRegion(100, 17, 13, 51, mouseX, mouseY)) {
+            renderTooltip(TextUtil.fluidWithMax(container.getTileEntity(), 3).getFormattedText(), mouseX, mouseY);
+        }
+        if (isPointInRegion(116, 17, 13, 51, mouseX, mouseY)) {
+            renderTooltip(TextUtil.fluidWithMax(container.getTileEntity(), 4).getFormattedText(), mouseX, mouseY);
+        }
         if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
-            ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
-            renderTooltip(text.getFormattedText(), mouseX, mouseY);
+            renderTooltip(TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored()).getFormattedText(), mouseX, mouseY);
         }
         super.renderHoveredToolTip(mouseX, mouseY);
     }

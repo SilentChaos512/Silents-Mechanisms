@@ -8,6 +8,7 @@ public final class Constants {
     public static final ResourceLocation COMPRESSING = SilentMechanisms.getId("compressing");
     public static final ResourceLocation CRUSHING = SilentMechanisms.getId("crushing");
     public static final ResourceLocation DRYING = SilentMechanisms.getId("drying");
+    public static final ResourceLocation REFINING = SilentMechanisms.getId("refining");
     public static final ResourceLocation SOLDERING = SilentMechanisms.getId("soldering");
 
     // Machine upgrades

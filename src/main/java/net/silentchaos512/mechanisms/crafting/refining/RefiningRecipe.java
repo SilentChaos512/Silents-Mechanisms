@@ -37,6 +37,10 @@ public class RefiningRecipe {
         return this.input.test(fluid);
     }
 
+    public FluidIngredient getInput() {
+        return input;
+    }
+
     public List<FluidStack> getResults() {
         List<FluidStack> results = NonNullList.create();
         outputs.forEach(s -> results.add(s.copy()));
