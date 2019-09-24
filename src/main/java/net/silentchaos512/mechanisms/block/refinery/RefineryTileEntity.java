@@ -10,6 +10,8 @@ import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -19,21 +21,93 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
+import net.silentchaos512.utils.EnumUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.stream.IntStream;
 
 public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements IFluidHandler {
-    public static final int FIELDS_COUNT = 10; // TODO
+    public static final int FIELDS_COUNT = 17; // TODO
     public static final int TANK_CAPACITY = 4_000;
 
+    private float progress;
+    private int processTime;
     private final FluidTank[] tanks;
     private final LazyOptional<IFluidHandler> fluidHandlerCap;
+
+    protected final IIntArray fields = new IIntArray() {
+        @SuppressWarnings("deprecation") // Use of Registry
+        @Override
+        public int get(int index) {
+            switch (index) {
+                //Minecraft actually sends fields as shorts, so we need to split energy into 2 fields
+                case 0:
+                    // Energy lower bytes
+                    return getEnergyStored() & 0xFFFF;
+                case 1:
+                    // Energy upper bytes
+                    return (getEnergyStored() >> 16) & 0xFFFF;
+                case 2:
+                    return getMaxEnergyStored() & 0xFFFF;
+                case 3:
+                    return (getMaxEnergyStored() >> 16) & 0xFFFF;
+                case 4:
+                    return redstoneMode.ordinal();
+                case 5:
+                    return (int) progress;
+                case 6:
+                    return processTime;
+                case 7:
+                    return Registry.FLUID.getId(tanks[0].getFluid().getFluid());
+                case 8:
+                    return tanks[0].getFluid().getAmount();
+                case 9:
+                    return Registry.FLUID.getId(tanks[1].getFluid().getFluid());
+                case 10:
+                    return tanks[1].getFluid().getAmount();
+                case 11:
+                    return Registry.FLUID.getId(tanks[2].getFluid().getFluid());
+                case 12:
+                    return tanks[2].getFluid().getAmount();
+                case 13:
+                    return Registry.FLUID.getId(tanks[3].getFluid().getFluid());
+                case 14:
+                    return tanks[3].getFluid().getAmount();
+                case 15:
+                    return Registry.FLUID.getId(tanks[4].getFluid().getFluid());
+                case 16:
+                    return tanks[4].getFluid().getAmount();
+                default:
+                    return 0;
+            }
+        }
+
+        @Override
+        public void set(int index, int value) {
+            switch (index) {
+                case 4:
+                    redstoneMode = EnumUtils.byOrdinal(value, RedstoneMode.IGNORED);
+                    break;
+                case 5:
+                    progress = value;
+                    break;
+                case 6:
+                    processTime = value;
+                    break;
+            }
+        }
+
+        @Override
+        public int size() {
+            return FIELDS_COUNT;
+        }
+    };
 
     public RefineryTileEntity() {
         super(ModTileEntities.refinery, 2, MachineTier.STANDARD.getEnergyCapacity(), 500, 0, MachineTier.BASIC);

@@ -6,6 +6,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseScreen;
+import net.silentchaos512.mechanisms.client.renderer.RenderUtils;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 public class RefineryScreen extends AbstractMachineBaseScreen<RefineryContainer> {
@@ -30,19 +31,19 @@ public class RefineryScreen extends AbstractMachineBaseScreen<RefineryContainer>
     @Override
     protected void renderHoveredToolTip(int mouseX, int mouseY) {
         if (isPointInRegion(28, 17, 13, 51, mouseX, mouseY)) {
-            renderTooltip(TextUtil.fluidWithMax(container.getTileEntity(), 0).getFormattedText(), mouseX, mouseY);
+            renderTooltip(TextUtil.fluidWithMax(container.getFluidInTank(0), RefineryTileEntity.TANK_CAPACITY).getFormattedText(), mouseX, mouseY);
         }
         if (isPointInRegion(68, 17, 13, 51, mouseX, mouseY)) {
-            renderTooltip(TextUtil.fluidWithMax(container.getTileEntity(), 1).getFormattedText(), mouseX, mouseY);
+            renderTooltip(TextUtil.fluidWithMax(container.getFluidInTank(1), RefineryTileEntity.TANK_CAPACITY).getFormattedText(), mouseX, mouseY);
         }
         if (isPointInRegion(84, 17, 13, 51, mouseX, mouseY)) {
-            renderTooltip(TextUtil.fluidWithMax(container.getTileEntity(), 2).getFormattedText(), mouseX, mouseY);
+            renderTooltip(TextUtil.fluidWithMax(container.getFluidInTank(2), RefineryTileEntity.TANK_CAPACITY).getFormattedText(), mouseX, mouseY);
         }
         if (isPointInRegion(100, 17, 13, 51, mouseX, mouseY)) {
-            renderTooltip(TextUtil.fluidWithMax(container.getTileEntity(), 3).getFormattedText(), mouseX, mouseY);
+            renderTooltip(TextUtil.fluidWithMax(container.getFluidInTank(3), RefineryTileEntity.TANK_CAPACITY).getFormattedText(), mouseX, mouseY);
         }
         if (isPointInRegion(116, 17, 13, 51, mouseX, mouseY)) {
-            renderTooltip(TextUtil.fluidWithMax(container.getTileEntity(), 4).getFormattedText(), mouseX, mouseY);
+            renderTooltip(TextUtil.fluidWithMax(container.getFluidInTank(4), RefineryTileEntity.TANK_CAPACITY).getFormattedText(), mouseX, mouseY);
         }
         if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
             renderTooltip(TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored()).getFormattedText(), mouseX, mouseY);
@@ -65,8 +66,11 @@ public class RefineryScreen extends AbstractMachineBaseScreen<RefineryContainer>
             blit(xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
         }
 
-        // Fluid tank
-//        IFluidHandler tank = container.getTank();
-//        RenderUtils.renderGuiTank(tank, xPos + 136, yPos + 18, 0, 12, 50);
+        // Tanks
+        RenderUtils.renderGuiTank(container.getFluidInTank(0), RefineryTileEntity.TANK_CAPACITY, xPos + 29, yPos + 18, 0, 12, 50);
+        RenderUtils.renderGuiTank(container.getFluidInTank(1), RefineryTileEntity.TANK_CAPACITY, xPos + 69, yPos + 18, 0, 12, 50);
+        RenderUtils.renderGuiTank(container.getFluidInTank(2), RefineryTileEntity.TANK_CAPACITY, xPos + 85, yPos + 18, 0, 12, 50);
+        RenderUtils.renderGuiTank(container.getFluidInTank(3), RefineryTileEntity.TANK_CAPACITY, xPos + 101, yPos + 18, 0, 12, 50);
+        RenderUtils.renderGuiTank(container.getFluidInTank(4), RefineryTileEntity.TANK_CAPACITY, xPos + 117, yPos + 18, 0, 12, 50);
     }
 }

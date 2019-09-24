@@ -31,10 +31,14 @@ public class TextUtil {
     }
 
     public static ITextComponent fluidWithMax(IFluidHandler fluidHandler, int tank) {
-        FluidStack fluid = fluidHandler.getFluidInTank(tank);
-        ITextComponent fluidName = fluid.getDisplayName();
-        String s1 = String.format(ENERGY_FORMAT, fluid.getAmount());
-        String s2 = String.format(ENERGY_FORMAT, fluidHandler.getTankCapacity(tank));
+        FluidStack stack = fluidHandler.getFluidInTank(tank);
+        return fluidWithMax(stack, fluidHandler.getTankCapacity(tank));
+    }
+
+    public static ITextComponent fluidWithMax(FluidStack stack, int tankCapacity) {
+        ITextComponent fluidName = stack.getDisplayName();
+        String s1 = String.format(ENERGY_FORMAT, stack.getAmount());
+        String s2 = String.format(ENERGY_FORMAT, tankCapacity);
         return translate("misc", "fluidWithMax", fluidName, s1, s2);
     }
 }

@@ -17,19 +17,23 @@ public final class RenderUtils {
         throw new IllegalAccessError("Utility class");
     }
 
-    public static void renderGuiTank(IFluidHandler tank, double x, double y, double zLevel, double width, double height) {
+    public static void renderGuiTank(IFluidHandler fluidHandler, int tank, double x, double y, double zLevel, double width, double height) {
+        FluidStack stack = fluidHandler.getFluidInTank(tank);
+        int tankCapacity = fluidHandler.getTankCapacity(tank);
+        renderGuiTank(stack, tankCapacity, x, y, zLevel, width, height);
+    }
+
+    public static void renderGuiTank(FluidStack stack, int tankCapacity, double x, double y, double zLevel, double width, double height) {
         // Adapted from Ender IO
-        FluidStack fluid = tank.getFluidInTank(0);
-        int amount = fluid.getAmount();
-        int capacity = tank.getTankCapacity(0);
-        if (fluid.getFluid() == null || amount <= 0) {
+        int amount = stack.getAmount();
+        if (stack.getFluid() == null || amount <= 0) {
             return;
         }
 
-        ResourceLocation stillTexture = fluid.getFluid().getAttributes().getStillTexture();
+        ResourceLocation stillTexture = stack.getFluid().getAttributes().getStillTexture();
         TextureAtlasSprite icon = Minecraft.getInstance().getTextureMap().getSprite(stillTexture);
 
-        int renderAmount = (int) Math.max(Math.min(height, amount * height / capacity), 1);
+        int renderAmount = (int) Math.max(Math.min(height, amount * height / tankCapacity), 1);
         int posY = (int) (y + height - renderAmount);
 
         Minecraft.getInstance().getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);

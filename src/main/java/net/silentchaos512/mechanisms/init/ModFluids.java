@@ -30,6 +30,7 @@ public final class ModFluids {
         FLOWING_DIESEL = register("flowing_diesel", new ForgeFlowingFluid.Flowing(dieselProps));
         DIESEL = register("diesel", new ForgeFlowingFluid.Source(dieselProps));
 
+        //noinspection ReturnOfNull
         ForgeFlowingFluid.Properties ethaneProps = properties("ethane", () -> ETHANE, () -> null);
         ETHANE = register("ethane", new ForgeFlowingFluid.Source(ethaneProps));
     }

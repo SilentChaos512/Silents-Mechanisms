@@ -59,7 +59,7 @@ public class LavaGeneratorScreen extends AbstractMachineBaseScreen<LavaGenerator
 
         // Fluid tank
         IFluidHandler tank = container.getTank();
-        RenderUtils.renderGuiTank(tank, xPos + 136, yPos + 18, 0, 12, 50);
+        RenderUtils.renderGuiTank(tank, 0, xPos + 136, yPos + 18, 0, 12, 50);
     }
 
 }
