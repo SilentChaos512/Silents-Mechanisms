@@ -3,7 +3,6 @@ package net.silentchaos512.mechanisms.block.generator.lava;
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
@@ -14,6 +13,7 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.silentchaos512.lib.util.InventoryUtils;
+import net.silentchaos512.mechanisms.api.IFluidContainer;
 import net.silentchaos512.mechanisms.block.generator.AbstractFluidFuelGeneratorTileEntity;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
@@ -66,40 +66,35 @@ public class LavaGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEntit
     public void tick() {
         // Drain buckets into internal tank
         ItemStack input = getStackInSlot(0);
-        if (!input.isEmpty() && input.getItem() instanceof BucketItem) {
-            tryFillTankWithBucket(input);
+        if (!input.isEmpty()) {
+            tryFillTank(input);
         }
 
         super.tick();
     }
 
-    private void tryFillTankWithBucket(ItemStack input) {
-        Fluid fluid = ((BucketItem) input.getItem()).getFluid();
-        FluidStack fluidStack = new FluidStack(fluid, 1000);
-        if (canAcceptLavaBucket(input, fluidStack)) {
+    private void tryFillTank(ItemStack input) {
+        FluidStack fluidStack = IFluidContainer.getBucketOrContainerFluid(input);
+        if (canAcceptLavaContainer(input, fluidStack)) {
             tank.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
             sendUpdate(getBlockState(), true);
 
-            setInventorySlotContents(0, input.getContainerItem());
+            ItemStack containerItem = input.getContainerItem();
+            input.shrink(1);
 
-            // Move buckets to output slot
-            ItemStack input2 = getStackInSlot(0);
-            if (!input2.isEmpty()) {
-                ItemStack output = getStackInSlot(1);
-                if (output.isEmpty()) {
-                    setInventorySlotContents(1, input2);
-                    setInventorySlotContents(0, ItemStack.EMPTY);
-                } else if (InventoryUtils.canItemsStack(getStackInSlot(0), output)) {
-                    output.grow(1);
-                    input2.shrink(1);
-                }
+            ItemStack output = getStackInSlot(1);
+            if (output.isEmpty()) {
+                setInventorySlotContents(1, containerItem);
+            } else {
+                output.grow(1);
             }
         }
     }
 
-    private boolean canAcceptLavaBucket(ItemStack input, FluidStack fluid) {
+    private boolean canAcceptLavaContainer(ItemStack input, FluidStack fluid) {
         ItemStack output = getStackInSlot(1);
-        return tank.isFluidValid(0, fluid)
+        return !fluid.isEmpty()
+                && tank.isFluidValid(0, fluid)
                 && tank.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == 1000
                 && (output.isEmpty() || InventoryUtils.canItemsStack(input.getContainerItem(), output))
                 && (output.isEmpty() || output.getCount() < output.getMaxStackSize());

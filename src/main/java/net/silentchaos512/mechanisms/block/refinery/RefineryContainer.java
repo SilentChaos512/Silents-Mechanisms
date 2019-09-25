@@ -21,6 +21,8 @@ public class RefineryContainer extends AbstractMachineBaseContainer<RefineryTile
 
         this.addSlot(new Slot(this.tileEntity, 0, 8, 16));
         this.addSlot(new Slot(this.tileEntity, 1, 8, 59));
+        this.addSlot(new Slot(this.tileEntity, 2, 134, 16));
+        this.addSlot(new Slot(this.tileEntity, 3, 134, 59));
 
         InventoryUtils.createPlayerSlots(playerInventory, 8, 84).forEach(this::addSlot);
 

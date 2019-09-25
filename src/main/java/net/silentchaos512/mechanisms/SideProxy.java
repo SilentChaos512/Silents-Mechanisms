@@ -85,6 +85,7 @@ class SideProxy implements IProxy {
 
     static class Client extends SideProxy {
         Client() {
+            FMLJavaModLoadingContext.get().getModEventBus().addListener(ModItems::registerItemColors);
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
         }
 

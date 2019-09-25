@@ -6,10 +6,14 @@ import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.item.*;
+import net.silentchaos512.mechanisms.util.color.ColorGetter;
 
 import java.util.Arrays;
 import java.util.LinkedHashMap;
@@ -20,6 +24,7 @@ public final class ModItems {
     public static BatteryItem battery;
     public static BucketItem oilBucket;
     public static BucketItem dieselBucket;
+    public static CanisterItem canister = new CanisterItem();
 
     static final Map<String, BlockItem> BLOCKS_TO_REGISTER = new LinkedHashMap<>();
 
@@ -31,6 +36,7 @@ public final class ModItems {
         battery = register("battery", new BatteryItem());
         oilBucket = register("oil_bucket", createBucketItem(() -> ModFluids.OIL));
         dieselBucket = register("diesel_bucket", createBucketItem(() -> ModFluids.DIESEL));
+        register("canister", canister);
 
         Arrays.stream(CraftingItems.values()).forEach(c -> register(c.getName(), c.asItem()));
 
@@ -38,6 +44,16 @@ public final class ModItems {
 
         register("wrench", new WrenchItem());
         register("debug_item", new DebugItem());
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void registerItemColors(ColorHandlerEvent.Item event) {
+        event.getItemColors().register((stack, tintIndex) -> {
+            if (tintIndex == 1) {
+                return ColorGetter.getColor(canister.getFluid(stack).getFluid());
+            }
+            return 0xFFFFFF;
+        }, canister);
     }
 
     private static BucketItem createBucketItem(Supplier<FlowingFluid> fluid) {

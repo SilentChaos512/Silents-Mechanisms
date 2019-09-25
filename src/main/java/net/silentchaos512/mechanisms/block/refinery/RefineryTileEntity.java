@@ -2,7 +2,6 @@ package net.silentchaos512.mechanisms.block.refinery;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
@@ -21,13 +20,14 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.silentchaos512.lib.util.InventoryUtils;
+import net.silentchaos512.mechanisms.api.IFluidContainer;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipe;
 import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipeManager;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.item.MachineUpgradeItem;
+import net.silentchaos512.mechanisms.util.InventoryUtils;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 import net.silentchaos512.utils.EnumUtils;
@@ -115,7 +115,7 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
     };
 
     public RefineryTileEntity() {
-        super(ModTileEntities.refinery, 2, MachineTier.STANDARD.getEnergyCapacity(), 500, 0, MachineTier.BASIC);
+        super(ModTileEntities.refinery, 4, MachineTier.STANDARD.getEnergyCapacity(), 500, 0, MachineTier.BASIC);
         tanks = IntStream.range(0, 5).mapToObj(k -> new FluidTank(TANK_CAPACITY)).toArray(FluidTank[]::new);
         fluidHandlerCap = LazyOptional.of(() -> this);
     }
@@ -156,10 +156,8 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
     public void tick() {
         if (world == null || world.isRemote) return;
 
-        ItemStack input = getStackInSlot(0);
-        if (!input.isEmpty() && input.getItem() instanceof BucketItem) {
-            tryFillTankWithBucket(input);
-        }
+        tryFillTank();
+        tryFillFluidContainer();
 
         // Processing
         RefiningRecipe recipe = getRecipe();
@@ -189,36 +187,56 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
         }
     }
 
-    private void tryFillTankWithBucket(ItemStack input) {
-        Fluid fluid = ((BucketItem) input.getItem()).getFluid();
-        FluidStack fluidStack = new FluidStack(fluid, 1000);
-        if (canAcceptFluidBucket(input, fluidStack)) {
+    private void tryFillTank() {
+        // Try fill feedstock tank with fluid containers
+        ItemStack input = getStackInSlot(0);
+        if (input.isEmpty()) return;
+
+        FluidStack fluidStack = IFluidContainer.getBucketOrContainerFluid(input);
+        if (canAcceptFluidContainer(input, fluidStack)) {
             this.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
             sendUpdate(getBlockState(), true);
 
-            setInventorySlotContents(0, input.getContainerItem());
+            ItemStack containerItem = input.getContainerItem();
+            input.shrink(1);
 
-            // Move buckets to output slot
-            ItemStack input2 = getStackInSlot(0);
-            if (!input2.isEmpty()) {
-                ItemStack output = getStackInSlot(1);
-                if (output.isEmpty()) {
-                    setInventorySlotContents(1, input2);
-                    setInventorySlotContents(0, ItemStack.EMPTY);
-                } else if (InventoryUtils.canItemsStack(getStackInSlot(0), output)) {
-                    output.grow(1);
-                    input2.shrink(1);
-                }
+            ItemStack output = getStackInSlot(1);
+            if (output.isEmpty()) {
+                setInventorySlotContents(1, containerItem);
+            } else {
+                output.grow(1);
             }
         }
     }
 
-    private boolean canAcceptFluidBucket(ItemStack input, FluidStack fluid) {
+    private boolean canAcceptFluidContainer(ItemStack input, FluidStack fluid) {
         ItemStack output = getStackInSlot(1);
-        return this.isFluidValid(0, fluid)
+        return !fluid.isEmpty()
+                && this.isFluidValid(0, fluid)
                 && this.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == 1000
                 && (output.isEmpty() || InventoryUtils.canItemsStack(input.getContainerItem(), output))
                 && (output.isEmpty() || output.getCount() < output.getMaxStackSize());
+    }
+
+    private void tryFillFluidContainer() {
+        // Fill empty fluid containers with output fluids
+        ItemStack input = getStackInSlot(2);
+        if (input.isEmpty()) return;
+
+        FluidStack fluidInInput = IFluidContainer.getBucketOrContainerFluid(input);
+        if (!fluidInInput.isEmpty()) return;
+
+        for (int i = 1; i < 5; ++i) {
+            FluidStack fluidInTank = getFluidInTank(i);
+            if (fluidInTank.getAmount() >= 1000) {
+                ItemStack filled = IFluidContainer.fillBucketOrFluidContainer(input, fluidInTank);
+                if (!filled.isEmpty() && InventoryUtils.mergeItem(this, filled, 3)) {
+                    tanks[i].drain(1000, FluidAction.EXECUTE);
+                    input.shrink(1);
+                    return;
+                }
+            }
+        }
     }
 
     private boolean canMachineRun(RefiningRecipe recipe) {
@@ -248,7 +266,7 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
     }
 
     private boolean canFluidsStack(FluidStack stack, FluidStack output) {
-        return output.isEmpty() || (output.isFluidEqual(stack)  && output.getAmount() + stack.getAmount() <= TANK_CAPACITY);
+        return output.isEmpty() || (output.isFluidEqual(stack) && output.getAmount() + stack.getAmount() <= TANK_CAPACITY);
     }
 
     private void storeResultFluid(FluidStack stack) {

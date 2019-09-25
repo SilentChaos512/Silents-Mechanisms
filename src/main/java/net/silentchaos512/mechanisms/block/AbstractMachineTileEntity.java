@@ -10,12 +10,12 @@ import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IItemProvider;
-import net.minecraftforge.items.ItemHandlerHelper;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
 import net.silentchaos512.mechanisms.item.MachineUpgradeItem;
 import net.silentchaos512.mechanisms.item.MachineUpgrades;
 import net.silentchaos512.mechanisms.util.Constants;
+import net.silentchaos512.mechanisms.util.InventoryUtils;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.EnumUtils;
 
@@ -242,24 +242,18 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     private boolean hasRoomForOutputItem(ItemStack stack) {
         for (int i : getOutputSlots()) {
             ItemStack output = getStackInSlot(i);
-            if (canItemsStack(stack, output)) {
+            if (InventoryUtils.canItemsStack(stack, output)) {
                 return true;
             }
         }
         return false;
     }
 
-    protected static boolean canItemsStack(ItemStack a, ItemStack b) {
-        // Determine if the item stacks can be merged
-        if (a.isEmpty() || b.isEmpty()) return true;
-        return ItemHandlerHelper.canItemStacksStack(a, b) && a.getCount() + b.getCount() <= a.getMaxStackSize();
-    }
-
     private void storeResultItem(ItemStack stack) {
         // Merge the item into any output slot it can fit in
         for (int i : getOutputSlots()) {
             ItemStack output = getStackInSlot(i);
-            if (canItemsStack(stack, output)) {
+            if (InventoryUtils.canItemsStack(stack, output)) {
                 if (output.isEmpty()) {
                     setInventorySlotContents(i, stack);
                 } else {

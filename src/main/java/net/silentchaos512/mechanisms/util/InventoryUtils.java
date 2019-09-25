@@ -2,6 +2,7 @@ package net.silentchaos512.mechanisms.util;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.items.ItemHandlerHelper;
 
 import java.util.function.Predicate;
 
@@ -52,5 +53,23 @@ public final class InventoryUtils {
                 }
             }
         }
+    }
+
+    public static boolean canItemsStack(ItemStack a, ItemStack b) {
+        // Determine if the item stacks can be merged
+        if (a.isEmpty() || b.isEmpty()) return true;
+        return ItemHandlerHelper.canItemStacksStack(a, b) && a.getCount() + b.getCount() <= a.getMaxStackSize();
+    }
+
+    public static boolean mergeItem(IInventory inventory, ItemStack stack, int slot) {
+        ItemStack current = inventory.getStackInSlot(slot);
+        if (current.isEmpty()) {
+            inventory.setInventorySlotContents(slot, stack);
+            return true;
+        } else if (canItemsStack(stack, current)) {
+            current.grow(stack.getCount());
+            return true;
+        }
+        return false;
     }
 }
