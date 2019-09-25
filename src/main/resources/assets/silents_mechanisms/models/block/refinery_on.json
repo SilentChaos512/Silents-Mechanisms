@@ -8,12 +8,12 @@
         }
     },
     "textures": {
-        "particle": "silents_mechanisms:block/refinery/front_on",
-        "down": "silents_mechanisms:block/refinery/bottom",
-        "up": "silents_mechanisms:block/refinery/top_on",
-        "north": "silents_mechanisms:block/refinery/front_on",
-        "east": "silents_mechanisms:block/refinery/side_on",
-        "south": "silents_mechanisms:block/refinery/bottom",
-        "west": "silents_mechanisms:block/refinery/side_on"
+        "particle": "silents_mechanisms:block/refinery/temp",
+        "down": "silents_mechanisms:block/refinery/temp",
+        "up": "silents_mechanisms:block/refinery/temp",
+        "north": "silents_mechanisms:block/refinery/temp",
+        "east": "silents_mechanisms:block/refinery/temp",
+        "south": "silents_mechanisms:block/refinery/temp",
+        "west": "silents_mechanisms:block/refinery/temp"
     }
 }

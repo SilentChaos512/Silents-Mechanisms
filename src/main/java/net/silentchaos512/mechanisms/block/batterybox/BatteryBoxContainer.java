@@ -9,13 +9,14 @@ import net.minecraft.util.IntArray;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.silentchaos512.lib.util.InventoryUtils;
 import net.silentchaos512.mechanisms.block.AbstractEnergyStorageContainer;
+import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.mechanisms.init.ModContainers;
 
 public class BatteryBoxContainer extends AbstractEnergyStorageContainer {
     final BatteryBoxTileEntity tileEntity;
 
     public BatteryBoxContainer(int id, PlayerInventory playerInventory) {
-        this(id, playerInventory, new BatteryBoxTileEntity(), new IntArray(2));
+        this(id, playerInventory, new BatteryBoxTileEntity(), new IntArray(AbstractMachineBaseTileEntity.FIELDS_COUNT));
     }
 
     public BatteryBoxContainer(int id, PlayerInventory playerInventory, BatteryBoxTileEntity tileEntity, IIntArray fieldsIn) {

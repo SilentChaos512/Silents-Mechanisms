@@ -52,7 +52,7 @@ public class CoalGeneratorScreen extends AbstractMachineBaseScreen<CoalGenerator
         }
 
         // Energy meter
-        int energyBarHeight = 50 * container.getEnergyStored() / container.tileEntity.getMaxEnergyStored();
+        int energyBarHeight = container.getEnergyBarHeight();
         if (energyBarHeight > 0) {
             blit(xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
         }

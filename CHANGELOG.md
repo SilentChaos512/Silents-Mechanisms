@@ -7,7 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Canisters, stackable fluid containers (64 per slot). This will hold any fluid, but probably won't be recognized by other mods.
     - Fluid color is currently pulled from some JEI code until I write my own solution. If you report colorless fluids in canisters I will make fun of you :p
-- Refinery code is mostly done
+- Refinery is working
+- Refinery can fill buckets or fluid canisters
+- Temporary refinery textures
 
 ## [0.6.0] - 2019-09-23
 Even more recipe work!

@@ -24,7 +24,7 @@ public class CoalGeneratorTileEntity extends AbstractGeneratorTileEntity {
     public static final int ENERGY_CREATED_PER_TICK = 60;
 
     public CoalGeneratorTileEntity() {
-        super(ModTileEntities.coalGenerator, 1, MAX_ENERGY, 0, MAX_SEND, MachineTier.STANDARD);
+        super(ModTileEntities.coalGenerator, 1, MAX_ENERGY, 0, MAX_SEND, MachineTier.BASIC);
     }
 
     static boolean isFuel(ItemStack stack) {

@@ -2,6 +2,7 @@ package net.silentchaos512.mechanisms.block.refinery;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
@@ -26,6 +27,7 @@ import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipe;
 import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipeManager;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
+import net.silentchaos512.mechanisms.item.CanisterItem;
 import net.silentchaos512.mechanisms.item.MachineUpgradeItem;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
 import net.silentchaos512.mechanisms.util.MachineTier;
@@ -241,7 +243,7 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
 
     private boolean canMachineRun(RefiningRecipe recipe) {
         return world != null
-                && getEnergyStored() >= getMaxEnergyStored()
+                && getEnergyStored() >= getEnergyUsedPerTick()
                 && hasRoomInOutput(recipe.getResults())
                 && redstoneMode.shouldRun(world.getRedstonePowerFromNeighbors(pos) > 0);
     }
@@ -298,17 +300,27 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
 
     @Override
     public int[] getSlotsForFace(Direction side) {
-        return new int[0];
+        return new int[]{0, 1, 2, 3};
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
-        return index == 0 && itemStackIn.getItem() instanceof BucketItem;
+    public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
+        return (index == 0 && isFilledFluidContainer(stack)) || (index == 2 && isEmptyFluidContainer(stack));
     }
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
-        return index == 1;
+        return index == 1 || index == 3;
+    }
+
+    static boolean isFilledFluidContainer(ItemStack stack) {
+        return (stack.getItem() instanceof BucketItem && ((BucketItem) stack.getItem()).getFluid() != Fluids.EMPTY)
+        || (stack.getItem() instanceof CanisterItem && !((CanisterItem) stack.getItem()).getFluid(stack).isEmpty());
+    }
+
+    static boolean isEmptyFluidContainer(ItemStack stack) {
+        return (stack.getItem() instanceof BucketItem && ((BucketItem) stack.getItem()).getFluid() == Fluids.EMPTY)
+                || (stack.getItem() instanceof CanisterItem && ((CanisterItem) stack.getItem()).getFluid(stack).isEmpty());
     }
 
     @Override
