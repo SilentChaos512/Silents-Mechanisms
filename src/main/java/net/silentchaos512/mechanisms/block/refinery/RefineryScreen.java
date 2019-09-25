@@ -60,6 +60,12 @@ public class RefineryScreen extends AbstractMachineBaseScreen<RefineryContainer>
         int yPos = (this.height - this.ySize) / 2;
         blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
+        // Progress arrow
+        int progress = container.getProgress();
+        int processTime = container.getProcessTime();
+        int length = processTime > 0 && progress > 0 && progress < processTime ? progress * 24 / processTime : 0;
+        blit(xPos + 43, yPos + 35, 176, 14, length + 1, 16);
+
         // Energy meter
         int energyBarHeight = 50 * container.getEnergyStored() / container.getMaxEnergyStored();
         if (energyBarHeight > 0) {

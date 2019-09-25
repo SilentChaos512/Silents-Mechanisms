@@ -18,6 +18,7 @@ import java.util.Objects;
 
 public class RefiningRecipe {
     private final ResourceLocation recipeId;
+    private int processTime;
     private FluidIngredient input;
     private final List<FluidStack> outputs = NonNullList.create();
 
@@ -27,6 +28,10 @@ public class RefiningRecipe {
 
     public ResourceLocation getId() {
         return recipeId;
+    }
+
+    public int getProcessTime() {
+        return processTime;
     }
 
     public boolean matches(IFluidTank inputTank) {
@@ -49,6 +54,7 @@ public class RefiningRecipe {
 
     public static RefiningRecipe deserialize(ResourceLocation id, JsonObject json) {
         RefiningRecipe recipe = new RefiningRecipe(id);
+        recipe.processTime = JSONUtils.getInt(json, "process_time");
         recipe.input = FluidIngredient.deserialize(json.getAsJsonObject("input"));
         for (JsonElement je : JSONUtils.getJsonArray(json, "outputs")) {
             FluidStack stack = deserializeFluid(je.getAsJsonObject());
@@ -61,6 +67,7 @@ public class RefiningRecipe {
 
     public static RefiningRecipe read(PacketBuffer buffer) {
         RefiningRecipe recipe = new RefiningRecipe(buffer.readResourceLocation());
+        recipe.processTime = buffer.readVarInt();
         recipe.input = FluidIngredient.read(buffer);
         int count = buffer.readByte();
         for (int i = 0; i < count; ++i) {
@@ -78,6 +85,7 @@ public class RefiningRecipe {
 
     public void write(PacketBuffer buffer) {
         buffer.writeResourceLocation(this.recipeId);
+        buffer.writeVarInt(this.processTime);
         this.input.write(buffer);
         buffer.writeByte(this.outputs.size());
         this.outputs.forEach(s -> {

@@ -27,6 +27,14 @@ public class RefineryContainer extends AbstractMachineBaseContainer<RefineryTile
         this.addUpgradeSlots();
     }
 
+    public int getProgress() {
+        return fields.get(5);
+    }
+
+    public int getProcessTime() {
+        return fields.get(6);
+    }
+
     @SuppressWarnings("deprecation") // Use of Registry
     public FluidStack getFluidInTank(int tank) {
         int fluidId = this.fields.get(7 + 2 * tank);

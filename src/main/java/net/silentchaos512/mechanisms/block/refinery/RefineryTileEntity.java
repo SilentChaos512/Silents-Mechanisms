@@ -7,6 +7,8 @@ import net.minecraft.inventory.container.Container;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.INBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.util.Direction;
@@ -20,10 +22,12 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.silentchaos512.lib.util.InventoryUtils;
-import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
+import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipe;
+import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipeManager;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
+import net.silentchaos512.mechanisms.item.MachineUpgradeItem;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 import net.silentchaos512.utils.EnumUtils;
@@ -35,6 +39,7 @@ import java.util.stream.IntStream;
 public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements IFluidHandler {
     public static final int FIELDS_COUNT = 17; // TODO
     public static final int TANK_CAPACITY = 4_000;
+    public static final int ENERGY_PER_TICK = 100;
 
     private float progress;
     private int processTime;
@@ -115,11 +120,36 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
         fluidHandlerCap = LazyOptional.of(() -> this);
     }
 
-    public FluidStack getFluid(int tank) {
-        if (tank < 0 || tank >= tanks.length) {
-            return FluidStack.EMPTY;
+    @Nullable
+    private RefiningRecipe getRecipe() {
+        return RefiningRecipeManager.getValues().stream()
+                .filter(r -> r.matches(tanks[0]))
+                .findFirst()
+                .orElse(null);
+    }
+
+    public int getProcessTime(RefiningRecipe recipe) {
+        return recipe.getProcessTime();
+    }
+
+    private float getProcessSpeed() {
+        // TODO
+        return 1;
+    }
+
+    private int getEnergyUsedPerTick() {
+        return ENERGY_PER_TICK;
+    }
+
+    private float getUpgradesEnergyMultiplier() {
+        float cost = 1f;
+        for (int i = getSizeInventory() - tier.getUpgradeSlots(); i < getSizeInventory(); ++i) {
+            ItemStack stack = getStackInSlot(i);
+            if (!stack.isEmpty() && stack.getItem() instanceof MachineUpgradeItem) {
+                cost += stack.getCount() * ((MachineUpgradeItem) stack.getItem()).getUpgrade().getEnergyUsageMultiplier();
+            }
         }
-        return tanks[tank].getFluid();
+        return cost;
     }
 
     @Override
@@ -129,6 +159,33 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
         ItemStack input = getStackInSlot(0);
         if (!input.isEmpty() && input.getItem() instanceof BucketItem) {
             tryFillTankWithBucket(input);
+        }
+
+        // Processing
+        RefiningRecipe recipe = getRecipe();
+        if (recipe != null && canMachineRun(recipe)) {
+            // Process
+            processTime = recipe.getProcessTime();
+            progress += getProcessSpeed();
+            energy.consumeEnergy((int) (getEnergyUsedPerTick() * getUpgradesEnergyMultiplier()));
+
+            if (progress >= processTime) {
+                // Create result
+                recipe.getResults().forEach(this::storeResultFluid);
+                consumeFeedstock(recipe);
+
+                if (getRecipe() == null) {
+                    // Nothing left to process
+//                    setInactiveState();
+                } else {
+                    // Continue processing next output
+                    progress = 0;
+                }
+            } else {
+//                sendUpdate(getActiveState(world.getBlockState(pos)));
+            }
+        } else {
+//            setInactiveState();
         }
     }
 
@@ -162,6 +219,54 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
                 && this.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == 1000
                 && (output.isEmpty() || InventoryUtils.canItemsStack(input.getContainerItem(), output))
                 && (output.isEmpty() || output.getCount() < output.getMaxStackSize());
+    }
+
+    private boolean canMachineRun(RefiningRecipe recipe) {
+        return world != null
+                && getEnergyStored() >= getMaxEnergyStored()
+                && hasRoomInOutput(recipe.getResults())
+                && redstoneMode.shouldRun(world.getRedstonePowerFromNeighbors(pos) > 0);
+    }
+
+    private boolean hasRoomInOutput(Iterable<FluidStack> results) {
+        for (FluidStack stack : results) {
+            if (!hasRoomForOutputFluid(stack)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean hasRoomForOutputFluid(FluidStack stack) {
+        for (int i = 1; i < 5; ++i) {
+            FluidStack output = getFluidInTank(i);
+            if (canFluidsStack(stack, output)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean canFluidsStack(FluidStack stack, FluidStack output) {
+        return output.isEmpty() || (output.isFluidEqual(stack)  && output.getAmount() + stack.getAmount() <= TANK_CAPACITY);
+    }
+
+    private void storeResultFluid(FluidStack stack) {
+        for (int i = 1; i < 5; ++i) {
+            FluidStack output = getFluidInTank(i);
+            if (canFluidsStack(stack, output)) {
+                if (output.isEmpty()) {
+                    tanks[i].setFluid(stack);
+                } else {
+                    tanks[i].fill(stack, FluidAction.EXECUTE);
+                }
+                return;
+            }
+        }
+    }
+
+    private void consumeFeedstock(RefiningRecipe recipe) {
+        tanks[0].drain(1000, FluidAction.EXECUTE);
     }
 
     protected void sendUpdate(BlockState newState, boolean force) {
@@ -200,45 +305,43 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
 
     @Override
     public void read(CompoundNBT tags) {
-        SilentMechanisms.LOGGER.debug("read");
-        for (int i = 0; i < tanks.length; ++i) {
-            String key = "Tank" + i;
-            if (tags.contains(key)) {
-                tanks[i].setFluid(FluidStack.loadFluidStackFromNBT(tags.getCompound(key)));
-            }
+        ListNBT list = tags.getList("Tanks", 10);
+        for (int i = 0; i < tanks.length && i < list.size(); ++i) {
+            INBT nbt = list.get(i);
+            tanks[i].setFluid(FluidStack.loadFluidStackFromNBT((CompoundNBT) nbt));
         }
         super.read(tags);
     }
 
     @Override
     public CompoundNBT write(CompoundNBT tags) {
-        SilentMechanisms.LOGGER.debug("write");
-        for (int i = 0; i < tanks.length; ++i) {
-            tags.put("Tank" + i, tanks[i].writeToNBT(new CompoundNBT()));
+        ListNBT list = new ListNBT();
+        for (FluidTank tank : tanks) {
+            list.add(tank.writeToNBT(new CompoundNBT()));
         }
+        tags.put("Tanks", list);
         return super.write(tags);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
-        SilentMechanisms.LOGGER.debug("onDataPacket");
         super.onDataPacket(net, packet);
         CompoundNBT tags = packet.getNbtCompound();
-        for (int i = 0; i < tanks.length; ++i) {
-            String key = "Tank" + i;
-            if (tags.contains(key)) {
-                tanks[i].setFluid(FluidStack.loadFluidStackFromNBT(tags.getCompound(key)));
-            }
+        ListNBT list = tags.getList("Tanks", 10);
+        for (int i = 0; i < tanks.length && i < list.size(); ++i) {
+            INBT nbt = list.get(i);
+            tanks[i].setFluid(FluidStack.loadFluidStackFromNBT((CompoundNBT) nbt));
         }
     }
 
     @Override
     public CompoundNBT getUpdateTag() {
-        SilentMechanisms.LOGGER.debug("getUpdateTag");
         CompoundNBT tags = super.getUpdateTag();
-        for (int i = 0; i < tanks.length; ++i) {
-            tags.put("Tank" + i, tanks[i].writeToNBT(new CompoundNBT()));
+        ListNBT list = new ListNBT();
+        for (FluidTank tank : tanks) {
+            list.add(tank.writeToNBT(new CompoundNBT()));
         }
+        tags.put("Tanks", list);
         return tags;
     }
 
@@ -290,9 +393,6 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
     public int fill(FluidStack resource, FluidAction action) {
         FluidStack fluidInTank = tanks[0].getFluid();
         if (isFluidValid(0, resource) && (fluidInTank.isEmpty() || resource.isFluidEqual(fluidInTank))) {
-            if (action != FluidAction.SIMULATE) {
-                world.setBlockState(pos, getBlockState(), 3);
-            }
             return tanks[0].fill(resource, action);
         }
         return 0;

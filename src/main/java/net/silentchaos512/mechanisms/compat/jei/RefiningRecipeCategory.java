@@ -75,11 +75,12 @@ public class RefiningRecipeCategory implements IRecipeCategory<RefiningRecipe> {
     @Override
     public void setRecipe(IRecipeLayout recipeLayout, RefiningRecipe recipe, IIngredients ingredients) {
         IGuiFluidStackGroup fluidStacks = recipeLayout.getFluidStacks();
-        fluidStacks.init(0, true, 3, 3, 12, 50, RefineryTileEntity.TANK_CAPACITY, true, null);
-        fluidStacks.init(1, false, 43, 3, 12, 50, RefineryTileEntity.TANK_CAPACITY, true, null);
-        fluidStacks.init(2, false, 59, 3, 12, 50, RefineryTileEntity.TANK_CAPACITY, true, null);
-        fluidStacks.init(3, false, 75, 3, 12, 50, RefineryTileEntity.TANK_CAPACITY, true, null);
-        fluidStacks.init(4, false, 91, 3, 12, 50, RefineryTileEntity.TANK_CAPACITY, true, null);
+        final int capacity = RefineryTileEntity.TANK_CAPACITY;
+        fluidStacks.init(0, true, 3, 3, 12, 50, capacity, true, null);
+        fluidStacks.init(1, false, 43, 3, 12, 50, capacity, true, null);
+        fluidStacks.init(2, false, 59, 3, 12, 50, capacity, true, null);
+        fluidStacks.init(3, false, 75, 3, 12, 50, capacity, true, null);
+        fluidStacks.init(4, false, 91, 3, 12, 50, capacity, true, null);
 
         fluidStacks.set(0, ingredients.getInputs(VanillaTypes.FLUID).get(0));
         List<List<FluidStack>> outputs = ingredients.getOutputs(VanillaTypes.FLUID);

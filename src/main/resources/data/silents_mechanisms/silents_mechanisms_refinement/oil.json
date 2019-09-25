@@ -1,4 +1,5 @@
 {
+    "process_time": 600,
     "input": {
         "tag": "forge:oil"
     },
@@ -9,7 +10,7 @@
         },
         {
             "fluid": "silents_mechanisms:ethane",
-            "amount": 500
+            "amount": 1000
         }
     ]
 }
