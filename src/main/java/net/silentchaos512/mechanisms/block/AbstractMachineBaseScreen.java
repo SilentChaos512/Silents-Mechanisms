@@ -8,6 +8,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.client.button.RedstoneModeButton;
+import net.silentchaos512.mechanisms.inventory.MachineUpgradeSlot;
 import net.silentchaos512.mechanisms.network.Network;
 import net.silentchaos512.mechanisms.network.SetRedstoneModePacket;
 import net.silentchaos512.mechanisms.util.TextUtil;
@@ -33,6 +34,9 @@ public abstract class AbstractMachineBaseScreen<C extends AbstractMachineBaseCon
         if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
             ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
             renderTooltip(text.getFormattedText(), mouseX, mouseY);
+        }
+        if (hoveredSlot instanceof MachineUpgradeSlot && !hoveredSlot.getHasStack()) {
+            renderTooltip(TextUtil.translate("misc", "upgradeSlot").getFormattedText(), mouseX, mouseY);
         }
         super.renderHoveredToolTip(mouseX, mouseY);
     }

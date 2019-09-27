@@ -20,6 +20,7 @@ import net.silentchaos512.mechanisms.block.dryingrack.DryingRackBlock;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceBlock;
 import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorBlock;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorBlock;
+import net.silentchaos512.mechanisms.block.pump.PumpBlock;
 import net.silentchaos512.mechanisms.block.refinery.RefineryBlock;
 import net.silentchaos512.mechanisms.block.wire.WireBlock;
 import net.silentchaos512.mechanisms.util.MachineTier;
@@ -39,6 +40,7 @@ public final class ModBlocks {
     public static CompressorBlock compressor;
     public static ElectricFurnaceBlock electricFurnace;
     public static RefineryBlock refinery;
+    public static Block pump;
     public static CoalGeneratorBlock coalGenerator;
     public static LavaGeneratorBlock lavaGenerator;
     public static BatteryBoxBlock batteryBox;
@@ -69,6 +71,7 @@ public final class ModBlocks {
         compressor = register("compressor", new CompressorBlock());
         electricFurnace = register("electric_furnace", new ElectricFurnaceBlock());
         refinery = register("refinery", new RefineryBlock());
+        pump = register("pump", new PumpBlock());
         coalGenerator = register("coal_generator", new CoalGeneratorBlock());
         lavaGenerator = register("lava_generator", new LavaGeneratorBlock());
         batteryBox = register("battery_box", new BatteryBoxBlock());

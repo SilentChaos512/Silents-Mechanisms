@@ -1,0 +1,31 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#C#",
+        "/X/",
+        "OPO"
+    ],
+    "key": {
+        "#": {
+            "tag": "forge:ingots/aluminum"
+        },
+        "/": {
+            "tag": "forge:ingots/invar"
+        },
+        "X": {
+            "item": "silents_mechanisms:alloy_machine_frame"
+        },
+        "O": {
+            "item": "minecraft:bucket"
+        },
+        "C": {
+            "item": "silents_mechanisms:circuit_board"
+        },
+        "P": {
+            "item": "minecraft:piston"
+        }
+    },
+    "result": {
+        "item": "silents_mechanisms:pump"
+    }
+}

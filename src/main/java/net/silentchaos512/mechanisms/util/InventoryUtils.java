@@ -1,8 +1,14 @@
 package net.silentchaos512.mechanisms.util;
 
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.item.BucketItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.items.ItemHandlerHelper;
+import net.silentchaos512.mechanisms.block.refinery.RefineryTileEntity;
+import net.silentchaos512.mechanisms.item.CanisterItem;
 
 import java.util.function.Predicate;
 
@@ -71,5 +77,21 @@ public final class InventoryUtils {
             return true;
         }
         return false;
+    }
+
+    public static boolean isFilledFluidContainer(ItemStack stack) {
+        Item item = stack.getItem();
+        return (item instanceof BucketItem && ((BucketItem) item).getFluid() != Fluids.EMPTY)
+        || (item instanceof CanisterItem && !((CanisterItem) item).getFluid(stack).isEmpty());
+    }
+
+    public static boolean isEmptyFluidContainer(ItemStack stack) {
+        Item item = stack.getItem();
+        return (item instanceof BucketItem && ((BucketItem) item).getFluid() == Fluids.EMPTY)
+                || (item instanceof CanisterItem && ((CanisterItem) item).getFluid(stack).isEmpty());
+    }
+
+    public static boolean canFluidsStack(FluidStack stack, FluidStack output) {
+        return output.isEmpty() || (output.isFluidEqual(stack) && output.getAmount() + stack.getAmount() <= RefineryTileEntity.TANK_CAPACITY);
     }
 }

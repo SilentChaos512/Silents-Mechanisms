@@ -2,9 +2,7 @@ package net.silentchaos512.mechanisms.block.refinery;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -27,8 +25,9 @@ import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipe;
 import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipeManager;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
-import net.silentchaos512.mechanisms.item.CanisterItem;
 import net.silentchaos512.mechanisms.item.MachineUpgradeItem;
+import net.silentchaos512.mechanisms.item.MachineUpgrades;
+import net.silentchaos512.mechanisms.util.Constants;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
@@ -135,15 +134,15 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
     }
 
     private float getProcessSpeed() {
-        // TODO
-        return 1;
+        return 1 + getUpgradeCount(MachineUpgrades.PROCESSING_SPEED) * Constants.UPGRADE_PROCESSING_SPEED_AMOUNT;
     }
 
     private int getEnergyUsedPerTick() {
         return ENERGY_PER_TICK;
     }
 
-    private float getUpgradesEnergyMultiplier() {
+    @Override
+    public float getUpgradesEnergyMultiplier() {
         float cost = 1f;
         for (int i = getSizeInventory() - tier.getUpgradeSlots(); i < getSizeInventory(); ++i) {
             ItemStack stack = getStackInSlot(i);
@@ -260,21 +259,17 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
     private boolean hasRoomForOutputFluid(FluidStack stack) {
         for (int i = 1; i < 5; ++i) {
             FluidStack output = getFluidInTank(i);
-            if (canFluidsStack(stack, output)) {
+            if (InventoryUtils.canFluidsStack(stack, output)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean canFluidsStack(FluidStack stack, FluidStack output) {
-        return output.isEmpty() || (output.isFluidEqual(stack) && output.getAmount() + stack.getAmount() <= TANK_CAPACITY);
-    }
-
     private void storeResultFluid(FluidStack stack) {
         for (int i = 1; i < 5; ++i) {
             FluidStack output = getFluidInTank(i);
-            if (canFluidsStack(stack, output)) {
+            if (InventoryUtils.canFluidsStack(stack, output)) {
                 if (output.isEmpty()) {
                     tanks[i].setFluid(stack);
                 } else {
@@ -305,22 +300,12 @@ public class RefineryTileEntity extends AbstractMachineBaseTileEntity implements
 
     @Override
     public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
-        return (index == 0 && isFilledFluidContainer(stack)) || (index == 2 && isEmptyFluidContainer(stack));
+        return (index == 0 && InventoryUtils.isFilledFluidContainer(stack)) || (index == 2 && InventoryUtils.isEmptyFluidContainer(stack));
     }
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
         return index == 1 || index == 3;
-    }
-
-    static boolean isFilledFluidContainer(ItemStack stack) {
-        return (stack.getItem() instanceof BucketItem && ((BucketItem) stack.getItem()).getFluid() != Fluids.EMPTY)
-        || (stack.getItem() instanceof CanisterItem && !((CanisterItem) stack.getItem()).getFluid(stack).isEmpty());
-    }
-
-    static boolean isEmptyFluidContainer(ItemStack stack) {
-        return (stack.getItem() instanceof BucketItem && ((BucketItem) stack.getItem()).getFluid() == Fluids.EMPTY)
-                || (stack.getItem() instanceof CanisterItem && ((CanisterItem) stack.getItem()).getFluid(stack).isEmpty());
     }
 
     @Override

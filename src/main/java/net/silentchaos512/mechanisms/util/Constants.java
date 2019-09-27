@@ -16,6 +16,7 @@ public final class Constants {
     public static final float UPGRADE_PROCESSING_SPEED_AMOUNT = 0.5f;
     public static final float UPGRADE_SECONDARY_OUTPUT_AMOUNT = 0.1f;
     public static final float UPGRADE_ENERGY_EFFICIENCY_AMOUNT = -0.15f;
+    public static final int UPGRADE_RANGE_AMOUNT = 2;
 
     private Constants() {throw new IllegalAccessError("Utility class");}
 }

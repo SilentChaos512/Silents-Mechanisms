@@ -13,6 +13,7 @@ public enum MachineUpgrades implements IItemProvider, IMachineUpgrade {
     OUTPUT_CHANCE(Constants.UPGRADE_SECONDARY_OUTPUT_AMOUNT, 0.25f),
     ENERGY_CAPACITY(0, 0.0f, false),
     ENERGY_EFFICIENCY(Constants.UPGRADE_ENERGY_EFFICIENCY_AMOUNT, Constants.UPGRADE_ENERGY_EFFICIENCY_AMOUNT),
+    RANGE(Constants.UPGRADE_RANGE_AMOUNT, 0.15f, false)
     ;
 
     private final Lazy<Item> item;

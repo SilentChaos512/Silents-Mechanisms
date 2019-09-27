@@ -9,10 +9,8 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.IIntArray;
-import net.minecraft.util.IItemProvider;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.capability.EnergyStorageImpl;
-import net.silentchaos512.mechanisms.item.MachineUpgradeItem;
 import net.silentchaos512.mechanisms.item.MachineUpgrades;
 import net.silentchaos512.mechanisms.util.Constants;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
@@ -148,28 +146,6 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
      */
     protected Collection<ItemStack> getPossibleProcessResult(R recipe) {
         return getProcessResults(recipe);
-    }
-
-    public int getUpgradeCount(IItemProvider upgradeItem) {
-        int count = 0;
-        for (int i = getSizeInventory() - tier.getUpgradeSlots(); i < getSizeInventory(); ++i) {
-            ItemStack stack = getStackInSlot(i);
-            if (!stack.isEmpty() && stack.getItem() == upgradeItem.asItem()) {
-                count += stack.getCount();
-            }
-        }
-        return count;
-    }
-
-    private float getUpgradesEnergyMultiplier() {
-        float cost = 1f;
-        for (int i = getSizeInventory() - tier.getUpgradeSlots(); i < getSizeInventory(); ++i) {
-            ItemStack stack = getStackInSlot(i);
-            if (!stack.isEmpty() && stack.getItem() instanceof MachineUpgradeItem) {
-                cost += stack.getCount() * ((MachineUpgradeItem) stack.getItem()).getUpgrade().getEnergyUsageMultiplier();
-            }
-        }
-        return cost;
     }
 
     @Override
