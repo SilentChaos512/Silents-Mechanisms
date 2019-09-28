@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Divide by zero crashes [#22]
+- Silent Lib not being correctly listed as a dependency in the mods.toml
 
 ## [0.6.1] - 2019-09-27
 ### Added
