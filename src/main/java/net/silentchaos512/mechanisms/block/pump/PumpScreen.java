@@ -48,7 +48,7 @@ public class PumpScreen extends AbstractMachineBaseScreen<PumpContainer> {
         int yPos = (this.height - this.ySize) / 2;
 
         // Energy meter
-        int energyBarHeight = 50 * container.getEnergyStored() / container.getMaxEnergyStored();
+        int energyBarHeight = container.getEnergyBarHeight();
         if (energyBarHeight > 0) {
             blit(xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
         }

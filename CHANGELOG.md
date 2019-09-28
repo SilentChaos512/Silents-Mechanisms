@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Divide by zero crashes [#22]
+
 ## [0.6.1] - 2019-09-27
 ### Added
 - Canisters, stackable fluid containers (64 per slot). This will hold any fluid, but probably won't be recognized by other mods.
