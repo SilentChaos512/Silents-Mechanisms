@@ -42,7 +42,7 @@ public final class WireNetworkManager {
 
     public static void invalidateNetwork(IBlockReader world, BlockPos pos) {
         Collection<LazyOptional<WireNetwork>> toRemove = NETWORK_LIST.stream()
-                .filter(n -> n.isPresent() && n.orElseThrow(IllegalStateException::new).contains(world, pos))
+                .filter(n -> n != null && n.isPresent() && n.orElseThrow(IllegalStateException::new).contains(world, pos))
                 .collect(Collectors.toList());
         toRemove.forEach(WireNetworkManager::invalidateNetwork);
     }

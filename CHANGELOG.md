@@ -5,6 +5,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Fixed
+- Possibly fixed wire placing crash [#23]
 - Divide by zero crashes [#22]
 - Silent Lib not being correctly listed as a dependency in the mods.toml
 
