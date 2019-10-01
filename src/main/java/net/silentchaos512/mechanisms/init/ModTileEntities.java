@@ -18,6 +18,7 @@ import net.silentchaos512.mechanisms.block.dryingrack.DryingRackTileEntityRender
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceTileEntity;
 import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorTileEntity;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorTileEntity;
+import net.silentchaos512.mechanisms.block.mixer.MixerTileEntity;
 import net.silentchaos512.mechanisms.block.pump.PumpTileEntity;
 import net.silentchaos512.mechanisms.block.refinery.RefineryTileEntity;
 import net.silentchaos512.mechanisms.block.wire.WireTileEntity;
@@ -31,6 +32,7 @@ public final class ModTileEntities {
     public static TileEntityType<DryingRackTileEntity> dryingRack;
     public static TileEntityType<ElectricFurnaceTileEntity> electricFurnace;
     public static TileEntityType<LavaGeneratorTileEntity> lavaGenerator;
+    public static TileEntityType<MixerTileEntity> mixer;
     public static TileEntityType<PumpTileEntity> pump;
     public static TileEntityType<RefineryTileEntity> refinery;
     public static TileEntityType<WireTileEntity> wire;
@@ -48,6 +50,7 @@ public final class ModTileEntities {
         dryingRack = register("drying_rack", DryingRackTileEntity::new, ModBlocks.DRYING_RACKS.toArray(new DryingRackBlock[0]));
         electricFurnace = register("electric_furnace", ElectricFurnaceTileEntity::new, ModBlocks.electricFurnace);
         lavaGenerator = register("lava_generator", LavaGeneratorTileEntity::new, ModBlocks.lavaGenerator);
+        mixer = register("mixer", MixerTileEntity::new, ModBlocks.mixer);
         pump = register("pump", PumpTileEntity::new, ModBlocks.pump);
         refinery = register("refinery", RefineryTileEntity::new, ModBlocks.refinery);
         wire = register("wire", WireTileEntity::new, ModBlocks.wire);

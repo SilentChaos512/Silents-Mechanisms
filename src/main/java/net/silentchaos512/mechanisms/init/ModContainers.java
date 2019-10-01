@@ -21,6 +21,8 @@ import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorContainer
 import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorScreen;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorContainer;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorScreen;
+import net.silentchaos512.mechanisms.block.mixer.MixerContainer;
+import net.silentchaos512.mechanisms.block.mixer.MixerScreen;
 import net.silentchaos512.mechanisms.block.pump.PumpContainer;
 import net.silentchaos512.mechanisms.block.pump.PumpScreen;
 import net.silentchaos512.mechanisms.block.refinery.RefineryContainer;
@@ -33,6 +35,7 @@ public final class ModContainers {
     public static ContainerType<CompressorContainer> compressor;
     public static ContainerType<ElectricFurnaceContainer> electricFurnace;
     public static ContainerType<LavaGeneratorContainer> lavaGenerator;
+    public static ContainerType<MixerContainer> mixer;
     public static ContainerType<PumpContainer> pump;
     public static ContainerType<RefineryContainer> refinery;
 
@@ -48,6 +51,7 @@ public final class ModContainers {
         register("crusher", MachineType.CRUSHER.getContainerType(MachineTier.STANDARD));
         electricFurnace = register("electric_furnace", ElectricFurnaceContainer::new);
         lavaGenerator = register("lava_generator", LavaGeneratorContainer::new);
+        mixer = register("mixer", MixerContainer::new);
         pump = register("pump", PumpContainer::new);
         refinery = register("refinery", RefineryContainer::new);
     }
@@ -63,6 +67,7 @@ public final class ModContainers {
         ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.STANDARD), CrusherScreen::new);
         ScreenManager.registerFactory(electricFurnace, ElectricFurnaceScreen::new);
         ScreenManager.registerFactory(lavaGenerator, LavaGeneratorScreen::new);
+        ScreenManager.registerFactory(mixer, MixerScreen::new);
         ScreenManager.registerFactory(pump, PumpScreen::new);
         ScreenManager.registerFactory(refinery, RefineryScreen::new);
     }

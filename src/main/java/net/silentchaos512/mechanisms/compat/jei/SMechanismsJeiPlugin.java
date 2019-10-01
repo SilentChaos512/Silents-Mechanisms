@@ -19,12 +19,9 @@ import net.silentchaos512.mechanisms.block.crusher.CrusherContainer;
 import net.silentchaos512.mechanisms.block.crusher.CrusherScreen;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceContainer;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceScreen;
+import net.silentchaos512.mechanisms.block.mixer.MixerScreen;
 import net.silentchaos512.mechanisms.block.refinery.RefineryScreen;
-import net.silentchaos512.mechanisms.crafting.recipe.RefiningRecipe;
-import net.silentchaos512.mechanisms.crafting.recipe.AlloySmeltingRecipe;
-import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
-import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
-import net.silentchaos512.mechanisms.crafting.recipe.DryingRecipe;
+import net.silentchaos512.mechanisms.crafting.recipe.*;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.util.Constants;
 
@@ -47,6 +44,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new CompressingRecipeCategoryJei(guiHelper));
         registration.addRecipeCategories(new CrushingRecipeCategoryJei(guiHelper));
         registration.addRecipeCategories(new DryingRecipeCategoryJei(guiHelper));
+        registration.addRecipeCategories(new MixingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new RefiningRecipeCategory(guiHelper));
     }
 
@@ -56,6 +54,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipes(getRecipesOfType(CompressingRecipe.RECIPE_TYPE), Constants.COMPRESSING);
         registration.addRecipes(getRecipesOfType(CrushingRecipe.RECIPE_TYPE), Constants.CRUSHING);
         registration.addRecipes(getRecipesOfType(DryingRecipe.RECIPE_TYPE), Constants.DRYING);
+        registration.addRecipes(getRecipesOfType(MixingRecipe.RECIPE_TYPE), Constants.MIXING);
         registration.addRecipes(getRecipesOfType(RefiningRecipe.RECIPE_TYPE), Constants.REFINING);
     }
 
@@ -72,6 +71,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipeClickArea(CrusherScreen.class, 45, 32, 28, 23, Constants.CRUSHING);
         registration.addRecipeClickArea(ElectricFurnaceScreen.class, 78, 32, 28, 23,
                 VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
+        registration.addRecipeClickArea(MixerScreen.class, 92, 31, 24, 23, Constants.MIXING);
         registration.addRecipeClickArea(RefineryScreen.class, 43, 31, 24, 23, Constants.REFINING);
     }
 
@@ -93,6 +93,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         ModBlocks.DRYING_RACKS.forEach(block -> registration.addRecipeCatalyst(new ItemStack(block), Constants.DRYING));
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.electricFurnace),
                 VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.mixer), Constants.MIXING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.refinery), Constants.REFINING);
     }
 }

@@ -17,6 +17,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.FluidIngredient;
+import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.IFluidInventory;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.IFluidRecipe;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 import net.silentchaos512.mechanisms.item.MachineUpgrades;
@@ -29,7 +30,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.stream.IntStream;
 
-public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> extends AbstractMachineBaseTileEntity implements IFluidHandler {
+public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> extends AbstractMachineBaseTileEntity implements IFluidInventory {
     protected float progress;
     protected int processTime;
     protected final FluidTank[] tanks;

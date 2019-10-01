@@ -83,8 +83,8 @@ public class RefiningRecipe implements IFluidRecipe<IFluidInventory> {
         public RefiningRecipe read(ResourceLocation recipeId, JsonObject json) {
             RefiningRecipe recipe = new RefiningRecipe(recipeId);
             recipe.processTime = JSONUtils.getInt(json, "process_time");
-            recipe.ingredient = FluidIngredient.deserialize(json.getAsJsonObject("input"));
-            for (JsonElement je : JSONUtils.getJsonArray(json, "outputs")) {
+            recipe.ingredient = FluidIngredient.deserialize(json.getAsJsonObject("ingredient"));
+            for (JsonElement je : JSONUtils.getJsonArray(json, "results")) {
                 FluidStack stack = IFluidRecipe.deserializeFluid(je.getAsJsonObject());
                 if (!stack.isEmpty()) {
                     recipe.outputs.add(stack);

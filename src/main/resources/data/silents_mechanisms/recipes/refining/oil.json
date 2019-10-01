@@ -1,10 +1,10 @@
 {
     "type": "silents_mechanisms:refining",
     "process_time": 600,
-    "input": {
+    "ingredient": {
         "tag": "forge:oil"
     },
-    "outputs": [
+    "results": [
         {
             "fluid": "silents_mechanisms:diesel",
             "amount": 1000
