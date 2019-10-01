@@ -1,4 +1,5 @@
 {
+    "type": "silents_mechanisms:refining",
     "process_time": 600,
     "input": {
         "tag": "forge:oil"

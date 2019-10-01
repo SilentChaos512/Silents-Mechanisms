@@ -18,9 +18,14 @@
         "O": {
             "item": "minecraft:bricks"
         },
-        "C": {
-            "item": "silents_mechanisms:circuit_board"
-        },
+        "C": [
+            {
+                "item": "silents_mechanisms:circuit_board"
+            },
+            {
+                "item": "silents_mechanisms:basic_alloy_smelter"
+            }
+        ],
         "H": {
             "item": "silents_mechanisms:heating_element"
         }

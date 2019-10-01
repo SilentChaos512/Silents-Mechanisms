@@ -20,11 +20,11 @@ import net.silentchaos512.mechanisms.block.crusher.CrusherScreen;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceContainer;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceScreen;
 import net.silentchaos512.mechanisms.block.refinery.RefineryScreen;
+import net.silentchaos512.mechanisms.crafting.recipe.RefiningRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.AlloySmeltingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
 import net.silentchaos512.mechanisms.crafting.recipe.DryingRecipe;
-import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipeManager;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.util.Constants;
 
@@ -56,7 +56,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipes(getRecipesOfType(CompressingRecipe.RECIPE_TYPE), Constants.COMPRESSING);
         registration.addRecipes(getRecipesOfType(CrushingRecipe.RECIPE_TYPE), Constants.CRUSHING);
         registration.addRecipes(getRecipesOfType(DryingRecipe.RECIPE_TYPE), Constants.DRYING);
-        registration.addRecipes(RefiningRecipeManager.getValues(), Constants.REFINING);
+        registration.addRecipes(getRecipesOfType(RefiningRecipe.RECIPE_TYPE), Constants.REFINING);
     }
 
     private static List<IRecipe<?>> getRecipesOfType(IRecipeType<?> recipeType) {

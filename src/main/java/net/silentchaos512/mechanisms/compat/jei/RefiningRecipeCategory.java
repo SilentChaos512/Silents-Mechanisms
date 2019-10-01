@@ -17,7 +17,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.silentchaos512.mechanisms.block.refinery.RefineryScreen;
 import net.silentchaos512.mechanisms.block.refinery.RefineryTileEntity;
-import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipe;
+import net.silentchaos512.mechanisms.crafting.recipe.RefiningRecipe;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
 import net.silentchaos512.mechanisms.util.Constants;
@@ -73,13 +73,13 @@ public class RefiningRecipeCategory implements IRecipeCategory<RefiningRecipe> {
     @Override
     public void setIngredients(RefiningRecipe recipe, IIngredients ingredients) {
         // Fluids (in tanks)
-        ingredients.setInputLists(VanillaTypes.FLUID, Collections.singletonList(recipe.getInput().getFluids()));
-        ingredients.setOutputLists(VanillaTypes.FLUID, recipe.getResults().stream().map(Collections::singletonList).collect(Collectors.toList()));
+        ingredients.setInputLists(VanillaTypes.FLUID, Collections.singletonList(recipe.getIngredient().getFluids()));
+        ingredients.setOutputLists(VanillaTypes.FLUID, recipe.getFluidOutputs().stream().map(Collections::singletonList).collect(Collectors.toList()));
 
         // Input fluid containers
         ImmutableList<ItemStack> emptyContainers = ImmutableList.of(new ItemStack(Items.BUCKET), new ItemStack(ModItems.canister));
         List<ItemStack> feedstockContainers = new ArrayList<>();
-        recipe.getInput().getFluids().forEach(fluid -> addFluidContainers(feedstockContainers, fluid.getFluid()));
+        recipe.getIngredient().getFluids().forEach(fluid -> addFluidContainers(feedstockContainers, fluid.getFluid()));
         ingredients.setInputLists(VanillaTypes.ITEM, Arrays.asList(
                 feedstockContainers,
                 emptyContainers
@@ -87,7 +87,7 @@ public class RefiningRecipeCategory implements IRecipeCategory<RefiningRecipe> {
 
         // Output fluid containers
         List<ItemStack> outputContainers = new ArrayList<>();
-        recipe.getResults().forEach(fluid -> addFluidContainers(outputContainers, fluid.getFluid()));
+        recipe.getFluidOutputs().forEach(fluid -> addFluidContainers(outputContainers, fluid.getFluid()));
         ingredients.setOutputLists(VanillaTypes.ITEM, Arrays.asList(
                 emptyContainers,
                 outputContainers

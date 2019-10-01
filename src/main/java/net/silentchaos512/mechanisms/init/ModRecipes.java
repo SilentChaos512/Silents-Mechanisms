@@ -4,10 +4,7 @@ import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.IRecipeType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
-import net.silentchaos512.mechanisms.crafting.recipe.AlloySmeltingRecipe;
-import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
-import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
-import net.silentchaos512.mechanisms.crafting.recipe.DryingRecipe;
+import net.silentchaos512.mechanisms.crafting.recipe.*;
 import net.silentchaos512.mechanisms.util.Constants;
 
 public final class ModRecipes {
@@ -22,6 +19,8 @@ public final class ModRecipes {
         registerSerializer(Constants.COMPRESSING, CompressingRecipe.SERIALIZER);
         registerSerializer(Constants.CRUSHING, CrushingRecipe.SERIALIZER);
         registerSerializer(Constants.DRYING, DryingRecipe.SERIALIZER);
+        registerSerializer(Constants.MIXING, MixingRecipe.SERIALIZER);
+        registerSerializer(Constants.REFINING, RefiningRecipe.SERIALIZER);
     }
 
     private static void registerSerializer(ResourceLocation name, IRecipeSerializer<?> serializer) {

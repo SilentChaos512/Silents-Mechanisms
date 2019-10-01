@@ -1,4 +1,4 @@
-package net.silentchaos512.mechanisms.crafting.refining;
+package net.silentchaos512.mechanisms.api.crafting.recipe.fluid;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
@@ -20,17 +20,36 @@ import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 public class FluidIngredient implements Predicate<FluidStack> {
+    public static final FluidIngredient EMPTY = new FluidIngredient();
+
     @Nullable private final Tag<Fluid> tag;
     @Nullable private final Fluid fluid;
+    private final int amount;
 
     public FluidIngredient(@Nonnull Tag<Fluid> tag) {
+        this(tag, 1000);
+    }
+
+    public FluidIngredient(@Nonnull Tag<Fluid> tag, int amount) {
         this.tag = tag;
         this.fluid = null;
+        this.amount = amount;
     }
 
     public FluidIngredient(@Nonnull Fluid fluid) {
+        this(fluid, 1000);
+    }
+
+    public FluidIngredient(@Nonnull Fluid fluid, int amount) {
         this.fluid = fluid;
         this.tag = null;
+        this.amount = amount;
+    }
+
+    private FluidIngredient() {
+        this.tag = null;
+        this.fluid = null;
+        this.amount = 1000;
     }
 
     @Nullable
@@ -48,22 +67,40 @@ public class FluidIngredient implements Predicate<FluidStack> {
         return Collections.emptyList();
     }
 
+    public int getAmount() {
+        return amount;
+    }
+
     @Override
-    public boolean test(FluidStack fluidStack) {
-        return (tag != null && fluidStack.getFluid().isIn(tag)) || (fluid != null && fluidStack.getFluid() == fluid);
+    public boolean test(FluidStack stack) {
+        return stack.getAmount() >= amount && testIgnoreAmount(stack);
+    }
+
+    /**
+     * Test for a match without considering the amount of fluid in the st
+     *
+     * @param stack The fluid
+     * @return True if the fluid matches the ingredient, ignoring amount
+     */
+    public boolean testIgnoreAmount(FluidStack stack) {
+        return (tag != null && stack.getFluid().isIn(tag)) || (fluid != null && stack.getFluid() == fluid);
     }
 
     public static FluidIngredient deserialize(JsonObject json) {
         if (json.has("tag") && json.has("fluid")) {
             throw new JsonSyntaxException("Fluid ingredient should have 'tag' or 'fluid', not both");
         }
+
+        int amount = JSONUtils.getInt(json, "amount", 1000);
+
         if (json.has("tag")) {
             ResourceLocation id = new ResourceLocation(JSONUtils.getString(json, "tag"));
-            return new FluidIngredient(new FluidTags.Wrapper(id));
+            return new FluidIngredient(new FluidTags.Wrapper(id), amount);
         }
         if (json.has("fluid")) {
             ResourceLocation id = new ResourceLocation(JSONUtils.getString(json, "fluid"));
-            return new FluidIngredient(ForgeRegistries.FLUIDS.getValue(id));
+            Fluid fluid = Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(id));
+            return new FluidIngredient(fluid, amount);
         }
         throw new JsonSyntaxException("Fluid ingredient should have either 'tag' or 'fluid'");
     }
@@ -73,7 +110,7 @@ public class FluidIngredient implements Predicate<FluidStack> {
         ResourceLocation id = buffer.readResourceLocation();
         return isTag
                 ? new FluidIngredient(new FluidTags.Wrapper(id))
-                : new FluidIngredient(ForgeRegistries.FLUIDS.getValue(id));
+                : new FluidIngredient(Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(id)));
     }
 
     public void write(PacketBuffer buffer) {
@@ -84,6 +121,6 @@ public class FluidIngredient implements Predicate<FluidStack> {
         else if (fluid != null)
             buffer.writeResourceLocation(Objects.requireNonNull(fluid.getRegistryName()));
         else
-            buffer.writeResourceLocation(new ResourceLocation("null")); // Shouldn't happen
+            buffer.writeResourceLocation(new ResourceLocation("null"));
     }
 }

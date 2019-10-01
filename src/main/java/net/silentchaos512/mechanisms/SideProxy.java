@@ -18,7 +18,6 @@ import net.silentchaos512.lib.event.Greetings;
 import net.silentchaos512.lib.util.generator.ModelGenerator;
 import net.silentchaos512.mechanisms.compat.computercraft.SMechComputerCraftCompat;
 import net.silentchaos512.mechanisms.config.Config;
-import net.silentchaos512.mechanisms.crafting.refining.RefiningRecipeManager;
 import net.silentchaos512.mechanisms.init.*;
 import net.silentchaos512.mechanisms.item.CraftingItems;
 import net.silentchaos512.mechanisms.network.Network;
@@ -75,7 +74,7 @@ class SideProxy implements IProxy {
     private void serverAboutToStart(FMLServerAboutToStartEvent event) {
         server = event.getServer();
         IReloadableResourceManager resourceManager = server.getResourceManager();
-        resourceManager.addReloadListener(RefiningRecipeManager.INSTANCE);
+//        resourceManager.addReloadListener(RefiningRecipeManager.INSTANCE);
     }
 
     @Override
