@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Might fix another wire-related crash [#23]
+
 ## [0.6.2] - 2019-10-01
 ### Added
 - Mixer, combines up to four fluids into one. Recipes can be added via data packs, as with all other machines.

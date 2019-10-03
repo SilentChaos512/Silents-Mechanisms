@@ -8,10 +8,11 @@ import net.silentchaos512.mechanisms.SilentMechanisms;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 public final class WireNetworkManager {
-    private static final Collection<LazyOptional<WireNetwork>> NETWORK_LIST = new ArrayList<>();
+    private static final Collection<LazyOptional<WireNetwork>> NETWORK_LIST = Collections.synchronizedList(new ArrayList<>());
 
     private WireNetworkManager() {throw new IllegalAccessError("Utility class");}
 
@@ -22,12 +23,14 @@ public final class WireNetworkManager {
     }
 
     public static LazyOptional<WireNetwork> getLazy(IBlockReader world, BlockPos pos) {
-        for (LazyOptional<WireNetwork> network : NETWORK_LIST) {
-            if (network.isPresent()) {
-                WireNetwork net = network.orElseThrow(IllegalStateException::new);
-                if (net.contains(world, pos)) {
+        synchronized (NETWORK_LIST) {
+            for (LazyOptional<WireNetwork> network : NETWORK_LIST) {
+                if (network.isPresent()) {
+                    WireNetwork net = network.orElseThrow(IllegalStateException::new);
+                    if (net.contains(world, pos)) {
 //                    SilentMechanisms.LOGGER.debug("get network {}", network);
-                    return network;
+                        return network;
+                    }
                 }
             }
         }
@@ -51,13 +54,5 @@ public final class WireNetworkManager {
         SilentMechanisms.LOGGER.debug("invalidateNetwork {}", network);
         NETWORK_LIST.removeIf(n -> n.isPresent() && n.equals(network));
         network.invalidate();
-    }
-
-    public static void invalidateNetworks() {
-        NETWORK_LIST.clear();
-    }
-
-    public static int getNetworkCount() {
-        return NETWORK_LIST.size();
     }
 }
