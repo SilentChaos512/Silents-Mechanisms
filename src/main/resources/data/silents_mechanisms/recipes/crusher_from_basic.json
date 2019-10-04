@@ -3,11 +3,11 @@
     "pattern": [
         "#C#",
         "/X/",
-        "OHO"
+        " D "
     ],
     "key": {
         "#": {
-            "tag": "forge:ingots/bismuth_brass"
+            "tag": "forge:ingots/bismuth_steel"
         },
         "/": {
             "tag": "forge:ingots/redstone_alloy"
@@ -15,17 +15,14 @@
         "X": {
             "item": "silents_mechanisms:alloy_machine_frame"
         },
-        "O": {
-            "item": "minecraft:bricks"
-        },
         "C": {
-            "item": "silents_mechanisms:circuit_board"
+            "item": "silents_mechanisms:basic_crusher"
         },
-        "H": {
-            "item": "silents_mechanisms:heating_element"
+        "D": {
+            "tag": "forge:gems/diamond"
         }
     },
     "result": {
-        "item": "silents_mechanisms:alloy_smelter"
+        "item": "silents_mechanisms:crusher"
     }
 }

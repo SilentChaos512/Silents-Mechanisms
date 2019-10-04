@@ -16,10 +16,16 @@ public final class Config {
     public static final Common COMMON = new Common(WRAPPER);
 
     public static class Common {
+        public final BooleanValue showBetaWelcomeMessage;
         private final BooleanValue oreWorldGenMasterSwitch;
         private final Map<Ores, OreConfig> oreConfigs = new EnumMap<>(Ores.class);
 
         public Common(ConfigSpecWrapper wrapper) {
+            showBetaWelcomeMessage = wrapper
+                    .builder("general.showBetaWelcomeMessage")
+                    .comment("Shows a message in chat warning the player that the mod is early in development")
+                    .define(true);
+
             wrapper.comment("world", "All world generation settings require you to restart Minecraft!");
 
             oreWorldGenMasterSwitch = wrapper

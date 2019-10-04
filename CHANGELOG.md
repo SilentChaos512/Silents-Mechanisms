@@ -8,8 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Solidifier, a machine that takes one liquid and outputs items. Recipes can be added with data packs.
 - Recipe to make plastic pellets from polyethylene (solidifier)
 - Recipe to make ice from water (solidifier)
+- Recipes to upgrade basic alloy smelters and crushers
+### Changed
+- Oil lakes are now slightly more common in desert biomes
 ### Fixed
 - Lava generator missing its loot table [#26]
+- Other missing loot tables
 - Might fix another wire-related crash [#23]
 
 ## [0.6.2] - 2019-10-01

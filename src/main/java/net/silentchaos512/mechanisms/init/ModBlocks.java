@@ -1,14 +1,17 @@
 package net.silentchaos512.mechanisms.init;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.block.GlassBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.world.server.ServerWorld;
+import net.minecraft.world.storage.loot.LootTableManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
@@ -30,6 +33,7 @@ import net.silentchaos512.mechanisms.util.MachineTier;
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -107,5 +111,30 @@ public final class ModBlocks {
 
     private static FlowingFluidBlock createFluidBlock(Supplier<FlowingFluid> fluid) {
         return new FlowingFluidBlock(fluid, Block.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops());
+    }
+
+    @Nullable
+    public static ITextComponent checkForMissingLootTables(PlayerEntity player) {
+        // Checks for missing block loot tables, but only in dev
+        if (!(player.world instanceof ServerWorld) || !SilentMechanisms.isDevBuild()) return null;
+
+        LootTableManager lootTableManager = ((ServerWorld) player.world).getServer().getLootTableManager();
+        Collection<String> missing = new ArrayList<>();
+
+        for (Block block : ForgeRegistries.BLOCKS.getValues()) {
+            ResourceLocation lootTable = block.getLootTable();
+            // The AirBlock check filters out removed blocks
+            if (lootTable.getNamespace().equals(SilentMechanisms.MOD_ID) && !(block instanceof AirBlock) && !lootTableManager.getLootTableKeys().contains(lootTable)) {
+                SilentMechanisms.LOGGER.error("Missing block loot table '{}' for {}", lootTable, block.getRegistryName());
+                missing.add(lootTable.toString());
+            }
+        }
+
+        if (!missing.isEmpty()) {
+            String list = String.join(", ", missing);
+            return new StringTextComponent("The following block loot tables are missing: " + list).applyTextStyle(TextFormatting.RED);
+        }
+
+        return null;
     }
 }

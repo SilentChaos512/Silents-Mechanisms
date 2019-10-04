@@ -1,6 +1,7 @@
 package net.silentchaos512.mechanisms.world;
 
 import net.minecraft.world.biome.Biome;
+import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStage;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.LakesConfig;
@@ -23,7 +24,13 @@ public final class SMWorldFeatures {
                     addOre(biome, ore);
                 }
 
-                biome.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, Biome.createDecoratedFeature(OilLakesFeature.INSTANCE, new LakesConfig(ModBlocks.oil.getDefaultState()), Placement.WATER_LAKE, new LakeChanceConfig(6)));
+                // Oil lakes, somewhat more common in deserts
+                biome.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, Biome.createDecoratedFeature(
+                        OilLakesFeature.INSTANCE,
+                        new LakesConfig(ModBlocks.oil.getDefaultState()),
+                        Placement.WATER_LAKE,
+                        new LakeChanceConfig(biome == Biomes.DESERT ? 4 : 6)
+                ));
             }
         }
     }

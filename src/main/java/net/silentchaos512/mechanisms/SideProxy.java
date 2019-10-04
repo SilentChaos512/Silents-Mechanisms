@@ -1,12 +1,14 @@
 package net.silentchaos512.mechanisms;
 
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
 import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.DeferredWorkQueue;
@@ -23,6 +25,7 @@ import net.silentchaos512.mechanisms.item.CraftingItems;
 import net.silentchaos512.mechanisms.network.Network;
 import net.silentchaos512.mechanisms.world.SMWorldFeatures;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 
 class SideProxy implements IProxy {
@@ -49,7 +52,15 @@ class SideProxy implements IProxy {
 
         ModRecipes.init();
 
-        Greetings.addMessage(p -> new StringTextComponent("Thanks for trying Silent's Mechanisms! This mod is early in development, expect bugs and changes."));
+        Greetings.addMessage(SideProxy::getBetaWelcomeMessage);
+        Greetings.addMessage(ModBlocks::checkForMissingLootTables);
+    }
+
+    @Nullable
+    private static ITextComponent getBetaWelcomeMessage(PlayerEntity p) {
+        return Config.COMMON.showBetaWelcomeMessage.get()
+                ? new StringTextComponent("Thanks for trying Silent's Mechanisms! This mod is early in development, expect bugs and changes.")
+                : null;
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
@@ -73,8 +84,6 @@ class SideProxy implements IProxy {
 
     private void serverAboutToStart(FMLServerAboutToStartEvent event) {
         server = event.getServer();
-        IReloadableResourceManager resourceManager = server.getResourceManager();
-//        resourceManager.addReloadListener(RefiningRecipeManager.INSTANCE);
     }
 
     @Override

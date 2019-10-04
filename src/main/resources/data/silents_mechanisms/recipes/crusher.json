@@ -18,14 +18,9 @@
         "O": {
             "item": "minecraft:smooth_stone"
         },
-        "C": [
-            {
-                "item": "silents_mechanisms:circuit_board"
-            },
-            {
-                "item": "silents_mechanisms:basic_alloy_smelter"
-            }
-        ],
+        "C": {
+            "item": "silents_mechanisms:circuit_board"
+        },
         "D": {
             "tag": "forge:gems/diamond"
         }
