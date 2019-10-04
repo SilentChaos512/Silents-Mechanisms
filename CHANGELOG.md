@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Recipe to make plastic pellets from polyethylene (solidifier)
 - Recipe to make ice from water (solidifier)
 ### Fixed
+- Lava generator missing its loot table [#26]
 - Might fix another wire-related crash [#23]
 
 ## [0.6.2] - 2019-10-01
