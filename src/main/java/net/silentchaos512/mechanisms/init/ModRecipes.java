@@ -21,6 +21,7 @@ public final class ModRecipes {
         registerSerializer(Constants.DRYING, DryingRecipe.SERIALIZER);
         registerSerializer(Constants.MIXING, MixingRecipe.SERIALIZER);
         registerSerializer(Constants.REFINING, RefiningRecipe.SERIALIZER);
+        registerSerializer(Constants.SOLIDIFYING, SolidifyingRecipe.SERIALIZER);
     }
 
     private static void registerSerializer(ResourceLocation name, IRecipeSerializer<?> serializer) {

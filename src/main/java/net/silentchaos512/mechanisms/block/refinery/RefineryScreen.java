@@ -1,6 +1,5 @@
 package net.silentchaos512.mechanisms.block.refinery;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -53,12 +52,10 @@ public class RefineryScreen extends AbstractMachineBaseScreen<RefineryContainer>
 
     @Override
     protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        if (minecraft == null) return;
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        minecraft.getTextureManager().bindTexture(TEXTURE);
+        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
-        blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Progress arrow
         int progress = container.getProgress();

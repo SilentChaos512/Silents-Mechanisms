@@ -23,6 +23,7 @@ import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorBlock;
 import net.silentchaos512.mechanisms.block.mixer.MixerBlock;
 import net.silentchaos512.mechanisms.block.pump.PumpBlock;
 import net.silentchaos512.mechanisms.block.refinery.RefineryBlock;
+import net.silentchaos512.mechanisms.block.solidifier.SolidifierBlock;
 import net.silentchaos512.mechanisms.block.wire.WireBlock;
 import net.silentchaos512.mechanisms.util.MachineTier;
 
@@ -42,6 +43,7 @@ public final class ModBlocks {
     public static ElectricFurnaceBlock electricFurnace;
     public static RefineryBlock refinery;
     public static MixerBlock mixer;
+    public static SolidifierBlock solidifier;
     public static Block pump;
     public static CoalGeneratorBlock coalGenerator;
     public static LavaGeneratorBlock lavaGenerator;
@@ -74,6 +76,7 @@ public final class ModBlocks {
         electricFurnace = register("electric_furnace", new ElectricFurnaceBlock());
         refinery = register("refinery", new RefineryBlock());
         mixer = register("mixer", new MixerBlock());
+        solidifier = register("solidifier", new SolidifierBlock());
         pump = register("pump", new PumpBlock());
         coalGenerator = register("coal_generator", new CoalGeneratorBlock());
         lavaGenerator = register("lava_generator", new LavaGeneratorBlock());

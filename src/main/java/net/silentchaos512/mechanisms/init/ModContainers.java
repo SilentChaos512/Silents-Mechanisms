@@ -27,6 +27,8 @@ import net.silentchaos512.mechanisms.block.pump.PumpContainer;
 import net.silentchaos512.mechanisms.block.pump.PumpScreen;
 import net.silentchaos512.mechanisms.block.refinery.RefineryContainer;
 import net.silentchaos512.mechanisms.block.refinery.RefineryScreen;
+import net.silentchaos512.mechanisms.block.solidifier.SolidifierContainer;
+import net.silentchaos512.mechanisms.block.solidifier.SolidifierScreen;
 import net.silentchaos512.mechanisms.util.MachineTier;
 
 public final class ModContainers {
@@ -38,6 +40,7 @@ public final class ModContainers {
     public static ContainerType<MixerContainer> mixer;
     public static ContainerType<PumpContainer> pump;
     public static ContainerType<RefineryContainer> refinery;
+    public static ContainerType<SolidifierContainer> solidifier;
 
     private ModContainers() {}
 
@@ -54,6 +57,7 @@ public final class ModContainers {
         mixer = register("mixer", MixerContainer::new);
         pump = register("pump", PumpContainer::new);
         refinery = register("refinery", RefineryContainer::new);
+        solidifier = register("solidifier", SolidifierContainer::new);
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -70,6 +74,7 @@ public final class ModContainers {
         ScreenManager.registerFactory(mixer, MixerScreen::new);
         ScreenManager.registerFactory(pump, PumpScreen::new);
         ScreenManager.registerFactory(refinery, RefineryScreen::new);
+        ScreenManager.registerFactory(solidifier, SolidifierScreen::new);
     }
 
     private static <C extends Container> ContainerType<C> register(String name, ContainerType.IFactory<C> containerFactory) {

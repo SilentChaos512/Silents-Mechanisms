@@ -1,0 +1,11 @@
+{
+    "type": "silents_mechanisms:solidifying",
+    "process_time": 800,
+    "ingredient": {
+        "tag": "minecraft:water"
+    },
+    "result": {
+        "item": "minecraft:ice",
+        "count": 1
+    }
+}

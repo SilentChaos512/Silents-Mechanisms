@@ -24,7 +24,7 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
     public static final int ENERGY_PER_TICK = 100;
 
     public MixerTileEntity() {
-        super(ModTileEntities.mixer, 4, 5, TANK_CAPACITY, MachineTier.STANDARD.getEnergyCapacity(), 500, 0, MachineTier.STANDARD);
+        super(ModTileEntities.mixer, 4, 5, TANK_CAPACITY, MachineTier.STANDARD);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
     }
 
     @Override
-    protected Collection<FluidStack> getProcessResults(MixingRecipe recipe) {
+    protected Collection<FluidStack> getFluidResults(MixingRecipe recipe) {
         return recipe.getFluidResults(this);
     }
 

@@ -206,7 +206,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
                 && redstoneMode.shouldRun(world.getRedstonePowerFromNeighbors(pos) > 0);
     }
 
-    private boolean hasRoomInOutput(Iterable<ItemStack> results) {
+    protected boolean hasRoomInOutput(Iterable<ItemStack> results) {
         for (ItemStack stack : results) {
             if (!hasRoomForOutputItem(stack)) {
                 return false;
@@ -225,7 +225,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
         return false;
     }
 
-    private void storeResultItem(ItemStack stack) {
+    protected void storeResultItem(ItemStack stack) {
         // Merge the item into any output slot it can fit in
         for (int i : getOutputSlots()) {
             ItemStack output = getStackInSlot(i);

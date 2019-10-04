@@ -1,0 +1,11 @@
+{
+    "type": "silents_mechanisms:solidifying",
+    "process_time": 600,
+    "ingredient": {
+        "tag": "forge:polyethylene"
+    },
+    "result": {
+        "item": "silents_mechanisms:plastic_pellets",
+        "count": 8
+    }
+}

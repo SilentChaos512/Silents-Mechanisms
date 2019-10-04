@@ -21,6 +21,7 @@ import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorTileEntit
 import net.silentchaos512.mechanisms.block.mixer.MixerTileEntity;
 import net.silentchaos512.mechanisms.block.pump.PumpTileEntity;
 import net.silentchaos512.mechanisms.block.refinery.RefineryTileEntity;
+import net.silentchaos512.mechanisms.block.solidifier.SolidifierTileEntity;
 import net.silentchaos512.mechanisms.block.wire.WireTileEntity;
 
 import java.util.function.Supplier;
@@ -35,6 +36,7 @@ public final class ModTileEntities {
     public static TileEntityType<MixerTileEntity> mixer;
     public static TileEntityType<PumpTileEntity> pump;
     public static TileEntityType<RefineryTileEntity> refinery;
+    public static TileEntityType<SolidifierTileEntity> solidifier;
     public static TileEntityType<WireTileEntity> wire;
 
     private ModTileEntities() {}
@@ -53,6 +55,7 @@ public final class ModTileEntities {
         mixer = register("mixer", MixerTileEntity::new, ModBlocks.mixer);
         pump = register("pump", PumpTileEntity::new, ModBlocks.pump);
         refinery = register("refinery", RefineryTileEntity::new, ModBlocks.refinery);
+        solidifier = register("solidifier", SolidifierTileEntity::new, ModBlocks.solidifier);
         wire = register("wire", WireTileEntity::new, ModBlocks.wire);
     }
 

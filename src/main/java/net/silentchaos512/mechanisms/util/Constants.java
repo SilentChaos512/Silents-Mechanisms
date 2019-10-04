@@ -10,7 +10,7 @@ public final class Constants {
     public static final ResourceLocation DRYING = SilentMechanisms.getId("drying");
     public static final ResourceLocation MIXING = SilentMechanisms.getId("mixing");
     public static final ResourceLocation REFINING = SilentMechanisms.getId("refining");
-    public static final ResourceLocation SOLDERING = SilentMechanisms.getId("soldering");
+    public static final ResourceLocation SOLIDIFYING = SilentMechanisms.getId("solidifying");
 
     // Machine upgrades
     public static final int UPGRADES_PER_SLOT = 1;

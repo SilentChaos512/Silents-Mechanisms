@@ -1,7 +1,6 @@
 package net.silentchaos512.mechanisms;
 
-import net.minecraft.block.AbstractFurnaceBlock;
-import net.minecraft.block.BlockState;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
 import net.minecraft.nbt.ListNBT;
@@ -19,20 +18,17 @@ import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.FluidIngredient;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.IFluidInventory;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.IFluidRecipe;
-import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
-import net.silentchaos512.mechanisms.item.MachineUpgrades;
-import net.silentchaos512.mechanisms.util.Constants;
+import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.EnumUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.IntStream;
 
-public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> extends AbstractMachineBaseTileEntity implements IFluidInventory {
-    protected float progress;
-    protected int processTime;
+public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> extends AbstractMachineTileEntity<R> implements IFluidInventory {
     protected final FluidTank[] tanks;
     private final LazyOptional<IFluidHandler> fluidHandlerCap;
 
@@ -91,36 +87,17 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
         }
     };
 
-    protected AbstractFluidMachineTileEntity(TileEntityType<?> typeIn, int inventorySize, int tankCount, int tankCapacity, int maxEnergy, int maxReceive, int maxExtract, MachineTier tier) {
-        super(typeIn, inventorySize, maxEnergy, maxReceive, maxExtract, tier);
+    protected AbstractFluidMachineTileEntity(TileEntityType<?> typeIn, int inventorySize, int tankCount, int tankCapacity, MachineTier tier) {
+        super(typeIn, inventorySize, tier);
         this.tanks = IntStream.range(0, tankCount).mapToObj(k -> new FluidTank(tankCapacity)).toArray(FluidTank[]::new);
         this.fluidHandlerCap = LazyOptional.of(() -> this);
     }
-
-    protected abstract int getEnergyUsedPerTick();
 
     protected abstract int getInputTanks();
 
     protected abstract int getOutputTanks();
 
-    @Nullable
-    public abstract R getRecipe();
-
-    protected abstract int getProcessTime(R recipe);
-
-    /**
-     * Get the processing speed. This is added to processing progress every tick. A speed of 1 would
-     * process a 200 tick recipe in 200 ticks, speed 2 would be 100 ticks. Should account for speed
-     * upgrades.
-     *
-     * @return The processing speed
-     */
-    protected float getProcessSpeed() {
-        int speedUpgrades = getUpgradeCount(MachineUpgrades.PROCESSING_SPEED);
-        return tier.getProcessingSpeed() + speedUpgrades * Constants.UPGRADE_PROCESSING_SPEED_AMOUNT;
-    }
-
-    protected abstract Collection<FluidStack> getProcessResults(R recipe);
+    protected abstract Collection<FluidStack> getFluidResults(R recipe);
 
     /**
      * Get all possible results of processing this recipe. Override if recipes can contain a
@@ -129,31 +106,18 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
      * @param recipe The recipe
      * @return All possible results of the processing operation
      */
-    protected Collection<FluidStack> getPossibleProcessResult(R recipe) {
-        return getProcessResults(recipe);
+    protected Collection<FluidStack> getPossibleFluidResults(R recipe) {
+        return getFluidResults(recipe);
     }
 
-    protected BlockState getActiveState(BlockState currentState) {
-        return currentState.with(AbstractFurnaceBlock.LIT, true);
+    @Override
+    protected Collection<ItemStack> getProcessResults(R recipe) {
+        return Collections.emptyList();
     }
 
-    protected BlockState getInactiveState(BlockState currentState) {
-        return currentState.with(AbstractFurnaceBlock.LIT, false);
-    }
-
-    protected void sendUpdate(BlockState newState) {
-        if (world == null) return;
-        BlockState oldState = world.getBlockState(pos);
-        if (oldState != newState) {
-            world.setBlockState(pos, newState, 3);
-            world.notifyBlockUpdate(pos, oldState, newState, 3);
-        }
-    }
-
-    protected void setInactiveState() {
-        if (world == null) return;
-        progress = 0;
-        sendUpdate(getInactiveState(world.getBlockState(pos)));
+    @Override
+    protected int[] getOutputSlots() {
+        return new int[0];
     }
 
     @Override
@@ -169,7 +133,8 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
 
             if (progress >= processTime) {
                 // Create result
-                getProcessResults(recipe).forEach(this::storeResultFluid);
+                getFluidResults(recipe).forEach(this::storeResultFluid);
+                getProcessResults(recipe).forEach(this::storeResultItem);
                 consumeFeedstock(recipe);
 
                 if (getRecipe() == null) {
@@ -190,11 +155,12 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
     private boolean canMachineRun(R recipe) {
         return world != null
                 && getEnergyStored() >= getEnergyUsedPerTick()
+                && hasRoomInOutputTank(getPossibleFluidResults(recipe))
                 && hasRoomInOutput(getPossibleProcessResult(recipe))
                 && redstoneMode.shouldRun(world.getRedstonePowerFromNeighbors(pos) > 0);
     }
 
-    private boolean hasRoomInOutput(Iterable<FluidStack> results) {
+    private boolean hasRoomInOutputTank(Iterable<FluidStack> results) {
         for (FluidStack stack : results) {
             if (!hasRoomForOutputFluid(stack)) {
                 return false;
@@ -226,7 +192,7 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
         }
     }
 
-    protected void consumeFeedstock(R recipe) {
+    private void consumeFeedstock(R recipe) {
         for (FluidIngredient ingredient : recipe.getFluidIngredients()) {
             for (int i = 0; i < getInputTanks(); ++i) {
                 if (ingredient.test(getFluidInTank(i))) {
@@ -258,8 +224,6 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
             INBT nbt = list.get(i);
             tanks[i].setFluid(FluidStack.loadFluidStackFromNBT((CompoundNBT) nbt));
         }
-        progress = tags.getInt("Progress");
-        processTime = tags.getInt("ProcessTime");
         super.read(tags);
     }
 
@@ -270,17 +234,7 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
             list.add(tank.writeToNBT(new CompoundNBT()));
         }
         tags.put("Tanks", list);
-        tags.putInt("Progess", (int) progress);
-        tags.putInt("ProcessTime", processTime);
         return super.write(tags);
-    }
-
-    @Override
-    public CompoundNBT getUpdateTag() {
-        CompoundNBT tags = super.getUpdateTag();
-        tags.putInt("Progess", (int) progress);
-        tags.putInt("ProcessTime", processTime);
-        return tags;
     }
 
     @Override
@@ -329,9 +283,9 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
             return FluidStack.EMPTY;
         }
 
-        for (int i = 0; i < tanks.length; ++i) {
-            if (resource.isFluidEqual(tanks[i].getFluid())) {
-                return tanks[i].drain(resource, action);
+        for (FluidTank tank : tanks) {
+            if (resource.isFluidEqual(tank.getFluid())) {
+                return tank.drain(resource, action);
             }
         }
 
@@ -340,9 +294,9 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
 
     @Override
     public FluidStack drain(int maxDrain, FluidAction action) {
-        for (int i = 0; i < tanks.length; ++i) {
-            if (tanks[i].getFluidAmount() > 0) {
-                return tanks[i].drain(maxDrain, action);
+        for (FluidTank tank : tanks) {
+            if (tank.getFluidAmount() > 0) {
+                return tank.drain(maxDrain, action);
             }
         }
 
