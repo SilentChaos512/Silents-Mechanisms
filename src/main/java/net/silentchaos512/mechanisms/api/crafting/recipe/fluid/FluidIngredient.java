@@ -19,6 +19,10 @@ import java.util.Objects;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+/**
+ * An {@code Ingredient}-equivalent for fluids. Can match fluids or fluid tags. Can also consider
+ * fluid amount.
+ */
 public class FluidIngredient implements Predicate<FluidStack> {
     public static final FluidIngredient EMPTY = new FluidIngredient();
 
@@ -57,6 +61,11 @@ public class FluidIngredient implements Predicate<FluidStack> {
         return tag;
     }
 
+    /**
+     * Get a list of all {@link FluidStack}s which match this ingredient. Used for JEI support.
+     *
+     * @return A list of matching fluids
+     */
     public List<FluidStack> getFluids() {
         if (tag != null) {
             return tag.getAllElements().stream().map(f -> new FluidStack(f, 1000)).collect(Collectors.toList());
@@ -71,13 +80,20 @@ public class FluidIngredient implements Predicate<FluidStack> {
         return amount;
     }
 
+    /**
+     * Test for a match. Also considers the fluid amount, use {@link #testIgnoreAmount(FluidStack)}
+     * to ignore the amount.
+     *
+     * @param stack The fluid
+     * @return True if the fluid matches the ingredient and has the same amount of fluid or more
+     */
     @Override
     public boolean test(FluidStack stack) {
         return stack.getAmount() >= amount && testIgnoreAmount(stack);
     }
 
     /**
-     * Test for a match without considering the amount of fluid in the st
+     * Test for a match without considering the amount of fluid in the stack
      *
      * @param stack The fluid
      * @return True if the fluid matches the ingredient, ignoring amount
@@ -86,6 +102,13 @@ public class FluidIngredient implements Predicate<FluidStack> {
         return (tag != null && stack.getFluid().isIn(tag)) || (fluid != null && stack.getFluid() == fluid);
     }
 
+    /**
+     * Deserialize a {@link FluidIngredient} from JSON.
+     *
+     * @param json The JSON object
+     * @return A new FluidIngredient
+     * @throws JsonSyntaxException If the JSON cannot be parsed
+     */
     public static FluidIngredient deserialize(JsonObject json) {
         if (json.has("tag") && json.has("fluid")) {
             throw new JsonSyntaxException("Fluid ingredient should have 'tag' or 'fluid', not both");
@@ -105,6 +128,12 @@ public class FluidIngredient implements Predicate<FluidStack> {
         throw new JsonSyntaxException("Fluid ingredient should have either 'tag' or 'fluid'");
     }
 
+    /**
+     * Reads a {@link FluidIngredient} from a packet buffer. Use with {@link #write(PacketBuffer)}.
+     *
+     * @param buffer The packet buffer
+     * @return A new FluidIngredient
+     */
     public static FluidIngredient read(PacketBuffer buffer) {
         boolean isTag = buffer.readBoolean();
         ResourceLocation id = buffer.readResourceLocation();
@@ -113,6 +142,11 @@ public class FluidIngredient implements Predicate<FluidStack> {
                 : new FluidIngredient(Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(id)));
     }
 
+    /**
+     * Writes the ingredient to a packet buffer. Use with {@link #read(PacketBuffer)}.
+     *
+     * @param buffer The packet buffer
+     */
     public void write(PacketBuffer buffer) {
         boolean isTag = tag != null;
         buffer.writeBoolean(isTag);

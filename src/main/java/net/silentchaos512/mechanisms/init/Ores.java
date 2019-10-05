@@ -18,6 +18,7 @@ public enum Ores {
     SILVER(4, 2, new DefaultOreConfigs(4, 8, 0, 40)),
     LEAD(4, 2, new DefaultOreConfigs(4, 8, 0, 30)),
     NICKEL(5, 2, new DefaultOreConfigs(1, 6, 0, 24)),
+    PLATINUM(5, 2, new DefaultOreConfigs(1, 8, 5, 20)),
     ZINC(3, 1, new DefaultOreConfigs(1, 6, 20, 60)),
     BISMUTH(3, 1, new DefaultOreConfigs(2, 8, 16, 64)),
     BAUXITE(4, 1, new DefaultOreConfigs(6, 8, 15, 50)),

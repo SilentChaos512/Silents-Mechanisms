@@ -17,6 +17,7 @@ public enum Metals implements IBlockProvider {
     SILVER,
     LEAD,
     NICKEL,
+    PLATINUM,
     ZINC,
     BISMUTH,
     ALUMINUM,
@@ -29,6 +30,9 @@ public enum Metals implements IBlockProvider {
     BISMUTH_BRASS,
     ALUMINUM_STEEL,
     BISMUTH_STEEL,
+    SIGNALUM,
+    LUMIUM,
+    ENDERIUM,
     ;
 
     private final Lazy<Block> block;

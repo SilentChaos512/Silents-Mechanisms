@@ -1,0 +1,36 @@
+{
+    "type": "silents_mechanisms:alloy_smelting",
+    "process_time": 500,
+    "ingredients": [
+        {
+            "values": [
+                {
+                    "tag": "forge:dusts/tin"
+                },
+                {
+                    "tag": "forge:ingots/tin"
+                }
+            ],
+            "count": 3
+        },
+        {
+            "values": [
+                {
+                    "tag": "forge:dusts/silver"
+                },
+                {
+                    "tag": "forge:ingots/silver"
+                }
+            ],
+            "count": 1
+        },
+        {
+            "tag": "forge:dusts/glowstone",
+            "count": 4
+        }
+    ],
+    "result": {
+        "item": "silents_mechanisms:lumium_ingot",
+        "count": 4
+    }
+}

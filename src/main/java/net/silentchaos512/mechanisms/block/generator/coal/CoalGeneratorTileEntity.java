@@ -8,6 +8,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.event.ForgeEventFactory;
 import net.silentchaos512.mechanisms.block.generator.AbstractGeneratorTileEntity;
 import net.silentchaos512.mechanisms.init.ModTags;
@@ -32,9 +33,7 @@ public class CoalGeneratorTileEntity extends AbstractGeneratorTileEntity {
     }
 
     private static int getBurnTime(ItemStack stack) {
-        if (stack.isEmpty()) return 0;
-        int ret = stack.getBurnTime();
-        return ForgeEventFactory.getItemBurnTime(stack, ret == -1 ? AbstractFurnaceTileEntity.getBurnTimes().getOrDefault(stack.getItem(), 0) : ret);
+        return ForgeHooks.getBurnTime(stack);
     }
 
     @Override
