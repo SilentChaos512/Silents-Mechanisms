@@ -1,0 +1,15 @@
+{
+    "type": "minecraft:crafting_shapeless",
+    "ingredients": [
+        {
+            "item": "silents_mechanisms:upgrade_case"
+        },
+        {
+            "tag": "forge:ender_pearls"
+        }
+    ],
+    "result": {
+        "item": "silents_mechanisms:range_upgrade",
+        "count": 1
+    }
+}

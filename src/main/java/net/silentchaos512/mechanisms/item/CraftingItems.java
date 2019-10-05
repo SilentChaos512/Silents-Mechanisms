@@ -105,6 +105,7 @@ public enum CraftingItems implements IItemProvider {
     SOLDER,
     PLASTIC_PELLETS,
     PLASTIC_SHEET,
+    UPGRADE_CASE,
     // Others
     ZOMBIE_LEATHER,
     BEEF_JERKY(Foods.COOKED_BEEF),
