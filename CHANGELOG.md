@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Added missing electrum recipes [#27]
+- Added missing textures for new metal blocks
 
 ## [0.6.3] - 2019-10-05
 This update finally completes the plastic production process! All recipes are visible in JEI, as always.
