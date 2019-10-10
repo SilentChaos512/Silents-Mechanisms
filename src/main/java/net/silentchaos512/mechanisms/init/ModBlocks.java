@@ -22,6 +22,7 @@ import net.silentchaos512.mechanisms.block.crusher.CrusherBlock;
 import net.silentchaos512.mechanisms.block.dryingrack.DryingRackBlock;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceBlock;
 import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorBlock;
+import net.silentchaos512.mechanisms.block.generator.diesel.DieselGeneratorBlock;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorBlock;
 import net.silentchaos512.mechanisms.block.mixer.MixerBlock;
 import net.silentchaos512.mechanisms.block.pump.PumpBlock;
@@ -51,6 +52,7 @@ public final class ModBlocks {
     public static Block pump;
     public static CoalGeneratorBlock coalGenerator;
     public static LavaGeneratorBlock lavaGenerator;
+    public static DieselGeneratorBlock dieselGenerator;
     public static BatteryBoxBlock batteryBox;
     public static WireBlock wire;
     public static FlowingFluidBlock oil;
@@ -84,6 +86,7 @@ public final class ModBlocks {
         pump = register("pump", new PumpBlock());
         coalGenerator = register("coal_generator", new CoalGeneratorBlock());
         lavaGenerator = register("lava_generator", new LavaGeneratorBlock());
+        dieselGenerator = register("diesel_generator", new DieselGeneratorBlock());
         batteryBox = register("battery_box", new BatteryBoxBlock());
         wire = register("wire", new WireBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
 

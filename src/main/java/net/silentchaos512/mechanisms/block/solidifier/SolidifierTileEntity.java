@@ -7,7 +7,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.silentchaos512.mechanisms.AbstractFluidMachineTileEntity;
+import net.silentchaos512.mechanisms.block.AbstractFluidMachineTileEntity;
 import net.silentchaos512.mechanisms.api.IFluidContainer;
 import net.silentchaos512.mechanisms.crafting.recipe.SolidifyingRecipe;
 import net.silentchaos512.mechanisms.init.ModTileEntities;

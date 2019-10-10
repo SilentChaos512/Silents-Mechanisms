@@ -1,4 +1,4 @@
-package net.silentchaos512.mechanisms;
+package net.silentchaos512.mechanisms.block;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
@@ -18,7 +18,6 @@ import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.FluidIngredient;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.IFluidInventory;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.IFluidRecipe;
-import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.EnumUtils;
 

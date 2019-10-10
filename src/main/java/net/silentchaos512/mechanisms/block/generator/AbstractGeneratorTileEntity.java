@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.block.generator;
 
+import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
@@ -76,9 +77,13 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
 
     protected abstract int getEnergyCreatedPerTick();
 
-    protected abstract BlockState getActiveState();
+    protected BlockState getActiveState() {
+        return getBlockState().with(AbstractFurnaceBlock.LIT, true);
+    }
 
-    protected abstract BlockState getInactiveState();
+    protected BlockState getInactiveState() {
+        return getBlockState().with(AbstractFurnaceBlock.LIT, false);
+    };
 
     @Override
     public void tick() {

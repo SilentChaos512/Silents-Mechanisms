@@ -1,0 +1,33 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "#C#",
+        "/X/",
+        "#B#"
+    ],
+    "key": {
+        "#": {
+            "tag": "forge:ingots/steel"
+        },
+        "/": [
+            {
+                "tag": "forge:nuggets/platinum"
+            },
+            {
+                "tag": "forge:ingots/silver"
+            }
+        ],
+        "X": {
+            "item": "silents_mechanisms:alloy_machine_frame"
+        },
+        "B": {
+            "item": "minecraft:bucket"
+        },
+        "C": {
+            "item": "silents_mechanisms:circuit_board"
+        }
+    },
+    "result": {
+        "item": "silents_mechanisms:diesel_generator"
+    }
+}

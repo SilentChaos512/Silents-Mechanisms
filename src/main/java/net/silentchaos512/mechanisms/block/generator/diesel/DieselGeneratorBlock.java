@@ -1,4 +1,4 @@
-package net.silentchaos512.mechanisms.block.generator.lava;
+package net.silentchaos512.mechanisms.block.generator.diesel;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
@@ -18,15 +18,15 @@ import net.silentchaos512.mechanisms.util.MachineTier;
 import javax.annotation.Nullable;
 import java.util.Random;
 
-public class LavaGeneratorBlock extends AbstractGeneratorBlock {
-    public LavaGeneratorBlock() {
+public class DieselGeneratorBlock extends AbstractGeneratorBlock {
+    public DieselGeneratorBlock() {
         super(MachineTier.STANDARD, Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
     }
 
     @Nullable
     @Override
     public TileEntity createNewTileEntity(IBlockReader worldIn) {
-        return new LavaGeneratorTileEntity();
+        return new DieselGeneratorTileEntity();
     }
 
     @Override

@@ -2,8 +2,10 @@ package net.silentchaos512.mechanisms.block;
 
 import net.minecraft.block.AbstractFurnaceBlock;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -12,9 +14,17 @@ import net.silentchaos512.mechanisms.util.MachineTier;
 public abstract class AbstractMachineBlock extends AbstractFurnaceBlock {
     protected final MachineTier tier;
 
-    protected AbstractMachineBlock(MachineTier tier, Properties properties) {
+    public AbstractMachineBlock(MachineTier tier, Properties properties) {
         super(properties);
         this.tier = tier;
+    }
+
+    @Override
+    protected void interactWith(World worldIn, BlockPos pos, PlayerEntity player) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof INamedContainerProvider) {
+            player.openContainer((INamedContainerProvider) tileEntity);
+        }
     }
     
     @Override

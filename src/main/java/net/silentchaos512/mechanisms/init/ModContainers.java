@@ -19,6 +19,8 @@ import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceContai
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceScreen;
 import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorContainer;
 import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorScreen;
+import net.silentchaos512.mechanisms.block.generator.diesel.DieselGeneratorContainer;
+import net.silentchaos512.mechanisms.block.generator.diesel.DieselGeneratorScreen;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorContainer;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorScreen;
 import net.silentchaos512.mechanisms.block.mixer.MixerContainer;
@@ -35,6 +37,7 @@ public final class ModContainers {
     public static ContainerType<BatteryBoxContainer> batteryBox;
     public static ContainerType<CoalGeneratorContainer> coalGenerator;
     public static ContainerType<CompressorContainer> compressor;
+    public static ContainerType<DieselGeneratorContainer> dieselGenerator;
     public static ContainerType<ElectricFurnaceContainer> electricFurnace;
     public static ContainerType<LavaGeneratorContainer> lavaGenerator;
     public static ContainerType<MixerContainer> mixer;
@@ -52,6 +55,7 @@ public final class ModContainers {
         compressor = register("compressor", CompressorContainer::new);
         register("basic_crusher", MachineType.CRUSHER.getContainerType(MachineTier.BASIC));
         register("crusher", MachineType.CRUSHER.getContainerType(MachineTier.STANDARD));
+        dieselGenerator = register("diesel_generator", DieselGeneratorContainer::new);
         electricFurnace = register("electric_furnace", ElectricFurnaceContainer::new);
         lavaGenerator = register("lava_generator", LavaGeneratorContainer::new);
         mixer = register("mixer", MixerContainer::new);
@@ -69,6 +73,7 @@ public final class ModContainers {
         ScreenManager.registerFactory(compressor, CompressorScreen::new);
         ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.BASIC), CrusherScreen::new);
         ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.STANDARD), CrusherScreen::new);
+        ScreenManager.registerFactory(dieselGenerator, DieselGeneratorScreen::new);
         ScreenManager.registerFactory(electricFurnace, ElectricFurnaceScreen::new);
         ScreenManager.registerFactory(lavaGenerator, LavaGeneratorScreen::new);
         ScreenManager.registerFactory(mixer, MixerScreen::new);

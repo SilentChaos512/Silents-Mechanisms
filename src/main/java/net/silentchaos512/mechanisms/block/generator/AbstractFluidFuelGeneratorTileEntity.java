@@ -1,18 +1,22 @@
 package net.silentchaos512.mechanisms.block.generator;
 
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
+import net.minecraft.util.registry.Registry;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.silentchaos512.mechanisms.api.IFluidContainer;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
+import net.silentchaos512.mechanisms.util.InventoryUtils;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.EnumUtils;
 
@@ -20,12 +24,13 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGeneratorTileEntity {
-    public static final int FIELDS_COUNT = 8;
+    public static final int FIELDS_COUNT = 9;
 
     protected final FluidTank tank;
     private final LazyOptional<IFluidHandler> fluidHandlerCap;
 
     protected final IIntArray fields = new IIntArray() {
+        @SuppressWarnings("deprecation") // Use of Registry.FLUID
         @Override
         public int get(int index) {
             switch (index) {
@@ -47,6 +52,8 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
                 case 6:
                     return totalBurnTime;
                 case 7:
+                    return Registry.FLUID.getId(tank.getFluid().getFluid());
+                case 8:
                     return tank.getFluidAmount();
                 default:
                     return 0;
@@ -65,10 +72,6 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
                 case 6:
                     totalBurnTime = value;
                     break;
-                case 7:
-                    FluidStack fluid = tank.getFluid();
-                    tank.setFluid(new FluidStack(fluid.getFluid(), value));
-                    break;
             }
         }
 
@@ -82,6 +85,42 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
         super(typeIn, inventorySize, maxEnergy, maxReceive, maxExtract, MachineTier.STANDARD);
         this.tank = tankIn;
         this.fluidHandlerCap = LazyOptional.of(() -> tank);
+    }
+
+    protected void tryFillTank(ItemStack item) {
+        FluidStack fluid = IFluidContainer.getBucketOrContainerFluid(item);
+        if (canAcceptFluidContainer(item, fluid)) {
+            tank.fill(fluid, IFluidHandler.FluidAction.EXECUTE);
+            item.shrink(1);
+
+            ItemStack output = getStackInSlot(1);
+            if (output.isEmpty()) {
+                setInventorySlotContents(1, item.getContainerItem());
+            } else {
+                output.grow(1);
+            }
+        }
+    }
+
+    private boolean canAcceptFluidContainer(ItemStack item, FluidStack fluid) {
+        ItemStack output = getStackInSlot(1);
+        return !fluid.isEmpty()
+                && tank.isFluidValid(0, fluid)
+                && tank.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == fluid.getAmount()
+                && (output.isEmpty() || InventoryUtils.canItemsStack(item.getContainerItem(), output))
+                && (output.isEmpty() || output.getCount() < output.getMaxStackSize());
+    }
+
+    @Override
+    public void tick() {
+        // Drain fluid containers into internal tank
+        if (tank.getFluidAmount() < tank.getTankCapacity(0) - 999) {
+            ItemStack stack = getStackInSlot(0);
+            if (!stack.isEmpty()) {
+                tryFillTank(stack);
+            }
+        }
+        super.tick();
     }
 
     @Override
