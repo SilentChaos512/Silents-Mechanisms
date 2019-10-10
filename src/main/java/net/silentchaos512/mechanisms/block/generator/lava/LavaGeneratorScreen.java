@@ -3,7 +3,6 @@ package net.silentchaos512.mechanisms.block.generator.lava;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseScreen;
 import net.silentchaos512.mechanisms.client.renderer.RenderUtils;
@@ -31,7 +30,7 @@ public class LavaGeneratorScreen extends AbstractMachineBaseScreen<LavaGenerator
     @Override
     protected void renderHoveredToolTip(int mouseX, int mouseY) {
         if (isPointInRegion(135, 17, 13, 51, mouseX, mouseY)) {
-            ITextComponent text = TextUtil.fluidWithMax(container.getTank(), 0);
+            ITextComponent text = TextUtil.fluidWithMax(container.getFluidInTank(), LavaGeneratorTileEntity.TANK_CAPACITY);
             renderTooltip(text.getFormattedText(), mouseX, mouseY);
         }
         if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
@@ -56,7 +55,6 @@ public class LavaGeneratorScreen extends AbstractMachineBaseScreen<LavaGenerator
         }
 
         // Fluid tank
-        IFluidHandler tank = container.getTank();
-        RenderUtils.renderGuiTank(tank, 0, xPos + 136, yPos + 18, 0, 12, 50);
+        RenderUtils.renderGuiTank(container.getFluidInTank(), LavaGeneratorTileEntity.TANK_CAPACITY, xPos + 136, yPos + 18, 0, 12, 50);
     }
 }

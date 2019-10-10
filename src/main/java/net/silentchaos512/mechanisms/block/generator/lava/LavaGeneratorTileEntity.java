@@ -22,8 +22,10 @@ public class LavaGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEntit
     public static final int ENERGY_CREATED_PER_TICK = 100;
     public static final int TICKS_PER_MILLIBUCKET = 5;
 
+    static final int TANK_CAPACITY = 4000;
+
     public LavaGeneratorTileEntity() {
-        super(ModTileEntities.lavaGenerator, 2, MAX_ENERGY, 0, MAX_SEND, new FluidTank(4000, s -> s.getFluid().isIn(FluidTags.LAVA)));
+        super(ModTileEntities.lavaGenerator, 2, MAX_ENERGY, 0, MAX_SEND, new FluidTank(TANK_CAPACITY, s -> s.getFluid().isIn(FluidTags.LAVA)));
     }
 
     public IFluidHandler getTank() {
