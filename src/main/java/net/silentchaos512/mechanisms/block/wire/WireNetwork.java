@@ -86,6 +86,7 @@ public class WireNetwork implements IEnergyStorage {
 
     public static WireNetwork buildNetwork(IBlockReader world, BlockPos pos) {
         WireNetwork network = new WireNetwork(world);
+        //noinspection OverlyLongLambda
         buildWireSet(world, pos, new HashSet<>()).forEach(p -> {
             Set<Connection> connections = new HashSet<>();
             for (Direction direction : Direction.values()) {
@@ -102,6 +103,7 @@ public class WireNetwork implements IEnergyStorage {
     }
 
     private static Set<BlockPos> buildWireSet(IBlockReader world, BlockPos pos, Set<BlockPos> set) {
+        set.add(pos);
         for (Direction side : Direction.values()) {
             BlockPos pos1 = pos.offset(side);
             if (!set.contains(pos1) && world.getTileEntity(pos1) instanceof WireTileEntity) {
@@ -110,6 +112,11 @@ public class WireNetwork implements IEnergyStorage {
             }
         }
         return set;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("WireNetwork %s (%d wires)", Integer.toHexString(hashCode()), connections.size());
     }
 
     public static class Connection {

@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Set minimum Forge version to 28.1.5
 ### Fixed
 - Drying racks interacting weirdly with hoppers (duplicating items, not updating on client) [#30]
+- Single wires not functioning [#11]
 
 ## [0.6.4] - 2019-10-10
 ### Added
