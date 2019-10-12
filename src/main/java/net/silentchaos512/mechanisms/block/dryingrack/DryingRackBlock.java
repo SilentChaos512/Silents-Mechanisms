@@ -1,17 +1,18 @@
 package net.silentchaos512.mechanisms.block.dryingrack;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.HorizontalBlock;
-import net.minecraft.block.SoundType;
+import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.fluid.IFluidState;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.item.BlockItemUseContext;
+import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
+import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Hand;
@@ -26,8 +27,9 @@ import net.minecraft.world.World;
 
 import javax.annotation.Nullable;
 
-public class DryingRackBlock extends HorizontalBlock {
+public class DryingRackBlock extends HorizontalBlock implements IWaterLoggable {
     public static final DirectionProperty FACING = HorizontalBlock.HORIZONTAL_FACING;
+    public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE_NORTH = Block.makeCuboidShape(0, 12, 12, 16, 16, 16);
     private static final VoxelShape SHAPE_SOUTH = Block.makeCuboidShape(0, 12, 0, 16, 16, 4);
     private static final VoxelShape SHAPE_WEST = Block.makeCuboidShape(12, 12, 0, 16, 16, 16);
@@ -35,7 +37,7 @@ public class DryingRackBlock extends HorizontalBlock {
 
     public DryingRackBlock() {
         super(Properties.create(Material.WOOD, MaterialColor.WOOD).hardnessAndResistance(2f, 3f).sound(SoundType.WOOD));
-        setDefaultState(getDefaultState().with(FACING, Direction.NORTH));
+        setDefaultState(getDefaultState().with(FACING, Direction.NORTH).with(WATERLOGGED, false));
     }
 
     @Override
@@ -89,7 +91,10 @@ public class DryingRackBlock extends HorizontalBlock {
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return getDefaultState().with(FACING, context.getPlacementHorizontalFacing().getOpposite());
+        IFluidState fluidState = context.getWorld().getFluidState(context.getPos());
+        return getDefaultState()
+                .with(FACING, context.getPlacementHorizontalFacing().getOpposite())
+                .with(WATERLOGGED, fluidState.getFluid() == Fluids.WATER);
     }
 
     @SuppressWarnings("deprecation")
@@ -106,6 +111,12 @@ public class DryingRackBlock extends HorizontalBlock {
 
     @Override
     protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
+        builder.add(FACING, WATERLOGGED);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public IFluidState getFluidState(BlockState state) {
+        return state.get(WATERLOGGED) ? Fluids.WATER.getStillFluidState(false) : super.getFluidState(state);
     }
 }

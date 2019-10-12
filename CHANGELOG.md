@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.6.5] - 2019-10-12
 ### Added
 - Crusher recipe for RF Tools Base's dimensional ore
 - Advancement translations (thanks xMGZx) [#31, #17]
@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Wires are slightly more intelligent with their connections, reducing the amount of wrenching needed. Energy producing and storing blocks will default to an "in" connections, while machines will default to "out".
 - Standard tier machine speed to 2.0x (up from 1.5x)
+- Drying rack can be waterlogged (will not function when waterlogged)
 - Set minimum Forge version to 28.1.5
 ### Fixed
 - Drying racks interacting weirdly with hoppers (duplicating items, not updating on client) [#30]

@@ -54,7 +54,7 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
         if (this.world == null || this.world.isRemote || isEmpty()) return;
 
         DryingRecipe recipe = this.world.getRecipeManager().getRecipe(DryingRecipe.RECIPE_TYPE, this, this.world).orElse(null);
-        if (recipe != null) {
+        if (recipe != null && canWork()) {
             ++processTime;
             if (processTime >= recipe.getProcessTime()) {
                 setInventorySlotContents(0, recipe.getCraftingResult(this));
@@ -67,6 +67,10 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
         } else {
             processTime = 0;
         }
+    }
+
+    private boolean canWork() {
+        return world != null && !world.getBlockState(pos).get(DryingRackBlock.WATERLOGGED);
     }
 
     @Override
