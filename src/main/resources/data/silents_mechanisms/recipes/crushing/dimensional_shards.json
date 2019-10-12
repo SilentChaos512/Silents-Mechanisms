@@ -1,0 +1,27 @@
+{
+    "conditions": [
+        {
+            "type": "forge:mod_loaded",
+            "modid": "rftoolsbase"
+        }
+    ],
+    "type": "silents_mechanisms:crushing",
+    "process_time": 400,
+    "ingredient": [
+        {
+            "item": "rftoolsbase:dimensionalshard_overworld"
+        },
+        {
+            "item": "rftoolsbase:dimensionalshard_nether"
+        },
+        {
+            "item": "rftoolsbase:dimensionalshard_end"
+        }
+    ],
+    "results": [
+        {
+            "item": "rftoolsbase:dimensionalshard",
+            "count": 8
+        }
+    ]
+}

@@ -2,7 +2,7 @@ package net.silentchaos512.mechanisms.util;
 
 public enum MachineTier {
     BASIC(0, 10_000, 1.0f),
-    STANDARD(4, 50_000, 1.5f),
+    STANDARD(4, 50_000, 2.0f),
     ;
 
     private final int upgradeSlots;

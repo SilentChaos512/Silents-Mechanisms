@@ -18,7 +18,9 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.IEnergyStorage;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.api.ConnectionType;
 import net.silentchaos512.mechanisms.api.IWrenchable;
@@ -137,10 +139,19 @@ public class WireBlock extends SixWayBlock implements IWrenchable {
 
     private static ConnectionType createConnection(IBlockReader worldIn, BlockPos pos, ConnectionType current) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
-        if (tileEntity instanceof WireTileEntity)
+        if (tileEntity instanceof WireTileEntity) {
             return ConnectionType.BOTH;
-        if (tileEntity != null && tileEntity.getCapability(CapabilityEnergy.ENERGY).isPresent())
-            return current == ConnectionType.NONE ? ConnectionType.IN : current;
+        } else if (tileEntity != null) {
+            LazyOptional<IEnergyStorage> lazyOptional = tileEntity.getCapability(CapabilityEnergy.ENERGY);
+            if (lazyOptional.isPresent()) {
+                IEnergyStorage energy = lazyOptional.orElseThrow(IllegalStateException::new);
+                if (energy.canExtract()) {
+                    return current == ConnectionType.NONE ? ConnectionType.IN : current;
+                } else if (energy.canReceive()) {
+                    return current == ConnectionType.NONE ? ConnectionType.OUT : current;
+                }
+            }
+        }
         return ConnectionType.NONE;
     }
 
