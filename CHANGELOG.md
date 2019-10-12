@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Crusher recipe for RF Tools Base's dimensional ore
 - Advancement translations (thanks xMGZx) [#31, #17]
+- Drying racks occasionally emit smoke particles when working
 ### Changed
 - Wires are slightly more intelligent with their connections, reducing the amount of wrenching needed. Energy producing and storing blocks will default to an "in" connections, while machines will default to "out".
 - Standard tier machine speed to 2.0x (up from 1.5x)
 - Set minimum Forge version to 28.1.5
+### Fixed
+- Drying racks interacting weirdly with hoppers (duplicating items, not updating on client) [#30]
 
 ## [0.6.4] - 2019-10-10
 ### Added

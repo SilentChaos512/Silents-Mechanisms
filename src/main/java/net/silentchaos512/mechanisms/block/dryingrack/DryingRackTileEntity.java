@@ -8,12 +8,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.silentchaos512.lib.util.PlayerUtils;
 import net.silentchaos512.mechanisms.crafting.recipe.DryingRecipe;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
+import net.silentchaos512.mechanisms.util.ParticleUtils;
 
 import javax.annotation.Nullable;
 
@@ -34,7 +36,7 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
         if (!stack.isEmpty()) {
             // Remove hanging item
             PlayerUtils.giveItem(player, stack);
-            decrStackSize(0, 1);
+            setInventorySlotContents(0, ItemStack.EMPTY);
             return true;
         } else {
             // Hang item on rack
@@ -49,7 +51,7 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
 
     @Override
     public void tick() {
-        if (this.world == null || isEmpty()) return;
+        if (this.world == null || this.world.isRemote || isEmpty()) return;
 
         DryingRecipe recipe = this.world.getRecipeManager().getRecipe(DryingRecipe.RECIPE_TYPE, this, this.world).orElse(null);
         if (recipe != null) {
@@ -57,11 +59,20 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
             if (processTime >= recipe.getProcessTime()) {
                 setInventorySlotContents(0, recipe.getCraftingResult(this));
                 processTime = 0;
-                sendUpdate();
+                markDirty();
+            }
+            if (processTime % 10 == 0) {
+                ParticleUtils.spawn(world, ParticleTypes.SMOKE, pos, 1, 0.1, 0.1, 0.1, 0.01);
             }
         } else {
             processTime = 0;
         }
+    }
+
+    @Override
+    public void markDirty() {
+        super.markDirty();
+        sendUpdate();
     }
 
     private void sendUpdate() {
@@ -74,6 +85,16 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
     @Override
     public int getSizeInventory() {
         return 1;
+    }
+
+    @Override
+    public int getInventoryStackLimit() {
+        return 1;
+    }
+
+    @Override
+    public boolean isItemValidForSlot(int index, ItemStack stack) {
+        return isEmpty();
     }
 
     @Override
