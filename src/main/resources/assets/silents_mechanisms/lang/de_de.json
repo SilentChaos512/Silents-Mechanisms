@@ -153,7 +153,7 @@
 	"item.silents_mechanisms.lumium_dust": "Lumiumstaub",
     "item.silents_mechanisms.lumium_ingot": "Lumiumbarren",
     "item.silents_mechanisms.lumium_nugget": "Lumiumnugget",
-    "item.silents_mechanisms.machine_upgrade.energy": "%s%% Energie verbraucht,
+    "item.silents_mechanisms.machine_upgrade.energy": "%s%% Energie verbraucht",
     "item.silents_mechanisms.mutton_jerky": "Trockenfleisch vom Lamm",
     "item.silents_mechanisms.nickel_chunks": "Nickelerzbrocken",
     "item.silents_mechanisms.nickel_dust": "Nickelstaub",
