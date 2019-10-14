@@ -91,7 +91,6 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
         FluidStack fluid = IFluidContainer.getBucketOrContainerFluid(item);
         if (canAcceptFluidContainer(item, fluid)) {
             tank.fill(fluid, IFluidHandler.FluidAction.EXECUTE);
-            item.shrink(1);
 
             ItemStack output = getStackInSlot(1);
             if (output.isEmpty()) {
@@ -99,6 +98,8 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
             } else {
                 output.grow(1);
             }
+
+            item.shrink(1);
         }
     }
 
