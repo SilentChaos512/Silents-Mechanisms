@@ -1,0 +1,13 @@
+{
+    "type": "silents_mechanisms:crushing",
+    "process_time": 200,
+    "ingredient": {
+        "tag": "forge:ingots/gold"
+    },
+    "results": [
+        {
+            "item": "silents_mechanisms:gold_dust",
+            "count": 1
+        }
+    ]
+}

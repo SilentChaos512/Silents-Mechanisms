@@ -1,0 +1,13 @@
+{
+  "type": "silents_mechanisms:crushing",
+  "process_time": 200,
+  "ingredient": {
+    "tag": "forge:ingots/zinc"
+  },
+  "results": [
+    {
+      "item": "silents_mechanisms:zinc_dust",
+      "count": 1
+    }
+  ]
+}

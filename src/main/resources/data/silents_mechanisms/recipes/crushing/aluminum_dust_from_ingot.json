@@ -1,0 +1,13 @@
+{
+  "type": "silents_mechanisms:crushing",
+  "process_time": 200,
+  "ingredient": {
+    "tag": "forge:ingots/aluminum"
+  },
+  "results": [
+    {
+      "item": "silents_mechanisms:aluminum_dust",
+      "count": 1
+    }
+  ]
+}

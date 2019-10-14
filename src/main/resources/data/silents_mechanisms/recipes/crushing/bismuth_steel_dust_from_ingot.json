@@ -1,0 +1,13 @@
+{
+  "type": "silents_mechanisms:crushing",
+  "process_time": 200,
+  "ingredient": {
+    "tag": "forge:ingots/bismuth_steel"
+  },
+  "results": [
+    {
+      "item": "silents_mechanisms:bismuth_steel_dust",
+      "count": 1
+    }
+  ]
+}
