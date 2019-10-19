@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.block.wire;
 
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -12,6 +13,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class WireTileEntity extends TileEntity implements ITickableTileEntity {
+    int energyStored;
+
     public WireTileEntity() {
         super(ModTileEntities.wire);
     }
@@ -25,6 +28,18 @@ public class WireTileEntity extends TileEntity implements ITickableTileEntity {
 
     @Override
     public void tick() {
+    }
+
+    @Override
+    public void read(CompoundNBT compound) {
+        this.energyStored = compound.getInt("EnergyStored");
+        super.read(compound);
+    }
+
+    @Override
+    public CompoundNBT write(CompoundNBT compound) {
+        compound.putInt("EnergyStored", energyStored);
+        return super.write(compound);
     }
 
     @Override

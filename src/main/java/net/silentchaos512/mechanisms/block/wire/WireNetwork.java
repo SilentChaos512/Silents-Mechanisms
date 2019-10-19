@@ -9,27 +9,77 @@ import net.minecraftforge.energy.IEnergyStorage;
 import net.silentchaos512.mechanisms.api.ConnectionType;
 import net.silentchaos512.mechanisms.util.EnergyUtils;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
-public class WireNetwork implements IEnergyStorage {
+public final class WireNetwork implements IEnergyStorage {
+    public static final int TRANSFER_PER_CONNECTION = 1000;
+
     private final IBlockReader world;
     private final Map<BlockPos, Set<Connection>> connections = new HashMap<>();
+    private boolean connectionsBuilt;
+    private int energyStored;
 
-    public WireNetwork(IBlockReader world) {
+    private WireNetwork(IBlockReader world, Set<BlockPos> wires, int energyStored) {
         this.world = world;
+        wires.forEach(pos -> connections.put(pos, Collections.emptySet()));
+        this.energyStored = energyStored;
     }
 
     public boolean contains(IBlockReader world, BlockPos pos) {
         return this.world == world && connections.containsKey(pos);
     }
 
+    public int getWireCount() {
+        return connections.size();
+    }
+
+    public Connection getConnection(BlockPos pos, Direction side) {
+        if (connections.containsKey(pos)) {
+            for (Connection connection : connections.get(pos)) {
+                if (connection.side == side) {
+                    return connection;
+                }
+            }
+        }
+        return new Connection(side, ConnectionType.NONE);
+    }
+
+    private void updateWireEnergy() {
+        int energyPerWire = energyStored / getWireCount();
+        connections.keySet().forEach(p -> {
+            TileEntity tileEntity = world.getTileEntity(p);
+            if (tileEntity instanceof WireTileEntity) {
+                ((WireTileEntity) tileEntity).energyStored = energyPerWire;
+            }
+        });
+    }
+
     @Override
     public int receiveEnergy(int maxReceive, boolean simulate) {
-        int energySent = 0;
-        // Try to send energy to each connection
+        buildConnections();
+        int received = Math.min(getMaxEnergyStored() - energyStored, Math.min(maxReceive, TRANSFER_PER_CONNECTION));
+        if (!simulate) {
+            energyStored += received;
+            updateWireEnergy();
+        }
+        return received;
+    }
+
+    @Override
+    public int extractEnergy(int maxExtract, boolean simulate) {
+        buildConnections();
+        int extracted = Math.min(energyStored, Math.min(maxExtract, TRANSFER_PER_CONNECTION));
+        if (!simulate) {
+            energyStored -= extracted;
+            updateWireEnergy();
+        }
+        return extracted;
+    }
+
+    void sendEnergy() {
+        buildConnections();
+
+        // Send stored energy to connected blocks
         for (Map.Entry<BlockPos, Set<Connection>> entry : connections.entrySet()) {
             BlockPos pos = entry.getKey();
             Set<Connection> connections = entry.getValue();
@@ -37,41 +87,21 @@ public class WireNetwork implements IEnergyStorage {
                 if (con.type.canReceive()) {
                     IEnergyStorage energy = EnergyUtils.getEnergy(world, pos.offset(con.side));
                     if (energy != null) {
-                        energySent += energy.receiveEnergy(maxReceive - energySent, simulate);
+                        energy.receiveEnergy(extractEnergy(TRANSFER_PER_CONNECTION, false), false);
                     }
                 }
             }
         }
-        return energySent;
-    }
-
-    @Override
-    public int extractEnergy(int maxExtract, boolean simulate) {
-        int energySent = 0;
-        // Try to send energy to each connection
-        for (Map.Entry<BlockPos, Set<Connection>> entry : connections.entrySet()) {
-            BlockPos pos = entry.getKey();
-            Set<Connection> connections = entry.getValue();
-            for (Connection con : connections) {
-                if (con.type.canExtract()) {
-                    IEnergyStorage energy = EnergyUtils.getEnergy(world, pos.offset(con.side));
-                    if (energy != null) {
-                        energySent += energy.extractEnergy(maxExtract - energySent, simulate);
-                    }
-                }
-            }
-        }
-        return energySent;
     }
 
     @Override
     public int getEnergyStored() {
-        return 0;
+        return energyStored;
     }
 
     @Override
     public int getMaxEnergyStored() {
-        return 0;
+        return 1000 * connections.size();
     }
 
     @Override
@@ -84,25 +114,21 @@ public class WireNetwork implements IEnergyStorage {
         return true;
     }
 
-    public static WireNetwork buildNetwork(IBlockReader world, BlockPos pos) {
-        WireNetwork network = new WireNetwork(world);
-        //noinspection OverlyLongLambda
-        buildWireSet(world, pos, new HashSet<>()).forEach(p -> {
-            Set<Connection> connections = new HashSet<>();
-            for (Direction direction : Direction.values()) {
-                TileEntity te = world.getTileEntity(p.offset(direction));
-                if (te != null && !(te instanceof WireTileEntity) && te.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
-                    ConnectionType type = WireBlock.getConnection(world.getBlockState(p), direction);
-                    connections.add(new Connection(direction, type));
-                }
-            }
-            network.connections.put(p, connections);
-        });
-//        SilentMechanisms.LOGGER.debug("Wire network has {} nodes", network.connections.size());
-        return network;
+    static WireNetwork buildNetwork(IBlockReader world, BlockPos pos) {
+        Set<BlockPos> wires = buildWireSet(world, pos);
+        int energyStored = wires.stream().mapToInt(p -> {
+            TileEntity tileEntity = world.getTileEntity(p);
+            return tileEntity instanceof WireTileEntity ? ((WireTileEntity) tileEntity).energyStored : 0;
+        }).sum();
+        return new WireNetwork(world, wires, energyStored);
+    }
+
+    private static Set<BlockPos> buildWireSet(IBlockReader world, BlockPos pos) {
+        return buildWireSet(world, pos, new HashSet<>());
     }
 
     private static Set<BlockPos> buildWireSet(IBlockReader world, BlockPos pos, Set<BlockPos> set) {
+        // Get all positions that have a wire connected to the wire at pos
         set.add(pos);
         for (Direction side : Direction.values()) {
             BlockPos pos1 = pos.offset(side);
@@ -114,16 +140,37 @@ public class WireNetwork implements IEnergyStorage {
         return set;
     }
 
+    private void buildConnections() {
+        // Determine all connections. This will be done once the connections are actually needed.
+        if (!connectionsBuilt) {
+            connections.keySet().forEach(p -> connections.put(p, getConnections(world, p)));
+            connectionsBuilt = true;
+        }
+    }
+
+    private static Set<Connection> getConnections(IBlockReader world, BlockPos pos) {
+        // Get all connections for the wire at pos
+        Set<Connection> connections = new HashSet<>();
+        for (Direction direction : Direction.values()) {
+            TileEntity te = world.getTileEntity(pos.offset(direction));
+            if (te != null && !(te instanceof WireTileEntity) && te.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
+                ConnectionType type = WireBlock.getConnection(world.getBlockState(pos), direction);
+                connections.add(new Connection(direction, type));
+            }
+        }
+        return connections;
+    }
+
     @Override
     public String toString() {
-        return String.format("WireNetwork %s (%d wires)", Integer.toHexString(hashCode()), connections.size());
+        return String.format("WireNetwork %s, %d wires, %,d FE", Integer.toHexString(hashCode()), connections.size(), energyStored);
     }
 
     public static class Connection {
         private final Direction side;
         private final ConnectionType type;
 
-        public Connection(Direction side, ConnectionType type) {
+        Connection(Direction side, ConnectionType type) {
             this.side = side;
             this.type = type;
         }
