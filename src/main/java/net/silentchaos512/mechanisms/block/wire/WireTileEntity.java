@@ -53,8 +53,11 @@ public class WireTileEntity extends TileEntity implements ITickableTileEntity {
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (world != null && !removed && cap == CapabilityEnergy.ENERGY) {
-            return WireNetworkManager.getLazy(world, pos).cast();
+        if (world != null && !removed && cap == CapabilityEnergy.ENERGY && side != null) {
+            LazyOptional<WireNetwork> networkOptional = WireNetworkManager.getLazy(world, pos);
+            if (networkOptional.isPresent()) {
+                return networkOptional.orElseThrow(IllegalStateException::new).getConnection(pos, side).getLazyOptional().cast();
+            }
         }
         return LazyOptional.empty();
     }

@@ -57,6 +57,7 @@ public final class WireNetworkManager {
     private static void invalidateNetwork(LazyOptional<WireNetwork> network) {
         SilentMechanisms.LOGGER.debug("invalidateNetwork {}", network);
         NETWORK_LIST.removeIf(n -> n.isPresent() && n.equals(network));
+        network.ifPresent(WireNetwork::invalidate);
         network.invalidate();
     }
 

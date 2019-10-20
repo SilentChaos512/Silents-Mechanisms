@@ -16,10 +16,10 @@ public enum ConnectionType implements IStringSerializable {
     }
 
     public boolean canReceive() {
-        return this == OUT || this == BOTH;
+        return this == IN || this == BOTH;
     }
 
     public boolean canExtract() {
-        return this == IN || this == BOTH;
+        return this == OUT || this == BOTH;
     }
 }

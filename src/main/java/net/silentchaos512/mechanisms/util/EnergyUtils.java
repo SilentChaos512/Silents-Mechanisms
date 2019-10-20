@@ -26,11 +26,17 @@ public final class EnergyUtils {
         TileEntity tileEntity = world.getTileEntity(pos.offset(side));
         if (tileEntity != null) {
             IEnergyStorage energy = energyHandler.getEnergy(side).orElseThrow(IllegalStateException::new);
-            tileEntity.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).ifPresent(other -> {
-                int toSend = energy.extractEnergy(maxSend, true);
-                int sent = other.receiveEnergy(toSend, false);
+            tileEntity.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).ifPresent(other -> trySendEnergy(maxSend, energy, other));
+        }
+    }
+
+    private static void trySendEnergy(int maxSend, IEnergyStorage energy, IEnergyStorage other) {
+        if (other.canReceive()) {
+            int toSend = energy.extractEnergy(maxSend, true);
+            int sent = other.receiveEnergy(toSend, false);
+            if (sent > 0) {
                 energy.extractEnergy(sent, false);
-            });
+            }
         }
     }
 

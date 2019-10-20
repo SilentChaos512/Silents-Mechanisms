@@ -4,6 +4,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.silentchaos512.mechanisms.api.ConnectionType;
@@ -41,7 +42,7 @@ public final class WireNetwork implements IEnergyStorage {
                 }
             }
         }
-        return new Connection(side, ConnectionType.NONE);
+        return new Connection(this, side, ConnectionType.NONE);
     }
 
     private void updateWireEnergy() {
@@ -54,13 +55,20 @@ public final class WireNetwork implements IEnergyStorage {
         });
     }
 
+    void invalidate() {
+        connections.values().forEach(set -> set.forEach(con -> con.getLazyOptional().invalidate()));
+    }
+
     @Override
     public int receiveEnergy(int maxReceive, boolean simulate) {
         buildConnections();
         int received = Math.min(getMaxEnergyStored() - energyStored, Math.min(maxReceive, TRANSFER_PER_CONNECTION));
-        if (!simulate) {
-            energyStored += received;
-            updateWireEnergy();
+        if (received > 0) {
+//            SilentMechanisms.LOGGER.debug("receive ({}): {}, {} -> {}", simulate, received, energyStored, energyStored + received);
+            if (!simulate) {
+                energyStored += received;
+                updateWireEnergy();
+            }
         }
         return received;
     }
@@ -69,9 +77,12 @@ public final class WireNetwork implements IEnergyStorage {
     public int extractEnergy(int maxExtract, boolean simulate) {
         buildConnections();
         int extracted = Math.min(energyStored, Math.min(maxExtract, TRANSFER_PER_CONNECTION));
-        if (!simulate) {
-            energyStored -= extracted;
-            updateWireEnergy();
+        if (extracted > 0) {
+//            SilentMechanisms.LOGGER.debug("extract ({}): {}, {} -> {}", simulate, extracted, energyStored, energyStored - extracted);
+            if (!simulate) {
+                energyStored -= extracted;
+                updateWireEnergy();
+            }
         }
         return extracted;
     }
@@ -84,10 +95,13 @@ public final class WireNetwork implements IEnergyStorage {
             BlockPos pos = entry.getKey();
             Set<Connection> connections = entry.getValue();
             for (Connection con : connections) {
-                if (con.type.canReceive()) {
+                if (con.type.canExtract()) {
                     IEnergyStorage energy = EnergyUtils.getEnergy(world, pos.offset(con.side));
-                    if (energy != null) {
-                        energy.receiveEnergy(extractEnergy(TRANSFER_PER_CONNECTION, false), false);
+                    if (energy != null && energy.canReceive()) {
+                        int toSend = extractEnergy(TRANSFER_PER_CONNECTION, true);
+                        int accepted = energy.receiveEnergy(toSend, false);
+                        extractEnergy(accepted, false);
+//                        SilentMechanisms.LOGGER.debug("send {} to {} of {}, accepted {}", toSend, con.side, pos, accepted);
                     }
                 }
             }
@@ -148,14 +162,14 @@ public final class WireNetwork implements IEnergyStorage {
         }
     }
 
-    private static Set<Connection> getConnections(IBlockReader world, BlockPos pos) {
+    private Set<Connection> getConnections(IBlockReader world, BlockPos pos) {
         // Get all connections for the wire at pos
         Set<Connection> connections = new HashSet<>();
         for (Direction direction : Direction.values()) {
             TileEntity te = world.getTileEntity(pos.offset(direction));
             if (te != null && !(te instanceof WireTileEntity) && te.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
                 ConnectionType type = WireBlock.getConnection(world.getBlockState(pos), direction);
-                connections.add(new Connection(direction, type));
+                connections.add(new Connection(this, direction, type));
             }
         }
         return connections;
@@ -166,13 +180,57 @@ public final class WireNetwork implements IEnergyStorage {
         return String.format("WireNetwork %s, %d wires, %,d FE", Integer.toHexString(hashCode()), connections.size(), energyStored);
     }
 
-    public static class Connection {
+    public static class Connection implements IEnergyStorage {
+        private final WireNetwork network;
         private final Direction side;
         private final ConnectionType type;
+        private final LazyOptional<Connection> lazyOptional;
 
-        Connection(Direction side, ConnectionType type) {
+        Connection(WireNetwork network, Direction side, ConnectionType type) {
+            this.network = network;
             this.side = side;
             this.type = type;
+            this.lazyOptional = LazyOptional.of(() -> this);
+        }
+
+        public LazyOptional<Connection> getLazyOptional() {
+            return lazyOptional;
+        }
+
+        @Override
+        public int receiveEnergy(int maxReceive, boolean simulate) {
+            if (!canReceive()) {
+                return 0;
+            }
+            return network.receiveEnergy(maxReceive, simulate);
+        }
+
+        @Override
+        public int extractEnergy(int maxExtract, boolean simulate) {
+            if (!canExtract()) {
+                return 0;
+            }
+            return network.extractEnergy(maxExtract, simulate);
+        }
+
+        @Override
+        public int getEnergyStored() {
+            return network.energyStored;
+        }
+
+        @Override
+        public int getMaxEnergyStored() {
+            return network.getMaxEnergyStored();
+        }
+
+        @Override
+        public boolean canExtract() {
+            return type.canExtract();
+        }
+
+        @Override
+        public boolean canReceive() {
+            return type.canReceive();
         }
     }
 }

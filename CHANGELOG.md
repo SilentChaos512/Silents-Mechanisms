@@ -3,10 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.6.6] - 2019-10-20
+Significant rewrite of wire code to fix several issues. Watch for bugs!
 ### Added
 - Crusher recipes to create dusts from ingots
+### Changed
+- Wires now store a small amount of energy (related to [#35, #36])
 ### Fixed
+- Wires creating stack overflows when interacting with Useless Mod energy cables [#35, #36]
 - Lava and diesel generators eating buckets [#33]
 
 ## [0.6.5] - 2019-10-12
