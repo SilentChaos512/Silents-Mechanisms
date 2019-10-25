@@ -1,3 +1,31 @@
 {
-    "parent": "silents_mechanisms:block/lava_generator"
+    "parent": "block/cube",
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                135,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                0
+            ],
+            "scale": [
+                0.40,
+                0.40,
+                0.40
+            ]
+        }
+    },
+    "textures": {
+        "particle": "silents_mechanisms:block/lava_generator/front_on",
+        "down": "silents_mechanisms:block/lava_generator/bottom",
+        "up": "silents_mechanisms:block/lava_generator/top",
+        "north": "silents_mechanisms:block/lava_generator/front_on",
+        "east": "silents_mechanisms:block/lava_generator/side",
+        "south": "silents_mechanisms:block/lava_generator/back",
+        "west": "silents_mechanisms:block/lava_generator/side"
+    }
 }

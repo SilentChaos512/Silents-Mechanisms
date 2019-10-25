@@ -2,18 +2,30 @@
     "parent": "block/cube",
     "display": {
         "firstperson_righthand": {
-            "rotation": [ 0, 135, 0 ],
-            "translation": [ 0, 0, 0 ],
-            "scale": [ 0.40, 0.40, 0.40 ]
+            "rotation": [
+                0,
+                135,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                0
+            ],
+            "scale": [
+                0.40,
+                0.40,
+                0.40
+            ]
         }
     },
     "textures": {
-        "particle": "silents_mechanisms:block/refinery/temp",
-        "down": "silents_mechanisms:block/refinery/temp",
-        "up": "silents_mechanisms:block/refinery/temp",
-        "north": "silents_mechanisms:block/refinery/temp",
-        "east": "silents_mechanisms:block/refinery/temp",
-        "south": "silents_mechanisms:block/refinery/temp",
-        "west": "silents_mechanisms:block/refinery/temp"
+        "particle": "silents_mechanisms:block/refinery/front_on",
+        "down": "silents_mechanisms:block/refinery/bottom",
+        "up": "silents_mechanisms:block/refinery/top",
+        "north": "silents_mechanisms:block/refinery/front_on",
+        "east": "silents_mechanisms:block/refinery/side",
+        "south": "silents_mechanisms:block/refinery/back",
+        "west": "silents_mechanisms:block/refinery/side"
     }
 }
