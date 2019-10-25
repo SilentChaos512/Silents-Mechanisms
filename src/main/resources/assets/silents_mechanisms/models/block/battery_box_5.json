@@ -4,6 +4,7 @@
     "textures": {
         "0": "silents_mechanisms:block/battery_box/side",
         "1": "silents_mechanisms:block/battery_box/top",
+        "2": "silents_mechanisms:block/battery_box/bottom",
         "particle": "silents_mechanisms:block/battery_box/side"
     },
     "elements": [
@@ -17,7 +18,7 @@
                 "south": {"uv": [0, 3, 16, 16], "texture": "#0"},
                 "west": {"uv": [0, 3, 16, 16], "texture": "#0"},
                 "up": {"uv": [0, 0, 16, 16], "texture": "#0"},
-                "down": {"uv": [0, 0, 16, 16], "texture": "#0"}
+                "down": {"uv": [0, 0, 16, 16], "texture": "#2"}
             }
         },
         {
@@ -154,9 +155,11 @@
     "groups": [
         {
             "name": "battery_box_6",
+            "origin": [8, 8, 8],
             "children": [0,
                 {
                     "name": "batteries",
+                    "origin": [8, 8, 8],
                     "children": [1, 2, 3, 4, 5, 6]
                 }, 7, 8, 9, 10, 11]
         }

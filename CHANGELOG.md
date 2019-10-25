@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- New textures for diesel/lava generators, refinery, mixer, and solidifier (oitsjustjose) [#39]
+### Changed
+- Updated German translation (pandory-network) [#34]
+### Fixed
+- Battery box bottom texture [#40]
+
 ## [0.6.6] - 2019-10-20
 Significant rewrite of wire code to fix several issues. Watch for bugs!
 ### Added
