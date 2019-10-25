@@ -10,6 +10,7 @@ import net.minecraft.world.gen.placement.CountRangeConfig;
 import net.minecraft.world.gen.placement.LakeChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.silentchaos512.mechanisms.config.Config;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.Ores;
 import net.silentchaos512.mechanisms.world.feature.OilLakesFeature;
@@ -24,14 +25,22 @@ public final class SMWorldFeatures {
                     addOre(biome, ore);
                 }
 
-                // Oil lakes, somewhat more common in deserts
-                biome.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, Biome.createDecoratedFeature(
-                        OilLakesFeature.INSTANCE,
-                        new LakesConfig(ModBlocks.oil.getDefaultState()),
-                        Placement.WATER_LAKE,
-                        new LakeChanceConfig(biome == Biomes.DESERT ? 4 : 6)
-                ));
+                addOilLakes(biome);
             }
+        }
+    }
+
+    private static void addOilLakes(Biome biome) {
+        final int config = Config.COMMON.worldGenOilLakeChance.get();
+        if (config > 0) {
+            // Somewhat more common in deserts
+            final int chance = biome == Biomes.DESERT ? 2 * config / 3 : config;
+            biome.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, Biome.createDecoratedFeature(
+                    OilLakesFeature.INSTANCE,
+                    new LakesConfig(ModBlocks.oil.getDefaultState()),
+                    Placement.WATER_LAKE,
+                    new LakeChanceConfig(chance)
+            ));
         }
     }
 

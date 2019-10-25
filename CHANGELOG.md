@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] 
+### Added
+- Config to set chance of oil lakes (can be disabled by setting to 0)
+
 ## [0.6.7] - 2019-10-25
 ### Added
 - New textures for diesel/lava generators, refinery, mixer, and solidifier (oitsjustjose) [#39]

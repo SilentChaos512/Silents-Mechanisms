@@ -4,6 +4,7 @@ import net.minecraftforge.fml.loading.FMLPaths;
 import net.silentchaos512.mechanisms.init.Ores;
 import net.silentchaos512.utils.config.BooleanValue;
 import net.silentchaos512.utils.config.ConfigSpecWrapper;
+import net.silentchaos512.utils.config.IntValue;
 
 import java.util.Arrays;
 import java.util.EnumMap;
@@ -17,6 +18,7 @@ public final class Config {
 
     public static class Common {
         public final BooleanValue showBetaWelcomeMessage;
+        public final IntValue worldGenOilLakeChance;
         private final BooleanValue oreWorldGenMasterSwitch;
         private final Map<Ores, OreConfig> oreConfigs = new EnumMap<>(Ores.class);
 
@@ -27,6 +29,13 @@ public final class Config {
                     .define(true);
 
             wrapper.comment("world", "All world generation settings require you to restart Minecraft!");
+
+            worldGenOilLakeChance = wrapper
+                    .builder("world.oilLake.chance")
+                    .comment("Chance of oil lakes spawning (1 in chance). Higher numbers = less common. Set 0 to disable.",
+                            "Water is 4, lava is 80. Oil lakes will spawn underground about 90% of the time.",
+                            "Note that disabling oil will make some items uncraftable unless recipes are changed")
+                    .defineInRange(6, 0, Integer.MAX_VALUE);
 
             oreWorldGenMasterSwitch = wrapper
                     .builder("world.masterSwitch")
