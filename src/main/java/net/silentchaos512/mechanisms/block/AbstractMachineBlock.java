@@ -7,7 +7,9 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
 import net.silentchaos512.mechanisms.util.MachineTier;
 
@@ -38,5 +40,16 @@ public abstract class AbstractMachineBlock extends AbstractFurnaceBlock {
 
             super.onReplaced(state, worldIn, pos, newState, isMoving);
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean isNormalCube(BlockState state, IBlockReader worldIn, BlockPos pos) {
+        return false;
+    }
+
+    @Override
+    public BlockRenderLayer getRenderLayer() {
+        return BlockRenderLayer.CUTOUT;
     }
 }
