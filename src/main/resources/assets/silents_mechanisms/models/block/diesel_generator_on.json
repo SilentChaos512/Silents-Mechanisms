@@ -1,6 +1,31 @@
 {
-    "parent": "block/cube_all",
+    "parent": "block/cube",
+    "display": {
+        "firstperson_righthand": {
+            "rotation": [
+                0,
+                135,
+                0
+            ],
+            "translation": [
+                0,
+                0,
+                0
+            ],
+            "scale": [
+                0.40,
+                0.40,
+                0.40
+            ]
+        }
+    },
     "textures": {
-        "all": "silents_mechanisms:block/diesel_generator/temp"
+        "particle": "silents_mechanisms:block/diesel_generator/front_on",
+        "down": "silents_mechanisms:block/diesel_generator/bottom",
+        "up": "silents_mechanisms:block/diesel_generator/top",
+        "north": "silents_mechanisms:block/diesel_generator/front_on",
+        "east": "silents_mechanisms:block/diesel_generator/side",
+        "south": "silents_mechanisms:block/diesel_generator/back",
+        "west": "silents_mechanisms:block/diesel_generator/side"
     }
 }
