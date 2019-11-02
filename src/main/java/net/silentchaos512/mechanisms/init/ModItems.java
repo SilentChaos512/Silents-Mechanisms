@@ -1,10 +1,7 @@
 package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.fluid.FlowingFluid;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
+import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -21,9 +18,10 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 public final class ModItems {
-    public static BatteryItem battery;
     public static BucketItem oilBucket;
     public static BucketItem dieselBucket;
+    public static BatteryItem battery;
+    public static HandPumpItem handPump;
     public static CanisterItem canister = new CanisterItem();
 
     static final Map<String, BlockItem> BLOCKS_TO_REGISTER = new LinkedHashMap<>();
@@ -33,9 +31,11 @@ public final class ModItems {
     public static void registerAll(RegistryEvent.Register<Item> event) {
         BLOCKS_TO_REGISTER.forEach(ModItems::register);
 
-        battery = register("battery", new BatteryItem());
         oilBucket = register("oil_bucket", createBucketItem(() -> ModFluids.OIL));
         dieselBucket = register("diesel_bucket", createBucketItem(() -> ModFluids.DIESEL));
+
+        battery = register("battery", new BatteryItem());
+        handPump = register("hand_pump", new HandPumpItem());
         register("canister", canister);
 
         Arrays.stream(CraftingItems.values()).forEach(c -> register(c.getName(), c.asItem()));

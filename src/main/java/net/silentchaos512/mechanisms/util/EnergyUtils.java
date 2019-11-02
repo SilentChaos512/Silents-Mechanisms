@@ -4,6 +4,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.silentchaos512.mechanisms.block.IEnergyHandler;
@@ -48,10 +49,22 @@ public final class EnergyUtils {
      * @param pos   The position to check
      * @return The energy capability, or null if not present
      */
+    @SuppressWarnings("ConstantConditions")
     @Nullable
     public static IEnergyStorage getEnergy(IBlockReader world, BlockPos pos) {
         TileEntity tileEntity = world.getTileEntity(pos);
-        //noinspection ConstantConditions
         return tileEntity != null ? tileEntity.getCapability(CapabilityEnergy.ENERGY).orElse(null) : null;
+    }
+
+    /**
+     * Gets the energy capability of the object (item, etc), or null if it does not have one.
+     *
+     * @param provider The capability provider
+     * @return The energy capability, or null if not present
+     */
+    @SuppressWarnings("ConstantConditions")
+    @Nullable
+    public static IEnergyStorage getEnergy(ICapabilityProvider provider) {
+        return provider.getCapability(CapabilityEnergy.ENERGY).orElse(null);
     }
 }
