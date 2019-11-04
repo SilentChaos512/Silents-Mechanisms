@@ -164,7 +164,6 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 
     protected void setInactiveState() {
         if (world == null) return;
-        progress = 0;
         sendUpdate(getInactiveState(world.getBlockState(pos)));
     }
 
@@ -183,18 +182,18 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
                 // Create result
                 getProcessResults(recipe).forEach(this::storeResultItem);
                 consumeIngredients(recipe);
+                progress = 0;
 
                 if (getRecipe() == null) {
-                    // Nothing left to process
                     setInactiveState();
-                } else {
-                    // Continue processing next output
-                    progress = 0;
                 }
             } else {
                 sendUpdate(getActiveState(world.getBlockState(pos)));
             }
         } else {
+            if (recipe == null) {
+                progress = 0;
+            }
             setInactiveState();
         }
     }
