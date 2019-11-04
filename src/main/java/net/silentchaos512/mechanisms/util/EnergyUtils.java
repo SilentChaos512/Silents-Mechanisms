@@ -4,6 +4,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -51,7 +52,8 @@ public final class EnergyUtils {
      */
     @SuppressWarnings("ConstantConditions")
     @Nullable
-    public static IEnergyStorage getEnergy(IBlockReader world, BlockPos pos) {
+    public static IEnergyStorage getEnergy(IWorldReader world, BlockPos pos) {
+        if (!world.isAreaLoaded(pos, 1)) return null;
         TileEntity tileEntity = world.getTileEntity(pos);
         return tileEntity != null ? tileEntity.getCapability(CapabilityEnergy.ENERGY).orElse(null) : null;
     }

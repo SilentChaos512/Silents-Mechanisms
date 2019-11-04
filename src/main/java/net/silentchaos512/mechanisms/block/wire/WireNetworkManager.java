@@ -1,7 +1,7 @@
 package net.silentchaos512.mechanisms.block.wire;
 
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,11 +22,11 @@ public final class WireNetworkManager {
 
     @SuppressWarnings("ConstantConditions")
     @Nullable
-    public static WireNetwork get(IBlockReader world, BlockPos pos) {
+    public static WireNetwork get(IWorldReader world, BlockPos pos) {
         return getLazy(world, pos).orElse(null);
     }
 
-    public static LazyOptional<WireNetwork> getLazy(IBlockReader world, BlockPos pos) {
+    public static LazyOptional<WireNetwork> getLazy(IWorldReader world, BlockPos pos) {
         synchronized (NETWORK_LIST) {
             for (LazyOptional<WireNetwork> network : NETWORK_LIST) {
                 if (network.isPresent()) {
@@ -47,7 +47,7 @@ public final class WireNetworkManager {
         return lazy;
     }
 
-    public static void invalidateNetwork(IBlockReader world, BlockPos pos) {
+    public static void invalidateNetwork(IWorldReader world, BlockPos pos) {
         Collection<LazyOptional<WireNetwork>> toRemove = NETWORK_LIST.stream()
                 .filter(n -> n != null && n.isPresent() && n.orElseThrow(IllegalStateException::new).contains(world, pos))
                 .collect(Collectors.toList());

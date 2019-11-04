@@ -4,6 +4,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
+import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -15,18 +16,18 @@ import java.util.*;
 public final class WireNetwork implements IEnergyStorage {
     public static final int TRANSFER_PER_CONNECTION = 1000;
 
-    private final IBlockReader world;
+    private final IWorldReader world;
     private final Map<BlockPos, Set<Connection>> connections = new HashMap<>();
     private boolean connectionsBuilt;
     private int energyStored;
 
-    private WireNetwork(IBlockReader world, Set<BlockPos> wires, int energyStored) {
+    private WireNetwork(IWorldReader world, Set<BlockPos> wires, int energyStored) {
         this.world = world;
         wires.forEach(pos -> connections.put(pos, Collections.emptySet()));
         this.energyStored = energyStored;
     }
 
-    public boolean contains(IBlockReader world, BlockPos pos) {
+    public boolean contains(IWorldReader world, BlockPos pos) {
         return this.world == world && connections.containsKey(pos);
     }
 
@@ -128,7 +129,7 @@ public final class WireNetwork implements IEnergyStorage {
         return true;
     }
 
-    static WireNetwork buildNetwork(IBlockReader world, BlockPos pos) {
+    static WireNetwork buildNetwork(IWorldReader world, BlockPos pos) {
         Set<BlockPos> wires = buildWireSet(world, pos);
         int energyStored = wires.stream().mapToInt(p -> {
             TileEntity tileEntity = world.getTileEntity(p);
@@ -137,11 +138,11 @@ public final class WireNetwork implements IEnergyStorage {
         return new WireNetwork(world, wires, energyStored);
     }
 
-    private static Set<BlockPos> buildWireSet(IBlockReader world, BlockPos pos) {
+    private static Set<BlockPos> buildWireSet(IWorldReader world, BlockPos pos) {
         return buildWireSet(world, pos, new HashSet<>());
     }
 
-    private static Set<BlockPos> buildWireSet(IBlockReader world, BlockPos pos, Set<BlockPos> set) {
+    private static Set<BlockPos> buildWireSet(IWorldReader world, BlockPos pos, Set<BlockPos> set) {
         // Get all positions that have a wire connected to the wire at pos
         set.add(pos);
         for (Direction side : Direction.values()) {
