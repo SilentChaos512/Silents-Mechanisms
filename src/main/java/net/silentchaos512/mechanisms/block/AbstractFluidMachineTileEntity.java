@@ -135,18 +135,18 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
                 getFluidResults(recipe).forEach(this::storeResultFluid);
                 getProcessResults(recipe).forEach(this::storeResultItem);
                 consumeFeedstock(recipe);
+                progress = 0;
 
                 if (getRecipe() == null) {
-                    // Nothing left to process
                     setInactiveState();
-                } else {
-                    // Continue processing next output
-                    progress = 0;
                 }
             } else {
                 sendUpdate(getActiveState(world.getBlockState(pos)));
             }
         } else {
+            if (recipe == null) {
+                progress = 0;
+            }
             setInactiveState();
         }
     }
