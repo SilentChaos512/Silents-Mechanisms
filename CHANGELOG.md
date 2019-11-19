@@ -4,6 +4,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Ethane and polyethylene buckets, for compatibility reasons. These buckets cannot place these fluids as blocks, as the blocks do not exist. [#49, #41]
 ### Fixed
 - Upgrades affecting comparator output level on machines [#47]
 - Lava generator not accepting lava canisters via hoppers [#46]

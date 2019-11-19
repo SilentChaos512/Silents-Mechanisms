@@ -30,8 +30,10 @@ public final class ModFluids {
         FLOWING_DIESEL = register("flowing_diesel", new ForgeFlowingFluid.Flowing(dieselProps));
         DIESEL = register("diesel", new ForgeFlowingFluid.Source(dieselProps));
 
-        ETHANE = register("ethane", new ForgeFlowingFluid.Source(propertiesNoFlowing("ethane", () -> ETHANE)));
-        POLYETHYLENE = register("polyethylene", new ForgeFlowingFluid.Source(propertiesNoFlowing("polyethylene", () -> POLYETHYLENE)));
+        ForgeFlowingFluid.Properties ethane = propertiesNoFlowing("ethane", () -> ETHANE).bucket(() -> ModItems.ethaneBucket);
+        ETHANE = register("ethane", new ForgeFlowingFluid.Source(ethane));
+        ForgeFlowingFluid.Properties polyethylene = propertiesNoFlowing("polyethylene", () -> POLYETHYLENE).bucket(() -> ModItems.polyethyleneBucket);
+        POLYETHYLENE = register("polyethylene", new ForgeFlowingFluid.Source(polyethylene));
     }
 
     private static <T extends Fluid> T register(String name, T fluid) {

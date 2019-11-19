@@ -1,6 +1,7 @@
 package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.fluid.FlowingFluid;
+import net.minecraft.fluid.Fluid;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
@@ -20,6 +21,8 @@ import java.util.function.Supplier;
 public final class ModItems {
     public static BucketItem oilBucket;
     public static BucketItem dieselBucket;
+    public static NoPlaceBucketItem ethaneBucket;
+    public static NoPlaceBucketItem polyethyleneBucket;
     public static BatteryItem battery;
     public static HandPumpItem handPump;
     public static CanisterItem canister = new CanisterItem();
@@ -33,6 +36,8 @@ public final class ModItems {
 
         oilBucket = register("oil_bucket", createBucketItem(() -> ModFluids.OIL));
         dieselBucket = register("diesel_bucket", createBucketItem(() -> ModFluids.DIESEL));
+        ethaneBucket = register("ethane_bucket", createNoPlaceBucketItem(() -> ModFluids.ETHANE));
+        polyethyleneBucket = register("polyethylene_bucket", createNoPlaceBucketItem(() -> ModFluids.POLYETHYLENE));
 
         battery = register("battery", new BatteryItem());
         handPump = register("hand_pump", new HandPumpItem());
@@ -58,6 +63,10 @@ public final class ModItems {
 
     private static BucketItem createBucketItem(Supplier<FlowingFluid> fluid) {
         return new BucketItem(fluid, new Item.Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(1).containerItem(Items.BUCKET));
+    }
+
+    private static NoPlaceBucketItem createNoPlaceBucketItem(Supplier<Fluid> fluid) {
+        return new NoPlaceBucketItem(fluid, new Item.Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(1).containerItem(Items.BUCKET));
     }
 
     private static <T extends Item> T register(String name, T item) {
