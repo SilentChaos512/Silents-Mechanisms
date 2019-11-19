@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Upgrades affecting comparator output level on machines [#47]
+
 ## [0.6.8] - 2019-11-04 
 ### Added
 - Config to set chance of oil lakes (can be disabled by setting to 0)
