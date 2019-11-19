@@ -2,13 +2,13 @@ package net.silentchaos512.mechanisms.block.generator.lava;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
-import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
+import net.silentchaos512.mechanisms.api.IFluidContainer;
 import net.silentchaos512.mechanisms.block.generator.AbstractFluidFuelGeneratorTileEntity;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.TextUtil;
@@ -55,9 +55,7 @@ public class LavaGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEntit
 
     @Override
     public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
-        return index == 0
-                && stack.getItem() instanceof BucketItem
-                && ((BucketItem) stack.getItem()).getFluid().isIn(FluidTags.LAVA);
+        return index == 0 && IFluidContainer.getBucketOrContainerFluid(stack).getFluid().isIn(FluidTags.LAVA);
     }
 
     @Override
