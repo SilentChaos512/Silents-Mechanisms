@@ -15,6 +15,7 @@ import net.minecraft.world.storage.loot.LootTableManager;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.block.MachineFrameBlock;
 import net.silentchaos512.mechanisms.block.alloysmelter.AlloySmelterBlock;
 import net.silentchaos512.mechanisms.block.batterybox.BatteryBoxBlock;
 import net.silentchaos512.mechanisms.block.compressor.CompressorBlock;
@@ -71,8 +72,8 @@ public final class ModBlocks {
         DRYING_RACKS.add(register("dark_oak_drying_rack", new DryingRackBlock()));
         DRYING_RACKS.add(register("acacia_drying_rack", new DryingRackBlock()));
 
-        register("stone_machine_frame", new GlassBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3, 10).sound(SoundType.STONE)));
-        register("alloy_machine_frame", new GlassBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3, 10).sound(SoundType.METAL)));
+        register("stone_machine_frame", new MachineFrameBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3, 10).sound(SoundType.STONE)));
+        register("alloy_machine_frame", new MachineFrameBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3, 10).sound(SoundType.METAL)));
 
         basicAlloySmelter = register("basic_alloy_smelter", new AlloySmelterBlock(MachineTier.BASIC));
         alloySmelter = register("alloy_smelter", new AlloySmelterBlock(MachineTier.STANDARD));

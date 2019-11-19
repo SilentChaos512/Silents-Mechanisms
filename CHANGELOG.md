@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Upgrades affecting comparator output level on machines [#47]
+- Machine frame blocks rendering oddly underwater [#32]
 
 ## [0.6.8] - 2019-11-04 
 ### Added
