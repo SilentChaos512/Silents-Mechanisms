@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Fixed
 - Platinum ore missing block tags [#52]
+- Ore gen master switch config being ignored
 
 ## [0.6.9] - 2019-11-20
 ### Added

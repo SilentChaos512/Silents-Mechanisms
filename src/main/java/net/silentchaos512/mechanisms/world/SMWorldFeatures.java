@@ -46,16 +46,18 @@ public final class SMWorldFeatures {
 
     private static void addOre(Biome biome, Ores ore) {
         ore.getConfig().ifPresent(config -> {
-            biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
-                    Feature.ORE,
-                    new OreFeatureConfig(
-                            OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                            ore.getBlock().getDefaultState(),
-                            config.getVeinSize()
-                    ),
-                    Placement.COUNT_RANGE,
-                    new CountRangeConfig(config.getVeinCount(), config.getMinHeight(), 0, config.getMaxHeight())
-            ));
+            if (config.isEnabled()) {
+                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
+                        Feature.ORE,
+                        new OreFeatureConfig(
+                                OreFeatureConfig.FillerBlockType.NATURAL_STONE,
+                                ore.getBlock().getDefaultState(),
+                                config.getVeinSize()
+                        ),
+                        Placement.COUNT_RANGE,
+                        new CountRangeConfig(config.getVeinCount(), config.getMinHeight(), 0, config.getMaxHeight())
+                ));
+            }
         });
     }
 }
