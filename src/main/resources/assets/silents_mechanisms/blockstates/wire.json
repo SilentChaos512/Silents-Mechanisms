@@ -16,7 +16,7 @@
         {   "when": { "up": "in" },
             "apply": { "model": "silents_mechanisms:block/wire_side_in", "x": 270 }
         },
-        {   "when": { "down": "out" },
+        {   "when": { "down": "in" },
             "apply": { "model": "silents_mechanisms:block/wire_side_in", "x": 90 }
         },
         {   "when": { "north": "out" },

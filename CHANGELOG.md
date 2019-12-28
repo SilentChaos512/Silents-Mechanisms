@@ -11,7 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.6.10] - 2019-12-27
 ### Fixed
 - Crash when getting energy capabilities of removed blocks [#57]
+- Platinum ore missing block tags [#52]
+- Wire model incorrect when connecting to block below [#51]
 - Ethane and polyethylene are now properly flagged as gaseous (I think) [#49]
+- Ore gen master switch config being ignored
 
 ## [0.6.9] - 2019-11-20
 ### Added
