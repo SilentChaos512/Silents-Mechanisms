@@ -7,6 +7,7 @@ import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorldReader;
 import net.minecraftforge.common.capabilities.ICapabilityProvider;
 import net.minecraftforge.energy.CapabilityEnergy;
+import net.minecraftforge.energy.EnergyStorage;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.silentchaos512.mechanisms.block.IEnergyHandler;
 
@@ -27,7 +28,7 @@ public final class EnergyUtils {
     public static void trySendTo(IBlockReader world, BlockPos pos, IEnergyHandler energyHandler, int maxSend, Direction side) {
         TileEntity tileEntity = world.getTileEntity(pos.offset(side));
         if (tileEntity != null) {
-            IEnergyStorage energy = energyHandler.getEnergy(side).orElseThrow(IllegalStateException::new);
+            IEnergyStorage energy = energyHandler.getEnergy(side).orElse(new EnergyStorage(0));
             tileEntity.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).ifPresent(other -> trySendEnergy(maxSend, energy, other));
         }
     }
