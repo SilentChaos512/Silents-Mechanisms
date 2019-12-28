@@ -30,9 +30,9 @@ public final class ModFluids {
         FLOWING_DIESEL = register("flowing_diesel", new ForgeFlowingFluid.Flowing(dieselProps));
         DIESEL = register("diesel", new ForgeFlowingFluid.Source(dieselProps));
 
-        ForgeFlowingFluid.Properties ethane = propertiesNoFlowing("ethane", () -> ETHANE).bucket(() -> ModItems.ethaneBucket);
+        ForgeFlowingFluid.Properties ethane = propertiesGas("ethane", () -> ETHANE).bucket(() -> ModItems.ethaneBucket);
         ETHANE = register("ethane", new ForgeFlowingFluid.Source(ethane));
-        ForgeFlowingFluid.Properties polyethylene = propertiesNoFlowing("polyethylene", () -> POLYETHYLENE).bucket(() -> ModItems.polyethyleneBucket);
+        ForgeFlowingFluid.Properties polyethylene = propertiesGas("polyethylene", () -> POLYETHYLENE).bucket(() -> ModItems.polyethyleneBucket);
         POLYETHYLENE = register("polyethylene", new ForgeFlowingFluid.Source(polyethylene));
     }
 
@@ -48,9 +48,9 @@ public final class ModFluids {
         return new ForgeFlowingFluid.Properties(still, flowing, FluidAttributes.builder(SilentMechanisms.getId(tex + "_still"), SilentMechanisms.getId(tex + "_flowing")));
     }
 
-    private static ForgeFlowingFluid.Properties propertiesNoFlowing(String name, Supplier<Fluid> still) {
+    private static ForgeFlowingFluid.Properties propertiesGas(String name, Supplier<Fluid> still) {
         String tex = "block/" + name;
         //noinspection ReturnOfNull -- null-returning Supplier for flowing fluid
-        return new ForgeFlowingFluid.Properties(still, () -> null, FluidAttributes.builder(SilentMechanisms.getId(tex), SilentMechanisms.getId(tex)));
+        return new ForgeFlowingFluid.Properties(still, () -> null, FluidAttributes.builder(SilentMechanisms.getId(tex), SilentMechanisms.getId(tex)).gaseous());
     }
 }

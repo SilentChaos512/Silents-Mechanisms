@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Platinum ore missing block tags [#52]
 - Ore gen master switch config being ignored
 
+## [0.6.10] - 2019-12-27
+### Fixed
+- Ethane and polyethylene are now properly flagged as gaseous (I think) [#49]
+
 ## [0.6.9] - 2019-11-20
 ### Added
 - Ethane and polyethylene buckets, for compatibility reasons. These buckets cannot place these fluids as blocks, as the blocks do not exist. [#49, #41]
