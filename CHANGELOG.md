@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Mixer will no longer put the same fluid in different tanks [#24]
 ### Fixed
 - Pump not allowing fluids to be extracted [#43]
+- Fluid machines allowing extraction from input tanks [#41]
 - Water color in machine screens [#41]
 
 ## [0.6.10] - 2019-12-27

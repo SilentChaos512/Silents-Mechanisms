@@ -267,7 +267,7 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
 
     @Override
     public int fill(FluidStack resource, FluidAction action) {
-        for (int i = 0; i < tanks.length; ++i) {
+        for (int i = 0; i < getInputTanks(); ++i) {
             FluidStack fluidInTank = tanks[i].getFluid();
             if (isFluidValid(i, resource) && (fluidInTank.isEmpty() || resource.isFluidEqual(fluidInTank))) {
                 return tanks[i].fill(resource, action);
@@ -282,9 +282,9 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
             return FluidStack.EMPTY;
         }
 
-        for (FluidTank tank : tanks) {
-            if (resource.isFluidEqual(tank.getFluid())) {
-                return tank.drain(resource, action);
+        for (int i = getInputTanks(); i < getInputTanks() + getOutputTanks(); ++i) {
+            if (resource.isFluidEqual(tanks[i].getFluid())) {
+                return tanks[i].drain(resource, action);
             }
         }
 
@@ -293,9 +293,9 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
 
     @Override
     public FluidStack drain(int maxDrain, FluidAction action) {
-        for (FluidTank tank : tanks) {
-            if (tank.getFluidAmount() > 0) {
-                return tank.drain(maxDrain, action);
+        for (int i = getInputTanks(); i < getInputTanks() + getOutputTanks(); ++i) {
+            if (tanks[i].getFluidAmount() > 0) {
+                return tanks[i].drain(maxDrain, action);
             }
         }
 
