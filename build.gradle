@@ -122,6 +122,10 @@ dependencies {
         implementation fg.deobf("org.squiddev:cc-tweaked-${project.mc_version}:${project.cctweaked_version}")
     }
 
+    if (project.hasProperty("refined_storage_version")) {
+        compile fg.deobf("com.raoulvdberge:refinedstorage:${project.refined_storage_version}")
+    }
+
 //    runtimeOnly 'net.silentchaos512:wit:1.+'
 }
 

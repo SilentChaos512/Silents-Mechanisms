@@ -24,13 +24,23 @@ public class CanisterItem extends Item implements IFluidContainer {
     }
 
     public ItemStack getStack(@Nullable Fluid fluid) {
-        ItemStack result = new ItemStack(this);
+        return getStack(fluid, 1);
+    }
+
+    public ItemStack getStack(@Nullable Fluid fluid, int count) {
+        ItemStack result = new ItemStack(this, count);
         if (fluid != null) {
             ResourceLocation fluidId = Objects.requireNonNull(fluid.getRegistryName());
             result.getOrCreateTag().putString("CanisterFluid", fluidId.toString());
         }
         return result;
     }
+
+/*    @Nullable
+    @Override
+    public ICapabilityProvider initCapabilities(ItemStack stack, @Nullable CompoundNBT nbt) {
+        return new FluidCanisterWrapper(stack);
+    }*/
 
     @Override
     public FluidStack getFluid(ItemStack stack) {
