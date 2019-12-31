@@ -7,8 +7,8 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.silentchaos512.mechanisms.block.AbstractFluidMachineTileEntity;
 import net.silentchaos512.mechanisms.api.IFluidContainer;
+import net.silentchaos512.mechanisms.block.AbstractFluidMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.MixingRecipe;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
@@ -43,22 +43,42 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
         if (input.isEmpty()) return;
 
         FluidStack fluidStack = IFluidContainer.getBucketOrContainerFluid(input);
-        for (int i = 0; i < getInputTanks(); ++i) {
-            if (canAcceptFluidContainer(input, fluidStack, i)) {
-                tanks[i].fill(fluidStack, FluidAction.EXECUTE);
-
-                ItemStack containerItem = input.getContainerItem();
-                input.shrink(1);
-
-                ItemStack output = getStackInSlot(1);
-                if (output.isEmpty()) {
-                    setInventorySlotContents(1, containerItem);
-                } else {
-                    output.grow(1);
-                }
-
-                break;
+        int tankIndex = findTankWithFluid(fluidStack);
+        if (tankIndex > -1) {
+            if (canAcceptFluidContainer(input, fluidStack, tankIndex)) {
+                fillTankWithContainer(input, fluidStack, tanks[tankIndex]);
             }
+        } else {
+            for (int i = 0; i < getInputTanks(); ++i) {
+                if (canAcceptFluidContainer(input, fluidStack, i)) {
+                    fillTankWithContainer(input, fluidStack, tanks[i]);
+                    break;
+                }
+            }
+        }
+    }
+
+    private int findTankWithFluid(FluidStack fluidStack) {
+        for (int i = 0; i < getInputTanks(); ++i) {
+            FluidStack fluidInTank = getFluidInTank(i);
+            if (!fluidInTank.isEmpty() && fluidInTank.getFluid() == fluidStack.getFluid()) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void fillTankWithContainer(ItemStack input, FluidStack fluidStack, IFluidHandler tank) {
+        tank.fill(fluidStack, FluidAction.EXECUTE);
+
+        ItemStack containerItem = input.getContainerItem();
+        input.shrink(1);
+
+        ItemStack output = getStackInSlot(1);
+        if (output.isEmpty()) {
+            setInventorySlotContents(1, containerItem);
+        } else {
+            output.grow(1);
         }
     }
 
