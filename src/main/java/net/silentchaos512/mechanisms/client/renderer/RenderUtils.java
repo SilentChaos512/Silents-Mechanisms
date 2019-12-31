@@ -37,7 +37,11 @@ public final class RenderUtils {
         int posY = (int) (y + height - renderAmount);
 
         Minecraft.getInstance().getTextureManager().bindTexture(AtlasTexture.LOCATION_BLOCKS_TEXTURE);
-        GlStateManager.color3f(1, 1, 1);
+        int color = stack.getFluid().getAttributes().getColor();
+        float r = ((color >> 16) & 0xFF) / 255f;
+        float g = ((color >> 8) & 0xFF) / 255f;
+        float b = (color & 0xFF) / 255f;
+        GlStateManager.color3f(r, g, b);
 
         GlStateManager.enableBlend();
         for (int i = 0; i < width; i += 16) {
