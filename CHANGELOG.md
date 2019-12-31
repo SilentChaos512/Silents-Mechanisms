@@ -6,6 +6,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Temporary texture for hand pump
+### Removed
+- "Inventory" text from machine screens [#41]
 ### Changed
 - Increased zinc and bismuth defaults to 4 veins per chunk and vein size of 8 (you will need to update your config file to get these changes) [#58]
 - Fluid fuel generators (lava, diesel) now consume 100 mB (configurable) of fuel at once. This will reduce lag, but will decrease fuel efficiency when power demand is low. [#48]
