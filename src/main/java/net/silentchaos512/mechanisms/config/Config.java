@@ -22,6 +22,8 @@ public final class Config {
         private final BooleanValue oreWorldGenMasterSwitch;
         private final Map<Ores, OreConfig> oreConfigs = new EnumMap<>(Ores.class);
 
+        public final IntValue fluidGeneratorInjectionVolume;
+
         public Common(ConfigSpecWrapper wrapper) {
             showBetaWelcomeMessage = wrapper
                     .builder("general.showBetaWelcomeMessage")
@@ -44,6 +46,13 @@ public final class Config {
                     .define(true);
 
             Arrays.stream(Ores.values()).forEach(ore -> oreConfigs.put(ore, new OreConfig(ore, wrapper, oreWorldGenMasterSwitch)));
+
+            fluidGeneratorInjectionVolume = wrapper
+                    .builder("machine.fluidGenerators.injectionVolume")
+                    .comment("The amount of fluid (in milliBuckets, or mB) fluid generators consume at once.",
+                            "Lower values reduce waste, but may cause lag as the generator more frequently turns on/off.",
+                            "A generator with less fluid in the tank will not be able to run.")
+                    .defineInRange(100, 1, 1000);
         }
 
         public Optional<OreConfig> getOreConfig(Ores ore) {

@@ -9,7 +9,7 @@ import net.minecraft.tags.Tag;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.silentchaos512.mechanisms.api.IFluidContainer;
 import net.silentchaos512.mechanisms.block.generator.AbstractFluidFuelGeneratorTileEntity;
@@ -38,9 +38,8 @@ public class DieselGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEnt
     }
 
     @Override
-    protected void consumeFuel() {
-        tank.drain(1, IFluidHandler.FluidAction.EXECUTE);
-        burnTime = TICKS_PER_MILLIBUCKET;
+    protected int getFuelBurnTime(FluidStack fluid) {
+        return TICKS_PER_MILLIBUCKET * fluid.getAmount();
     }
 
     @Override

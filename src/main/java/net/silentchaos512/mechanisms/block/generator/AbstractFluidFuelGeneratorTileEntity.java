@@ -16,6 +16,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.silentchaos512.mechanisms.api.IFluidContainer;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
+import net.silentchaos512.mechanisms.config.Config;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.utils.EnumUtils;
@@ -87,6 +88,8 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
         this.fluidHandlerCap = LazyOptional.of(() -> tank);
     }
 
+    protected abstract int getFuelBurnTime(FluidStack fluid);
+
     protected void tryFillTank(ItemStack item) {
         FluidStack fluid = IFluidContainer.getBucketOrContainerFluid(item);
         if (canAcceptFluidContainer(item, fluid)) {
@@ -110,6 +113,12 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
                 && tank.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == fluid.getAmount()
                 && (output.isEmpty() || InventoryUtils.canItemsStack(item.getContainerItem(), output))
                 && (output.isEmpty() || output.getCount() < output.getMaxStackSize());
+    }
+
+    @Override
+    protected void consumeFuel() {
+        FluidStack fluid = tank.drain(Config.COMMON.fluidGeneratorInjectionVolume.get(), IFluidHandler.FluidAction.EXECUTE);
+        burnTime = totalBurnTime = getFuelBurnTime(fluid);
     }
 
     @Override
