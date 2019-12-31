@@ -12,7 +12,10 @@ import net.minecraft.util.IIntArray;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.silentchaos512.lib.util.TimeUtils;
@@ -30,7 +33,7 @@ import net.silentchaos512.utils.EnumUtils;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class PumpTileEntity extends AbstractMachineBaseTileEntity implements IFluidHandler {
+public class PumpTileEntity extends AbstractMachineBaseTileEntity {
     public static final int ENERGY_PER_BUCKET = 500;
     public static final int PUMP_DELAY = TimeUtils.ticksFromSeconds(5);
     public static final int FIELDS_COUNT = 9;
@@ -78,6 +81,7 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity implements IFl
     };
 
     private final FluidTank tank = new FluidTank(4000);
+    private final LazyOptional<IFluidHandler> fluidCap = LazyOptional.of(() -> tank);
 
     public PumpTileEntity() {
         super(ModTileEntities.pump, 2, 10_000, 100, 0, MachineTier.STANDARD);
@@ -132,8 +136,8 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity implements IFl
             Fluid fluid = ((IBucketPickupHandler) state.getBlock()).pickupFluid(world, blockPos, state);
             FluidStack fluidStack = new FluidStack(fluid, 1000);
 
-            if (!fluidStack.isEmpty() && tank.fill(fluidStack, FluidAction.SIMULATE) == 1000) {
-                tank.fill(fluidStack, FluidAction.EXECUTE);
+            if (!fluidStack.isEmpty() && tank.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) == 1000) {
+                tank.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
                 energy.consumeEnergy(getEnergyPerOperation());
                 return true;
             }
@@ -149,11 +153,11 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity implements IFl
         FluidStack fluidInInput = IFluidContainer.getBucketOrContainerFluid(input);
         if (!fluidInInput.isEmpty()) return;
 
-        FluidStack fluidInTank = getFluidInTank(0);
+        FluidStack fluidInTank = tank.getFluidInTank(0);
         if (fluidInTank.getAmount() >= 1000) {
             ItemStack filled = IFluidContainer.fillBucketOrFluidContainer(input, fluidInTank);
             if (!filled.isEmpty() && InventoryUtils.mergeItem(this, filled, 1)) {
-                tank.drain(1000, FluidAction.EXECUTE);
+                tank.drain(1000, IFluidHandler.FluidAction.EXECUTE);
                 input.shrink(1);
             }
         }
@@ -192,44 +196,6 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity implements IFl
     }
 
     @Override
-    public int getTanks() {
-        return 1;
-    }
-
-    @Nonnull
-    @Override
-    public FluidStack getFluidInTank(int tank) {
-        return this.tank.getFluid();
-    }
-
-    @Override
-    public int getTankCapacity(int tank) {
-        return this.tank.getCapacity();
-    }
-
-    @Override
-    public boolean isFluidValid(int tank, @Nonnull FluidStack stack) {
-        return this.tank.isFluidValid(stack);
-    }
-
-    @Override
-    public int fill(FluidStack resource, FluidAction action) {
-        return this.tank.fill(resource, action);
-    }
-
-    @Nonnull
-    @Override
-    public FluidStack drain(FluidStack resource, FluidAction action) {
-        return this.tank.drain(resource, action);
-    }
-
-    @Nonnull
-    @Override
-    public FluidStack drain(int maxDrain, FluidAction action) {
-        return this.tank.drain(maxDrain, action);
-    }
-
-    @Override
     public void read(CompoundNBT tags) {
         this.tank.readFromNBT(tags.getCompound("Tank"));
         super.read(tags);
@@ -239,5 +205,13 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity implements IFl
     public CompoundNBT write(CompoundNBT tags) {
         tags.put("Tank", this.tank.writeToNBT(new CompoundNBT()));
         return super.write(tags);
+    }
+
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (!this.removed && cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+            return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.orEmpty(cap, fluidCap.cast());
+        }
+        return super.getCapability(cap, side);
     }
 }
