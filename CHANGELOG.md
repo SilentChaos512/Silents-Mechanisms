@@ -4,9 +4,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Fixed
-- Platinum ore missing block tags [#52]
-- Ore gen master switch config being ignored
+### Changed
+- Increased zinc and bismuth defaults to 4 veins per chunk and vein size of 8 (you will need to update your config file to get these changes) [#58]
 
 ## [0.6.10] - 2019-12-27
 ### Fixed
