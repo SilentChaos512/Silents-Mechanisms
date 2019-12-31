@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - Consider using CC Tweaked computers to control generators for better efficiency.
 - Mixer will no longer put the same fluid in different tanks [#24]
 ### Fixed
+- Ethane and polyethylene buckets missing fluid capability (not working with Refined Storage) [#49, #41]
 - Pump not allowing fluids to be extracted [#43]
 - Fluid machines allowing extraction from input tanks [#41]
 - Water color in machine screens [#41]
