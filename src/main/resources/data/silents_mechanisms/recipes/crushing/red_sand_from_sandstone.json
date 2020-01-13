@@ -1,0 +1,13 @@
+{
+    "type": "silents_mechanisms:crushing",
+    "process_time": 200,
+    "ingredient": {
+        "item": "minecraft:red_sandstone"
+    },
+    "results": [
+        {
+            "item": "minecraft:red_sand",
+            "count": 1
+        }
+    ]
+}

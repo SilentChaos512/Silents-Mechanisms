@@ -2,17 +2,12 @@
     "type": "silents_mechanisms:crushing",
     "process_time": 200,
     "ingredient": {
-        "item": "minecraft:gravel"
+        "item": "minecraft:sandstone"
     },
     "results": [
         {
             "item": "minecraft:sand",
             "count": 1
-        },
-        {
-            "item": "minecraft:flint",
-            "count": 1,
-            "chance": 0.1
         }
     ]
 }
