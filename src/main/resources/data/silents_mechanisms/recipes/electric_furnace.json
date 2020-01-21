@@ -1,9 +1,9 @@
 {
     "type": "minecraft:crafting_shaped",
     "pattern": [
-        "###",
+        "#C#",
         "/X/",
-        "OCO"
+        "ODO"
     ],
     "key": {
         "#": {
@@ -13,13 +13,16 @@
             "tag": "forge:ingots/redstone_alloy"
         },
         "X": {
-            "tag": "forge:ingots/gold"
+            "item": "silents_mechanisms:alloy_machine_frame"
         },
         "O": {
             "item": "minecraft:smooth_stone"
         },
         "C": {
             "item": "silents_mechanisms:circuit_board"
+        },
+        "D": {
+            "item": "silents_mechanisms:heating_element"
         }
     },
     "result": {
