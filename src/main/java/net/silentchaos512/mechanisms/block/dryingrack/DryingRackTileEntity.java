@@ -68,7 +68,6 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
             if (processTime >= recipe.getProcessTime()) {
                 setInventorySlotContents(0, recipe.getCraftingResult(this));
                 processTime = 0;
-                markDirty();
             }
             if (processTime % 10 == 0) {
                 ParticleUtils.spawn(world, ParticleTypes.SMOKE, pos, 1, 0.1, 0.1, 0.1, 0.01);
@@ -122,17 +121,22 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
 
     @Override
     public ItemStack decrStackSize(int index, int count) {
-        return ItemStackHelper.getAndSplit(this.items, index, count);
+        ItemStack result = ItemStackHelper.getAndSplit(this.items, index, count);
+        this.markDirty();
+        return result;
     }
 
     @Override
     public ItemStack removeStackFromSlot(int index) {
-        return ItemStackHelper.getAndRemove(this.items, index);
+        ItemStack result = ItemStackHelper.getAndRemove(this.items, index);
+        this.markDirty();
+        return result;
     }
 
     @Override
     public void setInventorySlotContents(int index, ItemStack stack) {
         this.items.set(0, stack);
+        this.markDirty();
     }
 
     @Override
@@ -184,7 +188,9 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
         if (pkt.getNbtCompound().contains("Item")) {
-            setInventorySlotContents(0, ItemStack.read(pkt.getNbtCompound().getCompound("Item")));
+            this.items.set(0, ItemStack.read(pkt.getNbtCompound().getCompound("Item")));
+        } else {
+            this.items.set(0, ItemStack.EMPTY);
         }
     }
 
