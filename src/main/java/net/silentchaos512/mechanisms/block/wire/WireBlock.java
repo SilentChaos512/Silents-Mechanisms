@@ -18,12 +18,11 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.api.ConnectionType;
 import net.silentchaos512.mechanisms.api.IWrenchable;
+import net.silentchaos512.mechanisms.util.EnergyUtils;
 
 import javax.annotation.Nullable;
 import java.util.Map;
@@ -129,22 +128,21 @@ public class WireBlock extends SixWayBlock implements IWrenchable {
 
     public BlockState makeConnections(IBlockReader worldIn, BlockPos pos) {
         return this.getDefaultState()
-                .with(DOWN, createConnection(worldIn, pos.down(), ConnectionType.NONE))
-                .with(UP, createConnection(worldIn, pos.up(), ConnectionType.NONE))
-                .with(NORTH, createConnection(worldIn, pos.north(), ConnectionType.NONE))
-                .with(EAST, createConnection(worldIn, pos.east(), ConnectionType.NONE))
-                .with(SOUTH, createConnection(worldIn, pos.south(), ConnectionType.NONE))
-                .with(WEST, createConnection(worldIn, pos.west(), ConnectionType.NONE));
+                .with(DOWN, createConnection(worldIn, pos, Direction.DOWN, ConnectionType.NONE))
+                .with(UP, createConnection(worldIn, pos, Direction.UP, ConnectionType.NONE))
+                .with(NORTH, createConnection(worldIn, pos, Direction.NORTH, ConnectionType.NONE))
+                .with(EAST, createConnection(worldIn, pos, Direction.EAST, ConnectionType.NONE))
+                .with(SOUTH, createConnection(worldIn, pos, Direction.SOUTH, ConnectionType.NONE))
+                .with(WEST, createConnection(worldIn, pos, Direction.WEST, ConnectionType.NONE));
     }
 
-    private static ConnectionType createConnection(IBlockReader worldIn, BlockPos pos, ConnectionType current) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
+    private static ConnectionType createConnection(IBlockReader worldIn, BlockPos pos, Direction side, ConnectionType current) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos.offset(side));
         if (tileEntity instanceof WireTileEntity) {
             return ConnectionType.BOTH;
         } else if (tileEntity != null) {
-            LazyOptional<IEnergyStorage> lazyOptional = tileEntity.getCapability(CapabilityEnergy.ENERGY);
-            if (lazyOptional.isPresent()) {
-                IEnergyStorage energy = lazyOptional.orElseThrow(IllegalStateException::new);
+            IEnergyStorage energy = EnergyUtils.getEnergyFromSideOrNull(tileEntity, side.getOpposite());
+            if (energy != null) {
                 if (energy.canExtract()) {
                     return current == ConnectionType.NONE ? ConnectionType.IN : current;
                 } else if (energy.canReceive()) {
@@ -163,7 +161,7 @@ public class WireBlock extends SixWayBlock implements IWrenchable {
 
         EnumProperty<ConnectionType> property = FACING_TO_PROPERTY_MAP.get(facing);
         ConnectionType current = stateIn.get(property);
-        return stateIn.with(property, createConnection(worldIn, facingPos, current));
+        return stateIn.with(property, createConnection(worldIn, currentPos, facing, current));
     }
 
     @Override

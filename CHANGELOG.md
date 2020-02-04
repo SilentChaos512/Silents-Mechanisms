@@ -3,7 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Fixed
+- Wires not connecting to some blocks (more work needed) [#62]
+
 ## [0.6.12] - 2020-01-21
+### Removed
+- Some old recipes leftover from earlier versions. These were left in-place because ores were added later on.
 ### Changed
 - Many textures (machines and crafting items mostly) by Futurenp
 

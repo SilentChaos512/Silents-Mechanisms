@@ -70,4 +70,18 @@ public final class EnergyUtils {
     public static IEnergyStorage getEnergy(ICapabilityProvider provider) {
         return provider.getCapability(CapabilityEnergy.ENERGY).orElse(null);
     }
+
+    /**
+     * Gets the energy capability of the object (item, etc), or null if it does not have one. Tries
+     * to get the capability for the given side first, then null side.
+     *
+     * @param provider The capability provider
+     * @param side     The side being accessed
+     * @return The energy capability, or null if not present
+     */
+    @SuppressWarnings("ConstantConditions")
+    @Nullable
+    public static IEnergyStorage getEnergyFromSideOrNull(ICapabilityProvider provider, Direction side) {
+        return provider.getCapability(CapabilityEnergy.ENERGY, side).orElse(provider.getCapability(CapabilityEnergy.ENERGY).orElse(null));
+    }
 }
