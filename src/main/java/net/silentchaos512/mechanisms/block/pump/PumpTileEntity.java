@@ -114,7 +114,7 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
         if (!canMachineRun() || world.getGameTime() % getPumpDelay() != 0) return;
 
         // TODO: Could probably optimize this to not iterate over the entire region each time
-        try (BlockPos.PooledMutableBlockPos blockPos = BlockPos.PooledMutableBlockPos.retain()) {
+        try (BlockPos.PooledMutable blockPos = BlockPos.PooledMutable.retain()) {
             for (int y = pos.getY(); y > Math.max(0, pos.getY() - getVerticalRange()); --y) {
                 int range = getHorizontalRange();
                 for (int x = pos.getX() - range; x <= pos.getX() + range; ++x) {
@@ -130,7 +130,7 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
         }
     }
 
-    private boolean tryPumpFluid(BlockPos.PooledMutableBlockPos blockPos, int x, int y, int z, BlockState state) {
+    private boolean tryPumpFluid(BlockPos.Mutable blockPos, int x, int y, int z, BlockState state) {
         if (state.getBlock() instanceof IBucketPickupHandler) {
             assert world != null;
             Fluid fluid = ((IBucketPickupHandler) state.getBlock()).pickupFluid(world, blockPos, state);

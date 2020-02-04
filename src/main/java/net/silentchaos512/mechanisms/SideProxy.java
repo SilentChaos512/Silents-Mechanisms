@@ -5,7 +5,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
-import net.minecraft.resources.IReloadableResourceManager;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.text.ITextComponent;
@@ -98,6 +97,7 @@ class SideProxy implements IProxy {
         }
 
         private void clientSetup(FMLClientSetupEvent event) {
+            ModBlocks.registerRenderTypes(event);
             ModContainers.registerScreens(event);
             ModTileEntities.registerRenderers(event);
         }

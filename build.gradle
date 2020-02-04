@@ -107,19 +107,19 @@ dependencies {
     // JEI
     if (project.hasProperty("jei_version")) {
         // compile against the JEI API but do not include it at runtime
-        compileOnly fg.deobf("mezz.jei:jei-1.14.4:${project.jei_version}:api")
+        compileOnly fg.deobf("mezz.jei:jei-${project.jei_version}")
         // at runtime, use the full JEI jar
-        runtimeOnly fg.deobf("mezz.jei:jei-1.14.4:${project.jei_version}")
+        runtimeOnly fg.deobf("mezz.jei:jei-${project.jei_version}")
     }
 
     // HWYLA
     if (project.hasProperty("hwyla_version")) {
-        compile "mcp.mobius.waila:Hwyla:${project.hwyla_version}"
+        compileOnly "mcp.mobius.waila:Hwyla:${project.hwyla_version}"
     }
 
     // CC Tweaked
     if (project.hasProperty("cctweaked_version")) {
-        implementation fg.deobf("org.squiddev:cc-tweaked-${project.mc_version}:${project.cctweaked_version}")
+        compileOnly fg.deobf("org.squiddev:cc-tweaked-${project.cctweaked_version}")
     }
 
     if (project.hasProperty("refined_storage_version")) {

@@ -2,6 +2,8 @@ package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FlowingFluid;
 import net.minecraft.item.BlockItem;
@@ -12,7 +14,10 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootTableManager;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.MachineFrameBlock;
@@ -41,6 +46,8 @@ import java.util.function.Supplier;
 
 public final class ModBlocks {
     public static final List<DryingRackBlock> DRYING_RACKS = new ArrayList<>();
+    public static MachineFrameBlock stoneMachineFrame;
+    public static MachineFrameBlock alloyMachineFrame;
     public static AlloySmelterBlock basicAlloySmelter;
     public static AlloySmelterBlock alloySmelter;
     public static CrusherBlock basicCrusher;
@@ -72,8 +79,8 @@ public final class ModBlocks {
         DRYING_RACKS.add(register("dark_oak_drying_rack", new DryingRackBlock()));
         DRYING_RACKS.add(register("acacia_drying_rack", new DryingRackBlock()));
 
-        register("stone_machine_frame", new MachineFrameBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3, 10).sound(SoundType.STONE)));
-        register("alloy_machine_frame", new MachineFrameBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3, 10).sound(SoundType.METAL)));
+        stoneMachineFrame = register("stone_machine_frame", new MachineFrameBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3, 10).sound(SoundType.STONE).notSolid()));
+        alloyMachineFrame = register("alloy_machine_frame", new MachineFrameBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3, 10).sound(SoundType.METAL).notSolid()));
 
         basicAlloySmelter = register("basic_alloy_smelter", new AlloySmelterBlock(MachineTier.BASIC));
         alloySmelter = register("alloy_smelter", new AlloySmelterBlock(MachineTier.STANDARD));
@@ -94,6 +101,12 @@ public final class ModBlocks {
         // Fluids (no items)
         oil = register("oil", createFluidBlock(() -> ModFluids.OIL), null);
         diesel = register("diesel", createFluidBlock(() -> ModFluids.DIESEL), null);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public static void registerRenderTypes(FMLClientSetupEvent event) {
+        RenderTypeLookup.setRenderLayer(stoneMachineFrame, RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(alloyMachineFrame, RenderType.cutout());
     }
 
     private static <T extends Block> T register(String name, T block) {

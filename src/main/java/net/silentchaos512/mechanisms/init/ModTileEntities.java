@@ -77,6 +77,6 @@ public final class ModTileEntities {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderers(FMLClientSetupEvent event) {
-        ClientRegistry.bindTileEntitySpecialRenderer(DryingRackTileEntity.class, new DryingRackTileEntityRenderer());
+        ClientRegistry.bindTileEntityRenderer(dryingRack, DryingRackTileEntityRenderer::new);
     }
 }

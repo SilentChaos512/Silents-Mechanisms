@@ -3,11 +3,11 @@ package net.silentchaos512.mechanisms.world;
 import net.minecraft.world.biome.Biome;
 import net.minecraft.world.biome.Biomes;
 import net.minecraft.world.gen.GenerationStage;
+import net.minecraft.world.gen.feature.BlockStateFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.LakesConfig;
 import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.placement.ChanceConfig;
 import net.minecraft.world.gen.placement.CountRangeConfig;
-import net.minecraft.world.gen.placement.LakeChanceConfig;
 import net.minecraft.world.gen.placement.Placement;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.config.Config;
@@ -35,28 +35,20 @@ public final class SMWorldFeatures {
         if (config > 0) {
             // Somewhat more common in deserts
             final int chance = biome == Biomes.DESERT ? 2 * config / 3 : config;
-            biome.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, Biome.createDecoratedFeature(
-                    OilLakesFeature.INSTANCE,
-                    new LakesConfig(ModBlocks.oil.getDefaultState()),
-                    Placement.WATER_LAKE,
-                    new LakeChanceConfig(chance)
-            ));
+            biome.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, OilLakesFeature.INSTANCE
+                    .withConfiguration(new BlockStateFeatureConfig(ModBlocks.oil.getDefaultState()))
+                    .func_227228_a_(Placement.WATER_LAKE.func_227446_a_(new ChanceConfig(chance)))
+            );
         }
     }
 
     private static void addOre(Biome biome, Ores ore) {
         ore.getConfig().ifPresent(config -> {
             if (config.isEnabled()) {
-                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Biome.createDecoratedFeature(
-                        Feature.ORE,
-                        new OreFeatureConfig(
-                                OreFeatureConfig.FillerBlockType.NATURAL_STONE,
-                                ore.getBlock().getDefaultState(),
-                                config.getVeinSize()
-                        ),
-                        Placement.COUNT_RANGE,
-                        new CountRangeConfig(config.getVeinCount(), config.getMinHeight(), 0, config.getMaxHeight())
-                ));
+                biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
+                        .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ore.getBlock().getDefaultState(), config.getVeinSize()))
+                        .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(config.getVeinCount(), config.getMinHeight(), 0, config.getMaxHeight())))
+                );
             }
         });
     }

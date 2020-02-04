@@ -14,10 +14,7 @@ import net.minecraft.state.DirectionProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.Mirror;
-import net.minecraft.util.Rotation;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
@@ -53,10 +50,10 @@ public class DryingRackBlock extends HorizontalBlock implements IWaterLoggable {
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
         TileEntity tileEntity = worldIn.getTileEntity(pos);
         if (tileEntity instanceof DryingRackTileEntity) {
-            return ((DryingRackTileEntity) tileEntity).interact(player);
+            return ((DryingRackTileEntity) tileEntity).interact(player) ? ActionResultType.SUCCESS : ActionResultType.PASS;
         }
         return super.onBlockActivated(state, worldIn, pos, player, handIn, hit);
     }
