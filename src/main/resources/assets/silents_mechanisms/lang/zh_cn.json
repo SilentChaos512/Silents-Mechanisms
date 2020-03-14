@@ -89,7 +89,7 @@
     "fluid.silents_mechanisms.ethane": "乙烷",
     "fluid.silents_mechanisms.oil": "原油",
     "fluid.silents_mechanisms.polyethylene": "聚乙烯",
-    "item.silents_mechanisms.hand.pump": "手压泵",
+    "item.silents_mechanisms.hand_pump": "手压泵",
     "item.silents_mechanisms.aluminum_dust": "铝粉",
     "item.silents_mechanisms.aluminum_ingot": "铝锭",
     "item.silents_mechanisms.aluminum_nugget": "铝粒",
