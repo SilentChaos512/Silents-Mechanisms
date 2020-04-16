@@ -97,7 +97,8 @@ class SideProxy implements IProxy {
         Client() {
             FMLJavaModLoadingContext.get().getModEventBus().addListener(ModItems::registerItemColors);
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-            FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setFog);
+            
+            MinecraftForge.EVENT_BUS.addListener(this::setFog);
         }
 
         private void clientSetup(FMLClientSetupEvent event) {
@@ -105,16 +106,17 @@ class SideProxy implements IProxy {
             ModContainers.registerScreens(event);
             ModTileEntities.registerRenderers(event);
         }
-        public void setFog(EntityViewRenderEvent.FogColors fog)
-        {
+        
+        public void setFog(EntityViewRenderEvent.FogColors fog) {
             World w = fog.getInfo().getRenderViewEntity().getEntityWorld();
             BlockPos pos = fog.getInfo().getBlockPos();
             BlockState bs = w.getBlockState(pos);
             Block b = bs.getBlock();
-            if(b.equals(ModBlocks.oil))
-            {
+            if(b.equals(ModBlocks.oil)) {
                 float red = 0.02F, green = 0.02F, blue = 0.02F;
-                fog.setRed(red); fog.setGreen(green); fog.setBlue(blue);
+                fog.setRed(red);
+                fog.setGreen(green);
+                fog.setBlue(blue);
             }
         }
     }
