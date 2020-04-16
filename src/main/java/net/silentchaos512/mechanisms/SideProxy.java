@@ -112,8 +112,20 @@ class SideProxy implements IProxy {
             BlockPos pos = fog.getInfo().getBlockPos();
             BlockState bs = w.getBlockState(pos);
             Block b = bs.getBlock();
+
             if(b.equals(ModBlocks.oil)) {
-                float red = 0.02F, green = 0.02F, blue = 0.02F;
+                float red = 0.02F;
+                float green = 0.02F;
+                float blue = 0.02F;
+                fog.setRed(red);
+                fog.setGreen(green);
+                fog.setBlue(blue);
+            }
+
+            if(b.equals(ModBlocks.diesel)) {
+                float red = 0.9F;
+                float green = 0.9F;
+                float blue = 0.02F;
                 fog.setRed(red);
                 fog.setGreen(green);
                 fog.setBlue(blue);
