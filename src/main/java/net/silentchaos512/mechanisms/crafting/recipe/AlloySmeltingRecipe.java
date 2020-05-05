@@ -107,6 +107,11 @@ public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
         return RECIPE_TYPE;
     }
 
+    @Override
+    public boolean isDynamic() {
+        return true;
+    }
+
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AlloySmeltingRecipe> {
         @Override
         public AlloySmeltingRecipe read(ResourceLocation recipeId, JsonObject json) {

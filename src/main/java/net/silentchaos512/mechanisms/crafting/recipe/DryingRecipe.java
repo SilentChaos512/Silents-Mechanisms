@@ -73,6 +73,11 @@ public class DryingRecipe implements IRecipe<IInventory> {
         return RECIPE_TYPE;
     }
 
+    @Override
+    public boolean isDynamic() {
+        return true;
+    }
+
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<DryingRecipe> {
         @Override
         public DryingRecipe read(ResourceLocation recipeId, JsonObject json) {

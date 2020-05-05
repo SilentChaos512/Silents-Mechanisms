@@ -137,6 +137,11 @@ public class CrushingRecipe implements IRecipe<IInventory> {
         return RECIPE_TYPE;
     }
 
+    @Override
+    public boolean isDynamic() {
+        return true;
+    }
+
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrushingRecipe> {
         @Override
         public CrushingRecipe read(ResourceLocation recipeId, JsonObject json) {

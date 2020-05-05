@@ -5,8 +5,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.7.1]
 ### Added
+- Fog color for oil and diesel (DcZipPL) [#74]
 - Pipes (not functioning yet)
 ### Fixed
+- Machine recipes showing their items in the recipe book [#77]
 - Blaze rod duplication [#64]
 
 ## [0.7.0] - 2020-02-04

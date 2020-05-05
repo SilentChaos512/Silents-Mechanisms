@@ -78,6 +78,11 @@ public class RefiningRecipe implements IFluidRecipe<IFluidInventory> {
         return RECIPE_TYPE;
     }
 
+    @Override
+    public boolean isDynamic() {
+        return true;
+    }
+
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<RefiningRecipe> {
         @Override
         public RefiningRecipe read(ResourceLocation recipeId, JsonObject json) {
