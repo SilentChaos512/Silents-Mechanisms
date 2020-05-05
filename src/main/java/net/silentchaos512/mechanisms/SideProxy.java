@@ -1,6 +1,9 @@
 package net.silentchaos512.mechanisms;
 
+import net.minecraft.world.World;
+import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
@@ -94,12 +97,39 @@ class SideProxy implements IProxy {
         Client() {
             FMLJavaModLoadingContext.get().getModEventBus().addListener(ModItems::registerItemColors);
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
+            
+            MinecraftForge.EVENT_BUS.addListener(this::setFog);
         }
 
         private void clientSetup(FMLClientSetupEvent event) {
             ModBlocks.registerRenderTypes(event);
             ModContainers.registerScreens(event);
             ModTileEntities.registerRenderers(event);
+        }
+        
+        public void setFog(EntityViewRenderEvent.FogColors fog) {
+            World w = fog.getInfo().getRenderViewEntity().getEntityWorld();
+            BlockPos pos = fog.getInfo().getBlockPos();
+            BlockState bs = w.getBlockState(pos);
+            Block b = bs.getBlock();
+
+            if(b.equals(ModBlocks.oil)) {
+                float red = 0.02F;
+                float green = 0.02F;
+                float blue = 0.02F;
+                fog.setRed(red);
+                fog.setGreen(green);
+                fog.setBlue(blue);
+            }
+
+            if(b.equals(ModBlocks.diesel)) {
+                float red = 0.9F;
+                float green = 0.9F;
+                float blue = 0.02F;
+                fog.setRed(red);
+                fog.setGreen(green);
+                fog.setBlue(blue);
+            }
         }
     }
 
