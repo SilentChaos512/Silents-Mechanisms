@@ -20,6 +20,7 @@ import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorTileEntit
 import net.silentchaos512.mechanisms.block.generator.diesel.DieselGeneratorTileEntity;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorTileEntity;
 import net.silentchaos512.mechanisms.block.mixer.MixerTileEntity;
+import net.silentchaos512.mechanisms.block.pipe.PipeTileEntity;
 import net.silentchaos512.mechanisms.block.pump.PumpTileEntity;
 import net.silentchaos512.mechanisms.block.refinery.RefineryTileEntity;
 import net.silentchaos512.mechanisms.block.solidifier.SolidifierTileEntity;
@@ -36,6 +37,7 @@ public final class ModTileEntities {
     public static TileEntityType<ElectricFurnaceTileEntity> electricFurnace;
     public static TileEntityType<LavaGeneratorTileEntity> lavaGenerator;
     public static TileEntityType<MixerTileEntity> mixer;
+    public static TileEntityType<PipeTileEntity> pipe;
     public static TileEntityType<PumpTileEntity> pump;
     public static TileEntityType<RefineryTileEntity> refinery;
     public static TileEntityType<SolidifierTileEntity> solidifier;
@@ -56,6 +58,7 @@ public final class ModTileEntities {
         electricFurnace = register("electric_furnace", ElectricFurnaceTileEntity::new, ModBlocks.electricFurnace);
         lavaGenerator = register("lava_generator", LavaGeneratorTileEntity::new, ModBlocks.lavaGenerator);
         mixer = register("mixer", MixerTileEntity::new, ModBlocks.mixer);
+        pipe = register("pipe", PipeTileEntity::new, ModBlocks.pipe);
         pump = register("pump", PumpTileEntity::new, ModBlocks.pump);
         refinery = register("refinery", RefineryTileEntity::new, ModBlocks.refinery);
         solidifier = register("solidifier", SolidifierTileEntity::new, ModBlocks.solidifier);

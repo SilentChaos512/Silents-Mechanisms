@@ -1,0 +1,59 @@
+{
+    "multipart": [
+        {   "apply": { "model": "silents_mechanisms:block/pipe" }},
+        {   "when": { "north": "in" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_in"}
+        },
+        {   "when": { "east": "in" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_in", "y": 90 }
+        },
+        {   "when": { "south": "in" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_in", "y": 180 }
+        },
+        {   "when": { "west": "in" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_in", "y": 270 }
+        },
+        {   "when": { "up": "in" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_in", "x": 270 }
+        },
+        {   "when": { "down": "in" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_in", "x": 90 }
+        },
+        {   "when": { "north": "out" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_out"}
+        },
+        {   "when": { "east": "out" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_out", "y": 90 }
+        },
+        {   "when": { "south": "out" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_out", "y": 180 }
+        },
+        {   "when": { "west": "out" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_out", "y": 270 }
+        },
+        {   "when": { "up": "out" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_out", "x": 270 }
+        },
+        {   "when": { "down": "out" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_out", "x": 90 }
+        },
+        {   "when": { "north": "both" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_both"}
+        },
+        {   "when": { "east": "both" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_both", "y": 90 }
+        },
+        {   "when": { "south": "both" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_both", "y": 180 }
+        },
+        {   "when": { "west": "both" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_both", "y": 270 }
+        },
+        {   "when": { "up": "both" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_both", "x": 270 }
+        },
+        {   "when": { "down": "both" },
+            "apply": { "model": "silents_mechanisms:block/pipe_side_both", "x": 90 }
+        }
+    ]
+}
