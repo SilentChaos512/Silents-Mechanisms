@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.function.Function;
 
 public class OilLakesFeature extends LakesFeature {
-    public static OilLakesFeature INSTANCE = new OilLakesFeature(BlockStateFeatureConfig::func_227271_a_);
+    public static OilLakesFeature INSTANCE = new OilLakesFeature(BlockStateFeatureConfig::deserialize);
 
     public OilLakesFeature(Function<Dynamic<?>, ? extends BlockStateFeatureConfig> p_i51485_1_) {
         super(p_i51485_1_);

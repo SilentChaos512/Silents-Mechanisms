@@ -37,7 +37,7 @@ public final class SMWorldFeatures {
             final int chance = biome == Biomes.DESERT ? 2 * config / 3 : config;
             biome.addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, OilLakesFeature.INSTANCE
                     .withConfiguration(new BlockStateFeatureConfig(ModBlocks.oil.getDefaultState()))
-                    .func_227228_a_(Placement.WATER_LAKE.func_227446_a_(new ChanceConfig(chance)))
+                    .withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(chance)))
             );
         }
     }
@@ -47,7 +47,7 @@ public final class SMWorldFeatures {
             if (config.isEnabled()) {
                 biome.addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, Feature.ORE
                         .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, ore.getBlock().getDefaultState(), config.getVeinSize()))
-                        .func_227228_a_(Placement.COUNT_RANGE.func_227446_a_(new CountRangeConfig(config.getVeinCount(), config.getMinHeight(), 0, config.getMaxHeight())))
+                        .withPlacement(Placement.COUNT_RANGE.configure(new CountRangeConfig(config.getVeinCount(), config.getMinHeight(), 0, config.getMaxHeight())))
                 );
             }
         });

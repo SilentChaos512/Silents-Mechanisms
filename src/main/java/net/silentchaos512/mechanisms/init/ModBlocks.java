@@ -1,6 +1,9 @@
 package net.silentchaos512.mechanisms.init;
 
-import net.minecraft.block.*;
+import net.minecraft.block.AirBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -105,8 +108,8 @@ public final class ModBlocks {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderTypes(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(stoneMachineFrame, RenderType.cutout());
-        RenderTypeLookup.setRenderLayer(alloyMachineFrame, RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(stoneMachineFrame, RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(alloyMachineFrame, RenderType.getCutout());
     }
 
     private static <T extends Block> T register(String name, T block) {

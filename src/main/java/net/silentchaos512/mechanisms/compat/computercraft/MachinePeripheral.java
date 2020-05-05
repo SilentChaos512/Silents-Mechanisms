@@ -1,10 +1,10 @@
 package net.silentchaos512.mechanisms.compat.computercraft;
 
+import dan200.computercraft.api.lua.ArgumentHelper;
 import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
 import dan200.computercraft.api.peripheral.IComputerAccess;
 import dan200.computercraft.api.peripheral.IPeripheral;
-import dan200.computercraft.core.apis.ArgumentHelper;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;

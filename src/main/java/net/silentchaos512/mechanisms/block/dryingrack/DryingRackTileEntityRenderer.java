@@ -39,7 +39,7 @@ public class DryingRackTileEntityRenderer extends TileEntityRenderer<DryingRackT
 
             ItemRenderer itemRenderer = Minecraft.getInstance().getItemRenderer();
             //noinspection deprecation
-            itemRenderer.renderItem(stack, ItemCameraTransforms.TransformType.FIXED, combinedLightIn, OverlayTexture.DEFAULT_LIGHT, matrixStackIn, bufferIn);
+            itemRenderer.renderItem(stack, ItemCameraTransforms.TransformType.FIXED, combinedLightIn, OverlayTexture.NO_OVERLAY, matrixStackIn, bufferIn);
             matrixStackIn.pop();
         }
     }
