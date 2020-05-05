@@ -37,14 +37,14 @@ public final class WireNetworkManager {
                     }
                 }
             }
-        }
 
-        // Create new
-        WireNetwork network = WireNetwork.buildNetwork(world, pos);
-        LazyOptional<WireNetwork> lazy = LazyOptional.of(() -> network);
-        NETWORK_LIST.add(lazy);
-        SilentMechanisms.LOGGER.debug("create network {}", network);
-        return lazy;
+            // Create new
+            WireNetwork network = WireNetwork.buildNetwork(world, pos);
+            LazyOptional<WireNetwork> lazy = LazyOptional.of(() -> network);
+            NETWORK_LIST.add(lazy);
+            SilentMechanisms.LOGGER.debug("create network {}", network);
+            return lazy;
+        }
     }
 
     public static void invalidateNetwork(IWorldReader world, BlockPos pos) {
@@ -56,16 +56,20 @@ public final class WireNetworkManager {
 
     private static void invalidateNetwork(LazyOptional<WireNetwork> network) {
         SilentMechanisms.LOGGER.debug("invalidateNetwork {}", network);
-        NETWORK_LIST.removeIf(n -> n.isPresent() && n.equals(network));
-        network.ifPresent(WireNetwork::invalidate);
-        network.invalidate();
+        synchronized (NETWORK_LIST) {
+            NETWORK_LIST.removeIf(n -> n.isPresent() && n.equals(network));
+            network.ifPresent(WireNetwork::invalidate);
+            network.invalidate();
+        }
     }
 
     @SubscribeEvent
     public static void onServerTick(TickEvent.ServerTickEvent event) {
         // Send energy from wire networks to connected blocks
-        NETWORK_LIST.stream()
-                .filter(n -> n != null && n.isPresent())
-                .forEach(n -> n.ifPresent(WireNetwork::sendEnergy));
+        synchronized (NETWORK_LIST) {
+            NETWORK_LIST.stream()
+                    .filter(n -> n != null && n.isPresent())
+                    .forEach(n -> n.ifPresent(WireNetwork::sendEnergy));
+        }
     }
 }
