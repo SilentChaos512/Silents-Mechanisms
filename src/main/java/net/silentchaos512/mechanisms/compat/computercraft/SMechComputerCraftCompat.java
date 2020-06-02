@@ -6,6 +6,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.LazyOptional;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 
 import javax.annotation.Nonnull;
@@ -19,12 +20,11 @@ public final class SMechComputerCraftCompat {
     }
 
     @SuppressWarnings("TypeMayBeWeakened")
-    @Nullable
-    private static IPeripheral getPeripheral(@Nonnull World world, @Nonnull BlockPos pos, @Nonnull Direction side) {
+    private static LazyOptional<IPeripheral> getPeripheral(World world, BlockPos pos, Direction side) {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (tileEntity instanceof AbstractMachineBaseTileEntity) {
-            return new MachinePeripheral((AbstractMachineBaseTileEntity) tileEntity);
+            return LazyOptional.of(() -> new MachinePeripheral((AbstractMachineBaseTileEntity) tileEntity));
         }
-        return null;
+        return LazyOptional.empty();
     }
 }

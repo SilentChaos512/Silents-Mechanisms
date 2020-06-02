@@ -33,3 +33,9 @@ authors="SilentChaos512"
     versionRange="[4,)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.silents_mechanisms]]
+    modId="computercraft"
+    mandatory=false
+    versionRange="[1.88,)"
+    ordering="NONE"
+    side="BOTH"

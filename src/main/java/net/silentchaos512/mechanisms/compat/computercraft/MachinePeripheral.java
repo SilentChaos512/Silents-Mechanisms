@@ -1,9 +1,7 @@
 package net.silentchaos512.mechanisms.compat.computercraft;
 
-import dan200.computercraft.api.lua.ArgumentHelper;
-import dan200.computercraft.api.lua.ILuaContext;
 import dan200.computercraft.api.lua.LuaException;
-import dan200.computercraft.api.peripheral.IComputerAccess;
+import dan200.computercraft.api.lua.LuaFunction;
 import dan200.computercraft.api.peripheral.IPeripheral;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
@@ -11,6 +9,8 @@ import net.silentchaos512.mechanisms.block.AbstractMachineBaseTileEntity;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public class MachinePeripheral implements IPeripheral {
     private static final String TYPE = SilentMechanisms.getId("machine").toString();
@@ -27,38 +27,29 @@ public class MachinePeripheral implements IPeripheral {
         return TYPE;
     }
 
-    @Nonnull
-    @Override
-    public String[] getMethodNames() {
-        return new String[]{
-                "getEnergy",
-                "getMaxEnergy",
-                "getRedstoneMode",
-                "setRedstoneMode"
-        };
+    @LuaFunction
+    public final int getEnergy() {
+        return machine.getEnergyStored();
     }
 
-    @Nullable
-    @Override
-    public Object[] callMethod(@Nonnull IComputerAccess computer, @Nonnull ILuaContext context, int method, @Nonnull Object[] arguments) throws LuaException, InterruptedException {
-        switch(method) {
-            case 0:
-                return new Object[]{machine.getEnergyStored()};
-            case 1:
-                return new Object[]{machine.getMaxEnergyStored()};
-            case 2:
-                return new Object[]{machine.getRedstoneMode().name()};
-            case 3:
-                String name = ArgumentHelper.getString(arguments, 0);
-                RedstoneMode mode = RedstoneMode.byName(name);
-                if (mode == null) {
-                    throw new LuaException("Unknown redstone mode: " + name);
-                }
-                machine.setRedstoneMode(mode);
-                return new Object[]{mode.name()};
-            default:
-                throw new IllegalStateException("Method index out of range!");
+    @LuaFunction
+    public final int getMaxEnergy() {
+        return machine.getMaxEnergyStored();
+    }
+
+    @LuaFunction
+    public final String getRedstoneMode() {
+        return machine.getRedstoneMode().toString();
+    }
+
+    @LuaFunction
+    public final void setRedstoneMode(String mode) throws LuaException {
+        RedstoneMode redstoneMode = RedstoneMode.byName(mode);
+        if (redstoneMode == null) {
+            String validModes = Arrays.stream(RedstoneMode.values()).map(RedstoneMode::toString).collect(Collectors.joining(", "));
+            throw new LuaException(String.format("Unknown redstone mode: %s (valid modes: %s)", mode, validModes));
         }
+        machine.setRedstoneMode(redstoneMode);
     }
 
     @Override

@@ -77,16 +77,24 @@ minecraft {
 repositories {
     jcenter()
     mavenLocal()
+    // Silent Lib
+    maven {
+        url "https://dl.bintray.com/silentchaos512/silent-lib"
+    }
+    // Silent Gear
+    maven {
+        url "https://dl.bintray.com/silentchaos512/silent-gear"
+    }
     maven {
         // location of the maven that hosts JEI files
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
     }
-//    maven {
-//        // location of a maven mirror for JEI files, as a fallback
-//        name = "ModMaven"
-//        url = "https://modmaven.k-4u.nl"
-//    }
+    maven {
+        // location of a maven mirror for JEI files, as a fallback
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
     maven {
         url 'https://squiddev.cc/maven/'
     }
@@ -119,7 +127,7 @@ dependencies {
 
     // CC Tweaked
     if (project.hasProperty("cctweaked_version")) {
-        compileOnly fg.deobf("org.squiddev:cc-tweaked-${project.cctweaked_version}")
+        compile fg.deobf("org.squiddev:cc-tweaked-${project.cctweaked_version}")
     }
 
     if (project.hasProperty("refined_storage_version")) {
@@ -134,7 +142,7 @@ jar {
     manifest {
         attributes(["Specification-Title": project.mod_id,
                     "Specification-Vendor": "SilentChaos512",
-                    "Specification-Version": "0.2",
+                    "Specification-Version": "0.7",
                     "Implementation-Title": project.name,
                     "Implementation-Version": "${version}",
                     "Implementation-Vendor" :"SilentChaos512",
