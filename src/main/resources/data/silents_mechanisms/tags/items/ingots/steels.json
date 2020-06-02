@@ -1,8 +1,8 @@
 {
     "replace": false,
     "values": [
-        "silents_mechanisms:aluminum_steel_ingot",
-        "silents_mechanisms:bismuth_steel_ingot",
-        "silents_mechanisms:steel_ingot"
+        "#forge:ingots/aluminum_steel",
+        "#forge:ingots/bismuth_steel",
+        "#forge:ingots/steel"
     ]
 }
