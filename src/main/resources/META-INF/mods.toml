@@ -30,7 +30,7 @@ authors="SilentChaos512"
 [[dependencies.silents_mechanisms]]
     modId="silentlib"
     mandatory=true
-    versionRange="[4,)"
+    versionRange="[4.6.4,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.silents_mechanisms]]

@@ -33,7 +33,7 @@ public class AlloySmeltingRecipeCategoryJei implements IRecipeCategory<AlloySmel
 
     public AlloySmeltingRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(AlloySmelterScreen.TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.alloySmelter));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.ALLOY_SMELTER));
         arrow = guiHelper.drawableBuilder(AlloySmelterScreen.TEXTURE, 176, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = TextUtil.translate("jei", "category.alloy_smelting").getFormattedText();

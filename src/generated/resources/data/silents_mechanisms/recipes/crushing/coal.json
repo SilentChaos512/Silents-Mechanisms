@@ -1,0 +1,21 @@
+{
+  "type": "silents_mechanisms:crushing",
+  "process_time": 400,
+  "ingredient": {
+    "tag": "forge:ores/coal"
+  },
+  "results": [
+    {
+      "item": "minecraft:coal",
+      "count": 2
+    },
+    {
+      "item": "minecraft:cobblestone",
+      "chance": 0.1
+    },
+    {
+      "item": "minecraft:diamond",
+      "chance": 0.001
+    }
+  ]
+}

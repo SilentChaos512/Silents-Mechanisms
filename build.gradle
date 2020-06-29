@@ -55,23 +55,60 @@ minecraft {
     mappings channel: project.mcp_channel.toString(), version: project.mcp_mappings.toString()
 
     runs {
-        client = {
-            // recommended logging data for a userdev environment
-//            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
-            // recommended logging level for the console
-            properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
+        client {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                silents_mechanisms {
+                    source sourceSets.main
+                }
+            }
         }
-        server = {
-            // recommended logging data for a userdev environment
-//            properties 'forge.logging.markers': 'SCAN,REGISTRIES,REGISTRYDUMP'
-            // recommended logging level for the console
-            properties 'forge.logging.console.level': 'debug'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
+
+        server {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            mods {
+                silents_mechanisms {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        data {
+            workingDirectory project.file('run')
+
+            // Recommended logging data for a userdev environment
+            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+
+            // Recommended logging level for the console
+            property 'forge.logging.console.level', 'debug'
+
+            args '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/')
+
+            mods {
+                silents_mechanisms {
+                    source sourceSets.main
+                }
+            }
         }
     }
+}
+
+sourceSets.main.resources {
+    srcDir 'src/generated/resources'
 }
 
 repositories {
@@ -140,12 +177,12 @@ dependencies {
 jar {
     appendix = "${project.mc_version}"
     manifest {
-        attributes(["Specification-Title": project.mod_id,
-                    "Specification-Vendor": "SilentChaos512",
-                    "Specification-Version": "0.7",
-                    "Implementation-Title": project.name,
-                    "Implementation-Version": "${version}",
-                    "Implementation-Vendor" :"SilentChaos512",
+        attributes(["Specification-Title"     : project.mod_id,
+                    "Specification-Vendor"    : "SilentChaos512",
+                    "Specification-Version"   : "0.7",
+                    "Implementation-Title"    : project.name,
+                    "Implementation-Version"  : "${version}",
+                    "Implementation-Vendor"   : "SilentChaos512",
                     "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
     }
 }
@@ -296,7 +333,7 @@ def getGitVersion() {
     def outStream = new ByteArrayOutputStream()
     def result = exec {
         executable = 'git'
-        args = [ 'describe', '--long' ]
+        args = ['describe', '--long']
         standardOutput = outStream
     }
 
@@ -409,7 +446,7 @@ def writeUpdateJson() {
     // TODO: Maybe add something to create an abbreviated changelog? May not be useful...
     if (!json[project.mc_version].containsKey(version.toString()))
         json[project.mc_version][version.toString()] = project.changelogUrl
-    json[project.mc_version] = json[project.mc_version].sort([compare: {a, b -> b.compareTo(a)}] as Comparator)
+    json[project.mc_version] = json[project.mc_version].sort([compare: { a, b -> b.compareTo(a) }] as Comparator)
     json['promos']["${project.mc_version}-latest"] = version
     json['promos']["${project.mc_version}-recommended"] = version
 

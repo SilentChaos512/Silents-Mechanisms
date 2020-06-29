@@ -1,42 +1,51 @@
 package net.silentchaos512.mechanisms.init;
 
-import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
+import net.silentchaos512.mechanisms.SilentMechanisms;
 
 public class ModTags {
     public static final class Blocks {
-        // This will be "forge:ores/example"
-        public static final Tag<Block> EXAMPLE = tag("forge", "ores/example");
-        // Default namespace is mod ID, so this one will be "silents_mechanisms:example_block"
-        public static final Tag<Block> EXAMPLE2 = tag("example_block");
+        public static final Tag<Block> DRYING_RACKS = mod("drying_racks");
 
         private Blocks() {}
 
-        private static Tag<Block> tag(String name) {
-            return new BlockTags.Wrapper(new ResourceLocation(SilentMechanisms.MOD_ID, name));
+        private static Tag<Block> forge(String path) {
+            return new BlockTags.Wrapper(forgeId(path));
         }
 
-        private static Tag<Block> tag(String namespace, String name) {
-            return new BlockTags.Wrapper(new ResourceLocation(namespace, name));
+        private static Tag<Block> mod(String path) {
+            return new BlockTags.Wrapper(modId(path));
         }
     }
 
     public static final class Items {
-        public static final Tag<Item> COAL_GENERATOR_FUELS = tag("coal_generator_fuels");
+        public static final Tag<Item> CHUNKS = mod("chunks");
+        public static final Tag<Item> COAL_GENERATOR_FUELS = mod("coal_generator_fuels");
+        public static final Tag<Item> DRYING_RACKS = mod("drying_racks");
+        public static final Tag<Item> DUSTS_COAL = forge("dusts/coal");
+        public static final Tag<Item> STEELS = mod("ingots/steels");
 
         private Items() {}
 
-        private static Tag<Item> tag(String name) {
-            return new ItemTags.Wrapper(new ResourceLocation(SilentMechanisms.MOD_ID, name));
+        private static Tag<Item> forge(String path) {
+            return new ItemTags.Wrapper(forgeId(path));
         }
 
-        private static Tag<Item> tag(String namespace, String name) {
-            return new ItemTags.Wrapper(new ResourceLocation(namespace, name));
+        private static Tag<Item> mod(String path) {
+            return new ItemTags.Wrapper(modId(path));
         }
+    }
+
+    private static ResourceLocation forgeId(String path) {
+        return new ResourceLocation("forge", path);
+    }
+
+    private static ResourceLocation modId(String path) {
+        return new ResourceLocation(SilentMechanisms.MOD_ID, path);
     }
 }

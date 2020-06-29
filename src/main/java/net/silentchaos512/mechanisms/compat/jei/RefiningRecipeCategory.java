@@ -39,7 +39,7 @@ public class RefiningRecipeCategory implements IRecipeCategory<RefiningRecipe> {
 
     public RefiningRecipeCategory(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(RefineryScreen.TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.refinery));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.REFINERY));
         arrow = guiHelper.drawableBuilder(RefineryScreen.TEXTURE, 176, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = TextUtil.translate("jei", "category.refining").getFormattedText();

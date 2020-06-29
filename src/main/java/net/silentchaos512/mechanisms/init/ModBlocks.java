@@ -19,9 +19,9 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.storage.loot.LootTableManager;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.silentchaos512.lib.registry.BlockRegistryObject;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.MachineFrameBlock;
 import net.silentchaos512.mechanisms.block.alloysmelter.AlloySmelterBlock;
@@ -43,97 +43,84 @@ import net.silentchaos512.mechanisms.util.MachineTier;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public final class ModBlocks {
-    public static final List<DryingRackBlock> DRYING_RACKS = new ArrayList<>();
-    public static MachineFrameBlock stoneMachineFrame;
-    public static MachineFrameBlock alloyMachineFrame;
-    public static AlloySmelterBlock basicAlloySmelter;
-    public static AlloySmelterBlock alloySmelter;
-    public static CrusherBlock basicCrusher;
-    public static CrusherBlock crusher;
-    public static CompressorBlock compressor;
-    public static ElectricFurnaceBlock electricFurnace;
-    public static RefineryBlock refinery;
-    public static MixerBlock mixer;
-    public static SolidifierBlock solidifier;
-    public static Block pump;
-    public static CoalGeneratorBlock coalGenerator;
-    public static LavaGeneratorBlock lavaGenerator;
-    public static DieselGeneratorBlock dieselGenerator;
-    public static BatteryBoxBlock batteryBox;
-    public static WireBlock wire;
-    public static PipeBlock pipe;
-    public static FlowingFluidBlock oil;
-    public static FlowingFluidBlock diesel;
+    static {
+        Metals.registerBlocks();
+    }
+
+    public static final BlockRegistryObject<DryingRackBlock> OAK_DRYING_RACK = register("oak_drying_rack", DryingRackBlock::new);
+    public static final BlockRegistryObject<DryingRackBlock> BIRCH_DRYING_RACK = register("birch_drying_rack", DryingRackBlock::new);
+    public static final BlockRegistryObject<DryingRackBlock> SPRUCE_DRYING_RACK = register("spruce_drying_rack", DryingRackBlock::new);
+    public static final BlockRegistryObject<DryingRackBlock> JUNGLE_DRYING_RACK = register("jungle_drying_rack", DryingRackBlock::new);
+    public static final BlockRegistryObject<DryingRackBlock> DARK_OAK_DRYING_RACK = register("dark_oak_drying_rack", DryingRackBlock::new);
+    public static final BlockRegistryObject<DryingRackBlock> ACACIA_DRYING_RACK = register("acacia_drying_rack", DryingRackBlock::new);
+
+    public static final BlockRegistryObject<MachineFrameBlock> STONE_MACHINE_FRAME = register("stone_machine_frame", () ->
+            new MachineFrameBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3, 10).sound(SoundType.STONE).notSolid()));
+    public static final BlockRegistryObject<MachineFrameBlock> ALLOY_MACHINE_FRAME = register("alloy_machine_frame", () ->
+            new MachineFrameBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3, 10).sound(SoundType.METAL).notSolid()));
+
+    public static final BlockRegistryObject<AlloySmelterBlock> BASIC_ALLOY_SMELTER = register("basic_alloy_smelter", () ->
+            new AlloySmelterBlock(MachineTier.BASIC));
+    public static final BlockRegistryObject<AlloySmelterBlock> ALLOY_SMELTER = register("alloy_smelter", () ->
+            new AlloySmelterBlock(MachineTier.STANDARD));
+    public static final BlockRegistryObject<CrusherBlock> BASIC_CRUSHER = register("basic_crusher", () ->
+            new CrusherBlock(MachineTier.BASIC));
+    public static final BlockRegistryObject<CrusherBlock> CRUSHER = register("crusher", () ->
+            new CrusherBlock(MachineTier.STANDARD));
+    public static final BlockRegistryObject<CompressorBlock> COMPRESSOR = register("compressor", CompressorBlock::new);
+    public static final BlockRegistryObject<ElectricFurnaceBlock> ELECTRIC_FURNACE = register("electric_furnace", ElectricFurnaceBlock::new);
+    public static final BlockRegistryObject<RefineryBlock> REFINERY = register("refinery", RefineryBlock::new);
+    public static final BlockRegistryObject<MixerBlock> MIXER = register("mixer", MixerBlock::new);
+    public static final BlockRegistryObject<SolidifierBlock> SOLIDIFIER = register("solidifier", SolidifierBlock::new);
+    public static final BlockRegistryObject<PumpBlock> PUMP = register("pump", PumpBlock::new);
+    public static final BlockRegistryObject<CoalGeneratorBlock> COAL_GENERATOR = register("coal_generator", CoalGeneratorBlock::new);
+    public static final BlockRegistryObject<LavaGeneratorBlock> LAVA_GENERATOR = register("lava_generator", LavaGeneratorBlock::new);
+    public static final BlockRegistryObject<DieselGeneratorBlock> DIESEL_GENERATOR = register("diesel_generator", DieselGeneratorBlock::new);
+    public static final BlockRegistryObject<BatteryBoxBlock> BATTERY_BOX = register("battery_box", BatteryBoxBlock::new);
+    public static final BlockRegistryObject<WireBlock> WIRE = register("wire", () ->
+            new WireBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
+    public static final BlockRegistryObject<PipeBlock> PIPE = register("pipe", () ->
+            new PipeBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
+
+    public static final BlockRegistryObject<FlowingFluidBlock> OIL = registerFluid("oil", () -> ModFluids.OIL);
+    public static final BlockRegistryObject<FlowingFluidBlock> DIESEL = registerFluid("diesel", () -> ModFluids.DIESEL);
 
     private ModBlocks() {}
 
-    public static void registerAll(RegistryEvent.Register<Block> event) {
-        Arrays.stream(Ores.values()).forEach(ore -> register(ore.getName() + "_ore", ore.getBlock()));
-        Arrays.stream(Metals.values()).forEach(metal -> register(metal.getName() + "_block", metal.asBlock()));
-
-        DRYING_RACKS.add(register("oak_drying_rack", new DryingRackBlock()));
-        DRYING_RACKS.add(register("birch_drying_rack", new DryingRackBlock()));
-        DRYING_RACKS.add(register("spruce_drying_rack", new DryingRackBlock()));
-        DRYING_RACKS.add(register("jungle_drying_rack", new DryingRackBlock()));
-        DRYING_RACKS.add(register("dark_oak_drying_rack", new DryingRackBlock()));
-        DRYING_RACKS.add(register("acacia_drying_rack", new DryingRackBlock()));
-
-        stoneMachineFrame = register("stone_machine_frame", new MachineFrameBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3, 10).sound(SoundType.STONE).notSolid()));
-        alloyMachineFrame = register("alloy_machine_frame", new MachineFrameBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3, 10).sound(SoundType.METAL).notSolid()));
-
-        basicAlloySmelter = register("basic_alloy_smelter", new AlloySmelterBlock(MachineTier.BASIC));
-        alloySmelter = register("alloy_smelter", new AlloySmelterBlock(MachineTier.STANDARD));
-        basicCrusher = register("basic_crusher", new CrusherBlock(MachineTier.BASIC));
-        crusher = register("crusher", new CrusherBlock(MachineTier.STANDARD));
-        compressor = register("compressor", new CompressorBlock());
-        electricFurnace = register("electric_furnace", new ElectricFurnaceBlock());
-        refinery = register("refinery", new RefineryBlock());
-        mixer = register("mixer", new MixerBlock());
-        solidifier = register("solidifier", new SolidifierBlock());
-        pump = register("pump", new PumpBlock());
-        coalGenerator = register("coal_generator", new CoalGeneratorBlock());
-        lavaGenerator = register("lava_generator", new LavaGeneratorBlock());
-        dieselGenerator = register("diesel_generator", new DieselGeneratorBlock());
-        batteryBox = register("battery_box", new BatteryBoxBlock());
-        wire = register("wire", new WireBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
-        pipe = register("pipe", new PipeBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
-
-        // Fluids (no items)
-        oil = register("oil", createFluidBlock(() -> ModFluids.OIL), null);
-        diesel = register("diesel", createFluidBlock(() -> ModFluids.DIESEL), null);
-    }
+    static void register() {}
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderTypes(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(stoneMachineFrame, RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(alloyMachineFrame, RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(STONE_MACHINE_FRAME.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(ALLOY_MACHINE_FRAME.get(), RenderType.getCutout());
     }
 
-    private static <T extends Block> T register(String name, T block) {
-        BlockItem item = new BlockItem(block, new Item.Properties().group(SilentMechanisms.ITEM_GROUP));
-        return register(name, block, item);
+    private static <T extends Block> BlockRegistryObject<T> registerNoItem(String name, Supplier<T> block) {
+        return new BlockRegistryObject<>(Registration.BLOCKS.register(name, block));
     }
 
-    private static <T extends Block> T register(String name, T block, @Nullable BlockItem item) {
-        ResourceLocation id = SilentMechanisms.getId(name);
-        block.setRegistryName(id);
-        ForgeRegistries.BLOCKS.register(block);
-
-        if (item != null) {
-            ModItems.BLOCKS_TO_REGISTER.put(name, item);
-        }
-
-        return block;
+    private static <T extends Block> BlockRegistryObject<T> register(String name, Supplier<T> block) {
+        return register(name, block, ModBlocks::defaultItem);
     }
 
-    private static FlowingFluidBlock createFluidBlock(Supplier<FlowingFluid> fluid) {
-        return new FlowingFluidBlock(fluid, Block.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops());
+    private static <T extends Block> BlockRegistryObject<T> register(String name, Supplier<T> block, Function<BlockRegistryObject<T>, Supplier<? extends BlockItem>> item) {
+        BlockRegistryObject<T> ret = registerNoItem(name, block);
+        Registration.ITEMS.register(name, item.apply(ret));
+        return ret;
+    }
+
+    private static BlockRegistryObject<FlowingFluidBlock> registerFluid(String name, Supplier<FlowingFluid> fluid) {
+        return registerNoItem(name, () ->
+                new FlowingFluidBlock(fluid, Block.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops()));
+    }
+
+    private static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
+        return () -> new BlockItem(block.get(), new Item.Properties().group(SilentMechanisms.ITEM_GROUP));
     }
 
     @Nullable

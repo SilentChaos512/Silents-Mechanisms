@@ -39,7 +39,7 @@ public class CrushingRecipeCategoryJei implements IRecipeCategory<CrushingRecipe
 
     public CrushingRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(CrusherScreen.TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.crusher));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.CRUSHER));
         arrow = guiHelper.drawableBuilder(CrusherScreen.TEXTURE, 176, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = TextUtil.translate("jei", "category.crushing").getFormattedText();

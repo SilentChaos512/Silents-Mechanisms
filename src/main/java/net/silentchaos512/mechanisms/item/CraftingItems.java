@@ -4,104 +4,19 @@ import net.minecraft.item.Food;
 import net.minecraft.item.Foods;
 import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
+import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.mechanisms.SilentMechanisms;
-import net.silentchaos512.utils.Lazy;
+import net.silentchaos512.mechanisms.init.Registration;
 import net.silentchaos512.utils.TextUtils;
 
 import javax.annotation.Nullable;
 
 public enum CraftingItems implements IItemProvider {
-    // Mod metals
-    REDSTONE_ALLOY_INGOT,
-    REDSTONE_ALLOY_NUGGET,
-    REDSTONE_ALLOY_DUST,
-    REFINED_IRON_INGOT,
-    COMPRESSED_IRON_INGOT,
-    // Base metals
-    IRON_CHUNKS,
-    IRON_DUST,
-    GOLD_CHUNKS,
-    GOLD_DUST,
-    COPPER_CHUNKS,
-    COPPER_DUST,
-    COPPER_INGOT,
-    COPPER_NUGGET,
-    TIN_CHUNKS,
-    TIN_DUST,
-    TIN_INGOT,
-    TIN_NUGGET,
-    SILVER_CHUNKS,
-    SILVER_DUST,
-    SILVER_INGOT,
-    SILVER_NUGGET,
-    LEAD_CHUNKS,
-    LEAD_DUST,
-    LEAD_INGOT,
-    LEAD_NUGGET,
-    NICKEL_CHUNKS,
-    NICKEL_DUST,
-    NICKEL_INGOT,
-    NICKEL_NUGGET,
-    PLATINUM_CHUNKS,
-    PLATINUM_DUST,
-    PLATINUM_INGOT,
-    PLATINUM_NUGGET,
-    ZINC_CHUNKS,
-    ZINC_DUST,
-    ZINC_INGOT,
-    ZINC_NUGGET,
-    BISMUTH_CHUNKS,
-    BISMUTH_DUST,
-    BISMUTH_INGOT,
-    BISMUTH_NUGGET,
-    BAUXITE_CHUNKS,
-    ALUMINUM_DUST,
-    ALUMINUM_INGOT,
-    ALUMINUM_NUGGET,
-    URANIUM_CHUNKS,
-    URANIUM_DUST,
-    URANIUM_INGOT,
-    URANIUM_NUGGET,
-    // Alloys
-    BRONZE_DUST,
-    BRONZE_INGOT,
-    BRONZE_NUGGET,
-    BRASS_DUST,
-    BRASS_INGOT,
-    BRASS_NUGGET,
-    INVAR_DUST,
-    INVAR_INGOT,
-    INVAR_NUGGET,
-    ELECTRUM_DUST,
-    ELECTRUM_INGOT,
-    ELECTRUM_NUGGET,
-    STEEL_DUST,
-    STEEL_INGOT,
-    STEEL_NUGGET,
-    BISMUTH_BRASS_DUST,
-    BISMUTH_BRASS_INGOT,
-    BISMUTH_BRASS_NUGGET,
-    ALUMINUM_STEEL_DUST,
-    ALUMINUM_STEEL_INGOT,
-    ALUMINUM_STEEL_NUGGET,
-    BISMUTH_STEEL_DUST,
-    BISMUTH_STEEL_INGOT,
-    BISMUTH_STEEL_NUGGET,
-    SIGNALUM_DUST,
-    SIGNALUM_INGOT,
-    SIGNALUM_NUGGET,
-    LUMIUM_DUST,
-    LUMIUM_INGOT,
-    LUMIUM_NUGGET,
-    ENDERIUM_DUST,
-    ENDERIUM_INGOT,
-    ENDERIUM_NUGGET,
     // Other dusts
     COAL_DUST,
     // Crafting items
     CIRCUIT_BOARD,
     HEATING_ELEMENT,
-    POWER_SUPPLY_UNIT,
     SOLDER,
     PLASTIC_PELLETS,
     PLASTIC_SHEET,
@@ -117,14 +32,22 @@ public enum CraftingItems implements IItemProvider {
     SALMON_JERKY(Foods.SALMON),
     ;
 
-    private final Lazy<Item> item;
+    private final Food food;
+    @SuppressWarnings("NonFinalFieldInEnum") private ItemRegistryObject<Item> item;
 
     CraftingItems() {
         this(null);
     }
 
     CraftingItems(@Nullable Food food) {
-        this.item = Lazy.of(() -> new Item(createProperties(food)));
+        this.food = food;
+    }
+
+    public static void register() {
+        for (CraftingItems item : values()) {
+            item.item = new ItemRegistryObject<>(Registration.ITEMS.register(item.getName(), () ->
+                    new Item(createProperties(item.food))));
+        }
     }
 
     private static Item.Properties createProperties(@Nullable Food food) {

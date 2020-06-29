@@ -1,0 +1,27 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:storage_blocks/redstone_alloy",
+    "#forge:storage_blocks/copper",
+    "#forge:storage_blocks/tin",
+    "#forge:storage_blocks/silver",
+    "#forge:storage_blocks/lead",
+    "#forge:storage_blocks/nickel",
+    "#forge:storage_blocks/platinum",
+    "#forge:storage_blocks/zinc",
+    "#forge:storage_blocks/bismuth",
+    "#forge:storage_blocks/aluminum",
+    "#forge:storage_blocks/uranium",
+    "#forge:storage_blocks/bronze",
+    "#forge:storage_blocks/brass",
+    "#forge:storage_blocks/invar",
+    "#forge:storage_blocks/electrum",
+    "#forge:storage_blocks/steel",
+    "#forge:storage_blocks/bismuth_brass",
+    "#forge:storage_blocks/aluminum_steel",
+    "#forge:storage_blocks/bismuth_steel",
+    "#forge:storage_blocks/signalum",
+    "#forge:storage_blocks/lumium",
+    "#forge:storage_blocks/enderium"
+  ]
+}

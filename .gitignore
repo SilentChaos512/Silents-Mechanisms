@@ -40,3 +40,4 @@ version.properties
 todo_list\.md
 
 image/
+src/generated/resources/.cache/

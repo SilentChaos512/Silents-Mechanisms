@@ -17,6 +17,7 @@ import net.silentchaos512.mechanisms.block.compressor.CompressorContainer;
 import net.silentchaos512.mechanisms.block.compressor.CompressorScreen;
 import net.silentchaos512.mechanisms.block.crusher.CrusherContainer;
 import net.silentchaos512.mechanisms.block.crusher.CrusherScreen;
+import net.silentchaos512.mechanisms.block.dryingrack.DryingRackBlock;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceContainer;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceScreen;
 import net.silentchaos512.mechanisms.block.mixer.MixerScreen;
@@ -24,6 +25,7 @@ import net.silentchaos512.mechanisms.block.refinery.RefineryScreen;
 import net.silentchaos512.mechanisms.block.solidifier.SolidifierScreen;
 import net.silentchaos512.mechanisms.crafting.recipe.*;
 import net.silentchaos512.mechanisms.init.ModBlocks;
+import net.silentchaos512.mechanisms.init.Registration;
 import net.silentchaos512.mechanisms.util.Constants;
 
 import java.util.List;
@@ -89,16 +91,17 @@ public class SMechanismsJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.alloySmelter), Constants.ALLOY_SMELTING);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.basicAlloySmelter), Constants.ALLOY_SMELTING);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.compressor), Constants.COMPRESSING);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.crusher), Constants.CRUSHING);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.basicCrusher), Constants.CRUSHING);
-        ModBlocks.DRYING_RACKS.forEach(block -> registration.addRecipeCatalyst(new ItemStack(block), Constants.DRYING));
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.electricFurnace),
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ALLOY_SMELTER), Constants.ALLOY_SMELTING);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BASIC_ALLOY_SMELTER), Constants.ALLOY_SMELTING);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.COMPRESSOR), Constants.COMPRESSING);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.CRUSHER), Constants.CRUSHING);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BASIC_CRUSHER), Constants.CRUSHING);
+        Registration.getBlocks(DryingRackBlock.class).forEach(block ->
+                registration.addRecipeCatalyst(new ItemStack(block), Constants.DRYING));
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.ELECTRIC_FURNACE),
                 VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.mixer), Constants.MIXING);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.refinery), Constants.REFINING);
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.solidifier), Constants.SOLIDIFYING);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.MIXER), Constants.MIXING);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.REFINERY), Constants.REFINING);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.SOLIDIFIER), Constants.SOLIDIFYING);
     }
 }

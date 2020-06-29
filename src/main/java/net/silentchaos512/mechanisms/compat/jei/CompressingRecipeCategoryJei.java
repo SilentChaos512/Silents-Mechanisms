@@ -34,7 +34,7 @@ public class CompressingRecipeCategoryJei implements IRecipeCategory<Compressing
 
     public CompressingRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(CompressorScreen.TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.compressor));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.COMPRESSOR));
         arrow = guiHelper.drawableBuilder(CompressorScreen.TEXTURE, 176, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = TextUtil.translate("jei", "category.compressing").getFormattedText();

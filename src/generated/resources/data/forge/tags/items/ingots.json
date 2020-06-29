@@ -1,0 +1,29 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:ingots/redstone_alloy",
+    "#forge:ingots/refined_iron",
+    "#forge:ingots/compressed_iron",
+    "#forge:ingots/copper",
+    "#forge:ingots/tin",
+    "#forge:ingots/silver",
+    "#forge:ingots/lead",
+    "#forge:ingots/nickel",
+    "#forge:ingots/platinum",
+    "#forge:ingots/zinc",
+    "#forge:ingots/bismuth",
+    "#forge:ingots/aluminum",
+    "#forge:ingots/uranium",
+    "#forge:ingots/bronze",
+    "#forge:ingots/brass",
+    "#forge:ingots/invar",
+    "#forge:ingots/electrum",
+    "#forge:ingots/steel",
+    "#forge:ingots/bismuth_brass",
+    "#forge:ingots/aluminum_steel",
+    "#forge:ingots/bismuth_steel",
+    "#forge:ingots/signalum",
+    "#forge:ingots/lumium",
+    "#forge:ingots/enderium"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:dusts/redstone_alloy",
+    "#forge:dusts/iron",
+    "#forge:dusts/gold",
+    "#forge:dusts/copper",
+    "#forge:dusts/tin",
+    "#forge:dusts/silver",
+    "#forge:dusts/lead",
+    "#forge:dusts/nickel",
+    "#forge:dusts/platinum",
+    "#forge:dusts/zinc",
+    "#forge:dusts/bismuth",
+    "#forge:dusts/aluminum",
+    "#forge:dusts/uranium",
+    "#forge:dusts/bronze",
+    "#forge:dusts/brass",
+    "#forge:dusts/invar",
+    "#forge:dusts/electrum",
+    "#forge:dusts/steel",
+    "#forge:dusts/bismuth_brass",
+    "#forge:dusts/aluminum_steel",
+    "#forge:dusts/bismuth_steel",
+    "#forge:dusts/signalum",
+    "#forge:dusts/lumium",
+    "#forge:dusts/enderium",
+    "#forge:dusts/coal"
+  ]
+}

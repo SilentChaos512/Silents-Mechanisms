@@ -27,9 +27,19 @@ public final class ModItems {
     public static HandPumpItem handPump;
     public static CanisterItem canister = new CanisterItem();
 
+    static {
+        Metals.registerItems();
+    }
+
+    static {
+        CraftingItems.register();
+    }
+
     static final Map<String, BlockItem> BLOCKS_TO_REGISTER = new LinkedHashMap<>();
 
     private ModItems() {}
+
+    static void register() {}
 
     public static void registerAll(RegistryEvent.Register<Item> event) {
         BLOCKS_TO_REGISTER.forEach(ModItems::register);
@@ -42,8 +52,6 @@ public final class ModItems {
         battery = register("battery", new BatteryItem());
         handPump = register("hand_pump", new HandPumpItem());
         register("canister", canister);
-
-        Arrays.stream(CraftingItems.values()).forEach(c -> register(c.getName(), c.asItem()));
 
         Arrays.stream(MachineUpgrades.values()).forEach(u -> register(u.getName(), u.asItem()));
 

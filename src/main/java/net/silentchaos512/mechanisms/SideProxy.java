@@ -20,28 +20,28 @@ import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.lib.event.Greetings;
-import net.silentchaos512.lib.util.generator.ModelGenerator;
 import net.silentchaos512.mechanisms.compat.computercraft.SMechComputerCraftCompat;
 import net.silentchaos512.mechanisms.config.Config;
+import net.silentchaos512.mechanisms.data.DataGenerators;
 import net.silentchaos512.mechanisms.init.*;
-import net.silentchaos512.mechanisms.item.CraftingItems;
 import net.silentchaos512.mechanisms.network.Network;
 import net.silentchaos512.mechanisms.world.SMWorldFeatures;
 
 import javax.annotation.Nullable;
-import java.util.Arrays;
 
 class SideProxy implements IProxy {
     private MinecraftServer server = null;
 
     SideProxy() {
         // Add listeners for common events
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(DataGenerators::gatherData);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcEnqueue);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
 
+        Registration.register();
+
         // Add listeners for registry events
-        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class, ModBlocks::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ContainerType.class, ModContainers::registerAll);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Fluid.class, ModFluids::registerFluids);
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, ModItems::registerAll);
@@ -72,11 +72,6 @@ class SideProxy implements IProxy {
         if (ModList.get().isLoaded("computercraft")) {
             SMechComputerCraftCompat.init();
         }
-
-        if (SilentMechanisms.isDevBuild()) {
-            Arrays.stream(CraftingItems.values()).forEach(c -> ModelGenerator.create(c.asItem()));
-            Arrays.stream(Metals.values()).forEach(m -> ModelGenerator.create(m.asBlock()));
-        }
     }
 
     private void imcEnqueue(InterModEnqueueEvent event) {
@@ -98,7 +93,7 @@ class SideProxy implements IProxy {
         Client() {
             FMLJavaModLoadingContext.get().getModEventBus().addListener(ModItems::registerItemColors);
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
-            
+
             MinecraftForge.EVENT_BUS.addListener(this::setFog);
         }
 
@@ -107,14 +102,14 @@ class SideProxy implements IProxy {
             ModContainers.registerScreens(event);
             ModTileEntities.registerRenderers(event);
         }
-        
+
         public void setFog(EntityViewRenderEvent.FogColors fog) {
             World w = fog.getInfo().getRenderViewEntity().getEntityWorld();
             BlockPos pos = fog.getInfo().getBlockPos();
             BlockState bs = w.getBlockState(pos);
             Block b = bs.getBlock();
 
-            if(b.equals(ModBlocks.oil)) {
+            if (b.equals(ModBlocks.OIL)) {
                 float red = 0.02F;
                 float green = 0.02F;
                 float blue = 0.02F;
@@ -123,7 +118,7 @@ class SideProxy implements IProxy {
                 fog.setBlue(blue);
             }
 
-            if(b.equals(ModBlocks.diesel)) {
+            if (b.equals(ModBlocks.DIESEL)) {
                 float red = 0.9F;
                 float green = 0.9F;
                 float blue = 0.02F;

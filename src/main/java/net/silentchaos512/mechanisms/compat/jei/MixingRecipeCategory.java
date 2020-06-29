@@ -40,7 +40,7 @@ public class MixingRecipeCategory implements IRecipeCategory<MixingRecipe> {
 
     public MixingRecipeCategory(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(MixerScreen.TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.mixer));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.MIXER));
         arrow = guiHelper.drawableBuilder(MixerScreen.TEXTURE, 176, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = TextUtil.translate("jei", "category.mixing").getFormattedText();

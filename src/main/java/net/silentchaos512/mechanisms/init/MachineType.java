@@ -16,14 +16,14 @@ import java.util.function.Supplier;
 
 public class MachineType<T extends AbstractMachineBaseTileEntity, B extends T, S extends T, C extends Container> {
     public static final MachineType<AlloySmelterTileEntity, AlloySmelterTileEntity.Basic, AlloySmelterTileEntity, AlloySmelterContainer> ALLOY_SMELTER = new MachineType<>(
-            () -> TileEntityType.Builder.create(AlloySmelterTileEntity.Basic::new, ModBlocks.basicAlloySmelter),
-            () -> TileEntityType.Builder.create(AlloySmelterTileEntity::new, ModBlocks.alloySmelter),
+            () -> TileEntityType.Builder.create(AlloySmelterTileEntity.Basic::new, ModBlocks.BASIC_ALLOY_SMELTER.get()),
+            () -> TileEntityType.Builder.create(AlloySmelterTileEntity::new, ModBlocks.ALLOY_SMELTER.get()),
             (id, inv) -> new AlloySmelterContainer(id, inv, MachineTier.BASIC),
             (id, inv) -> new AlloySmelterContainer(id, inv, MachineTier.STANDARD)
     );
     public static final MachineType<CrusherTileEntity, CrusherTileEntity.Basic, CrusherTileEntity, CrusherContainer> CRUSHER = new MachineType<>(
-            () -> TileEntityType.Builder.create(CrusherTileEntity.Basic::new, ModBlocks.basicCrusher),
-            () -> TileEntityType.Builder.create(CrusherTileEntity::new, ModBlocks.crusher),
+            () -> TileEntityType.Builder.create(CrusherTileEntity.Basic::new, ModBlocks.BASIC_CRUSHER.get()),
+            () -> TileEntityType.Builder.create(CrusherTileEntity::new, ModBlocks.CRUSHER.get()),
             (id, inv) -> new CrusherContainer(id, inv, MachineTier.BASIC),
             (id, inv) -> new CrusherContainer(id, inv, MachineTier.STANDARD)
     );

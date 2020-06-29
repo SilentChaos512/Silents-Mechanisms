@@ -22,11 +22,11 @@ public final class ModFluids {
     private ModFluids() {}
 
     public static void registerFluids(RegistryEvent.Register<Fluid> event) {
-        ForgeFlowingFluid.Properties oilProps = properties("oil", () -> OIL, () -> FLOWING_OIL).block(() -> ModBlocks.oil).bucket(() -> ModItems.oilBucket);
+        ForgeFlowingFluid.Properties oilProps = properties("oil", () -> OIL, () -> FLOWING_OIL).block(ModBlocks.OIL).bucket(() -> ModItems.oilBucket);
         FLOWING_OIL = register("flowing_oil", new ForgeFlowingFluid.Flowing(oilProps));
         OIL = register("oil", new ForgeFlowingFluid.Source(oilProps));
 
-        ForgeFlowingFluid.Properties dieselProps = properties("diesel", () -> DIESEL, () -> FLOWING_DIESEL).block(() -> ModBlocks.diesel).bucket(() -> ModItems.dieselBucket);
+        ForgeFlowingFluid.Properties dieselProps = properties("diesel", () -> DIESEL, () -> FLOWING_DIESEL).block(ModBlocks.DIESEL).bucket(() -> ModItems.dieselBucket);
         FLOWING_DIESEL = register("flowing_diesel", new ForgeFlowingFluid.Flowing(dieselProps));
         DIESEL = register("diesel", new ForgeFlowingFluid.Source(dieselProps));
 

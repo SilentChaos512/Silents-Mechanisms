@@ -37,7 +37,7 @@ public class DryingRecipeCategoryJei implements IRecipeCategory<DryingRecipe> {
 
     public DryingRecipeCategoryJei(IGuiHelper guiHelper) {
         background = guiHelper.createDrawable(CompressorScreen.TEXTURE, GUI_START_X, GUI_START_Y, GUI_WIDTH, GUI_HEIGHT);
-        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.DRYING_RACKS.get(0)));
+        icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.OAK_DRYING_RACK));
         arrow = guiHelper.drawableBuilder(CompressorScreen.TEXTURE, 176, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
         localizedName = TextUtil.translate("jei", "category.drying").getFormattedText();

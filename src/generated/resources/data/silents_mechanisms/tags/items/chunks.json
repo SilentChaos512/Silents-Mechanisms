@@ -1,0 +1,17 @@
+{
+  "replace": false,
+  "values": [
+    "#silents_mechanisms:chunks/iron",
+    "#silents_mechanisms:chunks/gold",
+    "#silents_mechanisms:chunks/copper",
+    "#silents_mechanisms:chunks/tin",
+    "#silents_mechanisms:chunks/silver",
+    "#silents_mechanisms:chunks/lead",
+    "#silents_mechanisms:chunks/nickel",
+    "#silents_mechanisms:chunks/platinum",
+    "#silents_mechanisms:chunks/zinc",
+    "#silents_mechanisms:chunks/bismuth",
+    "#silents_mechanisms:chunks/aluminum",
+    "#silents_mechanisms:chunks/uranium"
+  ]
+}

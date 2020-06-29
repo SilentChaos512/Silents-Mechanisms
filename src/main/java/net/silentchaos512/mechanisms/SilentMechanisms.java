@@ -25,10 +25,10 @@ public final class SilentMechanisms {
     public static SilentMechanisms INSTANCE;
     public static IProxy PROXY;
 
-    public static ItemGroup ITEM_GROUP = new ItemGroup(MOD_ID) {
+    public static final ItemGroup ITEM_GROUP = new ItemGroup(MOD_ID) {
         @Override
         public ItemStack createIcon() {
-            return new ItemStack(ModBlocks.crusher);
+            return new ItemStack(ModBlocks.CRUSHER);
         }
     };
 

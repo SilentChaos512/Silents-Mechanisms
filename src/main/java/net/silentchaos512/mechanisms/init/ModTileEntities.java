@@ -9,6 +9,7 @@ import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.batterybox.BatteryBoxTileEntity;
 import net.silentchaos512.mechanisms.block.compressor.CompressorTileEntity;
@@ -50,19 +51,23 @@ public final class ModTileEntities {
         register("alloy_smelter", MachineType.ALLOY_SMELTER.getStandardTileEntityType());
         register("basic_crusher", MachineType.CRUSHER.getBasicTileEntityType());
         register("crusher", MachineType.CRUSHER.getStandardTileEntityType());
-        batteryBox = register("battery_box", BatteryBoxTileEntity::new, ModBlocks.batteryBox);
-        coalGenerator = register("coal_generator", CoalGeneratorTileEntity::new, ModBlocks.coalGenerator);
-        compressor = register("compressor", CompressorTileEntity::new, ModBlocks.compressor);
-        dieselGenerator = register("diesel_generator", DieselGeneratorTileEntity::new, ModBlocks.dieselGenerator);
-        dryingRack = register("drying_rack", DryingRackTileEntity::new, ModBlocks.DRYING_RACKS.toArray(new DryingRackBlock[0]));
-        electricFurnace = register("electric_furnace", ElectricFurnaceTileEntity::new, ModBlocks.electricFurnace);
-        lavaGenerator = register("lava_generator", LavaGeneratorTileEntity::new, ModBlocks.lavaGenerator);
-        mixer = register("mixer", MixerTileEntity::new, ModBlocks.mixer);
-        pipe = register("pipe", PipeTileEntity::new, ModBlocks.pipe);
-        pump = register("pump", PumpTileEntity::new, ModBlocks.pump);
-        refinery = register("refinery", RefineryTileEntity::new, ModBlocks.refinery);
-        solidifier = register("solidifier", SolidifierTileEntity::new, ModBlocks.solidifier);
-        wire = register("wire", WireTileEntity::new, ModBlocks.wire);
+        batteryBox = register("battery_box", BatteryBoxTileEntity::new, ModBlocks.BATTERY_BOX);
+        coalGenerator = register("coal_generator", CoalGeneratorTileEntity::new, ModBlocks.COAL_GENERATOR);
+        compressor = register("compressor", CompressorTileEntity::new, ModBlocks.COMPRESSOR);
+        dieselGenerator = register("diesel_generator", DieselGeneratorTileEntity::new, ModBlocks.DIESEL_GENERATOR);
+        dryingRack = register("drying_rack", DryingRackTileEntity::new, Registration.getBlocks(DryingRackBlock.class).toArray(new Block[0]));
+        electricFurnace = register("electric_furnace", ElectricFurnaceTileEntity::new, ModBlocks.ELECTRIC_FURNACE);
+        lavaGenerator = register("lava_generator", LavaGeneratorTileEntity::new, ModBlocks.LAVA_GENERATOR);
+        mixer = register("mixer", MixerTileEntity::new, ModBlocks.MIXER);
+        pipe = register("pipe", PipeTileEntity::new, ModBlocks.PIPE);
+        pump = register("pump", PumpTileEntity::new, ModBlocks.PUMP);
+        refinery = register("refinery", RefineryTileEntity::new, ModBlocks.REFINERY);
+        solidifier = register("solidifier", SolidifierTileEntity::new, ModBlocks.SOLIDIFIER);
+        wire = register("wire", WireTileEntity::new, ModBlocks.WIRE);
+    }
+
+    private static <T extends TileEntity> TileEntityType<T> register(String name, Supplier<T> tileFactory, IBlockProvider block) {
+        return register(name, tileFactory, block.asBlock());
     }
 
     private static <T extends TileEntity> TileEntityType<T> register(String name, Supplier<T> tileFactory, Block... blocks) {

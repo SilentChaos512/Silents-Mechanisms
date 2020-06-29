@@ -126,7 +126,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
      */
     protected float getProcessSpeed() {
         int speedUpgrades = getUpgradeCount(MachineUpgrades.PROCESSING_SPEED);
-        return tier.getProcessingSpeed() + speedUpgrades * Constants.UPGRADE_PROCESSING_SPEED_AMOUNT;
+        return tier.getProcessingSpeed() * (1f + speedUpgrades * Constants.UPGRADE_PROCESSING_SPEED_AMOUNT);
     }
 
     /**
