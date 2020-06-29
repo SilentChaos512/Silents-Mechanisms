@@ -41,6 +41,26 @@ public final class CrushingRecipeBuilder {
         return new CrushingRecipeBuilder(ingredient, processTime);
     }
 
+    public static CrushingRecipeBuilder crushingChunks(Tag<Item> chunks, IItemProvider dust, int processTime, float extraChance) {
+        return builder(chunks, processTime)
+                .result(dust, 1)
+                .result(dust, 1, extraChance);
+    }
+
+    public static CrushingRecipeBuilder crushingIngot(Tag<Item> ingot, IItemProvider dust, int processTime) {
+        return builder(ingot, processTime)
+                .result(dust, 1);
+    }
+
+    public static CrushingRecipeBuilder crushingOre(Tag<Item> ore, IItemProvider chunks, int processTime, @Nullable IItemProvider extra, float extraChance) {
+        CrushingRecipeBuilder builder = builder(ore, processTime);
+        builder.result(chunks, 2);
+        if (extra != null) {
+            builder.result(extra, 1, extraChance);
+        }
+        return builder;
+    }
+
     public CrushingRecipeBuilder result(IItemProvider item, int count, float chance) {
         results.put(new ItemStack(item, count), chance);
         return this;
@@ -51,15 +71,15 @@ public final class CrushingRecipeBuilder {
     }
 
     public void build(Consumer<IFinishedRecipe> consumer) {
-        ResourceLocation firstResultId = NameUtils.fromItem(results.keySet().iterator().next());
-        ResourceLocation id = "minecraft".equals(firstResultId.getNamespace())
-                ? new ResourceLocation(SilentMechanisms.MOD_ID, "crushing/" + firstResultId.getPath())
-                : firstResultId;
+        ResourceLocation resultId = NameUtils.fromItem(results.keySet().iterator().next());
+        ResourceLocation id = new ResourceLocation(
+                "minecraft".equals(resultId.getNamespace()) ? SilentMechanisms.MOD_ID : resultId.getNamespace(),
+                "crushing/" + resultId.getPath());
         build(consumer, id);
     }
 
-    private void build(Consumer<IFinishedRecipe> consumer, ResourceLocation id) {
-        consumer.accept(new CrushingRecipeBuilder.Result(id, this));
+    public void build(Consumer<IFinishedRecipe> consumer, ResourceLocation id) {
+        consumer.accept(new Result(id, this));
     }
 
     public class Result implements IFinishedRecipe {

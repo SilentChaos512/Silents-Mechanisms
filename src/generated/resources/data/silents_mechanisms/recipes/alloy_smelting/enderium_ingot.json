@@ -1,0 +1,44 @@
+{
+  "type": "silents_mechanisms:alloy_smelting",
+  "process_time": 500,
+  "ingredients": [
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/lead"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/lead"
+        },
+        {
+          "tag": "forge:dusts/lead"
+        }
+      ],
+      "count": 3
+    },
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/platinum"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/platinum"
+        },
+        {
+          "tag": "forge:dusts/platinum"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "value": {
+        "tag": "forge:ender_pearls"
+      },
+      "count": 4
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:enderium_ingot",
+    "count": 4
+  }
+}

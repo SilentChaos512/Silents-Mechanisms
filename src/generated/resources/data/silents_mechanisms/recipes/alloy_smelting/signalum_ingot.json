@@ -1,0 +1,44 @@
+{
+  "type": "silents_mechanisms:alloy_smelting",
+  "process_time": 500,
+  "ingredients": [
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/copper"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/copper"
+        },
+        {
+          "tag": "forge:dusts/copper"
+        }
+      ],
+      "count": 3
+    },
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/silver"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/silver"
+        },
+        {
+          "tag": "forge:dusts/silver"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "value": {
+        "tag": "forge:dusts/redstone"
+      },
+      "count": 10
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:signalum_ingot",
+    "count": 4
+  }
+}

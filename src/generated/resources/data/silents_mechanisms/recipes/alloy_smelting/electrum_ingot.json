@@ -1,0 +1,38 @@
+{
+  "type": "silents_mechanisms:alloy_smelting",
+  "process_time": 400,
+  "ingredients": [
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/gold"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/gold"
+        },
+        {
+          "tag": "forge:dusts/gold"
+        }
+      ],
+      "count": 1
+    },
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/silver"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/silver"
+        },
+        {
+          "tag": "forge:dusts/silver"
+        }
+      ],
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:electrum_ingot",
+    "count": 2
+  }
+}

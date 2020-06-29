@@ -1,0 +1,38 @@
+{
+  "type": "silents_mechanisms:alloy_smelting",
+  "process_time": 400,
+  "ingredients": [
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/copper"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/copper"
+        },
+        {
+          "tag": "forge:dusts/copper"
+        }
+      ],
+      "count": 3
+    },
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/tin"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/tin"
+        },
+        {
+          "tag": "forge:dusts/tin"
+        }
+      ],
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:bronze_ingot",
+    "count": 4
+  }
+}

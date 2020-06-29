@@ -1,0 +1,30 @@
+{
+  "type": "silents_mechanisms:alloy_smelting",
+  "process_time": 600,
+  "ingredients": [
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/iron"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/iron"
+        },
+        {
+          "tag": "forge:dusts/iron"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "value": {
+        "tag": "forge:dusts/coal"
+      },
+      "count": 2
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:steel_ingot",
+    "count": 2
+  }
+}

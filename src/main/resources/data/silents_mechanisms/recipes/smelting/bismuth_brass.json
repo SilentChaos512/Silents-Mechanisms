@@ -1,9 +1,0 @@
-{
-    "type": "minecraft:smelting",
-    "ingredient": {
-        "tag": "forge:dusts/bismuth_brass"
-    },
-    "result": "silents_mechanisms:bismuth_brass_ingot",
-    "experience": 1.0,
-    "cookingtime": 200
-}

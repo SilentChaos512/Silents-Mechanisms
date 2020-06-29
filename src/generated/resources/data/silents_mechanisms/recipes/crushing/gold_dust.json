@@ -1,0 +1,16 @@
+{
+  "type": "silents_mechanisms:crushing",
+  "process_time": 300,
+  "ingredient": {
+    "tag": "silents_mechanisms:chunks/gold"
+  },
+  "results": [
+    {
+      "item": "silents_mechanisms:gold_dust"
+    },
+    {
+      "item": "silents_mechanisms:gold_dust",
+      "chance": 0.1
+    }
+  ]
+}

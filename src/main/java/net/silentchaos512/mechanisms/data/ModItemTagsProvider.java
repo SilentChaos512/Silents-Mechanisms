@@ -55,9 +55,11 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             metal.getDustTag().ifPresent(tag ->
                     getBuilder(tag).add(metal.getDust().get()));
             metal.getIngotTag().ifPresent(tag ->
-                    getBuilder(tag).add(metal.getIngot().get()));
+                    metal.getIngot().ifPresent(item ->
+                            getBuilder(tag).add(item)));
             metal.getNuggetTag().ifPresent(tag ->
-                    getBuilder(tag).add(metal.getNugget().get()));
+                    metal.getNugget().ifPresent(item ->
+                            getBuilder(tag).add(item)));
         }
 
         copy(Tags.Blocks.ORES, Tags.Items.ORES);

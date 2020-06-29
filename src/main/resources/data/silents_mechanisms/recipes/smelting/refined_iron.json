@@ -1,9 +1,0 @@
-{
-    "type": "minecraft:smelting",
-    "ingredient": {
-        "tag": "forge:ingots/iron"
-    },
-    "result": "silents_mechanisms:refined_iron_ingot",
-    "experience": 0.7,
-    "cookingtime": 200
-}

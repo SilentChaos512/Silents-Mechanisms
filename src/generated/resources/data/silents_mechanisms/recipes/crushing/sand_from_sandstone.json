@@ -1,0 +1,18 @@
+{
+  "type": "silents_mechanisms:crushing",
+  "process_time": 200,
+  "ingredient": [
+    {
+      "item": "minecraft:sandstone"
+    },
+    {
+      "item": "minecraft:chiseled_sandstone"
+    }
+  ],
+  "results": [
+    {
+      "item": "minecraft:sand",
+      "count": 4
+    }
+  ]
+}

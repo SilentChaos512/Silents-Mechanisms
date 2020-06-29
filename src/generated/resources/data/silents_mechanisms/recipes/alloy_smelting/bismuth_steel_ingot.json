@@ -1,0 +1,44 @@
+{
+  "type": "silents_mechanisms:alloy_smelting",
+  "process_time": 600,
+  "ingredients": [
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/iron"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/iron"
+        },
+        {
+          "tag": "forge:dusts/iron"
+        }
+      ],
+      "count": 2
+    },
+    {
+      "value": {
+        "tag": "forge:dusts/coal"
+      },
+      "count": 3
+    },
+    {
+      "value": [
+        {
+          "tag": "forge:ingots/bismuth"
+        },
+        {
+          "tag": "silents_mechanisms:chunks/bismuth"
+        },
+        {
+          "tag": "forge:dusts/bismuth"
+        }
+      ],
+      "count": 1
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:bismuth_steel_ingot",
+    "count": 4
+  }
+}

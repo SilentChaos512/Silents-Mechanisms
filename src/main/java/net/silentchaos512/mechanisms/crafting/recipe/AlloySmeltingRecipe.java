@@ -129,8 +129,14 @@ public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
         }
 
         private static Ingredient deserializeIngredient(JsonElement element) {
-            JsonObject json = element.getAsJsonObject();
-            return json.has("values") ? Ingredient.deserialize(json.get("values")) : Ingredient.deserialize(element);
+            if (element.isJsonObject()) {
+                JsonObject json = element.getAsJsonObject();
+                if (json.has("value"))
+                    return Ingredient.deserialize(json.get("value"));
+                if (json.has("values"))
+                    return Ingredient.deserialize(json.get("values"));
+            }
+            return Ingredient.deserialize(element);
         }
 
         @Override
@@ -142,7 +148,7 @@ public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
             int ingredientCount = buffer.readByte();
             for (int i = 0; i < ingredientCount; ++i) {
                 Ingredient ingredient = Ingredient.read(buffer);
-                int count = buffer.readVarInt();
+                int count = buffer.readByte();
                 recipe.ingredients.put(ingredient, count);
             }
 
@@ -157,7 +163,7 @@ public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
             buffer.writeByte(recipe.ingredients.size());
             recipe.ingredients.forEach((ingredient, count) -> {
                 ingredient.write(buffer);
-                buffer.writeVarInt(count);
+                buffer.writeByte(count);
             });
         }
     }

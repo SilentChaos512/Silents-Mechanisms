@@ -1,9 +1,0 @@
-{
-    "type": "minecraft:blasting",
-    "ingredient": {
-        "tag": "forge:dusts/bismuth_steel"
-    },
-    "result": "silents_mechanisms:bismuth_steel_ingot",
-    "experience": 1.0,
-    "cookingtime": 100
-}

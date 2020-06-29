@@ -1,0 +1,25 @@
+{
+  "type": "silents_mechanisms:crushing",
+  "process_time": 200,
+  "ingredient": {
+    "tag": "minecraft:logs"
+  },
+  "results": [
+    {
+      "item": "minecraft:paper",
+      "chance": 0.75
+    },
+    {
+      "item": "minecraft:paper",
+      "chance": 0.25
+    },
+    {
+      "item": "minecraft:stick",
+      "chance": 0.25
+    },
+    {
+      "item": "minecraft:stick",
+      "chance": 0.25
+    }
+  ]
+}

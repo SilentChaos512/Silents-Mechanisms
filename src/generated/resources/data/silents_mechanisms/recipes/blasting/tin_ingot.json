@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": [
+    {
+      "tag": "silents_mechanisms:chunks/tin"
+    },
+    {
+      "tag": "forge:dusts/tin"
+    }
+  ],
+  "result": "silents_mechanisms:tin_ingot",
+  "experience": 1.0,
+  "cookingtime": 100
+}

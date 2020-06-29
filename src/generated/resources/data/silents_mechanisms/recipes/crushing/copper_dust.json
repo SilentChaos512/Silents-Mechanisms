@@ -1,0 +1,16 @@
+{
+  "type": "silents_mechanisms:crushing",
+  "process_time": 300,
+  "ingredient": {
+    "tag": "silents_mechanisms:chunks/copper"
+  },
+  "results": [
+    {
+      "item": "silents_mechanisms:copper_dust"
+    },
+    {
+      "item": "silents_mechanisms:copper_dust",
+      "chance": 0.1
+    }
+  ]
+}

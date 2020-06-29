@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": [
+    {
+      "tag": "silents_mechanisms:chunks/lead"
+    },
+    {
+      "tag": "forge:dusts/lead"
+    }
+  ],
+  "result": "silents_mechanisms:lead_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}

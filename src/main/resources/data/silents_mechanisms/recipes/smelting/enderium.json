@@ -1,9 +1,0 @@
-{
-    "type": "minecraft:smelting",
-    "ingredient": {
-        "tag": "forge:dusts/enderium"
-    },
-    "result": "silents_mechanisms:enderium_ingot",
-    "experience": 1.0,
-    "cookingtime": 200
-}

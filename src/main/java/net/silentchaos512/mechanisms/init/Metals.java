@@ -3,6 +3,7 @@ package net.silentchaos512.mechanisms.init;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
@@ -16,13 +17,14 @@ import net.silentchaos512.mechanisms.block.OreBlockSM;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public enum Metals {
     REDSTONE_ALLOY(builderAlloy("redstone_alloy")),
     REFINED_IRON(builder("refined_iron").ingot()),
     COMPRESSED_IRON(builder("compressed_iron").ingot()),
-    IRON(builder("iron").chunks().dust()),
-    GOLD(builder("gold").chunks().dust()),
+    IRON(builder("iron").chunks().dust().ingotTagOnly().nuggetTagOnly()),
+    GOLD(builder("gold").chunks().dust().ingotTagOnly().nuggetTagOnly()),
     COPPER(builderBaseWithOre("copper", Ores.COPPER)),
     TIN(builderBaseWithOre("tin", Ores.TIN)),
     SILVER(builderBaseWithOre("silver", Ores.SILVER)),
@@ -61,6 +63,8 @@ public enum Metals {
     private final Supplier<Item> nuggetSupplier;
     private final Tag<Block> storageBlockTag;
     private final Tag<Block> oreTag;
+    private final Tag<Item> storageBlockItemTag;
+    private final Tag<Item> oreItemTag;
     private final Tag<Item> chunksTag;
     private final Tag<Item> dustTag;
     private final Tag<Item> ingotTag;
@@ -81,8 +85,10 @@ public enum Metals {
         this.dustSupplier = builder.dust;
         this.ingotSupplier = builder.ingot;
         this.nuggetSupplier = builder.nugget;
-        this.storageBlockTag = builder.storageBlockTag;
         this.oreTag = builder.oreTag;
+        this.storageBlockTag = builder.storageBlockTag;
+        this.oreItemTag = this.oreTag != null ? new ItemTags.Wrapper(this.oreTag.getId()) : null;
+        this.storageBlockItemTag = this.storageBlockTag != null ? new ItemTags.Wrapper(this.storageBlockTag.getId()) : null;
         this.chunksTag = builder.chunksTag;
         this.dustTag = builder.dustTag;
         this.ingotTag = builder.ingotTag;
@@ -125,6 +131,14 @@ public enum Metals {
         return storageBlockTag != null ? Optional.of(storageBlockTag) : Optional.empty();
     }
 
+    public Optional<Tag<Item>> getOreItemTag() {
+        return oreItemTag != null ? Optional.of(oreItemTag) : Optional.empty();
+    }
+
+    public Optional<Tag<Item>> getStorageBlockItemTag() {
+        return storageBlockItemTag != null ? Optional.of(storageBlockItemTag) : Optional.empty();
+    }
+
     public Optional<Tag<Item>> getChunksTag() {
         return chunksTag != null ? Optional.of(chunksTag) : Optional.empty();
     }
@@ -139,6 +153,20 @@ public enum Metals {
 
     public Optional<Tag<Item>> getNuggetTag() {
         return nuggetTag != null ? Optional.of(nuggetTag) : Optional.empty();
+    }
+
+    public Ingredient getSmeltables() {
+        return getSmeltables(true);
+    }
+
+    public Ingredient getSmeltables(boolean includeIngot) {
+        Stream.Builder<Tag<Item>> builder = Stream.builder();
+        if (includeIngot) {
+            getIngotTag().ifPresent(builder::add);
+        }
+        getChunksTag().ifPresent(builder::add);
+        getDustTag().ifPresent(builder::add);
+        return Ingredient.fromItemListStream(builder.build().map(Ingredient.TagList::new));
     }
 
     public static void registerBlocks() {
@@ -242,8 +270,18 @@ public enum Metals {
             return this;
         }
 
+        Builder ingotTagOnly() {
+            this.ingotTag = itemTag("ingots/" + name);
+            return this;
+        }
+
         Builder nugget() {
             this.nugget = () -> new Item(new Item.Properties().group(SilentMechanisms.ITEM_GROUP));
+            this.nuggetTag = itemTag("nuggets/" + name);
+            return this;
+        }
+
+        Builder nuggetTagOnly() {
             this.nuggetTag = itemTag("nuggets/" + name);
             return this;
         }

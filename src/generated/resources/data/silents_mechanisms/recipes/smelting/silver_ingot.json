@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": [
+    {
+      "tag": "silents_mechanisms:chunks/silver"
+    },
+    {
+      "tag": "forge:dusts/silver"
+    }
+  ],
+  "result": "silents_mechanisms:silver_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}

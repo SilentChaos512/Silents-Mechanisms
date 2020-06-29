@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:ores/silver"
+  },
+  "result": "silents_mechanisms:silver_ingot",
+  "experience": 1.0,
+  "cookingtime": 200
+}

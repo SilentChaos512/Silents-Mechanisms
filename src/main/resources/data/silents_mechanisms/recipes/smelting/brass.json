@@ -1,9 +1,0 @@
-{
-    "type": "minecraft:smelting",
-    "ingredient": {
-        "tag": "forge:dusts/brass"
-    },
-    "result": "silents_mechanisms:brass_ingot",
-    "experience": 1.0,
-    "cookingtime": 200
-}
