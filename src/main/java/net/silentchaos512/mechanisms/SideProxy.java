@@ -33,13 +33,15 @@ class SideProxy implements IProxy {
     private MinecraftServer server = null;
 
     SideProxy() {
+        Config.init();
+        Network.init();
+        Registration.register();
+
         // Add listeners for common events
         FMLJavaModLoadingContext.get().getModEventBus().addListener(DataGenerators::gatherData);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::commonSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcEnqueue);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::imcProcess);
-
-        Registration.register();
 
         // Add listeners for registry events
         FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(ContainerType.class, ModContainers::registerAll);
@@ -50,8 +52,6 @@ class SideProxy implements IProxy {
         // Other events
         MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
 
-        Config.init();
-        Network.init();
 
         ModRecipes.init();
 
@@ -61,7 +61,7 @@ class SideProxy implements IProxy {
 
     @Nullable
     private static ITextComponent getBetaWelcomeMessage(PlayerEntity p) {
-        return Config.COMMON.showBetaWelcomeMessage.get()
+        return Config.showBetaWelcomeMessage.get()
                 ? new StringTextComponent("Thanks for trying Silent's Mechanisms! This mod is early in development, expect bugs and changes.")
                 : null;
     }

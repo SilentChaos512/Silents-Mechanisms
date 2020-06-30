@@ -31,7 +31,7 @@ public final class SMWorldFeatures {
     }
 
     private static void addOilLakes(Biome biome) {
-        final int config = Config.COMMON.worldGenOilLakeChance.get();
+        final int config = Config.worldGenOilLakeChance.get();
         if (config > 0) {
             // Somewhat more common in deserts
             final int chance = biome == Biomes.DESERT ? 2 * config / 3 : config;

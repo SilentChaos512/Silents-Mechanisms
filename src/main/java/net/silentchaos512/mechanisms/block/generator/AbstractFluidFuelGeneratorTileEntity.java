@@ -117,7 +117,7 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
 
     @Override
     protected void consumeFuel() {
-        FluidStack fluid = tank.drain(Config.COMMON.fluidGeneratorInjectionVolume.get(), IFluidHandler.FluidAction.EXECUTE);
+        FluidStack fluid = tank.drain(Config.fluidGeneratorInjectionVolume.get(), IFluidHandler.FluidAction.EXECUTE);
         burnTime = totalBurnTime = getFuelBurnTime(fluid);
     }
 

@@ -53,7 +53,7 @@ public enum Ores implements IBlockProvider {
     }
 
     public Optional<OreConfig> getConfig() {
-        return Config.COMMON.getOreConfig(this);
+        return Config.getOreConfig(this);
     }
 
     @Override
