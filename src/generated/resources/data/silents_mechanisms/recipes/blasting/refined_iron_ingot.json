@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "forge:ingots/iron"
+  },
+  "result": "silents_mechanisms:refined_iron_ingot",
+  "experience": 1.0,
+  "cookingtime": 100
+}

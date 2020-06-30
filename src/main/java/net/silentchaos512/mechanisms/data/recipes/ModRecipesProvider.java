@@ -46,22 +46,26 @@ public class ModRecipesProvider extends RecipeProvider {
     private void registerSmelting(Consumer<IFinishedRecipe> consumer) {
         for (Metals metal : Metals.values()) {
             if (metal.getIngot().isPresent() && (metal.getChunksTag().isPresent() || metal.getDustTag().isPresent())) {
-                CookingRecipeBuilder.smeltingRecipe(metal.getSmeltables(false), metal.getIngot().get(), 1f, 200)
-                        .addCriterion("has_item", hasItem(Blocks.FURNACE))
-                        .build(consumer, SilentMechanisms.getId("smelting/" + metal.getName() + "_ingot"));
-                CookingRecipeBuilder.blastingRecipe(metal.getSmeltables(false), metal.getIngot().get(), 1f, 100)
-                        .addCriterion("has_item", hasItem(Blocks.FURNACE))
-                        .build(consumer, SilentMechanisms.getId("blasting/" + metal.getName() + "_ingot"));
+                smeltingAndBlasting(consumer, metal.getName() + "_ingot",
+                        metal.getSmeltables(false), metal.getIngot().get());
             }
-            if (metal.getIngot().isPresent() && metal.getOreTag().isPresent()) {
-                CookingRecipeBuilder.smeltingRecipe(Ingredient.fromTag(metal.getOreItemTag().get()), metal.getIngot().get(), 1f, 200)
-                        .addCriterion("has_item", hasItem(Blocks.FURNACE))
-                        .build(consumer, SilentMechanisms.getId("smelting/" + metal.getName() + "_ingot_from_ore"));
-                CookingRecipeBuilder.blastingRecipe(Ingredient.fromTag(metal.getOreItemTag().get()), metal.getIngot().get(), 1f, 100)
-                        .addCriterion("has_item", hasItem(Blocks.FURNACE))
-                        .build(consumer, SilentMechanisms.getId("blasting/" + metal.getName() + "_ingot_from_ore"));
+            if (metal.getIngot().isPresent() && metal.getOreItemTag().isPresent()) {
+                smeltingAndBlasting(consumer, metal.getName() + "_ingot_from_ore",
+                        Ingredient.fromTag(metal.getOreItemTag().get()), metal.getIngot().get());
             }
         }
+
+        assert(Metals.REFINED_IRON.getIngot().isPresent());
+        smeltingAndBlasting(consumer, "refined_iron_ingot", Ingredient.fromTag(Tags.Items.INGOTS_IRON), Metals.REFINED_IRON.getIngot().get());
+    }
+
+    private void smeltingAndBlasting(Consumer<IFinishedRecipe> consumer, String name, Ingredient ingredient, IItemProvider result) {
+        CookingRecipeBuilder.smeltingRecipe(ingredient, result, 1f, 200)
+                .addCriterion("has_item", hasItem(Blocks.FURNACE))
+                .build(consumer, SilentMechanisms.getId("smelting/" + name));
+        CookingRecipeBuilder.blastingRecipe(ingredient, result, 1f, 100)
+                .addCriterion("has_item", hasItem(Blocks.FURNACE))
+                .build(consumer, SilentMechanisms.getId("blasting/" + name));
     }
 
     private static void registerAlloySmelting(Consumer<IFinishedRecipe> consumer) {
