@@ -1,0 +1,13 @@
+{
+  "type": "silents_mechanisms:compressing",
+  "process_time": 400,
+  "ingredient": {
+    "value": {
+      "item": "minecraft:blaze_powder"
+    },
+    "count": 4
+  },
+  "result": {
+    "item": "minecraft:blaze_rod"
+  }
+}

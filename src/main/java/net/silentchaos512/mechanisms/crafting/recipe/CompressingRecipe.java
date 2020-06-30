@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.crafting.recipe;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -88,8 +89,15 @@ public class CompressingRecipe implements IRecipe<IInventory> {
         public CompressingRecipe read(ResourceLocation recipeId, JsonObject json) {
             CompressingRecipe recipe = new CompressingRecipe(recipeId);
             recipe.processTime = JSONUtils.getInt(json, "process_time", 400);
-            recipe.ingredient = Ingredient.deserialize(json.get("ingredient"));
-            recipe.ingredientCount = JSONUtils.getInt(json.get("ingredient").getAsJsonObject(), "count", 1);
+            JsonElement ingredientJson = json.get("ingredient");
+            if (ingredientJson.isJsonObject() && ingredientJson.getAsJsonObject().has("value")) {
+                JsonObject obj = ingredientJson.getAsJsonObject();
+                recipe.ingredient = Ingredient.deserialize(obj.get("value"));
+                recipe.ingredientCount = JSONUtils.getInt(obj, "count", 1);
+            } else {
+                recipe.ingredient = Ingredient.deserialize(ingredientJson);
+                recipe.ingredientCount = JSONUtils.getInt(ingredientJson.getAsJsonObject(), "count", 1);
+            }
             recipe.result = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
             return recipe;
         }

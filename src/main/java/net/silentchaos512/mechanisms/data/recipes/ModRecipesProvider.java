@@ -40,6 +40,7 @@ public class ModRecipesProvider extends RecipeProvider {
     protected void registerRecipes(Consumer<IFinishedRecipe> consumer) {
         registerSmelting(consumer);
         registerAlloySmelting(consumer);
+        registerCompressingRecipes(consumer);
         registerCrushingRecipes(consumer);
     }
 
@@ -55,7 +56,7 @@ public class ModRecipesProvider extends RecipeProvider {
             }
         }
 
-        assert(Metals.REFINED_IRON.getIngot().isPresent());
+        assert (Metals.REFINED_IRON.getIngot().isPresent());
         smeltingAndBlasting(consumer, "refined_iron_ingot", Ingredient.fromTag(Tags.Items.INGOTS_IRON), Metals.REFINED_IRON.getIngot().get());
     }
 
@@ -126,6 +127,16 @@ public class ModRecipesProvider extends RecipeProvider {
         AlloySmeltingRecipeBuilder.builder(Metals.STEEL, 2, 600)
                 .ingredient(Metals.IRON, 2)
                 .ingredient(ModTags.Items.DUSTS_COAL, 2)
+                .build(consumer);
+    }
+
+    private static void registerCompressingRecipes(Consumer<IFinishedRecipe> consumer) {
+        CompressingRecipeBuilder.builder(Items.BLAZE_POWDER, 4, Items.BLAZE_ROD, 1, 400)
+                .build(consumer);
+        assert (Metals.COMPRESSED_IRON.getIngot().isPresent());
+        CompressingRecipeBuilder.builder(Tags.Items.INGOTS_IRON, 1, Metals.COMPRESSED_IRON.getIngot().get(), 1, 400)
+                .build(consumer);
+        CompressingRecipeBuilder.builder(Tags.Items.STORAGE_BLOCKS_COAL, 16, Items.DIAMOND, 1, 800)
                 .build(consumer);
     }
 
