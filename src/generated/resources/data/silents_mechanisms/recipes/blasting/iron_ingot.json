@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": [
+    {
+      "tag": "silents_mechanisms:chunks/iron"
+    },
+    {
+      "tag": "forge:dusts/iron"
+    }
+  ],
+  "result": "minecraft:iron_ingot",
+  "experience": 1.0,
+  "cookingtime": 100
+}

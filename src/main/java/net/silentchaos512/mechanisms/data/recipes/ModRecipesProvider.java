@@ -56,6 +56,9 @@ public class ModRecipesProvider extends RecipeProvider {
             }
         }
 
+        smeltingAndBlasting(consumer, "iron_ingot", Metals.IRON.getSmeltables(false), Items.IRON_INGOT);
+        smeltingAndBlasting(consumer, "gold_ingot", Metals.GOLD.getSmeltables(false), Items.GOLD_INGOT);
+
         assert (Metals.REFINED_IRON.getIngot().isPresent());
         smeltingAndBlasting(consumer, "refined_iron_ingot", Ingredient.fromTag(Tags.Items.INGOTS_IRON), Metals.REFINED_IRON.getIngot().get());
     }
