@@ -73,10 +73,6 @@ public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe>
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
     @Override
     public int[] getSlotsForFace(Direction side) {
-        if (side == Direction.UP)
-            return SLOTS_INPUT;
-        if (side == Direction.DOWN)
-            return SLOTS_OUTPUT;
         return SLOTS_ALL;
     }
 
