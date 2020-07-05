@@ -18,7 +18,7 @@ public final class Config {
     public static final ForgeConfigSpec.BooleanValue showBetaWelcomeMessage;
     public static final ForgeConfigSpec.IntValue worldGenOilLakeChance;
     public static final ForgeConfigSpec.IntValue fluidGeneratorInjectionVolume;
-    private static final ForgeConfigSpec serverSpec;
+    private static final ForgeConfigSpec commonSpec;
     private static final ForgeConfigSpec.BooleanValue oreWorldGenMasterSwitch;
     private static final Map<Ores, OreConfig> oreConfigs = new EnumMap<>(Ores.class);
 
@@ -55,7 +55,7 @@ public final class Config {
             builder.pop(2);
         }
 
-        serverSpec = builder.build();
+        commonSpec = builder.build();
     }
 
     public static Optional<OreConfig> getOreConfig(Ores ore) {
@@ -65,7 +65,7 @@ public final class Config {
     private Config() {}
 
     public static void init() {
-        ModLoadingContext.get().registerConfig(ModConfig.Type.SERVER, serverSpec);
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, commonSpec);
     }
 
     public static void sync() {
