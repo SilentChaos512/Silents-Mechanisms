@@ -3,7 +3,9 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.7.6]
+## [0.7.6] - 2020-07-04
+### Added
+- Lava to obsidian solidifier recipe
 ### Changed
 - Server config is now common config [#94]
 
