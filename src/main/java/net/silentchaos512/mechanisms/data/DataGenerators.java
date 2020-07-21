@@ -3,6 +3,8 @@ package net.silentchaos512.mechanisms.data;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
+import net.silentchaos512.mechanisms.data.client.ModBlockStateProvider;
+import net.silentchaos512.mechanisms.data.client.ModItemModelProvider;
 import net.silentchaos512.mechanisms.data.loot.ModLootTableProvider;
 import net.silentchaos512.mechanisms.data.recipes.ModRecipesProvider;
 
@@ -19,5 +21,6 @@ public final class DataGenerators {
         gen.addProvider(new ModLootTableProvider(gen));
 
         gen.addProvider(new ModBlockStateProvider(gen, existingFileHelper));
+        gen.addProvider(new ModItemModelProvider(gen, existingFileHelper));
     }
 }

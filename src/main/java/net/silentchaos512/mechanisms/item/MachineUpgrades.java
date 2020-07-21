@@ -2,8 +2,9 @@ package net.silentchaos512.mechanisms.item;
 
 import net.minecraft.item.Item;
 import net.minecraft.util.IItemProvider;
-import net.silentchaos512.lib.util.Lazy;
+import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.mechanisms.api.IMachineUpgrade;
+import net.silentchaos512.mechanisms.init.Registration;
 import net.silentchaos512.mechanisms.util.Constants;
 
 import java.util.Locale;
@@ -16,7 +17,7 @@ public enum MachineUpgrades implements IItemProvider, IMachineUpgrade {
     RANGE(Constants.UPGRADE_RANGE_AMOUNT, 0.15f, false)
     ;
 
-    private final Lazy<Item> item;
+    @SuppressWarnings("NonFinalFieldInEnum") private ItemRegistryObject<MachineUpgradeItem> item;
     private final float upgradeValue;
     private final float energyUsage;
     private final boolean displayValueAsPercentage;
@@ -26,10 +27,16 @@ public enum MachineUpgrades implements IItemProvider, IMachineUpgrade {
     }
 
     MachineUpgrades(float upgradeValue, float energyUsage, boolean displayValueAsPercentage) {
-        this.item = Lazy.of(() -> new MachineUpgradeItem(this));
         this.upgradeValue = upgradeValue;
         this.energyUsage = energyUsage;
         this.displayValueAsPercentage = displayValueAsPercentage;
+    }
+
+    public static void register() {
+        for (MachineUpgrades value : values()) {
+            value.item = new ItemRegistryObject<>(Registration.ITEMS.register(value.getName(), () ->
+                    new MachineUpgradeItem(value)));
+        }
     }
 
     @Override

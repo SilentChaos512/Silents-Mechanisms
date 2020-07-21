@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#C#",
+    "/X/",
+    " D "
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/bismuth_steel"
+    },
+    "C": {
+      "item": "silents_mechanisms:basic_crusher"
+    },
+    "/": {
+      "tag": "forge:ingots/redstone_alloy"
+    },
+    "X": {
+      "item": "silents_mechanisms:alloy_machine_frame"
+    },
+    "D": {
+      "tag": "forge:gems/diamond"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:crusher"
+  }
+}

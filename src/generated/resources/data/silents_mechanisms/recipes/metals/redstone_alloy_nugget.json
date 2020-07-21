@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/redstone_alloy"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:redstone_alloy_nugget",
+    "count": 9
+  }
+}

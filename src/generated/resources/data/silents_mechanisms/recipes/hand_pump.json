@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "/C#",
+    " B#"
+  ],
+  "key": {
+    "/": {
+      "tag": "forge:ingots/aluminum"
+    },
+    "C": {
+      "item": "silents_mechanisms:canister"
+    },
+    "#": {
+      "item": "silents_mechanisms:plastic_sheet"
+    },
+    "B": {
+      "item": "silents_mechanisms:battery"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:hand_pump"
+  }
+}

@@ -22,17 +22,23 @@ public final class ModFluids {
     private ModFluids() {}
 
     public static void registerFluids(RegistryEvent.Register<Fluid> event) {
-        ForgeFlowingFluid.Properties oilProps = properties("oil", () -> OIL, () -> FLOWING_OIL).block(ModBlocks.OIL).bucket(() -> ModItems.oilBucket);
+        ForgeFlowingFluid.Properties oilProps = properties("oil", () -> OIL, () -> FLOWING_OIL)
+                .block(() -> ModBlocks.OIL.get())
+                .bucket(() -> ModItems.OIL_BUCKET.get());
         FLOWING_OIL = register("flowing_oil", new ForgeFlowingFluid.Flowing(oilProps));
         OIL = register("oil", new ForgeFlowingFluid.Source(oilProps));
 
-        ForgeFlowingFluid.Properties dieselProps = properties("diesel", () -> DIESEL, () -> FLOWING_DIESEL).block(ModBlocks.DIESEL).bucket(() -> ModItems.dieselBucket);
+        ForgeFlowingFluid.Properties dieselProps = properties("diesel", () -> DIESEL, () -> FLOWING_DIESEL)
+                .block(() -> ModBlocks.DIESEL.get())
+                .bucket(() -> ModItems.DIESEL_BUCKET.get());
         FLOWING_DIESEL = register("flowing_diesel", new ForgeFlowingFluid.Flowing(dieselProps));
         DIESEL = register("diesel", new ForgeFlowingFluid.Source(dieselProps));
 
-        ForgeFlowingFluid.Properties ethane = propertiesGas("ethane", () -> ETHANE).bucket(() -> ModItems.ethaneBucket);
+        ForgeFlowingFluid.Properties ethane = propertiesGas("ethane", () -> ETHANE)
+                .bucket(() -> ModItems.ETHANE_BUCKET.get());
         ETHANE = register("ethane", new ForgeFlowingFluid.Source(ethane));
-        ForgeFlowingFluid.Properties polyethylene = propertiesGas("polyethylene", () -> POLYETHYLENE).bucket(() -> ModItems.polyethyleneBucket);
+        ForgeFlowingFluid.Properties polyethylene = propertiesGas("polyethylene", () -> POLYETHYLENE)
+                .bucket(() -> ModItems.POLYETHYLENE_BUCKET.get());
         POLYETHYLENE = register("polyethylene", new ForgeFlowingFluid.Source(polyethylene));
     }
 

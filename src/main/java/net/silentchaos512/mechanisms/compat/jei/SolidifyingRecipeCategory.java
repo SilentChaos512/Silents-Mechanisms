@@ -76,7 +76,7 @@ public class SolidifyingRecipeCategory implements IRecipeCategory<SolidifyingRec
         ingredients.setOutputLists(VanillaTypes.FLUID, recipe.getFluidOutputs().stream().map(Collections::singletonList).collect(Collectors.toList()));
 
         // Input fluid containers
-        ImmutableList<ItemStack> emptyContainers = ImmutableList.of(new ItemStack(Items.BUCKET), new ItemStack(ModItems.canister));
+        ImmutableList<ItemStack> emptyContainers = ImmutableList.of(new ItemStack(Items.BUCKET), new ItemStack(ModItems.CANISTER));
         List<ItemStack> feedstockContainers = new ArrayList<>();
         recipe.getIngredient().getFluids().forEach(fluid -> addFluidContainers(feedstockContainers, fluid.getFluid()));
         ingredients.setInputLists(VanillaTypes.ITEM, Collections.singletonList(feedstockContainers));
@@ -116,6 +116,6 @@ public class SolidifyingRecipeCategory implements IRecipeCategory<SolidifyingRec
         if (!bucket.isEmpty()) {
             list.add(bucket);
         }
-        list.add(ModItems.canister.getStack(fluid));
+        list.add(ModItems.CANISTER.get().getStack(fluid));
     }
 }

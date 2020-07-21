@@ -1,16 +1,13 @@
 package net.silentchaos512.mechanisms.data;
 
-import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.ItemTagsProvider;
 import net.minecraft.item.Item;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
-import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.init.Metals;
 import net.silentchaos512.mechanisms.init.ModTags;
 import net.silentchaos512.mechanisms.item.CraftingItems;
@@ -31,9 +28,9 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         builder(forgeId("storage_blocks/charcoal"));
 
         getBuilder(ModTags.Items.STEELS).add(
-                itemTag(forgeId("ingots/aluminum_steel")),
-                itemTag(forgeId("ingots/bismuth_steel")),
-                itemTag(forgeId("ingots/steel"))
+                Metals.ALUMINUM_STEEL.getIngotTag().get(),
+                Metals.BISMUTH_STEEL.getIngotTag().get(),
+                Metals.STEEL.getIngotTag().get()
         );
         getBuilder(ModTags.Items.COAL_GENERATOR_FUELS).add(
                 ItemTags.COALS,
@@ -41,7 +38,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                 itemTag(forgeId("storage_blocks/charcoal")),
                 Tags.Items.STORAGE_BLOCKS_COAL
         );
-        copy(blockTag(modId("drying_racks")), itemTag(modId("drying_racks")));
+        copy(ModTags.Blocks.DRYING_RACKS, ModTags.Items.DRYING_RACKS);
 
         getBuilder(ModTags.Items.DUSTS_COAL).add(CraftingItems.COAL_DUST.asItem());
 
@@ -86,16 +83,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         getBuilder(itemTag(id)).add(Arrays.stream(items).map(IItemProvider::asItem).toArray(Item[]::new));
     }
 
-    private static Tag<Block> blockTag(ResourceLocation id) {
-        return new BlockTags.Wrapper(id);
-    }
-
     private static Tag<Item> itemTag(ResourceLocation id) {
         return new ItemTags.Wrapper(id);
-    }
-
-    private static ResourceLocation modId(String path) {
-        return SilentMechanisms.getId(path);
     }
 
     private static ResourceLocation forgeId(String path) {

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "///"
+  ],
+  "key": {
+    "#": {
+      "item": "silents_mechanisms:plastic_sheet"
+    },
+    "/": {
+      "tag": "forge:nuggets/gold"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:upgrade_case",
+    "count": 2
+  }
+}

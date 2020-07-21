@@ -78,7 +78,7 @@ public class MixingRecipeCategory implements IRecipeCategory<MixingRecipe> {
         ingredients.setOutputLists(VanillaTypes.FLUID, recipe.getFluidOutputs().stream().map(Collections::singletonList).collect(Collectors.toList()));
 
         // Input fluid containers
-        ImmutableList<ItemStack> emptyContainers = ImmutableList.of(new ItemStack(Items.BUCKET), new ItemStack(ModItems.canister));
+        ImmutableList<ItemStack> emptyContainers = ImmutableList.of(new ItemStack(Items.BUCKET), new ItemStack(ModItems.CANISTER));
         List<ItemStack> feedstockContainers = new ArrayList<>();
         recipe.getFluidIngredients().stream()
                 .flatMap(ingredient -> ingredient.getFluids().stream())
@@ -135,6 +135,6 @@ public class MixingRecipeCategory implements IRecipeCategory<MixingRecipe> {
         if (!bucket.isEmpty()) {
             list.add(bucket);
         }
-        list.add(ModItems.canister.getStack(fluid));
+        list.add(ModItems.CANISTER.get().getStack(fluid));
     }
 }

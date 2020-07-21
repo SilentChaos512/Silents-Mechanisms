@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "###",
+    "###"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/bismuth_steel"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:bismuth_steel_block"
+  }
+}

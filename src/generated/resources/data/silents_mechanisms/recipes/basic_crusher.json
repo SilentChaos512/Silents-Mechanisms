@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "/X/",
+    "O/O"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/bronze"
+    },
+    "/": {
+      "tag": "forge:ingots/aluminum"
+    },
+    "X": {
+      "item": "silents_mechanisms:stone_machine_frame"
+    },
+    "O": {
+      "item": "minecraft:smooth_stone"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:basic_crusher"
+  }
+}

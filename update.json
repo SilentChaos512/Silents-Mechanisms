@@ -2,6 +2,7 @@
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/silents-mechanisms",
     "changelog": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.15/CHANGELOG.md",
     "1.15.2": {
+        "0.7.6": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.15/CHANGELOG.md",
         "0.7.5": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.15/CHANGELOG.md",
         "0.7.4": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.15/CHANGELOG.md",
         "0.7.3": "https://github.com/SilentChaos512/Silents-Mechanisms/blob/1.15/CHANGELOG.md",
@@ -42,8 +43,8 @@
         "0.1.0": "See changelog on GitHub"
     },
     "promos": {
-        "1.15.2-latest": "0.7.5",
-        "1.15.2-recommended": "0.7.5",
+        "1.15.2-latest": "0.7.6",
+        "1.15.2-recommended": "0.7.6",
         "1.14.4-latest": "0.6.13",
         "1.14.4-recommended": "0.6.13"
     }

@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#C#",
+    "/X/",
+    "OHO"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/bismuth_brass"
+    },
+    "C": {
+      "item": "silents_mechanisms:circuit_board"
+    },
+    "/": {
+      "tag": "forge:ingots/redstone_alloy"
+    },
+    "X": {
+      "item": "silents_mechanisms:alloy_machine_frame"
+    },
+    "O": {
+      "item": "minecraft:bricks"
+    },
+    "H": {
+      "item": "silents_mechanisms:heating_element"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:alloy_smelter"
+  }
+}

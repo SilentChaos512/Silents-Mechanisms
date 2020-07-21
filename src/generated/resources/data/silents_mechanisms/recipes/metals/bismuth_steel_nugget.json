@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:ingots/bismuth_steel"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:bismuth_steel_nugget",
+    "count": 9
+  }
+}

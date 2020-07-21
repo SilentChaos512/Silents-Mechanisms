@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "###",
+    "/X/",
+    "OAO"
+  ],
+  "key": {
+    "#": {
+      "tag": "forge:ingots/iron"
+    },
+    "/": {
+      "tag": "forge:ingots/copper"
+    },
+    "X": {
+      "item": "silents_mechanisms:stone_machine_frame"
+    },
+    "O": {
+      "tag": "forge:cobblestone"
+    },
+    "A": {
+      "tag": "forge:ingots/refined_iron"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:coal_generator"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silents_mechanisms:upgrade_case"
+    },
+    {
+      "tag": "forge:storage_blocks/lapis"
+    },
+    {
+      "tag": "forge:ingots/platinum"
+    },
+    {
+      "tag": "forge:ingots/platinum"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:output_chance_upgrade"
+  }
+}
