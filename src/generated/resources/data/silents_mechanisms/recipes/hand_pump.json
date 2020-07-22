@@ -9,7 +9,7 @@
       "tag": "forge:ingots/aluminum"
     },
     "C": {
-      "item": "silents_mechanisms:canister"
+      "item": "silents_mechanisms:empty_canister"
     },
     "#": {
       "item": "silents_mechanisms:plastic_sheet"

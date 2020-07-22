@@ -21,6 +21,7 @@ import net.silentchaos512.mechanisms.block.refinery.RefineryTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.RefiningRecipe;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
+import net.silentchaos512.mechanisms.item.CanisterItem;
 import net.silentchaos512.mechanisms.util.Constants;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
@@ -78,7 +79,7 @@ public class RefiningRecipeCategory implements IRecipeCategory<RefiningRecipe> {
         ingredients.setOutputLists(VanillaTypes.FLUID, recipe.getFluidOutputs().stream().map(Collections::singletonList).collect(Collectors.toList()));
 
         // Input fluid containers
-        ImmutableList<ItemStack> emptyContainers = ImmutableList.of(new ItemStack(Items.BUCKET), new ItemStack(ModItems.CANISTER));
+        ImmutableList<ItemStack> emptyContainers = ImmutableList.of(new ItemStack(Items.BUCKET), new ItemStack(ModItems.EMPTY_CANISTER));
         List<ItemStack> feedstockContainers = new ArrayList<>();
         recipe.getIngredient().getFluids().forEach(fluid -> addFluidContainers(feedstockContainers, fluid.getFluid()));
         ingredients.setInputLists(VanillaTypes.ITEM, Arrays.asList(
@@ -133,6 +134,6 @@ public class RefiningRecipeCategory implements IRecipeCategory<RefiningRecipe> {
         if (!bucket.isEmpty()) {
             list.add(bucket);
         }
-        list.add(ModItems.CANISTER.get().getStack(fluid));
+        list.add(CanisterItem.getStack(fluid));
     }
 }

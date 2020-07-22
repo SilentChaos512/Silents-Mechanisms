@@ -45,7 +45,6 @@ public class ModItemModelProvider extends ItemModelProvider {
         builder(ModItems.DEBUG_ITEM, itemGenerated);
         builder(ModItems.BATTERY, itemGenerated);
         builder(ModItems.HAND_PUMP, itemGenerated);
-        builder(ModItems.CANISTER, itemGenerated);
     }
 
     private void blockBuilder(IBlockProvider block) {
