@@ -11,7 +11,6 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.api.IFluidContainer;
 import net.silentchaos512.mechanisms.init.ModItems;
 import net.silentchaos512.mechanisms.util.TextUtil;
@@ -20,8 +19,8 @@ import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class CanisterItem extends Item implements IFluidContainer {
-    public CanisterItem() {
-        super(new Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(64));
+    public CanisterItem(Properties properties) {
+        super(properties);
         //addPropertyOverride(SilentMechanisms.getId("fluid_level"), (stack, world, entity) -> getFluid(stack).getAmount());
     }
 
