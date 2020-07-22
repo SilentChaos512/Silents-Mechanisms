@@ -1,10 +1,12 @@
 package net.silentchaos512.mechanisms.block;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
 import net.minecraft.client.gui.widget.Widget;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.IFormattableTextComponent;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.client.button.RedstoneModeButton;
@@ -30,41 +32,41 @@ public abstract class AbstractMachineBaseScreen<C extends AbstractMachineBaseCon
     }
 
     @Override
-    protected void renderHoveredToolTip(int mouseX, int mouseY) {
+    protected void func_230459_a_(MatrixStack matrixStack, int mouseX, int mouseY) {
         if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
-            ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
-            renderTooltip(text.getFormattedText(), mouseX, mouseY);
+            IFormattableTextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
+            renderTooltip(matrixStack, text, mouseX, mouseY);
         }
         if (hoveredSlot instanceof MachineUpgradeSlot && !hoveredSlot.getHasStack()) {
-            renderTooltip(TextUtil.translate("misc", "upgradeSlot").getFormattedText(), mouseX, mouseY);
+            renderTooltip(matrixStack, TextUtil.translate("misc", "upgradeSlot"), mouseX, mouseY);
         }
-        super.renderHoveredToolTip(mouseX, mouseY);
+        super.func_230459_a_(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
+    protected void func_230450_a_(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
         if (minecraft == null) return;
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         minecraft.getTextureManager().bindTexture(getGuiTexture());
         int xPos = (this.width - this.xSize) / 2;
         int yPos = (this.height - this.ySize) / 2;
-        blit(xPos, yPos, 0, 0, this.xSize, this.ySize);
+        blit(matrixStack, xPos, yPos, 0, 0, this.xSize, this.ySize);
 
         // Upgrade slots
         for (int i = 0; i < this.container.tileEntity.tier.getUpgradeSlots(); ++i) {
-            blit(xPos + 5 + 18 * i, yPos - 11, 190, 0, 18, 14);
+            blit(matrixStack, xPos + 5 + 18 * i, yPos - 11, 190, 0, 18, 14);
         }
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY) {
-        this.font.drawString(this.title.getFormattedText(), 8.0F, 6.0F, 4210752);
+    protected void func_230451_b_(MatrixStack matrixStack, int mouseX, int mouseY) {
+        this.font.drawString(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
 //        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
 
         for (Widget widget : this.buttons) {
             if (widget.isHovered() && widget instanceof RedstoneModeButton) {
                 RedstoneMode mode = ((RedstoneModeButton) widget).getMode();
-                renderTooltip(TextUtil.translate("misc", "redstoneMode", mode.name()).getFormattedText(), mouseX - guiLeft, mouseY - guiTop);
+                renderTooltip(matrixStack, TextUtil.translate("misc", "redstoneMode", mode.name()), mouseX - guiLeft, mouseY - guiTop);
             }
         }
     }

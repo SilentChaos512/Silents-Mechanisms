@@ -3,41 +3,41 @@ package net.silentchaos512.mechanisms.init;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 
 public class ModTags {
     public static final class Blocks {
-        public static final Tag<Block> DRYING_RACKS = mod("drying_racks");
+        public static final ITag.INamedTag<Block> DRYING_RACKS = mod("drying_racks");
 
         private Blocks() {}
 
-        private static Tag<Block> forge(String path) {
-            return new BlockTags.Wrapper(forgeId(path));
+        private static ITag.INamedTag<Block> forge(String path) {
+            return BlockTags.makeWrapperTag(forgeId(path).toString());
         }
 
-        private static Tag<Block> mod(String path) {
-            return new BlockTags.Wrapper(modId(path));
+        private static ITag.INamedTag<Block> mod(String path) {
+            return BlockTags.makeWrapperTag(modId(path).toString());
         }
     }
 
     public static final class Items {
-        public static final Tag<Item> CHUNKS = mod("chunks");
-        public static final Tag<Item> COAL_GENERATOR_FUELS = mod("coal_generator_fuels");
-        public static final Tag<Item> DRYING_RACKS = mod("drying_racks");
-        public static final Tag<Item> DUSTS_COAL = forge("dusts/coal");
-        public static final Tag<Item> STEELS = mod("ingots/steels");
+        public static final ITag.INamedTag<Item> CHUNKS = mod("chunks");
+        public static final ITag.INamedTag<Item> COAL_GENERATOR_FUELS = mod("coal_generator_fuels");
+        public static final ITag.INamedTag<Item> DRYING_RACKS = mod("drying_racks");
+        public static final ITag.INamedTag<Item> DUSTS_COAL = forge("dusts/coal");
+        public static final ITag.INamedTag<Item> STEELS = mod("ingots/steels");
 
         private Items() {}
 
-        private static Tag<Item> forge(String path) {
-            return new ItemTags.Wrapper(forgeId(path));
+        private static ITag.INamedTag<Item> forge(String path) {
+            return ItemTags.makeWrapperTag(forgeId(path).toString());
         }
 
-        private static Tag<Item> mod(String path) {
-            return new ItemTags.Wrapper(modId(path));
+        private static ITag.INamedTag<Item> mod(String path) {
+            return ItemTags.makeWrapperTag(modId(path).toString());
         }
     }
 

@@ -6,7 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
@@ -33,7 +33,7 @@ public class CompressingRecipeBuilder {
         return new CompressingRecipeBuilder(ingredient, ingredientCount, result, resultCount, processTime);
     }
 
-    public static CompressingRecipeBuilder builder(Tag<Item> ingredient, int ingredientCount, IItemProvider result, int resultCount, int processTime) {
+    public static CompressingRecipeBuilder builder(ITag<Item> ingredient, int ingredientCount, IItemProvider result, int resultCount, int processTime) {
         return builder(Ingredient.fromTag(ingredient), ingredientCount, result, resultCount, processTime);
     }
 

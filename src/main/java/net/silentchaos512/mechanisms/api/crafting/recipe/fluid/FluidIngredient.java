@@ -5,7 +5,7 @@ import com.google.gson.JsonSyntaxException;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
@@ -26,15 +26,15 @@ import java.util.stream.Collectors;
 public class FluidIngredient implements Predicate<FluidStack> {
     public static final FluidIngredient EMPTY = new FluidIngredient();
 
-    @Nullable private final Tag<Fluid> tag;
+    @Nullable private final ITag.INamedTag<Fluid> tag;
     @Nullable private final Fluid fluid;
     private final int amount;
 
-    public FluidIngredient(@Nonnull Tag<Fluid> tag) {
+    public FluidIngredient(@Nonnull ITag.INamedTag<Fluid> tag) {
         this(tag, 1000);
     }
 
-    public FluidIngredient(@Nonnull Tag<Fluid> tag, int amount) {
+    public FluidIngredient(@Nonnull ITag.INamedTag<Fluid> tag, int amount) {
         this.tag = tag;
         this.fluid = null;
         this.amount = amount;
@@ -57,7 +57,7 @@ public class FluidIngredient implements Predicate<FluidStack> {
     }
 
     @Nullable
-    public Tag<Fluid> getTag() {
+    public ITag<Fluid> getTag() {
         return tag;
     }
 
@@ -118,7 +118,7 @@ public class FluidIngredient implements Predicate<FluidStack> {
 
         if (json.has("tag")) {
             ResourceLocation id = new ResourceLocation(JSONUtils.getString(json, "tag"));
-            return new FluidIngredient(new FluidTags.Wrapper(id), amount);
+            return new FluidIngredient(FluidTags.makeWrapperTag(id.toString()), amount);
         }
         if (json.has("fluid")) {
             ResourceLocation id = new ResourceLocation(JSONUtils.getString(json, "fluid"));
@@ -138,7 +138,7 @@ public class FluidIngredient implements Predicate<FluidStack> {
         boolean isTag = buffer.readBoolean();
         ResourceLocation id = buffer.readResourceLocation();
         return isTag
-                ? new FluidIngredient(new FluidTags.Wrapper(id))
+                ? new FluidIngredient(FluidTags.makeWrapperTag(id.toString()))
                 : new FluidIngredient(Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(id)));
     }
 
@@ -151,7 +151,7 @@ public class FluidIngredient implements Predicate<FluidStack> {
         boolean isTag = tag != null;
         buffer.writeBoolean(isTag);
         if (isTag)
-            buffer.writeResourceLocation(tag.getId());
+            buffer.writeResourceLocation(tag.getName());
         else if (fluid != null)
             buffer.writeResourceLocation(Objects.requireNonNull(fluid.getRegistryName()));
         else

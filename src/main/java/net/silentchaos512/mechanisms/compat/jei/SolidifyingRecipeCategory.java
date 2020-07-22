@@ -1,6 +1,7 @@
 package net.silentchaos512.mechanisms.compat.jei;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -41,7 +42,7 @@ public class SolidifyingRecipeCategory implements IRecipeCategory<SolidifyingRec
         icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.SOLIDIFIER));
         arrow = guiHelper.drawableBuilder(SolidifierScreen.TEXTURE, 176, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
-        localizedName = TextUtil.translate("jei", "category.solidifying").getFormattedText();
+        localizedName = TextUtil.translate("jei", "category.solidifying").getString();
     }
 
     @Override
@@ -107,8 +108,8 @@ public class SolidifyingRecipeCategory implements IRecipeCategory<SolidifyingRec
     }
 
     @Override
-    public void draw(SolidifyingRecipe recipe, double mouseX, double mouseY) {
-        arrow.draw(79 - GUI_START_X, 35 - GUI_START_Y);
+    public void draw(SolidifyingRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
+        arrow.draw(matrixStack, 79 - GUI_START_X, 35 - GUI_START_Y);
     }
 
     private static void addFluidContainers(Collection<ItemStack> list, Fluid fluid) {

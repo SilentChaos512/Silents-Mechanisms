@@ -6,6 +6,7 @@ import net.minecraft.item.ItemUseContext;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
@@ -30,16 +31,16 @@ public class DebugItem extends Item {
         if (tileEntity != null) {
             tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(e -> {
                 ITextComponent energyText = TextUtil.energyWithMax(e.getEnergyStored(), e.getMaxEnergyStored());
-                player.sendMessage(new StringTextComponent("Energy: ").appendSibling(energyText));
-                player.sendMessage(new StringTextComponent("Receive/Extract: " + e.canReceive() + "/" + e.canExtract()));
-                player.sendMessage(new StringTextComponent(e.getClass().getName()).applyTextStyle(TextFormatting.ITALIC));
+                player.sendMessage(new StringTextComponent("Energy: ").func_230529_a_(energyText), Util.DUMMY_UUID);
+                player.sendMessage(new StringTextComponent("Receive/Extract: " + e.canReceive() + "/" + e.canExtract()), Util.DUMMY_UUID);
+                player.sendMessage(new StringTextComponent(e.getClass().getName()).func_240699_a_(TextFormatting.ITALIC), Util.DUMMY_UUID);
             });
 
             for (Direction side : Direction.values()) {
                 TileEntity other = world.getTileEntity(pos.offset(side));
                 if (other != null) {
                     other.getCapability(CapabilityEnergy.ENERGY).ifPresent(e -> {
-                        player.sendMessage(new StringTextComponent(side + ": " + other.getClass().getSimpleName()));
+                        player.sendMessage(new StringTextComponent(side + ": " + other.getClass().getSimpleName()), Util.DUMMY_UUID);
                     });
                 }
             }

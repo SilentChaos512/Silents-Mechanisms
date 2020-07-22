@@ -7,7 +7,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
@@ -33,7 +33,7 @@ public final class CrushingRecipeBuilder {
         return builder(Ingredient.fromItems(ingredient), processTime);
     }
 
-    public static CrushingRecipeBuilder builder(Tag<Item> ingredient, int processTime) {
+    public static CrushingRecipeBuilder builder(ITag<Item> ingredient, int processTime) {
         return builder(Ingredient.fromTag(ingredient), processTime);
     }
 
@@ -41,18 +41,18 @@ public final class CrushingRecipeBuilder {
         return new CrushingRecipeBuilder(ingredient, processTime);
     }
 
-    public static CrushingRecipeBuilder crushingChunks(Tag<Item> chunks, IItemProvider dust, int processTime, float extraChance) {
+    public static CrushingRecipeBuilder crushingChunks(ITag<Item> chunks, IItemProvider dust, int processTime, float extraChance) {
         return builder(chunks, processTime)
                 .result(dust, 1)
                 .result(dust, 1, extraChance);
     }
 
-    public static CrushingRecipeBuilder crushingIngot(Tag<Item> ingot, IItemProvider dust, int processTime) {
+    public static CrushingRecipeBuilder crushingIngot(ITag<Item> ingot, IItemProvider dust, int processTime) {
         return builder(ingot, processTime)
                 .result(dust, 1);
     }
 
-    public static CrushingRecipeBuilder crushingOre(Tag<Item> ore, IItemProvider chunks, int processTime, @Nullable IItemProvider extra, float extraChance) {
+    public static CrushingRecipeBuilder crushingOre(ITag<Item> ore, IItemProvider chunks, int processTime, @Nullable IItemProvider extra, float extraChance) {
         CrushingRecipeBuilder builder = builder(ore, processTime);
         builder.result(chunks, 2);
         if (extra != null) {

@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.compat.jei;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -36,7 +37,7 @@ public class AlloySmeltingRecipeCategoryJei implements IRecipeCategory<AlloySmel
         icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.ALLOY_SMELTER));
         arrow = guiHelper.drawableBuilder(AlloySmelterScreen.TEXTURE, 176, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
-        localizedName = TextUtil.translate("jei", "category.alloy_smelting").getFormattedText();
+        localizedName = TextUtil.translate("jei", "category.alloy_smelting").getString();
     }
 
     @Override
@@ -98,7 +99,7 @@ public class AlloySmeltingRecipeCategoryJei implements IRecipeCategory<AlloySmel
     }
 
     @Override
-    public void draw(AlloySmeltingRecipe recipe, double mouseX, double mouseY) {
-        arrow.draw(92 - GUI_START_X, 35 - GUI_START_Y);
+    public void draw(AlloySmeltingRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
+        arrow.draw(matrixStack, 92 - GUI_START_X, 35 - GUI_START_Y);
     }
 }

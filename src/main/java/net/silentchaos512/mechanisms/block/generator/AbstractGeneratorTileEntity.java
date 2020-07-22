@@ -120,8 +120,8 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
     }
 
     @Override
-    public void read(CompoundNBT tags) {
-        super.read(tags);
+    public void read(BlockState state, CompoundNBT tags) {
+        super.read(state, tags);
         this.burnTime = tags.getInt("BurnTime");
         this.totalBurnTime = tags.getInt("TotalBurnTime");
     }

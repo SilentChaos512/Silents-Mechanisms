@@ -5,7 +5,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tags.FluidTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -26,7 +26,7 @@ public class DieselGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEnt
     public static final int ENERGY_CREATED_PER_TICK = 120;
     public static final int TICKS_PER_MILLIBUCKET = 10;
 
-    static final Tag<Fluid> FUEL_TAG = new FluidTags.Wrapper(new ResourceLocation("forge", "diesel"));
+    static final ITag.INamedTag<Fluid> FUEL_TAG = FluidTags.makeWrapperTag(new ResourceLocation("forge", "diesel").toString());
 
     public DieselGeneratorTileEntity() {
         super(ModTileEntities.dieselGenerator, 2, MAX_ENERGY, 0, MAX_SEND, new FluidTank(4000, s -> s.getFluid().isIn(FUEL_TAG)));

@@ -20,7 +20,7 @@ import java.util.Objects;
 public class CanisterItem extends Item implements IFluidContainer {
     public CanisterItem() {
         super(new Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(64));
-        addPropertyOverride(SilentMechanisms.getId("fluid_level"), (stack, world, entity) -> getFluid(stack).getAmount());
+        //addPropertyOverride(SilentMechanisms.getId("fluid_level"), (stack, world, entity) -> getFluid(stack).getAmount());
     }
 
     public ItemStack getStack(@Nullable Fluid fluid) {

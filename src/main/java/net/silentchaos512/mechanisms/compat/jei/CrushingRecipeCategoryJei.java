@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.compat.jei;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.datafixers.util.Pair;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
@@ -14,6 +15,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.silentchaos512.lib.util.TextRenderUtils;
 import net.silentchaos512.mechanisms.block.crusher.CrusherScreen;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
@@ -42,7 +44,7 @@ public class CrushingRecipeCategoryJei implements IRecipeCategory<CrushingRecipe
         icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.CRUSHER));
         arrow = guiHelper.drawableBuilder(CrusherScreen.TEXTURE, 176, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
-        localizedName = TextUtil.translate("jei", "category.crushing").getFormattedText();
+        localizedName = TextUtil.translate("jei", "category.crushing").getString();
     }
 
     @Override
@@ -96,8 +98,8 @@ public class CrushingRecipeCategoryJei implements IRecipeCategory<CrushingRecipe
     }
 
     @Override
-    public void draw(CrushingRecipe recipe, double mouseX, double mouseY) {
-        arrow.draw(49 - GUI_START_X, 35 - GUI_START_Y);
+    public void draw(CrushingRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
+        arrow.draw(matrixStack, 49 - GUI_START_X, 35 - GUI_START_Y);
 
         FontRenderer font = Minecraft.getInstance().fontRenderer;
 
@@ -107,7 +109,7 @@ public class CrushingRecipeCategoryJei implements IRecipeCategory<CrushingRecipe
             if (chance < 1) {
                 int asPercent = (int) (100 * chance);
                 String text = asPercent < 1 ? "<1%" : asPercent + "%";
-                TextRenderUtils.renderScaled(font, text, 57 + 18 * i, 20, 0.75f, 0xFFFFFF, true);
+                TextRenderUtils.renderScaled(matrixStack, font, new StringTextComponent(text), 57 + 18 * i, 20, 0.75f, 0xFFFFFF, true);
             }
         }
     }

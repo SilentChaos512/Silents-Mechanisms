@@ -8,7 +8,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.ITag;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
@@ -48,7 +48,7 @@ public class AlloySmeltingRecipeBuilder {
         return ingredient(Ingredient.fromItems(item), count);
     }
 
-    public AlloySmeltingRecipeBuilder ingredient(Tag<Item> tag, int count) {
+    public AlloySmeltingRecipeBuilder ingredient(ITag<Item> tag, int count) {
         return ingredient(Ingredient.fromTag(tag), count);
     }
 

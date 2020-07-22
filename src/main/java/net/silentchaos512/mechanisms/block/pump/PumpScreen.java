@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.block.pump;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -22,26 +23,26 @@ public class PumpScreen extends AbstractMachineBaseScreen<PumpContainer> {
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        this.renderBackground();
-        super.render(mouseX, mouseY, partialTicks);
-        this.renderHoveredToolTip(mouseX, mouseY);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        this.renderBackground(matrixStack);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
+        this.func_230459_a_(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderHoveredToolTip(int mouseX, int mouseY) {
+    protected void func_230459_a_(MatrixStack matrixStack, int mouseX, int mouseY) {
         if (isPointInRegion(135, 17, 13, 51, mouseX, mouseY)) {
-            renderTooltip(TextUtil.fluidWithMax(container.getFluidInTank(), RefineryTileEntity.TANK_CAPACITY).getFormattedText(), mouseX, mouseY);
+            renderTooltip(matrixStack, TextUtil.fluidWithMax(container.getFluidInTank(), RefineryTileEntity.TANK_CAPACITY), mouseX, mouseY);
         }
         if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
-            renderTooltip(TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored()).getFormattedText(), mouseX, mouseY);
+            renderTooltip(matrixStack, TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored()), mouseX, mouseY);
         }
-        super.renderHoveredToolTip(mouseX, mouseY);
+        super.func_230459_a_(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(float partialTicks, int mouseX, int mouseY) {
-        super.drawGuiContainerBackgroundLayer(partialTicks, mouseX, mouseY);
+    protected void func_230450_a_(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+        super.func_230450_a_(matrixStack, partialTicks, mouseX, mouseY);
 
         if (minecraft == null) return;
         int xPos = (this.width - this.xSize) / 2;
@@ -50,7 +51,7 @@ public class PumpScreen extends AbstractMachineBaseScreen<PumpContainer> {
         // Energy meter
         int energyBarHeight = container.getEnergyBarHeight();
         if (energyBarHeight > 0) {
-            blit(xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
+            blit(matrixStack, xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
         }
 
         // Tank

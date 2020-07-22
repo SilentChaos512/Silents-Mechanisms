@@ -114,16 +114,15 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
         if (!canMachineRun() || world.getGameTime() % getPumpDelay() != 0) return;
 
         // TODO: Could probably optimize this to not iterate over the entire region each time
-        try (BlockPos.PooledMutable blockPos = BlockPos.PooledMutable.retain()) {
-            for (int y = pos.getY(); y > Math.max(0, pos.getY() - getVerticalRange()); --y) {
-                int range = getHorizontalRange();
-                for (int x = pos.getX() - range; x <= pos.getX() + range; ++x) {
-                    for (int z = pos.getZ() - range; z <= pos.getZ() + range; ++z) {
-                        blockPos.setPos(x, y, z);
-                        BlockState state = world.getBlockState(blockPos);
-                        if (tryPumpFluid(blockPos, x, y, z, state)) {
-                            return;
-                        }
+        BlockPos.Mutable blockPos = new BlockPos.Mutable();
+        for (int y = pos.getY(); y > Math.max(0, pos.getY() - getVerticalRange()); --y) {
+            int range = getHorizontalRange();
+            for (int x = pos.getX() - range; x <= pos.getX() + range; ++x) {
+                for (int z = pos.getZ() - range; z <= pos.getZ() + range; ++z) {
+                    blockPos.setPos(x, y, z);
+                    BlockState state = world.getBlockState(blockPos);
+                    if (tryPumpFluid(blockPos, x, y, z, state)) {
+                        return;
                     }
                 }
             }
@@ -196,9 +195,9 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
     }
 
     @Override
-    public void read(CompoundNBT tags) {
+    public void read(BlockState state, CompoundNBT tags) {
         this.tank.readFromNBT(tags.getCompound("Tank"));
-        super.read(tags);
+        super.read(state, tags);
     }
 
     @Override

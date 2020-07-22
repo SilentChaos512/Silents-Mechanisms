@@ -5,8 +5,8 @@ import net.minecraft.data.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.IItemProvider;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.lib.data.ExtendedShapedRecipeBuilder;
@@ -618,19 +618,19 @@ public class ModRecipesProvider extends RecipeProvider {
                 .build(consumer);
     }
 
-    public static CrushingRecipeBuilder crushingChunks(Tag<Item> chunks, IItemProvider dust) {
+    public static CrushingRecipeBuilder crushingChunks(ITag<Item> chunks, IItemProvider dust) {
         return CrushingRecipeBuilder.crushingChunks(chunks, dust, CRUSHING_CHUNKS_TIME, CRUSHING_CHUNKS_EXTRA_CHANCE);
     }
 
-    public static CrushingRecipeBuilder crushingIngot(Tag<Item> ingot, IItemProvider dust) {
+    public static CrushingRecipeBuilder crushingIngot(ITag<Item> ingot, IItemProvider dust) {
         return CrushingRecipeBuilder.crushingIngot(ingot, dust, CRUSHING_INGOT_TIME);
     }
 
-    public static CrushingRecipeBuilder crushingOre(Tag<Item> ore, IItemProvider chunks, @Nullable IItemProvider extra) {
+    public static CrushingRecipeBuilder crushingOre(ITag<Item> ore, IItemProvider chunks, @Nullable IItemProvider extra) {
         return CrushingRecipeBuilder.crushingOre(ore, chunks, CRUSHING_ORE_TIME, extra, CRUSHING_ORE_STONE_CHANCE);
     }
 
-    public static CrushingRecipeBuilder crushingOreBonus(Tag<Item> ore, IItemProvider item) {
+    public static CrushingRecipeBuilder crushingOreBonus(ITag<Item> ore, IItemProvider item) {
         return CrushingRecipeBuilder.builder(ore, CRUSHING_ORE_TIME)
                 .result(item, 2)
                 .result(item, 1, 0.1f)

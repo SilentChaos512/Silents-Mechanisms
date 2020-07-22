@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.block;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.INBT;
@@ -217,13 +218,13 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
     }
 
     @Override
-    public void read(CompoundNBT tags) {
+    public void read(BlockState state, CompoundNBT tags) {
         ListNBT list = tags.getList("Tanks", 10);
         for (int i = 0; i < tanks.length && i < list.size(); ++i) {
             INBT nbt = list.get(i);
             tanks[i].setFluid(FluidStack.loadFluidStackFromNBT((CompoundNBT) nbt));
         }
-        super.read(tags);
+        super.read(state, tags);
     }
 
     @Override

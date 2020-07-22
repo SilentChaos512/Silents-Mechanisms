@@ -7,14 +7,14 @@ import net.minecraft.block.SixWayBlock;
 import net.minecraft.item.BlockItemUseContext;
 import net.minecraft.item.ItemUseContext;
 import net.minecraft.state.EnumProperty;
-import net.minecraft.state.IProperty;
+import net.minecraft.state.Property;
 import net.minecraft.state.StateContainer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Direction;
 import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
@@ -70,7 +70,7 @@ public class PipeBlock extends SixWayBlock implements IWrenchable {
         BlockPos pos = context.getPos();
         World world = context.getWorld();
         BlockState state = world.getBlockState(pos);
-        Vec3d relative = context.getHitVec().subtract(pos.getX(), pos.getY(), pos.getZ());
+        Vector3d relative = context.getHitVec().subtract(pos.getX(), pos.getY(), pos.getZ());
         SilentMechanisms.LOGGER.debug("onWrench: {}", relative);
 
         Direction side = getClickedConnection(relative);
@@ -88,7 +88,7 @@ public class PipeBlock extends SixWayBlock implements IWrenchable {
     }
 
     @Nullable
-    private static Direction getClickedConnection(Vec3d relative) {
+    private static Direction getClickedConnection(Vector3d relative) {
         if (relative.x < 0.25)
             return Direction.WEST;
         if (relative.x > 0.75)
@@ -105,7 +105,7 @@ public class PipeBlock extends SixWayBlock implements IWrenchable {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends Comparable<T>> BlockState cycleProperty(BlockState state, IProperty<T> propertyIn) {
+    private static <T extends Comparable<T>> BlockState cycleProperty(BlockState state, Property<T> propertyIn) {
         T value = getAdjacentValue(propertyIn.getAllowedValues(), state.get(propertyIn));
         if (value == ConnectionType.NONE)
             value = (T) ConnectionType.IN;

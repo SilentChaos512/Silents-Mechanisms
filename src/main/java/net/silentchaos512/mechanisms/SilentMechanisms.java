@@ -34,8 +34,7 @@ public final class SilentMechanisms {
 
     public SilentMechanisms() {
         INSTANCE = this;
-        //noinspection Convert2MethodRef
-        PROXY = DistExecutor.runForDist(() -> () -> new SideProxy.Client(), () -> () -> new SideProxy.Server());
+        PROXY = DistExecutor.safeRunForDist(() -> SideProxy.Client::new, () -> SideProxy.Server::new);
     }
 
     public static String getVersion() {

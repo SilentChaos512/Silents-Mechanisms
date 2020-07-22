@@ -249,8 +249,8 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     }
 
     @Override
-    public void read(CompoundNBT tags) {
-        super.read(tags);
+    public void read(BlockState state, CompoundNBT tags) {
+        super.read(state, tags);
         this.progress = tags.getInt("Progress");
         this.processTime = tags.getInt("ProcessTime");
     }

@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
@@ -24,6 +25,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 
 public class EnergyStoringItem extends Item {
+    public static final ResourceLocation CHARGE = SilentMechanisms.getId("charge");
+
     private final int maxEnergy;
     private final int maxReceive;
     private final int maxExtract;
@@ -37,10 +40,9 @@ public class EnergyStoringItem extends Item {
         this.maxEnergy = maxEnergy;
         this.maxReceive = maxReceive;
         this.maxExtract = maxExtract;
-        addPropertyOverride(SilentMechanisms.getId("charge"), (stack, world, entity) -> getChargeRatio(stack));
     }
 
-    private static float getChargeRatio(ItemStack stack) {
+    public static float getChargeRatio(ItemStack stack) {
         LazyOptional<IEnergyStorage> optional = stack.getCapability(CapabilityEnergy.ENERGY);
         if (optional.isPresent()) {
             IEnergyStorage energyStorage = optional.orElseThrow(IllegalStateException::new);

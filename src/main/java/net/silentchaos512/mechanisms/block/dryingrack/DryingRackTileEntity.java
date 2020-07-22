@@ -150,8 +150,8 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
     }
 
     @Override
-    public void read(CompoundNBT compound) {
-        super.read(compound);
+    public void read(BlockState state, CompoundNBT compound) {
+        super.read(state, compound);
         if (compound.contains("Item")) {
             setInventorySlotContents(0, ItemStack.read(compound.getCompound("Item")));
         }

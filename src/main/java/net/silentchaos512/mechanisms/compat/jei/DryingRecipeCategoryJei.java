@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.compat.jei;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -40,7 +41,7 @@ public class DryingRecipeCategoryJei implements IRecipeCategory<DryingRecipe> {
         icon = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.OAK_DRYING_RACK));
         arrow = guiHelper.drawableBuilder(CompressorScreen.TEXTURE, 176, 14, 24, 17)
                 .buildAnimated(200, IDrawableAnimated.StartDirection.LEFT, false);
-        localizedName = TextUtil.translate("jei", "category.drying").getFormattedText();
+        localizedName = TextUtil.translate("jei", "category.drying").getString();
     }
 
     @Override
@@ -85,10 +86,10 @@ public class DryingRecipeCategoryJei implements IRecipeCategory<DryingRecipe> {
     }
 
     @Override
-    public void draw(DryingRecipe recipe, double mouseX, double mouseY) {
-        arrow.draw(79 - GUI_START_X, 35 - GUI_START_Y);
+    public void draw(DryingRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
+        arrow.draw(matrixStack, 79 - GUI_START_X, 35 - GUI_START_Y);
         FontRenderer font = Minecraft.getInstance().fontRenderer;
         ITextComponent text = TextUtil.translate("misc", "timeInSeconds", recipe.getProcessTime() / 20);
-        TextRenderUtils.renderScaled(font, text.getFormattedText(), 24, 20, 0.67f, 0xFFFFFF, true);
+        TextRenderUtils.renderScaled(matrixStack, font, text, 24, 20, 0.67f, 0xFFFFFF, true);
     }
 }

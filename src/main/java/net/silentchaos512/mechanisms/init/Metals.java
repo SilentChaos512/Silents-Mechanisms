@@ -5,8 +5,8 @@ import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
@@ -61,14 +61,14 @@ public enum Metals {
     private final Supplier<Item> dustSupplier;
     private final Supplier<Item> ingotSupplier;
     private final Supplier<Item> nuggetSupplier;
-    private final Tag<Block> storageBlockTag;
-    private final Tag<Block> oreTag;
-    private final Tag<Item> storageBlockItemTag;
-    private final Tag<Item> oreItemTag;
-    private final Tag<Item> chunksTag;
-    private final Tag<Item> dustTag;
-    private final Tag<Item> ingotTag;
-    private final Tag<Item> nuggetTag;
+    private final ITag.INamedTag<Block> storageBlockTag;
+    private final ITag.INamedTag<Block> oreTag;
+    private final ITag.INamedTag<Item> storageBlockItemTag;
+    private final ITag.INamedTag<Item> oreItemTag;
+    private final ITag.INamedTag<Item> chunksTag;
+    private final ITag.INamedTag<Item> dustTag;
+    private final ITag.INamedTag<Item> ingotTag;
+    private final ITag.INamedTag<Item> nuggetTag;
 
     Metals(Builder builder) {
         this(builder, builder.name);
@@ -87,8 +87,8 @@ public enum Metals {
         this.nuggetSupplier = builder.nugget;
         this.oreTag = builder.oreTag;
         this.storageBlockTag = builder.storageBlockTag;
-        this.oreItemTag = this.oreTag != null ? new ItemTags.Wrapper(this.oreTag.getId()) : null;
-        this.storageBlockItemTag = this.storageBlockTag != null ? new ItemTags.Wrapper(this.storageBlockTag.getId()) : null;
+        this.oreItemTag = this.oreTag != null ? Builder.itemTag(this.oreTag.getName()) : null;
+        this.storageBlockItemTag = this.storageBlockTag != null ? Builder.itemTag(this.storageBlockTag.getName()) : null;
         this.chunksTag = builder.chunksTag;
         this.dustTag = builder.dustTag;
         this.ingotTag = builder.ingotTag;
@@ -123,35 +123,35 @@ public enum Metals {
         return nugget != null ? Optional.of(nugget.get()) : Optional.empty();
     }
 
-    public Optional<Tag<Block>> getOreTag() {
+    public Optional<ITag.INamedTag<Block>> getOreTag() {
         return oreTag != null ? Optional.of(oreTag) : Optional.empty();
     }
 
-    public Optional<Tag<Block>> getStorageBlockTag() {
+    public Optional<ITag.INamedTag<Block>> getStorageBlockTag() {
         return storageBlockTag != null ? Optional.of(storageBlockTag) : Optional.empty();
     }
 
-    public Optional<Tag<Item>> getOreItemTag() {
+    public Optional<ITag.INamedTag<Item>> getOreItemTag() {
         return oreItemTag != null ? Optional.of(oreItemTag) : Optional.empty();
     }
 
-    public Optional<Tag<Item>> getStorageBlockItemTag() {
+    public Optional<ITag.INamedTag<Item>> getStorageBlockItemTag() {
         return storageBlockItemTag != null ? Optional.of(storageBlockItemTag) : Optional.empty();
     }
 
-    public Optional<Tag<Item>> getChunksTag() {
+    public Optional<ITag.INamedTag<Item>> getChunksTag() {
         return chunksTag != null ? Optional.of(chunksTag) : Optional.empty();
     }
 
-    public Optional<Tag<Item>> getDustTag() {
+    public Optional<ITag.INamedTag<Item>> getDustTag() {
         return dustTag != null ? Optional.of(dustTag) : Optional.empty();
     }
 
-    public Optional<Tag<Item>> getIngotTag() {
+    public Optional<ITag.INamedTag<Item>> getIngotTag() {
         return ingotTag != null ? Optional.of(ingotTag) : Optional.empty();
     }
 
-    public Optional<Tag<Item>> getNuggetTag() {
+    public Optional<ITag.INamedTag<Item>> getNuggetTag() {
         return nuggetTag != null ? Optional.of(nuggetTag) : Optional.empty();
     }
 
@@ -160,7 +160,7 @@ public enum Metals {
     }
 
     public Ingredient getSmeltables(boolean includeIngot) {
-        Stream.Builder<Tag<Item>> builder = Stream.builder();
+        Stream.Builder<ITag.INamedTag<Item>> builder = Stream.builder();
         if (includeIngot) {
             getIngotTag().ifPresent(builder::add);
         }
@@ -229,12 +229,12 @@ public enum Metals {
         Supplier<Item> dust;
         Supplier<Item> ingot;
         Supplier<Item> nugget;
-        Tag<Block> oreTag;
-        Tag<Block> storageBlockTag;
-        Tag<Item> chunksTag;
-        Tag<Item> dustTag;
-        Tag<Item> ingotTag;
-        Tag<Item> nuggetTag;
+        ITag.INamedTag<Block> oreTag;
+        ITag.INamedTag<Block> storageBlockTag;
+        ITag.INamedTag<Item> chunksTag;
+        ITag.INamedTag<Item> dustTag;
+        ITag.INamedTag<Item> ingotTag;
+        ITag.INamedTag<Item> nuggetTag;
 
         Builder(String name) {
             this.name = name;
@@ -286,16 +286,16 @@ public enum Metals {
             return this;
         }
 
-        private static Tag<Block> blockTag(String path) {
-            return new BlockTags.Wrapper(new ResourceLocation("forge", path));
+        private static ITag.INamedTag<Block> blockTag(String path) {
+            return BlockTags.makeWrapperTag(new ResourceLocation("forge", path).toString());
         }
 
-        private static Tag<Item> itemTag(String path) {
-            return new ItemTags.Wrapper(new ResourceLocation("forge", path));
+        private static ITag.INamedTag<Item> itemTag(String path) {
+            return ItemTags.makeWrapperTag(new ResourceLocation("forge", path).toString());
         }
 
-        private static Tag<Item> itemTag(ResourceLocation tag) {
-            return new ItemTags.Wrapper(tag);
+        private static ITag.INamedTag<Item> itemTag(ResourceLocation tag) {
+            return ItemTags.makeWrapperTag(tag.toString());
         }
     }
 }

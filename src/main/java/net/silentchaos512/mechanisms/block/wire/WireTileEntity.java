@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.block.wire;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
@@ -26,9 +27,9 @@ public class WireTileEntity extends TileEntity {
     }
 
     @Override
-    public void read(CompoundNBT compound) {
+    public void read(BlockState state, CompoundNBT compound) {
         this.energyStored = compound.getInt("EnergyStored");
-        super.read(compound);
+        super.read(state, compound);
     }
 
     @Override

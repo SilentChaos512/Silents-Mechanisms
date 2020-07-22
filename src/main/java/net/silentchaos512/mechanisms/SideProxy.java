@@ -19,6 +19,7 @@ import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.silentchaos512.lib.event.Greetings;
+import net.silentchaos512.mechanisms.client.ModModelProperties;
 import net.silentchaos512.mechanisms.compat.computercraft.SMechComputerCraftCompat;
 import net.silentchaos512.mechanisms.config.Config;
 import net.silentchaos512.mechanisms.data.DataGenerators;
@@ -99,6 +100,7 @@ class SideProxy implements IProxy {
             ModBlocks.registerRenderTypes(event);
             ModContainers.registerScreens(event);
             ModTileEntities.registerRenderers(event);
+            ModModelProperties.register(event);
         }
 
         public void setFog(EntityViewRenderEvent.FogColors fog) {

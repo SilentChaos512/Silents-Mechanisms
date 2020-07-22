@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.block;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.play.server.SUpdateTileEntityPacket;
@@ -80,8 +81,8 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
     }
 
     @Override
-    public void read(CompoundNBT tags) {
-        super.read(tags);
+    public void read(BlockState state, CompoundNBT tags) {
+        super.read(state, tags);
         SyncVariable.Helper.readSyncVars(this, tags);
         readEnergy(tags);
     }
