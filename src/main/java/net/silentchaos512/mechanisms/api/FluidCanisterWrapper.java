@@ -46,7 +46,7 @@ public class FluidCanisterWrapper implements IFluidHandlerItem, ICapabilityProvi
         if (fluidStack.isEmpty()) {
             container = new ItemStack(ModItems.CANISTER, container.getCount());
         } else {
-            container = ModItems.CANISTER.get().getStack(fluidStack.getFluid(), container.getCount());
+            container = CanisterItem.getStack(fluidStack.getFluid(), container.getCount());
         }
     }
 

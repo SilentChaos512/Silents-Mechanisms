@@ -25,7 +25,9 @@ import net.silentchaos512.mechanisms.block.refinery.RefineryScreen;
 import net.silentchaos512.mechanisms.block.solidifier.SolidifierScreen;
 import net.silentchaos512.mechanisms.crafting.recipe.*;
 import net.silentchaos512.mechanisms.init.ModBlocks;
+import net.silentchaos512.mechanisms.init.ModItems;
 import net.silentchaos512.mechanisms.init.Registration;
+import net.silentchaos512.mechanisms.item.CanisterItem;
 import net.silentchaos512.mechanisms.util.Constants;
 
 import java.util.List;
@@ -103,5 +105,10 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MIXER), Constants.MIXING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.REFINERY), Constants.REFINING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.SOLIDIFIER), Constants.SOLIDIFYING);
+    }
+
+    @Override
+    public void registerItemSubtypes(ISubtypeRegistration registration) {
+        registration.registerSubtypeInterpreter(ModItems.CANISTER.get(), CanisterItem::getFluidKey);
     }
 }

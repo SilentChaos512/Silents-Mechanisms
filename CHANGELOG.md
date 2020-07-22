@@ -3,6 +3,13 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.0] - 2020-07-22
+- Ported to 1.16.1 (with concurrent 1.15.2 releases for now)
+### Added
+- Empty canister item, possible fix for [#69]. Existing canisters can be converted by placing them into a crafting grid.
+### Changed
+- Some recipes tweaked
+
 ## [0.7.6] - 2020-07-04
 ### Added
 - Lava to obsidian solidifier recipe

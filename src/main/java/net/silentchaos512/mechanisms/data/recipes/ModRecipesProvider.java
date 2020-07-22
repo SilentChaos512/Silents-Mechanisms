@@ -233,7 +233,7 @@ public class ModRecipesProvider extends RecipeProvider {
                 .patternLine("OHO")
                 .key('#', Metals.ALUMINUM_STEEL.getIngotTag().get())
                 .key('C', CraftingItems.CIRCUIT_BOARD)
-                .key('/', ModItems.CANISTER)
+                .key('/', ModItems.EMPTY_CANISTER)
                 .key('X', ModBlocks.ALLOY_MACHINE_FRAME)
                 .key('O', Metals.ELECTRUM.getIngotTag().get())
                 .key('H', CraftingItems.HEATING_ELEMENT)
@@ -246,7 +246,7 @@ public class ModRecipesProvider extends RecipeProvider {
                 .patternLine("OHO")
                 .key('#', Metals.BISMUTH_STEEL.getIngotTag().get())
                 .key('C', CraftingItems.CIRCUIT_BOARD)
-                .key('/', ModItems.CANISTER)
+                .key('/', ModItems.EMPTY_CANISTER)
                 .key('X', ModBlocks.ALLOY_MACHINE_FRAME)
                 .key('O', Metals.BRASS.getIngotTag().get())
                 .key('H', Items.PISTON)
@@ -259,7 +259,7 @@ public class ModRecipesProvider extends RecipeProvider {
                 .patternLine("OHO")
                 .key('#', Metals.STEEL.getIngotTag().get())
                 .key('C', CraftingItems.CIRCUIT_BOARD)
-                .key('/', ModItems.CANISTER)
+                .key('/', ModItems.EMPTY_CANISTER)
                 .key('X', ModBlocks.ALLOY_MACHINE_FRAME)
                 .key('O', Metals.SILVER.getIngotTag().get())
                 .key('H', Items.IRON_BARS)
@@ -433,17 +433,21 @@ public class ModRecipesProvider extends RecipeProvider {
                 .patternLine("/C#")
                 .patternLine(" B#")
                 .key('/', Metals.ALUMINUM.getIngotTag().get())
-                .key('C', ModItems.CANISTER)
+                .key('C', ModItems.EMPTY_CANISTER)
                 .key('#', CraftingItems.PLASTIC_SHEET)
                 .key('B', ModItems.BATTERY)
                 .build(consumer);
 
-        ExtendedShapedRecipeBuilder.vanillaBuilder(ModItems.CANISTER, 8)
+        ExtendedShapedRecipeBuilder.vanillaBuilder(ModItems.EMPTY_CANISTER, 8)
                 .patternLine(" # ")
                 .patternLine("# #")
                 .patternLine(" # ")
                 .key('#', Metals.ALUMINUM.getIngotTag().get())
                 .build(consumer);
+
+        ExtendedShapelessRecipeBuilder.vanillaBuilder(ModItems.EMPTY_CANISTER)
+                .addIngredient(ModItems.CANISTER)
+                .build(consumer, SilentMechanisms.getId("canister_clear"));
     }
 
     private void registerSmelting(Consumer<IFinishedRecipe> consumer) {

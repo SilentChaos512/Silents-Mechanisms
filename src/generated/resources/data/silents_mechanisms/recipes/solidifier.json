@@ -13,7 +13,7 @@
       "item": "silents_mechanisms:circuit_board"
     },
     "/": {
-      "item": "silents_mechanisms:canister"
+      "item": "silents_mechanisms:empty_canister"
     },
     "X": {
       "item": "silents_mechanisms:alloy_machine_frame"

@@ -4,6 +4,7 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.IItemProvider;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
@@ -12,23 +13,25 @@ import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.api.IFluidContainer;
+import net.silentchaos512.mechanisms.init.ModItems;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
 import javax.annotation.Nullable;
 import java.util.Objects;
 
 public class CanisterItem extends Item implements IFluidContainer {
-    public CanisterItem() {
-        super(new Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(64));
+    public CanisterItem(Properties properties) {
+        super(properties);
         addPropertyOverride(SilentMechanisms.getId("fluid_level"), (stack, world, entity) -> getFluid(stack).getAmount());
     }
 
-    public ItemStack getStack(@Nullable Fluid fluid) {
+    public static ItemStack getStack(@Nullable Fluid fluid) {
         return getStack(fluid, 1);
     }
 
-    public ItemStack getStack(@Nullable Fluid fluid, int count) {
-        ItemStack result = new ItemStack(this, count);
+    public static ItemStack getStack(@Nullable Fluid fluid, int count) {
+        IItemProvider item = fluid != null ? ModItems.CANISTER : ModItems.EMPTY_CANISTER;
+        ItemStack result = new ItemStack(item, count);
         if (fluid != null) {
             ResourceLocation fluidId = Objects.requireNonNull(fluid.getRegistryName());
             result.getOrCreateTag().putString("CanisterFluid", fluidId.toString());
@@ -42,12 +45,16 @@ public class CanisterItem extends Item implements IFluidContainer {
         return new FluidCanisterWrapper(stack);
     }*/
 
+    public static String getFluidKey(ItemStack stack) {
+        return stack.hasTag() ? stack.getOrCreateTag().getString("CanisterFluid") : "";
+    }
+
     @Override
     public FluidStack getFluid(ItemStack stack) {
         if (!(stack.getItem() instanceof CanisterItem)) {
             return FluidStack.EMPTY;
         }
-        ResourceLocation fluidId = ResourceLocation.tryCreate(stack.getOrCreateTag().getString("CanisterFluid"));
+        ResourceLocation fluidId = ResourceLocation.tryCreate(getFluidKey(stack));
         if (fluidId == null) {
             return FluidStack.EMPTY;
         }
@@ -77,7 +84,7 @@ public class CanisterItem extends Item implements IFluidContainer {
 
     @Override
     public ItemStack getContainerItem(ItemStack itemStack) {
-        return new ItemStack(itemStack.getItem());
+        return new ItemStack(ModItems.EMPTY_CANISTER);
     }
 
     @Override
@@ -86,7 +93,7 @@ public class CanisterItem extends Item implements IFluidContainer {
             items.add(getStack(null));
             ForgeRegistries.FLUIDS.getValues().stream()
                     .filter(f -> f.isSource(f.getDefaultState()))
-                    .map(this::getStack)
+                    .map(CanisterItem::getStack)
                     .forEach(items::add);
         }
     }

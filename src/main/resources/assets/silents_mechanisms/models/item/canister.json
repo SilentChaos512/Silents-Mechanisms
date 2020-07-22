@@ -1,14 +1,7 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "silents_mechanisms:item/canister"
-  },
-  "overrides": [
-    {
-      "predicate": {
-        "silents_mechanisms:fluid_level": 1
-      },
-      "model": "silents_mechanisms:item/canister_filled"
-    }
-  ]
+    "layer0": "silents_mechanisms:item/canister",
+    "layer1": "silents_mechanisms:item/canister_fluid"
+  }
 }
