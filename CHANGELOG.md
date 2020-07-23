@@ -3,6 +3,10 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.1] - 2020-07-23
+### Fixed
+- Error messages about Silent Gear parts failing to load (removed legacy parts) [#96]
+
 ## [0.8.0] - 2020-07-22
 - Ported to 1.16.1 (with concurrent 1.15.2 releases for now)
 ### Added
