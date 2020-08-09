@@ -448,6 +448,10 @@ public class ModRecipesProvider extends RecipeProvider {
         ExtendedShapelessRecipeBuilder.vanillaBuilder(ModItems.EMPTY_CANISTER)
                 .addIngredient(ModItems.CANISTER)
                 .build(consumer, SilentMechanisms.getId("canister_clear"));
+
+        ExtendedShapelessRecipeBuilder.vanillaBuilder(Items.LEATHER)
+                .addIngredient(CraftingItems.ZOMBIE_LEATHER, 4)
+                .build(consumer);
     }
 
     private void registerSmelting(Consumer<IFinishedRecipe> consumer) {
