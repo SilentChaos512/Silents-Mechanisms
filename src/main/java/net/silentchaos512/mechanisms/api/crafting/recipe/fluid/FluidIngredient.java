@@ -68,10 +68,10 @@ public class FluidIngredient implements Predicate<FluidStack> {
      */
     public List<FluidStack> getFluids() {
         if (tag != null) {
-            return tag.getAllElements().stream().map(f -> new FluidStack(f, 1000)).collect(Collectors.toList());
+            return tag.getAllElements().stream().map(f -> new FluidStack(f, this.amount)).collect(Collectors.toList());
         }
         if (fluid != null) {
-            return Collections.singletonList(new FluidStack(fluid, 1000));
+            return Collections.singletonList(new FluidStack(fluid, this.amount));
         }
         return Collections.emptyList();
     }
