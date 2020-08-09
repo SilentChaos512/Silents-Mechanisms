@@ -1,6 +1,10 @@
 package net.silentchaos512.mechanisms.init;
 
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.OreBlock;
+import net.minecraft.block.SoundType;
+import net.minecraft.block.material.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.Ingredient;
@@ -8,11 +12,11 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ToolType;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.MetalBlock;
-import net.silentchaos512.mechanisms.block.OreBlockSM;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -241,7 +245,12 @@ public enum Metals {
         }
 
         Builder ore(Ores ore) {
-            this.ore = () -> new OreBlockSM(ore.getHardness(), ore.getHarvestLevel());
+            this.ore = () -> new OreBlock(AbstractBlock.Properties.create(Material.ROCK)
+                    .setRequiresTool()
+                    .harvestTool(ToolType.PICKAXE)
+                    .harvestLevel(ore.getHarvestLevel())
+                    .hardnessAndResistance(ore.getHardness(), 3)
+                    .sound(SoundType.STONE));
             this.oreTag = blockTag("ores/" + name);
             return this;
         }
