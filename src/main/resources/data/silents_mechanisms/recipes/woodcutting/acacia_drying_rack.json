@@ -1,14 +1,14 @@
 {
-    "conditions": [
-        {
-            "type": "forge:mod_loaded",
-            "modid": "corail_woodcutter"
-        }
-    ],
-    "type": "corail_woodcutter:woodcutting",
-    "ingredient": {
-        "item": "minecraft:acacia_log"
-    },
-    "result": "silents_mechanisms:acacia_drying_rack",
-    "count": 3
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "woodcutter"
+    }
+  ],
+  "type": "woodcutter:woodcutting",
+  "ingredient": {
+    "item": "minecraft:acacia_plank"
+  },
+  "result": "silents_mechanisms:acacia_drying_rack",
+  "count": 1
 }
