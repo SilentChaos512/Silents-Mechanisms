@@ -1,0 +1,7 @@
+{
+  "variants": {
+    "": {
+      "model": "silents_mechanisms:block/copper_block"
+    }
+  }
+}

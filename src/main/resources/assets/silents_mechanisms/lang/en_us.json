@@ -74,6 +74,7 @@
     "block.silents_mechanisms.uranium_block": "Block of Uranium",
     "block.silents_mechanisms.uranium_ore": "Uranium Ore",
     "block.silents_mechanisms.wire": "Wire",
+    "block.silents_mechanisms.pipe": "Pipe",
     "block.silents_mechanisms.zinc_block": "Block of Zinc",
     "block.silents_mechanisms.zinc_ore": "Zinc Ore",
     "container.silents_mechanisms.alloy_smelter": "Alloy Smelter",

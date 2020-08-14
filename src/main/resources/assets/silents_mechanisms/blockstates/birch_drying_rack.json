@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "silents_mechanisms:block/birch_drying_rack",
+      "y": 180
+    },
+    "facing=south": {
+      "model": "silents_mechanisms:block/birch_drying_rack"
+    },
+    "facing=west": {
+      "model": "silents_mechanisms:block/birch_drying_rack",
+      "y": 90
+    },
+    "facing=east": {
+      "model": "silents_mechanisms:block/birch_drying_rack",
+      "y": 270
+    }
+  }
+}
