@@ -23,6 +23,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.block.AbstractMachineBlock;
 import net.silentchaos512.mechanisms.block.MachineFrameBlock;
 import net.silentchaos512.mechanisms.block.alloysmelter.AlloySmelterBlock;
 import net.silentchaos512.mechanisms.block.batterybox.BatteryBoxBlock;
@@ -98,6 +99,8 @@ public final class ModBlocks {
     public static void registerRenderTypes(FMLClientSetupEvent event) {
         RenderTypeLookup.setRenderLayer(STONE_MACHINE_FRAME.get(), RenderType.getCutout());
         RenderTypeLookup.setRenderLayer(ALLOY_MACHINE_FRAME.get(), RenderType.getCutout());
+        Registration.getBlocks(AbstractMachineBlock.class).forEach(block ->
+                RenderTypeLookup.setRenderLayer(block, RenderType.getTranslucent()));
     }
 
     private static <T extends Block> BlockRegistryObject<T> registerNoItem(String name, Supplier<T> block) {
