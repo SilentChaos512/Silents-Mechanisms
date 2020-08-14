@@ -1,0 +1,17 @@
+{
+  "type": "silents_mechanisms:crushing",
+  "process_time": 400,
+  "ingredient": {
+    "item": "minecraft:nether_gold_ore"
+  },
+  "results": [
+    {
+      "item": "silents_mechanisms:gold_chunks",
+      "count": 2
+    },
+    {
+      "item": "minecraft:netherrack",
+      "chance": 0.1
+    }
+  ]
+}

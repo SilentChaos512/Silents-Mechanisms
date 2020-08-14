@@ -1,0 +1,21 @@
+{
+  "type": "silents_mechanisms:crushing",
+  "process_time": 800,
+  "ingredient": {
+    "item": "minecraft:ancient_debris"
+  },
+  "results": [
+    {
+      "item": "minecraft:netherite_scrap",
+      "count": 2
+    },
+    {
+      "item": "minecraft:netherite_scrap",
+      "chance": 0.1
+    },
+    {
+      "item": "minecraft:netherite_scrap",
+      "chance": 0.01
+    }
+  ]
+}

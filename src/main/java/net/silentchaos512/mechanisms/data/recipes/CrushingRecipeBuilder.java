@@ -61,6 +61,15 @@ public final class CrushingRecipeBuilder {
         return builder;
     }
 
+    public static CrushingRecipeBuilder crushingOre(IItemProvider ore, IItemProvider chunks, int processTime, @Nullable IItemProvider extra, float extraChance) {
+        CrushingRecipeBuilder builder = builder(ore, processTime);
+        builder.result(chunks, 2);
+        if (extra != null) {
+            builder.result(extra, 1, extraChance);
+        }
+        return builder;
+    }
+
     public CrushingRecipeBuilder result(IItemProvider item, int count, float chance) {
         results.put(new ItemStack(item, count), chance);
         return this;

@@ -5,6 +5,7 @@ import net.minecraft.data.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.IItemProvider;
@@ -12,6 +13,7 @@ import net.minecraftforge.common.Tags;
 import net.silentchaos512.lib.data.ExtendedShapedRecipeBuilder;
 import net.silentchaos512.lib.data.ExtendedShapelessRecipeBuilder;
 import net.silentchaos512.mechanisms.SilentMechanisms;
+import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.FluidIngredient;
 import net.silentchaos512.mechanisms.init.Metals;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
@@ -46,6 +48,7 @@ public class ModRecipesProvider extends RecipeProvider {
         registerAlloySmelting(consumer);
         registerCompressingRecipes(consumer);
         registerCrushingRecipes(consumer);
+        registerInfusingRecipes(consumer);
     }
 
     private void registerCrafting(Consumer<IFinishedRecipe> consumer) {
@@ -585,7 +588,15 @@ public class ModRecipesProvider extends RecipeProvider {
         crushingOreBonus(Tags.Items.ORES_DIAMOND, Items.DIAMOND).build(consumer);
         crushingOreBonus(Tags.Items.ORES_EMERALD, Items.EMERALD).build(consumer);
         crushingOre(Tags.Items.ORES_GOLD, Metals.GOLD.getChunks().get(), Blocks.COBBLESTONE).build(consumer);
+        crushingOre(Blocks.NETHER_GOLD_ORE, Metals.GOLD.getChunks().get(), Blocks.NETHERRACK)
+                .build(consumer, SilentMechanisms.getId("crushing/gold_chunks_nether"));
         crushingOre(Tags.Items.ORES_IRON, Metals.IRON.getChunks().get(), Blocks.COBBLESTONE).build(consumer);
+
+        CrushingRecipeBuilder.builder(Blocks.ANCIENT_DEBRIS, 2 * CRUSHING_ORE_TIME)
+                .result(Items.NETHERITE_SCRAP, 2)
+                .result(Items.NETHERITE_SCRAP, 1, 0.1f)
+                .result(Items.NETHERITE_SCRAP, 1, 0.01f)
+                .build(consumer);
 
         // Others
         CrushingRecipeBuilder.builder(Tags.Items.RODS_BLAZE, 200)
@@ -626,6 +637,26 @@ public class ModRecipesProvider extends RecipeProvider {
                 .build(consumer);
     }
 
+    private static void registerInfusingRecipes(Consumer<IFinishedRecipe> consumer) {
+        FluidIngredient water100mb = new FluidIngredient(FluidTags.WATER, 100);
+        InfusingRecipeBuilder.builder(Items.WHITE_CONCRETE, 1, 100, Items.WHITE_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.ORANGE_CONCRETE, 1, 100, Items.ORANGE_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.MAGENTA_CONCRETE, 1, 100, Items.MAGENTA_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.LIGHT_BLUE_CONCRETE, 1, 100, Items.LIGHT_BLUE_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.YELLOW_CONCRETE, 1, 100, Items.YELLOW_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.LIME_CONCRETE, 1, 100, Items.LIME_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.PINK_CONCRETE, 1, 100, Items.PINK_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.GRAY_CONCRETE, 1, 100, Items.GRAY_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.LIGHT_GRAY_CONCRETE, 1, 100, Items.LIGHT_GRAY_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.CYAN_CONCRETE, 1, 100, Items.CYAN_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.PURPLE_CONCRETE, 1, 100, Items.PURPLE_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.BLUE_CONCRETE, 1, 100, Items.BLUE_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.BROWN_CONCRETE, 1, 100, Items.BROWN_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.GREEN_CONCRETE, 1, 100, Items.GREEN_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.RED_CONCRETE, 1, 100, Items.RED_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.BLACK_CONCRETE, 1, 100, Items.BLACK_CONCRETE_POWDER, water100mb);
+    }
+
     public static CrushingRecipeBuilder crushingChunks(ITag<Item> chunks, IItemProvider dust) {
         return CrushingRecipeBuilder.crushingChunks(chunks, dust, CRUSHING_CHUNKS_TIME, CRUSHING_CHUNKS_EXTRA_CHANCE);
     }
@@ -635,6 +666,10 @@ public class ModRecipesProvider extends RecipeProvider {
     }
 
     public static CrushingRecipeBuilder crushingOre(ITag<Item> ore, IItemProvider chunks, @Nullable IItemProvider extra) {
+        return CrushingRecipeBuilder.crushingOre(ore, chunks, CRUSHING_ORE_TIME, extra, CRUSHING_ORE_STONE_CHANCE);
+    }
+
+    public static CrushingRecipeBuilder crushingOre(IItemProvider ore, IItemProvider chunks, @Nullable IItemProvider extra) {
         return CrushingRecipeBuilder.crushingOre(ore, chunks, CRUSHING_ORE_TIME, extra, CRUSHING_ORE_STONE_CHANCE);
     }
 
