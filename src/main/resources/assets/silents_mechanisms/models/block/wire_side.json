@@ -1,6 +1,7 @@
 {
 	"credit": "Made with Blockbench",
 	"parent": "block/block",
+	"ambientocclusion": false,
 	"textures": {
 		"0": "silents_mechanisms:block/wire",
 		"particle": "silents_mechanisms:block/wire"
