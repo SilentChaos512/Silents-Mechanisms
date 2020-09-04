@@ -1,0 +1,14 @@
+{
+  "type": "silents_mechanisms:infusing",
+  "process_time": 100,
+  "ingredient": {
+    "item": "minecraft:yellow_concrete_powder"
+  },
+  "fluid": {
+    "tag": "minecraft:water",
+    "amount": 100
+  },
+  "result": {
+    "item": "minecraft:yellow_concrete"
+  }
+}

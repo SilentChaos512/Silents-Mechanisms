@@ -69,6 +69,11 @@ public class RefineryTileEntity extends AbstractFluidMachineTileEntity<RefiningR
         super.tick();
     }
 
+    @Override
+    protected void consumeIngredients(RefiningRecipe recipe) {
+        // NO-OP
+    }
+
     private void tryFillTank() {
         // Try fill feedstock tank with fluid containers
         ItemStack input = getStackInSlot(0);

@@ -40,6 +40,8 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         builder(forgeId("nuggets/coal"));
         builder(forgeId("storage_blocks/charcoal"));
 
+        getBuilder(ModTags.Items.PLASTIC).func_240532_a_(CraftingItems.PLASTIC_SHEET.asItem());
+
         getBuilder(ModTags.Items.STEELS)
                 .func_240531_a_(Metals.ALUMINUM_STEEL.getIngotTag().get())
                 .func_240531_a_(Metals.BISMUTH_STEEL.getIngotTag().get())

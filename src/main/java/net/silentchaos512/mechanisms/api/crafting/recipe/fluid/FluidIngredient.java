@@ -10,6 +10,7 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
+import net.silentchaos512.lib.util.NameUtils;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -128,6 +129,22 @@ public class FluidIngredient implements Predicate<FluidStack> {
         throw new JsonSyntaxException("Fluid ingredient should have either 'tag' or 'fluid'");
     }
 
+    public JsonObject serialize() {
+        JsonObject json = new JsonObject();
+
+        if (this.tag != null) {
+            json.addProperty("tag", this.tag.getName().toString());
+        } else if (this.fluid != null) {
+            json.addProperty("fluid", NameUtils.from(this.fluid).toString());
+        } else {
+            throw new IllegalStateException("Fluid ingredient is missing both tag and fluid");
+        }
+
+        json.addProperty("amount", this.amount);
+
+        return json;
+    }
+
     /**
      * Reads a {@link FluidIngredient} from a packet buffer. Use with {@link #write(PacketBuffer)}.
      *
@@ -137,9 +154,10 @@ public class FluidIngredient implements Predicate<FluidStack> {
     public static FluidIngredient read(PacketBuffer buffer) {
         boolean isTag = buffer.readBoolean();
         ResourceLocation id = buffer.readResourceLocation();
+        int amount = buffer.readVarInt();
         return isTag
-                ? new FluidIngredient(FluidTags.makeWrapperTag(id.toString()))
-                : new FluidIngredient(Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(id)));
+                ? new FluidIngredient(FluidTags.makeWrapperTag(id.toString()), amount)
+                : new FluidIngredient(Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(id)), amount);
     }
 
     /**
@@ -156,5 +174,6 @@ public class FluidIngredient implements Predicate<FluidStack> {
             buffer.writeResourceLocation(Objects.requireNonNull(fluid.getRegistryName()));
         else
             buffer.writeResourceLocation(new ResourceLocation("null"));
+        buffer.writeVarInt(this.amount);
     }
 }

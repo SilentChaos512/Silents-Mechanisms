@@ -23,6 +23,8 @@ import net.silentchaos512.mechanisms.block.generator.diesel.DieselGeneratorConta
 import net.silentchaos512.mechanisms.block.generator.diesel.DieselGeneratorScreen;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorContainer;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorScreen;
+import net.silentchaos512.mechanisms.block.infuser.InfuserContainer;
+import net.silentchaos512.mechanisms.block.infuser.InfuserScreen;
 import net.silentchaos512.mechanisms.block.mixer.MixerContainer;
 import net.silentchaos512.mechanisms.block.mixer.MixerScreen;
 import net.silentchaos512.mechanisms.block.pump.PumpContainer;
@@ -39,6 +41,7 @@ public final class ModContainers {
     public static ContainerType<CompressorContainer> compressor;
     public static ContainerType<DieselGeneratorContainer> dieselGenerator;
     public static ContainerType<ElectricFurnaceContainer> electricFurnace;
+    public static ContainerType<InfuserContainer> infuser;
     public static ContainerType<LavaGeneratorContainer> lavaGenerator;
     public static ContainerType<MixerContainer> mixer;
     public static ContainerType<PumpContainer> pump;
@@ -57,6 +60,7 @@ public final class ModContainers {
         register("crusher", MachineType.CRUSHER.getContainerType(MachineTier.STANDARD));
         dieselGenerator = register("diesel_generator", DieselGeneratorContainer::new);
         electricFurnace = register("electric_furnace", ElectricFurnaceContainer::new);
+        infuser = register("infuser", InfuserContainer::new);
         lavaGenerator = register("lava_generator", LavaGeneratorContainer::new);
         mixer = register("mixer", MixerContainer::new);
         pump = register("pump", PumpContainer::new);
@@ -75,6 +79,7 @@ public final class ModContainers {
         ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.STANDARD), CrusherScreen::new);
         ScreenManager.registerFactory(dieselGenerator, DieselGeneratorScreen::new);
         ScreenManager.registerFactory(electricFurnace, ElectricFurnaceScreen::new);
+        ScreenManager.registerFactory(infuser, InfuserScreen::new);
         ScreenManager.registerFactory(lavaGenerator, LavaGeneratorScreen::new);
         ScreenManager.registerFactory(mixer, MixerScreen::new);
         ScreenManager.registerFactory(pump, PumpScreen::new);

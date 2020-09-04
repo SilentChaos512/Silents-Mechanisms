@@ -37,6 +37,11 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
         super.tick();
     }
 
+    @Override
+    protected void consumeIngredients(MixingRecipe recipe) {
+        // NO-OP
+    }
+
     private void tryFillTanks() {
         // Try fill feedstock tanks with fluid containers
         ItemStack input = getStackInSlot(0);

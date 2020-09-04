@@ -269,6 +269,19 @@ public class ModRecipesProvider extends RecipeProvider {
                 .addCriterion("has_item", hasItem(ModBlocks.ALLOY_MACHINE_FRAME))
                 .build(consumer);
 
+        ShapedRecipeBuilder.shapedRecipe(ModBlocks.INFUSER)
+                .patternLine("#C#")
+                .patternLine("/X/")
+                .patternLine("OPO")
+                .key('#', Metals.BISMUTH_BRASS.getIngotTag().get())
+                .key('C', CraftingItems.CIRCUIT_BOARD)
+                .key('/', ModItems.EMPTY_CANISTER)
+                .key('X', ModBlocks.ALLOY_MACHINE_FRAME)
+                .key('O', Metals.NICKEL.getIngotTag().get())
+                .key('P', ModTags.Items.PLASTIC)
+                .addCriterion("has_item", hasItem(ModBlocks.ALLOY_MACHINE_FRAME))
+                .build(consumer);
+
         ShapedRecipeBuilder.shapedRecipe(ModBlocks.PUMP)
                 .patternLine("#C#")
                 .patternLine("/X/")
@@ -375,9 +388,9 @@ public class ModRecipesProvider extends RecipeProvider {
                 .patternLine("###")
                 .patternLine("###")
                 .patternLine("///")
-                .key('#', CraftingItems.PLASTIC_SHEET)
+                .key('#', ModTags.Items.PLASTIC)
                 .key('/', Tags.Items.NUGGETS_GOLD)
-                .addCriterion("has_item", hasItem(CraftingItems.PLASTIC_SHEET))
+                .addCriterion("has_item", hasItem(ModTags.Items.PLASTIC))
                 .build(consumer);
 
         ShapelessRecipeBuilder.shapelessRecipe(MachineUpgrades.PROCESSING_SPEED)
@@ -437,7 +450,7 @@ public class ModRecipesProvider extends RecipeProvider {
                 .patternLine(" B#")
                 .key('/', Metals.ALUMINUM.getIngotTag().get())
                 .key('C', ModItems.EMPTY_CANISTER)
-                .key('#', CraftingItems.PLASTIC_SHEET)
+                .key('#', ModTags.Items.PLASTIC)
                 .key('B', ModItems.BATTERY)
                 .build(consumer);
 
@@ -639,22 +652,22 @@ public class ModRecipesProvider extends RecipeProvider {
 
     private static void registerInfusingRecipes(Consumer<IFinishedRecipe> consumer) {
         FluidIngredient water100mb = new FluidIngredient(FluidTags.WATER, 100);
-        InfusingRecipeBuilder.builder(Items.WHITE_CONCRETE, 1, 100, Items.WHITE_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.ORANGE_CONCRETE, 1, 100, Items.ORANGE_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.MAGENTA_CONCRETE, 1, 100, Items.MAGENTA_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.LIGHT_BLUE_CONCRETE, 1, 100, Items.LIGHT_BLUE_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.YELLOW_CONCRETE, 1, 100, Items.YELLOW_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.LIME_CONCRETE, 1, 100, Items.LIME_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.PINK_CONCRETE, 1, 100, Items.PINK_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.GRAY_CONCRETE, 1, 100, Items.GRAY_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.LIGHT_GRAY_CONCRETE, 1, 100, Items.LIGHT_GRAY_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.CYAN_CONCRETE, 1, 100, Items.CYAN_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.PURPLE_CONCRETE, 1, 100, Items.PURPLE_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.BLUE_CONCRETE, 1, 100, Items.BLUE_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.BROWN_CONCRETE, 1, 100, Items.BROWN_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.GREEN_CONCRETE, 1, 100, Items.GREEN_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.RED_CONCRETE, 1, 100, Items.RED_CONCRETE_POWDER, water100mb);
-        InfusingRecipeBuilder.builder(Items.BLACK_CONCRETE, 1, 100, Items.BLACK_CONCRETE_POWDER, water100mb);
+        InfusingRecipeBuilder.builder(Items.WHITE_CONCRETE, 1, 100, Items.WHITE_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.ORANGE_CONCRETE, 1, 100, Items.ORANGE_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.MAGENTA_CONCRETE, 1, 100, Items.MAGENTA_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.LIGHT_BLUE_CONCRETE, 1, 100, Items.LIGHT_BLUE_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.YELLOW_CONCRETE, 1, 100, Items.YELLOW_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.LIME_CONCRETE, 1, 100, Items.LIME_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.PINK_CONCRETE, 1, 100, Items.PINK_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.GRAY_CONCRETE, 1, 100, Items.GRAY_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.LIGHT_GRAY_CONCRETE, 1, 100, Items.LIGHT_GRAY_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.CYAN_CONCRETE, 1, 100, Items.CYAN_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.PURPLE_CONCRETE, 1, 100, Items.PURPLE_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.BLUE_CONCRETE, 1, 100, Items.BLUE_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.BROWN_CONCRETE, 1, 100, Items.BROWN_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.GREEN_CONCRETE, 1, 100, Items.GREEN_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.RED_CONCRETE, 1, 100, Items.RED_CONCRETE_POWDER, water100mb).build(consumer);
+        InfusingRecipeBuilder.builder(Items.BLACK_CONCRETE, 1, 100, Items.BLACK_CONCRETE_POWDER, water100mb).build(consumer);
     }
 
     public static CrushingRecipeBuilder crushingChunks(ITag<Item> chunks, IItemProvider dust) {

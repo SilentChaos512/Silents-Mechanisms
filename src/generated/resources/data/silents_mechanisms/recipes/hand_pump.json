@@ -12,7 +12,7 @@
       "item": "silents_mechanisms:empty_canister"
     },
     "#": {
-      "item": "silents_mechanisms:plastic_sheet"
+      "tag": "forge:plastic"
     },
     "B": {
       "item": "silents_mechanisms:battery"

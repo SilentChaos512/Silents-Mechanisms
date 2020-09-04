@@ -51,7 +51,7 @@ public interface IFluidRecipe<C extends IFluidInventory> extends IRecipe<C> {
 
     @Override
     default ItemStack getCraftingResult(C inv) {
-        return ItemStack.EMPTY;
+        return getRecipeOutput();
     }
 
     @Override

@@ -2,7 +2,7 @@
   "parent": "minecraft:recipes/root",
   "rewards": {
     "recipes": [
-      "silents_mechanisms:upgrade_case"
+      "silents_mechanisms:infuser"
     ]
   },
   "criteria": {
@@ -11,7 +11,7 @@
       "conditions": {
         "items": [
           {
-            "tag": "forge:plastic"
+            "item": "silents_mechanisms:alloy_machine_frame"
           }
         ]
       }
@@ -19,7 +19,7 @@
     "has_the_recipe": {
       "trigger": "minecraft:recipe_unlocked",
       "conditions": {
-        "recipe": "silents_mechanisms:upgrade_case"
+        "recipe": "silents_mechanisms:infuser"
       }
     }
   },

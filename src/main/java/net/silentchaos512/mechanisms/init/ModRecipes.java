@@ -19,6 +19,7 @@ public final class ModRecipes {
         registerSerializer(Constants.COMPRESSING, CompressingRecipe.SERIALIZER);
         registerSerializer(Constants.CRUSHING, CrushingRecipe.SERIALIZER);
         registerSerializer(Constants.DRYING, DryingRecipe.SERIALIZER);
+        registerSerializer(Constants.INFUSING, InfusingRecipe.SERIALIZER);
         registerSerializer(Constants.MIXING, MixingRecipe.SERIALIZER);
         registerSerializer(Constants.REFINING, RefiningRecipe.SERIALIZER);
         registerSerializer(Constants.SOLIDIFYING, SolidifyingRecipe.SERIALIZER);

@@ -20,6 +20,7 @@ import net.silentchaos512.mechanisms.block.crusher.CrusherScreen;
 import net.silentchaos512.mechanisms.block.dryingrack.DryingRackBlock;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceContainer;
 import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceScreen;
+import net.silentchaos512.mechanisms.block.infuser.InfuserScreen;
 import net.silentchaos512.mechanisms.block.mixer.MixerScreen;
 import net.silentchaos512.mechanisms.block.refinery.RefineryScreen;
 import net.silentchaos512.mechanisms.block.solidifier.SolidifierScreen;
@@ -49,6 +50,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipeCategories(new CompressingRecipeCategoryJei(guiHelper));
         registration.addRecipeCategories(new CrushingRecipeCategoryJei(guiHelper));
         registration.addRecipeCategories(new DryingRecipeCategoryJei(guiHelper));
+        registration.addRecipeCategories(new InfusingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new MixingRecipeCategory(guiHelper));
         registration.addRecipeCategories(new RefiningRecipeCategory(guiHelper));
         registration.addRecipeCategories(new SolidifyingRecipeCategory(guiHelper));
@@ -60,12 +62,14 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipes(getRecipesOfType(CompressingRecipe.RECIPE_TYPE), Constants.COMPRESSING);
         registration.addRecipes(getRecipesOfType(CrushingRecipe.RECIPE_TYPE), Constants.CRUSHING);
         registration.addRecipes(getRecipesOfType(DryingRecipe.RECIPE_TYPE), Constants.DRYING);
+        registration.addRecipes(getRecipesOfType(InfusingRecipe.RECIPE_TYPE), Constants.INFUSING);
         registration.addRecipes(getRecipesOfType(MixingRecipe.RECIPE_TYPE), Constants.MIXING);
         registration.addRecipes(getRecipesOfType(RefiningRecipe.RECIPE_TYPE), Constants.REFINING);
         registration.addRecipes(getRecipesOfType(SolidifyingRecipe.RECIPE_TYPE), Constants.SOLIDIFYING);
     }
 
     private static List<IRecipe<?>> getRecipesOfType(IRecipeType<?> recipeType) {
+        assert Minecraft.getInstance().world != null;
         return Minecraft.getInstance().world.getRecipeManager().getRecipes().stream()
                 .filter(r -> r.getType() == recipeType)
                 .collect(Collectors.toList());
@@ -78,6 +82,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
         registration.addRecipeClickArea(CrusherScreen.class, 45, 32, 28, 23, Constants.CRUSHING);
         registration.addRecipeClickArea(ElectricFurnaceScreen.class, 78, 32, 28, 23,
                 VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
+        registration.addRecipeClickArea(InfuserScreen.class, 79, 31, 24, 23, Constants.INFUSING);
         registration.addRecipeClickArea(MixerScreen.class, 92, 31, 24, 23, Constants.MIXING);
         registration.addRecipeClickArea(RefineryScreen.class, 43, 31, 24, 23, Constants.REFINING);
         registration.addRecipeClickArea(SolidifierScreen.class, 79, 31, 24, 23, Constants.SOLIDIFYING);
@@ -102,6 +107,7 @@ public class SMechanismsJeiPlugin implements IModPlugin {
                 registration.addRecipeCatalyst(new ItemStack(block), Constants.DRYING));
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.ELECTRIC_FURNACE),
                 VanillaRecipeCategoryUid.BLASTING, VanillaRecipeCategoryUid.FURNACE);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.INFUSER), Constants.INFUSING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.MIXER), Constants.MIXING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.REFINERY), Constants.REFINING);
         registration.addRecipeCatalyst(new ItemStack(ModBlocks.SOLIDIFIER), Constants.SOLIDIFYING);

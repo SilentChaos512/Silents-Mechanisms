@@ -8,12 +8,14 @@ import net.silentchaos512.mechanisms.SilentMechanisms;
 import java.util.Objects;
 
 public final class Network {
+    private static final String VERSION = "silmech-net2";
+
     public static SimpleChannel channel;
     static {
         channel = NetworkRegistry.ChannelBuilder.named(SilentMechanisms.getId("network"))
-                .clientAcceptedVersions(s -> Objects.equals(s, "1"))
-                .serverAcceptedVersions(s -> Objects.equals(s, "1"))
-                .networkProtocolVersion(() -> "1")
+                .clientAcceptedVersions(s -> Objects.equals(s, VERSION))
+                .serverAcceptedVersions(s -> Objects.equals(s, VERSION))
+                .networkProtocolVersion(() -> VERSION)
                 .simpleChannel();
 
         channel.messageBuilder(SetRedstoneModePacket.class, 1)

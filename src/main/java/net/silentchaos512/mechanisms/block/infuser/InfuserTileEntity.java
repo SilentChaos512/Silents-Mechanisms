@@ -1,4 +1,4 @@
-package net.silentchaos512.mechanisms.block.solidifier;
+package net.silentchaos512.mechanisms.block.infuser;
 
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -6,10 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.silentchaos512.mechanisms.block.AbstractFluidMachineTileEntity;
 import net.silentchaos512.mechanisms.api.IFluidContainer;
-import net.silentchaos512.mechanisms.crafting.recipe.SolidifyingRecipe;
+import net.silentchaos512.mechanisms.block.AbstractFluidMachineTileEntity;
+import net.silentchaos512.mechanisms.crafting.recipe.InfusingRecipe;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
 import net.silentchaos512.mechanisms.util.MachineTier;
@@ -19,13 +18,18 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 
-public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<SolidifyingRecipe> {
+public class InfuserTileEntity extends AbstractFluidMachineTileEntity<InfusingRecipe> {
     public static final int FIELDS_COUNT = 9;
     public static final int TANK_CAPACITY = 4000;
     public static final int ENERGY_PER_TICK = 50;
 
-    public SolidifierTileEntity() {
-        super(ModTileEntities.solidifier, 3, 1, TANK_CAPACITY, MachineTier.STANDARD);
+    public static final int SLOT_FLUID_CONTAINER_IN = 0;
+    public static final int SLOT_ITEM_IN = 2;
+    public static final int SLOT_FLUID_CONTAINER_OUT = 1;
+    public static final int SLOT_ITEM_OUT = 3;
+
+    public InfuserTileEntity() {
+        super(ModTileEntities.infuser, 4, 1, TANK_CAPACITY, MachineTier.STANDARD);
     }
 
     @Override
@@ -38,8 +42,8 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
     }
 
     @Override
-    protected void consumeIngredients(SolidifyingRecipe recipe) {
-        // NO-OP
+    protected void consumeIngredients(InfusingRecipe recipe) {
+        decrStackSize(SLOT_ITEM_IN, 1);
     }
 
     private void tryFillTank() {
@@ -49,7 +53,7 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
 
         FluidStack fluidStack = IFluidContainer.getBucketOrContainerFluid(input);
         if (canAcceptFluidContainer(input, fluidStack)) {
-            this.fill(fluidStack, IFluidHandler.FluidAction.EXECUTE);
+            this.fill(fluidStack, FluidAction.EXECUTE);
 
             ItemStack containerItem = input.getContainerItem();
             input.shrink(1);
@@ -67,7 +71,7 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
         ItemStack output = getStackInSlot(1);
         return !fluid.isEmpty()
                 && this.isFluidValid(0, fluid)
-                && this.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == 1000
+                && this.fill(fluid, FluidAction.SIMULATE) == 1000
                 && (output.isEmpty() || InventoryUtils.canItemsStack(input.getContainerItem(), output))
                 && (output.isEmpty() || output.getCount() < output.getMaxStackSize());
     }
@@ -94,23 +98,23 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
 
     @Nullable
     @Override
-    public SolidifyingRecipe getRecipe() {
+    public InfusingRecipe getRecipe() {
         if (world == null) return null;
-        return world.getRecipeManager().getRecipe(SolidifyingRecipe.RECIPE_TYPE, this, world).orElse(null);
+        return world.getRecipeManager().getRecipe(InfusingRecipe.RECIPE_TYPE, this, world).orElse(null);
     }
 
     @Override
-    protected int getProcessTime(SolidifyingRecipe recipe) {
+    protected int getProcessTime(InfusingRecipe recipe) {
         return recipe.getProcessTime();
     }
 
     @Override
-    protected Collection<ItemStack> getProcessResults(SolidifyingRecipe recipe) {
+    protected Collection<ItemStack> getProcessResults(InfusingRecipe recipe) {
         return Collections.singletonList(recipe.getCraftingResult(this));
     }
 
     @Override
-    protected Collection<FluidStack> getFluidResults(SolidifyingRecipe recipe) {
+    protected Collection<FluidStack> getFluidResults(InfusingRecipe recipe) {
         return recipe.getFluidOutputs();
     }
 
@@ -121,21 +125,21 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
 
     @Override
     public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
-        return index == 0 && InventoryUtils.isFilledFluidContainer(stack);
+        return (index == SLOT_FLUID_CONTAINER_IN && InventoryUtils.isFilledFluidContainer(stack)) || index == SLOT_ITEM_IN;
     }
 
     @Override
     public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
-        return index == 1 || index == 2;
+        return index == SLOT_FLUID_CONTAINER_OUT || index == SLOT_ITEM_OUT;
     }
 
     @Override
     protected ITextComponent getDefaultName() {
-        return TextUtil.translate("container", "solidifier");
+        return TextUtil.translate("container", "infuser");
     }
 
     @Override
     protected Container createMenu(int id, PlayerInventory player) {
-        return new SolidifierContainer(id, player, this, this.fields);
+        return new InfuserContainer(id, player, this, this.fields);
     }
 }

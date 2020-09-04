@@ -7,7 +7,7 @@
   ],
   "key": {
     "#": {
-      "item": "silents_mechanisms:plastic_sheet"
+      "tag": "forge:plastic"
     },
     "/": {
       "tag": "forge:nuggets/gold"

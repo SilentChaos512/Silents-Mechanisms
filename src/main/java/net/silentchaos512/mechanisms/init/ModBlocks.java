@@ -34,6 +34,7 @@ import net.silentchaos512.mechanisms.block.electricfurnace.ElectricFurnaceBlock;
 import net.silentchaos512.mechanisms.block.generator.coal.CoalGeneratorBlock;
 import net.silentchaos512.mechanisms.block.generator.diesel.DieselGeneratorBlock;
 import net.silentchaos512.mechanisms.block.generator.lava.LavaGeneratorBlock;
+import net.silentchaos512.mechanisms.block.infuser.InfuserBlock;
 import net.silentchaos512.mechanisms.block.mixer.MixerBlock;
 import net.silentchaos512.mechanisms.block.pipe.PipeBlock;
 import net.silentchaos512.mechanisms.block.pump.PumpBlock;
@@ -78,6 +79,7 @@ public final class ModBlocks {
     public static final BlockRegistryObject<RefineryBlock> REFINERY = register("refinery", RefineryBlock::new);
     public static final BlockRegistryObject<MixerBlock> MIXER = register("mixer", MixerBlock::new);
     public static final BlockRegistryObject<SolidifierBlock> SOLIDIFIER = register("solidifier", SolidifierBlock::new);
+    public static final BlockRegistryObject<InfuserBlock> INFUSER = register("infuser", InfuserBlock::new);
     public static final BlockRegistryObject<PumpBlock> PUMP = register("pump", PumpBlock::new);
     public static final BlockRegistryObject<CoalGeneratorBlock> COAL_GENERATOR = register("coal_generator", CoalGeneratorBlock::new);
     public static final BlockRegistryObject<LavaGeneratorBlock> LAVA_GENERATOR = register("lava_generator", LavaGeneratorBlock::new);

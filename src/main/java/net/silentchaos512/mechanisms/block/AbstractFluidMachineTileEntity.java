@@ -136,6 +136,7 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
                 getFluidResults(recipe).forEach(this::storeResultFluid);
                 getProcessResults(recipe).forEach(this::storeResultItem);
                 consumeFeedstock(recipe);
+                consumeIngredients(recipe);
                 progress = 0;
 
                 if (getRecipe() == null) {
@@ -202,6 +203,9 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
             }
         }
     }
+
+    @Override
+    protected abstract void consumeIngredients(R recipe);
 
     @Override
     public void remove() {

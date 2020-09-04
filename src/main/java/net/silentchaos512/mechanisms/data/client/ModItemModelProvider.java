@@ -24,6 +24,11 @@ public class ModItemModelProvider extends ItemModelProvider {
     }
 
     @Override
+    public String getName() {
+        return "Silent's Mechanisms - Item Models";
+    }
+
+    @Override
     protected void registerModels() {
         Registration.BLOCKS.getEntries().forEach(block -> blockBuilder(block.get()));
 

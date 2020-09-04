@@ -24,10 +24,12 @@ public class ModTags {
     }
 
     public static final class Items {
+        public static final ITag.INamedTag<Item> DUSTS_COAL = forge("dusts/coal");
+        public static final ITag.INamedTag<Item> PLASTIC = forge("plastic");
+
         public static final ITag.INamedTag<Item> CHUNKS = mod("chunks");
         public static final ITag.INamedTag<Item> COAL_GENERATOR_FUELS = mod("coal_generator_fuels");
         public static final ITag.INamedTag<Item> DRYING_RACKS = mod("drying_racks");
-        public static final ITag.INamedTag<Item> DUSTS_COAL = forge("dusts/coal");
         public static final ITag.INamedTag<Item> STEELS = mod("ingots/steels");
 
         private Items() {}
