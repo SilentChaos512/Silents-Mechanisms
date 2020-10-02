@@ -36,7 +36,7 @@ public class WrenchItem extends Item {
             }
         }
 
-        if (player.isCrouching() && state.func_235901_b_(BlockStateProperties.HORIZONTAL_FACING)) {
+        if (player.isCrouching() && state.hasProperty(BlockStateProperties.HORIZONTAL_FACING)) {
             BlockState state1 = cycleProperty(state, BlockStateProperties.HORIZONTAL_FACING);
             world.setBlockState(pos, state1, 18);
             return ActionResultType.SUCCESS;

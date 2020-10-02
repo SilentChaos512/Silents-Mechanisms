@@ -32,13 +32,13 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
 
     @Override
     protected void registerTags() {
-        getBuilder(ModTags.Blocks.DRYING_RACKS).func_240534_a_(Registration.getBlocks(DryingRackBlock.class).toArray(new Block[0]));
+        getOrCreateBuilder(ModTags.Blocks.DRYING_RACKS).add(Registration.getBlocks(DryingRackBlock.class).toArray(new Block[0]));
 
         for (Metals metal : Metals.values()) {
             metal.getOreTag().ifPresent(tag ->
-                    getBuilder(tag).func_240532_a_(metal.getOre().get()));
+                    getOrCreateBuilder(tag).add(metal.getOre().get()));
             metal.getStorageBlockTag().ifPresent(tag ->
-                    getBuilder(tag).func_240532_a_(metal.getStorageBlock().get()));
+                    getOrCreateBuilder(tag).add(metal.getStorageBlock().get()));
         }
 
         groupBuilder(Tags.Blocks.ORES, Metals::getOreTag);
@@ -46,14 +46,10 @@ public class ModBlockTagsProvider extends BlockTagsProvider {
     }
 
     private void groupBuilder(ITag.INamedTag<Block> tag, Function<Metals, Optional<ITag.INamedTag<Block>>> tagGetter) {
-        Builder<Block> builder = getBuilder(tag);
+        Builder<Block> builder = getOrCreateBuilder(tag);
         for (Metals metal : Metals.values()) {
-            tagGetter.apply(metal).ifPresent(builder::func_240531_a_);
+            tagGetter.apply(metal).ifPresent(builder::addTag);
         }
-    }
-
-    private Builder<Block> getBuilder(ITag.INamedTag<Block> tag) {
-        return func_240522_a_(tag);
     }
 
     @Override

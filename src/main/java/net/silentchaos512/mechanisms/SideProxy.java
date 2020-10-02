@@ -13,7 +13,6 @@ import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fml.DeferredWorkQueue;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.event.lifecycle.*;
 import net.minecraftforge.fml.event.server.FMLServerAboutToStartEvent;
@@ -25,7 +24,6 @@ import net.silentchaos512.mechanisms.config.Config;
 import net.silentchaos512.mechanisms.data.DataGenerators;
 import net.silentchaos512.mechanisms.init.*;
 import net.silentchaos512.mechanisms.network.Network;
-import net.silentchaos512.mechanisms.world.SMWorldFeatures;
 
 import javax.annotation.Nullable;
 
@@ -66,8 +64,6 @@ class SideProxy implements IProxy {
     }
 
     private void commonSetup(FMLCommonSetupEvent event) {
-        DeferredWorkQueue.runLater(SMWorldFeatures::addFeaturesToBiomes);
-
         if (ModList.get().isLoaded("computercraft")) {
             SMechComputerCraftCompat.init();
         }

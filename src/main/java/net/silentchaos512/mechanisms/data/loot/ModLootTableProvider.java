@@ -32,6 +32,6 @@ public class ModLootTableProvider extends LootTableProvider {
 
     @Override
     protected void validate(Map<ResourceLocation, LootTable> map, ValidationTracker validationtracker) {
-        map.forEach((id, table) -> LootTableManager.func_227508_a_(validationtracker, id, table));
+        map.forEach((id, table) -> LootTableManager.validateLootTable(validationtracker, id, table));
     }
 }

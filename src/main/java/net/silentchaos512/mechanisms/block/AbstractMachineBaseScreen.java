@@ -32,19 +32,19 @@ public abstract class AbstractMachineBaseScreen<C extends AbstractMachineBaseCon
     }
 
     @Override
-    protected void func_230459_a_(MatrixStack matrixStack, int mouseX, int mouseY) {
-        if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
+    protected void renderHoveredTooltip(MatrixStack matrixStack, int x, int y) {
+        if (isPointInRegion(153, 17, 13, 51, x, y)) {
             IFormattableTextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
-            renderTooltip(matrixStack, text, mouseX, mouseY);
+            renderTooltip(matrixStack, text, x, y);
         }
         if (hoveredSlot instanceof MachineUpgradeSlot && !hoveredSlot.getHasStack()) {
-            renderTooltip(matrixStack, TextUtil.translate("misc", "upgradeSlot"), mouseX, mouseY);
+            renderTooltip(matrixStack, TextUtil.translate("misc", "upgradeSlot"), x, y);
         }
-        super.func_230459_a_(matrixStack, mouseX, mouseY);
+        super.renderHoveredTooltip(matrixStack, x, y);
     }
 
     @Override
-    protected void func_230450_a_(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
         if (minecraft == null) return;
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         minecraft.getTextureManager().bindTexture(getGuiTexture());
@@ -59,14 +59,14 @@ public abstract class AbstractMachineBaseScreen<C extends AbstractMachineBaseCon
     }
 
     @Override
-    protected void func_230451_b_(MatrixStack matrixStack, int mouseX, int mouseY) {
+    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
         this.font.drawString(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
 //        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
 
         for (Widget widget : this.buttons) {
             if (widget.isHovered() && widget instanceof RedstoneModeButton) {
                 RedstoneMode mode = ((RedstoneModeButton) widget).getMode();
-                renderTooltip(matrixStack, TextUtil.translate("misc", "redstoneMode", mode.name()), mouseX - guiLeft, mouseY - guiTop);
+                renderTooltip(matrixStack, TextUtil.translate("misc", "redstoneMode", mode.name()), x - guiLeft, y - guiTop);
             }
         }
     }

@@ -25,25 +25,25 @@ public class DieselGeneratorScreen extends AbstractMachineBaseScreen<DieselGener
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.func_230459_a_(matrixStack, mouseX, mouseY);
+        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void func_230459_a_(MatrixStack matrixStack, int mouseX, int mouseY) {
-        if (isPointInRegion(135, 17, 13, 51, mouseX, mouseY)) {
+    protected void renderHoveredTooltip(MatrixStack matrixStack, int x, int y) {
+        if (isPointInRegion(135, 17, 13, 51, x, y)) {
             ITextComponent text = TextUtil.fluidWithMax(container.getFluidInTank(), 4000);
-            renderTooltip(matrixStack, text, mouseX, mouseY);
+            renderTooltip(matrixStack, text, x, y);
         }
-        if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
+        if (isPointInRegion(153, 17, 13, 51, x, y)) {
             ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
-            renderTooltip(matrixStack, text, mouseX, mouseY);
+            renderTooltip(matrixStack, text, x, y);
         }
-        super.func_230459_a_(matrixStack, mouseX, mouseY);
+        super.renderHoveredTooltip(matrixStack, x, y);
     }
 
     @Override
-    protected void func_230450_a_(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
-        super.func_230450_a_(matrixStack, partialTicks, mouseX, mouseY);
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+        super.drawGuiContainerBackgroundLayer(matrixStack, partialTicks, x, y);
 
         if (minecraft == null) return;
         int xPos = (this.width - this.xSize) / 2;

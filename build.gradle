@@ -12,7 +12,7 @@ buildscript {
 plugins {
     id 'maven'
     id 'maven-publish'
-    id "com.jfrog.bintray" version "1.8.4"
+    id "com.jfrog.bintray" version "1.8.5"
     id "com.matthewprenger.cursegradle" version "1.2.0"
 }
 
@@ -179,7 +179,7 @@ jar {
     manifest {
         attributes(["Specification-Title"     : project.mod_id,
                     "Specification-Vendor"    : "SilentChaos512",
-                    "Specification-Version"   : "0.7",
+                    "Specification-Version"   : "1",
                     "Implementation-Title"    : project.name,
                     "Implementation-Version"  : "${version}",
                     "Implementation-Vendor"   : "SilentChaos512",

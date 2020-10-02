@@ -90,6 +90,6 @@ public class DryingRecipeCategoryJei implements IRecipeCategory<DryingRecipe> {
         arrow.draw(matrixStack, 79 - GUI_START_X, 35 - GUI_START_Y);
         FontRenderer font = Minecraft.getInstance().fontRenderer;
         ITextComponent text = TextUtil.translate("misc", "timeInSeconds", recipe.getProcessTime() / 20);
-        TextRenderUtils.renderScaled(matrixStack, font, text, 24, 20, 0.67f, 0xFFFFFF, true);
+        TextRenderUtils.renderScaled(matrixStack, font, text.func_241878_f(), 24, 20, 0.67f, 0xFFFFFF, true);
     }
 }

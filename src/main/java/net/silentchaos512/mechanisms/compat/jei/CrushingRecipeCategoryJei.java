@@ -109,7 +109,7 @@ public class CrushingRecipeCategoryJei implements IRecipeCategory<CrushingRecipe
             if (chance < 1) {
                 int asPercent = (int) (100 * chance);
                 String text = asPercent < 1 ? "<1%" : asPercent + "%";
-                TextRenderUtils.renderScaled(matrixStack, font, new StringTextComponent(text), 57 + 18 * i, 20, 0.75f, 0xFFFFFF, true);
+                TextRenderUtils.renderScaled(matrixStack, font, new StringTextComponent(text).func_241878_f(), 57 + 18 * i, 20, 0.75f, 0xFFFFFF, true);
             }
         }
     }

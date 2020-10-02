@@ -31,9 +31,9 @@ public class DebugItem extends Item {
         if (tileEntity != null) {
             tileEntity.getCapability(CapabilityEnergy.ENERGY).ifPresent(e -> {
                 ITextComponent energyText = TextUtil.energyWithMax(e.getEnergyStored(), e.getMaxEnergyStored());
-                player.sendMessage(new StringTextComponent("Energy: ").func_230529_a_(energyText), Util.DUMMY_UUID);
+                player.sendMessage(new StringTextComponent("Energy: ").append(energyText), Util.DUMMY_UUID);
                 player.sendMessage(new StringTextComponent("Receive/Extract: " + e.canReceive() + "/" + e.canExtract()), Util.DUMMY_UUID);
-                player.sendMessage(new StringTextComponent(e.getClass().getName()).func_240699_a_(TextFormatting.ITALIC), Util.DUMMY_UUID);
+                player.sendMessage(new StringTextComponent(e.getClass().getName()).mergeStyle(TextFormatting.ITALIC), Util.DUMMY_UUID);
             });
 
             for (Direction side : Direction.values()) {

@@ -20,20 +20,20 @@ public class BatteryBoxScreen extends ContainerScreen<BatteryBoxContainer> {
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.func_230459_a_(matrixStack, mouseX, mouseY);
+        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void func_230459_a_(MatrixStack matrixStack, int mouseX, int mouseY) {
-        if (isPointInRegion(153, 17, 13, 51, mouseX, mouseY)) {
+    protected void renderHoveredTooltip(MatrixStack matrixStack, int x, int y) {
+        if (isPointInRegion(153, 17, 13, 51, x, y)) {
             ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getTileEntity().getMaxEnergyStored());
-            renderTooltip(matrixStack, text, mouseX, mouseY);
+            renderTooltip(matrixStack, text, x, y);
         }
-        super.func_230459_a_(matrixStack, mouseX, mouseY);
+        super.renderHoveredTooltip(matrixStack, x, y);
     }
 
     @Override
-    protected void func_230450_a_(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
         if (minecraft == null) return;
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         minecraft.getTextureManager().bindTexture(TEXTURE);
@@ -46,12 +46,5 @@ public class BatteryBoxScreen extends ContainerScreen<BatteryBoxContainer> {
         if (energyBarHeight > 0) {
             blit(matrixStack, xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
         }
-
-        // Debug text
-//        int y = 5;
-//        for (String line : container.tileEntity.getDebugText()) {
-//            font.drawString(line, 5, y, 0xFFFFFF);
-//            y += 10;
-//        }
     }
 }

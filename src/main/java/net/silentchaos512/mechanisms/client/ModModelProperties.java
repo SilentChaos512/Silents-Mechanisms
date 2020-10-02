@@ -17,6 +17,6 @@ public final class ModModelProperties {
     }
 
     private static void register(IItemProvider item, ResourceLocation property, IItemPropertyGetter getter) {
-        ItemModelsProperties.func_239418_a_(item.asItem(), property, getter);
+        ItemModelsProperties.registerProperty(item.asItem(), property, getter);
     }
 }

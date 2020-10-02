@@ -1,7 +1,7 @@
 package net.silentchaos512.mechanisms.data;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraftforge.client.model.generators.ExistingFileHelper;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.fml.event.lifecycle.GatherDataEvent;
 import net.silentchaos512.mechanisms.data.client.ModBlockStateProvider;
 import net.silentchaos512.mechanisms.data.client.ModItemModelProvider;

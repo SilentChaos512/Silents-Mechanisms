@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import net.minecraft.block.Block;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DirectoryCache;
 import net.minecraft.data.ItemTagsProvider;
@@ -40,20 +39,20 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         builder(forgeId("nuggets/coal"));
         builder(forgeId("storage_blocks/charcoal"));
 
-        getBuilder(ModTags.Items.PLASTIC).func_240532_a_(CraftingItems.PLASTIC_SHEET.asItem());
+        getOrCreateBuilder(ModTags.Items.PLASTIC).add(CraftingItems.PLASTIC_SHEET.asItem());
 
-        getBuilder(ModTags.Items.STEELS)
-                .func_240531_a_(Metals.ALUMINUM_STEEL.getIngotTag().get())
-                .func_240531_a_(Metals.BISMUTH_STEEL.getIngotTag().get())
-                .func_240531_a_(Metals.STEEL.getIngotTag().get());
-        getBuilder(ModTags.Items.COAL_GENERATOR_FUELS)
-                .func_240531_a_(ItemTags.COALS)
-                .func_240531_a_(itemTag(forgeId("nuggets/coal")))
-                .func_240531_a_(itemTag(forgeId("storage_blocks/charcoal")))
-                .func_240531_a_(Tags.Items.STORAGE_BLOCKS_COAL);
+        getOrCreateBuilder(ModTags.Items.STEELS)
+                .addTag(Metals.ALUMINUM_STEEL.getIngotTag().get())
+                .addTag(Metals.BISMUTH_STEEL.getIngotTag().get())
+                .addTag(Metals.STEEL.getIngotTag().get());
+        getOrCreateBuilder(ModTags.Items.COAL_GENERATOR_FUELS)
+                .addTag(ItemTags.COALS)
+                .addTag(itemTag(forgeId("nuggets/coal")))
+                .addTag(itemTag(forgeId("storage_blocks/charcoal")))
+                .addTag(Tags.Items.STORAGE_BLOCKS_COAL);
         copy(ModTags.Blocks.DRYING_RACKS, ModTags.Items.DRYING_RACKS);
 
-        getBuilder(ModTags.Items.DUSTS_COAL).func_240532_a_(CraftingItems.COAL_DUST.asItem());
+        getOrCreateBuilder(ModTags.Items.DUSTS_COAL).add(CraftingItems.COAL_DUST.asItem());
 
         for (Metals metal : Metals.values()) {
             metal.getOreTag().ifPresent(tag ->
@@ -61,15 +60,15 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             metal.getStorageBlockTag().ifPresent(tag ->
                     copy(tag, metal.getStorageBlockItemTag().get()));
             metal.getChunksTag().ifPresent(tag ->
-                    getBuilder(tag).func_240532_a_(metal.getChunks().get()));
+                    getOrCreateBuilder(tag).add(metal.getChunks().get()));
             metal.getDustTag().ifPresent(tag ->
-                    getBuilder(tag).func_240532_a_(metal.getDust().get()));
+                    getOrCreateBuilder(tag).add(metal.getDust().get()));
             metal.getIngotTag().ifPresent(tag ->
                     metal.getIngot().ifPresent(item ->
-                            getBuilder(tag).func_240532_a_(item)));
+                            getOrCreateBuilder(tag).add(item)));
             metal.getNuggetTag().ifPresent(tag ->
                     metal.getNugget().ifPresent(item ->
-                            getBuilder(tag).func_240532_a_(item)));
+                            getOrCreateBuilder(tag).add(item)));
         }
 
         copy(Tags.Blocks.ORES, Tags.Items.ORES);
@@ -81,27 +80,19 @@ public class ModItemTagsProvider extends ItemTagsProvider {
         groupBuilder(Tags.Items.NUGGETS, Metals::getNuggetTag);
     }
 
-    private Builder<Item> getBuilder(ITag.INamedTag<Item> tag) {
-        return func_240522_a_(tag);
-    }
-
-    private void copy(ITag.INamedTag<Block> block, ITag.INamedTag<Item> item) {
-        func_240521_a_(block, item);
-    }
-
     @SafeVarargs
     private final void groupBuilder(ITag.INamedTag<Item> tag, Function<Metals, Optional<ITag.INamedTag<Item>>> tagGetter, ITag.INamedTag<Item>... extras) {
-        Builder<Item> builder = getBuilder(tag);
+        Builder<Item> builder = getOrCreateBuilder(tag);
         for (Metals metal : Metals.values()) {
-            tagGetter.apply(metal).ifPresent(builder::func_240531_a_);
+            tagGetter.apply(metal).ifPresent(builder::addTag);
         }
         for (ITag.INamedTag<Item> extraTag : extras) {
-            builder.func_240531_a_(extraTag);
+            builder.addTag(extraTag);
         }
     }
 
     private void builder(ResourceLocation id, IItemProvider... items) {
-        getBuilder(itemTag(id)).func_240534_a_(Arrays.stream(items).map(IItemProvider::asItem).toArray(Item[]::new));
+        getOrCreateBuilder(itemTag(id)).add(Arrays.stream(items).map(IItemProvider::asItem).toArray(Item[]::new));
     }
 
     private static ITag.INamedTag<Item> itemTag(ResourceLocation id) {
