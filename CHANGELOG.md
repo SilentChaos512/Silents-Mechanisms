@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.3] - 2020-10-03
+### Fixed
+- Infuser recipes making logging into servers impossible [#111]
+- Recipes with fluid tags causing "Tag not bound" exceptions (hacky workaround, hopefully doesn't break anything...)
+
 ## [0.8.2] - 2020-10-03
 - Ported to 1.16.3. Not compatible with 1.16.2, unfortunately.
 ### Added

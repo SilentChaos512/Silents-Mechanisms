@@ -6,11 +6,13 @@ import net.minecraft.fluid.Fluid;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tags.ITag;
+import net.minecraft.tags.TagRegistryManager;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.util.NameUtils;
+import net.silentchaos512.mechanisms.SilentMechanisms;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -69,12 +71,24 @@ public class FluidIngredient implements Predicate<FluidStack> {
      */
     public List<FluidStack> getFluids() {
         if (tag != null) {
-            return tag.getAllElements().stream().map(f -> new FluidStack(f, this.amount)).collect(Collectors.toList());
+            return getFluidsFromTagHack();
         }
         if (fluid != null) {
             return Collections.singletonList(new FluidStack(fluid, this.amount));
         }
         return Collections.emptyList();
+    }
+
+    private List<FluidStack> getFluidsFromTagHack() {
+        // TODO: Should change this once I figure out what exactly is going on here...
+        try {
+            assert this.tag != null;
+            this.tag.getAllElements();
+        } catch (IllegalStateException ex) {
+            SilentMechanisms.LOGGER.warn("Fluid tags not bound when needed! Trying to fetch tags...");
+            TagRegistryManager.fetchTags();
+        }
+        return this.tag.getAllElements().stream().map(f -> new FluidStack(f, this.amount)).collect(Collectors.toList());
     }
 
     public int getAmount() {
