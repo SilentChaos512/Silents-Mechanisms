@@ -94,6 +94,11 @@ public class InfusingRecipe implements IFluidRecipe<IFluidInventory> {
         return RECIPE_TYPE;
     }
 
+    @Override
+    public boolean isDynamic() {
+        return true;
+    }
+
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<InfusingRecipe> {
         @Override
         public InfusingRecipe read(ResourceLocation recipeId, JsonObject json) {
@@ -119,6 +124,7 @@ public class InfusingRecipe implements IFluidRecipe<IFluidInventory> {
             buffer.writeVarInt(recipe.processTime);
             recipe.ingredient.write(buffer);
             recipe.fluid.write(buffer);
+            buffer.writeItemStack(recipe.result);
         }
     }
 }
