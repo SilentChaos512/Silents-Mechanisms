@@ -41,6 +41,7 @@ public enum Ores implements IBlockProvider {
         return Feature.ORE
                 .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.field_241882_a, this.asBlockState(), config.getVeinSize()))
                 .withPlacement(Placement.field_242907_l.configure(new TopSolidRangeConfig(bottom, bottom, config.getMaxHeight())))
+                .func_242728_a()
                 .func_242731_b(config.getVeinCount());
     });
 
