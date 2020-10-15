@@ -11,9 +11,9 @@ authors="SilentChaos512"
     modId="silents_mechanisms"
     version="${file.jarVersion}"
     displayName="Silent's Mechanisms"
-    updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/Silents-Mechanisms/1.14/update.json"
+    updateJSONURL="https://raw.githubusercontent.com/SilentChaos512/Silents-Mechanisms/1.16.x/update.json"
     description='''
-    Simple machines and energy-generating blocks
+    Metal ores, simple machines, and energy-generating blocks
     '''
 
 [[dependencies.silents_mechanisms]]

@@ -3,6 +3,12 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.4] - 2020-10-15
+### Fixed
+- Ores spawning in 2x2 columns on the corners of chunks [Silent's Gems #502](https://github.com/SilentChaos512/SilentGems/issues/502)
+- Configured features not being registered, possibly causing issues with certain mods [Silent's Gems #500](https://github.com/SilentChaos512/SilentGems/issues/500)
+- mods.toml linking to the 1.14 update.json instead of 1.16.x branch
+
 ## [0.8.3] - 2020-10-03
 ### Fixed
 - Infuser recipes making logging into servers impossible [#111]
