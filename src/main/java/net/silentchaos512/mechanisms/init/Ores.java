@@ -1,9 +1,15 @@
 package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.block.Block;
+import net.minecraft.world.gen.feature.ConfiguredFeature;
+import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.placement.Placement;
+import net.minecraft.world.gen.placement.TopSolidRangeConfig;
 import net.silentchaos512.lib.block.IBlockProvider;
 import net.silentchaos512.mechanisms.config.Config;
 import net.silentchaos512.mechanisms.config.OreConfig;
+import net.silentchaos512.utils.Lazy;
 
 import java.util.Locale;
 import java.util.Optional;
@@ -29,6 +35,14 @@ public enum Ores implements IBlockProvider {
     private final DefaultOreConfigs defaultOreConfigs;
     private final int hardness;
     private final int harvestLevel;
+    private final Lazy<ConfiguredFeature<?, ?>> configuredFeature = Lazy.of(() -> {
+        OreConfig config = this.getConfig().get();
+        int bottom = config.getMinHeight();
+        return Feature.ORE
+                .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.field_241882_a, this.asBlockState(), config.getVeinSize()))
+                .withPlacement(Placement.field_242907_l.configure(new TopSolidRangeConfig(bottom, bottom, config.getMaxHeight())))
+                .func_242731_b(config.getVeinCount());
+    });
 
     Ores(Supplier<Metals> metal, int hardness, int harvestLevel, DefaultOreConfigs defaultOreConfigs) {
         this.metal = metal;
@@ -54,6 +68,10 @@ public enum Ores implements IBlockProvider {
 
     public Optional<OreConfig> getConfig() {
         return Config.getOreConfig(this);
+    }
+
+    public ConfiguredFeature<?, ?> getConfiguredFeature() {
+        return configuredFeature.get();
     }
 
     @Override
