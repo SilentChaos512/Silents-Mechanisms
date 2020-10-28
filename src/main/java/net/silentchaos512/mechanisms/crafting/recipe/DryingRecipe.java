@@ -9,17 +9,9 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.silentchaos512.mechanisms.util.Constants;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 
 public class DryingRecipe implements IRecipe<IInventory> {
-    public static final IRecipeType<DryingRecipe> RECIPE_TYPE = new IRecipeType<DryingRecipe>() {
-        @Override
-        public String toString() {
-            return Constants.DRYING.toString();
-        }
-    };
-    public static final Serializer SERIALIZER = new Serializer();
-
     private final ResourceLocation recipeId;
     private int processTime;
     private Ingredient ingredient;
@@ -65,12 +57,12 @@ public class DryingRecipe implements IRecipe<IInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return ModRecipes.DRYING.get();
     }
 
     @Override
     public IRecipeType<?> getType() {
-        return RECIPE_TYPE;
+        return ModRecipes.Types.DRYING;
     }
 
     @Override

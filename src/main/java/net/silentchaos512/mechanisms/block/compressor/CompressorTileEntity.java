@@ -8,6 +8,7 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
@@ -47,7 +48,7 @@ public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingR
     @Override
     protected CompressingRecipe getRecipe() {
         if (world == null) return null;
-        return world.getRecipeManager().getRecipe(CompressingRecipe.RECIPE_TYPE, this, world).orElse(null);
+        return world.getRecipeManager().getRecipe(ModRecipes.Types.COMPRESSING, this, world).orElse(null);
     }
 
     @Override

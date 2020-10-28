@@ -13,8 +13,8 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.mechanisms.SilentMechanisms;
-import net.silentchaos512.mechanisms.crafting.recipe.AlloySmeltingRecipe;
 import net.silentchaos512.mechanisms.init.Metals;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
@@ -108,7 +108,7 @@ public class AlloySmeltingRecipeBuilder {
 
         @Override
         public IRecipeSerializer<?> getSerializer() {
-            return AlloySmeltingRecipe.SERIALIZER;
+            return ModRecipes.ALLOY_SMELTING.get();
         }
 
         @Nullable

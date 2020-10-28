@@ -10,17 +10,9 @@ import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.silentchaos512.mechanisms.util.Constants;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 
 public class CompressingRecipe implements IRecipe<IInventory> {
-    public static final IRecipeType<CompressingRecipe> RECIPE_TYPE = new IRecipeType<CompressingRecipe>() {
-        @Override
-        public String toString() {
-            return Constants.COMPRESSING.toString();
-        }
-    };
-    public static final Serializer SERIALIZER = new Serializer();
-
     private final ResourceLocation recipeId;
     private int processTime;
     private Ingredient ingredient;
@@ -71,12 +63,12 @@ public class CompressingRecipe implements IRecipe<IInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return ModRecipes.COMPRESSING.get();
     }
 
     @Override
     public IRecipeType<?> getType() {
-        return RECIPE_TYPE;
+        return ModRecipes.Types.COMPRESSING;
     }
 
     @Override

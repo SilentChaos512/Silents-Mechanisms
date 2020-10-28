@@ -11,7 +11,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.mechanisms.SilentMechanisms;
-import net.silentchaos512.mechanisms.crafting.recipe.CompressingRecipe;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
@@ -86,7 +86,7 @@ public class CompressingRecipeBuilder {
 
         @Override
         public IRecipeSerializer<?> getSerializer() {
-            return CompressingRecipe.SERIALIZER;
+            return ModRecipes.COMPRESSING.get();
         }
 
         @Nullable

@@ -20,6 +20,7 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.silentchaos512.lib.util.PlayerUtils;
 import net.silentchaos512.mechanisms.crafting.recipe.DryingRecipe;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.ParticleUtils;
 
@@ -62,7 +63,7 @@ public class DryingRackTileEntity extends TileEntity implements IInventory, ITic
     public void tick() {
         if (this.world == null || this.world.isRemote || isEmpty()) return;
 
-        DryingRecipe recipe = this.world.getRecipeManager().getRecipe(DryingRecipe.RECIPE_TYPE, this, this.world).orElse(null);
+        DryingRecipe recipe = this.world.getRecipeManager().getRecipe(ModRecipes.Types.DRYING, this, this.world).orElse(null);
         if (recipe != null && canWork()) {
             ++processTime;
             if (processTime >= recipe.getProcessTime()) {

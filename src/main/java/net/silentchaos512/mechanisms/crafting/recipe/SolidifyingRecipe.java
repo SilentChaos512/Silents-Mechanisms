@@ -11,19 +11,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.registries.ForgeRegistryEntry;
-import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.FluidIngredient;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.IFluidInventory;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.IFluidRecipe;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
 public class SolidifyingRecipe implements IFluidRecipe<IFluidInventory> {
-    public static final IRecipeType<SolidifyingRecipe> RECIPE_TYPE = IRecipeType.register(SilentMechanisms.getId("solidifying").toString());
-    public static final Serializer SERIALIZER = new Serializer();
-
     private final ResourceLocation recipeId;
     private int processTime;
     private FluidIngredient ingredient;
@@ -78,12 +75,12 @@ public class SolidifyingRecipe implements IFluidRecipe<IFluidInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return ModRecipes.SOLIDIFYING.get();
     }
 
     @Override
     public IRecipeType<?> getType() {
-        return RECIPE_TYPE;
+        return ModRecipes.Types.SOLIDIFYING;
     }
 
     @Override

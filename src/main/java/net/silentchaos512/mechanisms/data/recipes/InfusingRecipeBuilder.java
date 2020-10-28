@@ -12,7 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.FluidIngredient;
-import net.silentchaos512.mechanisms.crafting.recipe.InfusingRecipe;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
@@ -85,7 +85,7 @@ public final class InfusingRecipeBuilder {
 
         @Override
         public IRecipeSerializer<?> getSerializer() {
-            return InfusingRecipe.SERIALIZER;
+            return ModRecipes.INFUSING.get();
         }
 
         @Nullable

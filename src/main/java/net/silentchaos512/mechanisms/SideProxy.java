@@ -49,9 +49,6 @@ class SideProxy implements IProxy {
         // Other events
         MinecraftForge.EVENT_BUS.addListener(this::serverAboutToStart);
 
-
-        ModRecipes.init();
-
         Greetings.addMessage(SideProxy::getBetaWelcomeMessage);
         Greetings.addMessage(ModBlocks::checkForMissingLootTables);
     }

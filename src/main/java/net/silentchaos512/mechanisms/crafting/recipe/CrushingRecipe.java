@@ -18,6 +18,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 import net.silentchaos512.mechanisms.item.MachineUpgrades;
 import net.silentchaos512.mechanisms.util.Constants;
 import net.silentchaos512.utils.MathUtils;
@@ -26,14 +27,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class CrushingRecipe implements IRecipe<IInventory> {
-    public static final IRecipeType<CrushingRecipe> RECIPE_TYPE = new IRecipeType<CrushingRecipe>() {
-        @Override
-        public String toString() {
-            return Constants.CRUSHING.toString();
-        }
-    };
-    public static final Serializer SERIALIZER = new Serializer();
-
     private final ResourceLocation recipeId;
     private int processTime;
     private Ingredient ingredient;
@@ -129,12 +122,12 @@ public class CrushingRecipe implements IRecipe<IInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return ModRecipes.CRUSHING.get();
     }
 
     @Override
     public IRecipeType<?> getType() {
-        return RECIPE_TYPE;
+        return ModRecipes.Types.CRUSHING;
     }
 
     @Override

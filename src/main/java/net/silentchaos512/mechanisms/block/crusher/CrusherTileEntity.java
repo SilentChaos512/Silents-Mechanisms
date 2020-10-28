@@ -8,6 +8,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
 import net.silentchaos512.mechanisms.init.MachineType;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
@@ -52,7 +53,7 @@ public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe>
     @Override
     protected CrushingRecipe getRecipe() {
         if (world == null) return null;
-        return world.getRecipeManager().getRecipe(CrushingRecipe.RECIPE_TYPE, this, world).orElse(null);
+        return world.getRecipeManager().getRecipe(ModRecipes.Types.CRUSHING, this, world).orElse(null);
     }
 
     @Override

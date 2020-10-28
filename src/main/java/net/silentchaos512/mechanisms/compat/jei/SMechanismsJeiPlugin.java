@@ -24,9 +24,9 @@ import net.silentchaos512.mechanisms.block.infuser.InfuserScreen;
 import net.silentchaos512.mechanisms.block.mixer.MixerScreen;
 import net.silentchaos512.mechanisms.block.refinery.RefineryScreen;
 import net.silentchaos512.mechanisms.block.solidifier.SolidifierScreen;
-import net.silentchaos512.mechanisms.crafting.recipe.*;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 import net.silentchaos512.mechanisms.init.Registration;
 import net.silentchaos512.mechanisms.item.CanisterItem;
 import net.silentchaos512.mechanisms.util.Constants;
@@ -58,14 +58,14 @@ public class SMechanismsJeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        registration.addRecipes(getRecipesOfType(AlloySmeltingRecipe.RECIPE_TYPE), Constants.ALLOY_SMELTING);
-        registration.addRecipes(getRecipesOfType(CompressingRecipe.RECIPE_TYPE), Constants.COMPRESSING);
-        registration.addRecipes(getRecipesOfType(CrushingRecipe.RECIPE_TYPE), Constants.CRUSHING);
-        registration.addRecipes(getRecipesOfType(DryingRecipe.RECIPE_TYPE), Constants.DRYING);
-        registration.addRecipes(getRecipesOfType(InfusingRecipe.RECIPE_TYPE), Constants.INFUSING);
-        registration.addRecipes(getRecipesOfType(MixingRecipe.RECIPE_TYPE), Constants.MIXING);
-        registration.addRecipes(getRecipesOfType(RefiningRecipe.RECIPE_TYPE), Constants.REFINING);
-        registration.addRecipes(getRecipesOfType(SolidifyingRecipe.RECIPE_TYPE), Constants.SOLIDIFYING);
+        registration.addRecipes(getRecipesOfType(ModRecipes.Types.ALLOY_SMELTING), Constants.ALLOY_SMELTING);
+        registration.addRecipes(getRecipesOfType(ModRecipes.Types.COMPRESSING), Constants.COMPRESSING);
+        registration.addRecipes(getRecipesOfType(ModRecipes.Types.CRUSHING), Constants.CRUSHING);
+        registration.addRecipes(getRecipesOfType(ModRecipes.Types.DRYING), Constants.DRYING);
+        registration.addRecipes(getRecipesOfType(ModRecipes.Types.INFUSING), Constants.INFUSING);
+        registration.addRecipes(getRecipesOfType(ModRecipes.Types.MIXING), Constants.MIXING);
+        registration.addRecipes(getRecipesOfType(ModRecipes.Types.REFINING), Constants.REFINING);
+        registration.addRecipes(getRecipesOfType(ModRecipes.Types.SOLIDIFYING), Constants.SOLIDIFYING);
     }
 
     private static List<IRecipe<?>> getRecipesOfType(IRecipeType<?> recipeType) {

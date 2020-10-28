@@ -10,6 +10,7 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.silentchaos512.mechanisms.api.IFluidContainer;
 import net.silentchaos512.mechanisms.block.AbstractFluidMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.MixingRecipe;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
 import net.silentchaos512.mechanisms.util.MachineTier;
@@ -133,7 +134,7 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
     @Override
     public MixingRecipe getRecipe() {
         if (world == null) return null;
-        return world.getRecipeManager().getRecipe(MixingRecipe.RECIPE_TYPE, this, world).orElse(null);
+        return world.getRecipeManager().getRecipe(ModRecipes.Types.MIXING, this, world).orElse(null);
     }
 
     @Override

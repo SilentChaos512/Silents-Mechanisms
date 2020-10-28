@@ -11,21 +11,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 import net.silentchaos512.mechanisms.block.IMachineInventory;
-import net.silentchaos512.mechanisms.util.Constants;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
-    public static final IRecipeType<AlloySmeltingRecipe> RECIPE_TYPE = new IRecipeType<AlloySmeltingRecipe>() {
-        @Override
-        public String toString() {
-            return Constants.ALLOY_SMELTING.toString();
-        }
-    };
-    public static final Serializer SERIALIZER = new Serializer();
-
     private final ResourceLocation recipeId;
     private int processTime;
     private final Map<Ingredient, Integer> ingredients = new LinkedHashMap<>();
@@ -99,12 +91,12 @@ public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return ModRecipes.ALLOY_SMELTING.get();
     }
 
     @Override
     public IRecipeType<?> getType() {
-        return RECIPE_TYPE;
+        return ModRecipes.Types.ALLOY_SMELTING;
     }
 
     @Override

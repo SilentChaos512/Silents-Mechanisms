@@ -12,7 +12,7 @@ import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.mechanisms.SilentMechanisms;
-import net.silentchaos512.mechanisms.crafting.recipe.CrushingRecipe;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 
 import javax.annotation.Nullable;
 import java.util.LinkedHashMap;
@@ -130,7 +130,7 @@ public final class CrushingRecipeBuilder {
 
         @Override
         public IRecipeSerializer<?> getSerializer() {
-            return CrushingRecipe.SERIALIZER;
+            return ModRecipes.CRUSHING.get();
         }
 
         @Nullable

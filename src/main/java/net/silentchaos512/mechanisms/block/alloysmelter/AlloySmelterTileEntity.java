@@ -8,6 +8,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.silentchaos512.mechanisms.block.AbstractMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.AlloySmeltingRecipe;
 import net.silentchaos512.mechanisms.init.MachineType;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 import net.silentchaos512.mechanisms.util.MachineTier;
 import net.silentchaos512.mechanisms.util.TextUtil;
 
@@ -51,7 +52,7 @@ public class AlloySmelterTileEntity extends AbstractMachineTileEntity<AlloySmelt
     @Override
     protected AlloySmeltingRecipe getRecipe() {
         if (world == null) return null;
-        return world.getRecipeManager().getRecipe(AlloySmeltingRecipe.RECIPE_TYPE, this, world).orElse(null);
+        return world.getRecipeManager().getRecipe(ModRecipes.Types.ALLOY_SMELTING, this, world).orElse(null);
     }
 
     @Override

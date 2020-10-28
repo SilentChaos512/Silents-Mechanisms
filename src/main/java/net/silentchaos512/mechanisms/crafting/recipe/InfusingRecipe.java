@@ -16,16 +16,13 @@ import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.FluidIngredient;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.IFluidInventory;
 import net.silentchaos512.mechanisms.api.crafting.recipe.fluid.IFluidRecipe;
 import net.silentchaos512.mechanisms.block.infuser.InfuserTileEntity;
-import net.silentchaos512.mechanisms.util.Constants;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 
 public class InfusingRecipe implements IFluidRecipe<IFluidInventory> {
-    public static final IRecipeType<InfusingRecipe> RECIPE_TYPE = IRecipeType.register(Constants.INFUSING.toString());
-    public static final Serializer SERIALIZER = new Serializer();
-
     private final ResourceLocation recipeId;
     private final  int processTime;
     private final Ingredient ingredient;
@@ -86,12 +83,12 @@ public class InfusingRecipe implements IFluidRecipe<IFluidInventory> {
 
     @Override
     public IRecipeSerializer<?> getSerializer() {
-        return SERIALIZER;
+        return ModRecipes.INFUSING.get();
     }
 
     @Override
     public IRecipeType<?> getType() {
-        return RECIPE_TYPE;
+        return ModRecipes.Types.INFUSING;
     }
 
     @Override

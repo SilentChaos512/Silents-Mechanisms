@@ -7,9 +7,10 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.silentchaos512.mechanisms.block.AbstractFluidMachineTileEntity;
 import net.silentchaos512.mechanisms.api.IFluidContainer;
+import net.silentchaos512.mechanisms.block.AbstractFluidMachineTileEntity;
 import net.silentchaos512.mechanisms.crafting.recipe.SolidifyingRecipe;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
 import net.silentchaos512.mechanisms.util.MachineTier;
@@ -96,7 +97,7 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
     @Override
     public SolidifyingRecipe getRecipe() {
         if (world == null) return null;
-        return world.getRecipeManager().getRecipe(SolidifyingRecipe.RECIPE_TYPE, this, world).orElse(null);
+        return world.getRecipeManager().getRecipe(ModRecipes.Types.SOLIDIFYING, this, world).orElse(null);
     }
 
     @Override

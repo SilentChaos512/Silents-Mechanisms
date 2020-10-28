@@ -3,6 +3,7 @@ package net.silentchaos512.mechanisms.init;
 import net.minecraft.block.Block;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
+import net.minecraft.item.crafting.IRecipeSerializer;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.RegistryObject;
@@ -21,6 +22,7 @@ public final class Registration {
     public static final DeferredRegister<Block> BLOCKS = create(ForgeRegistries.BLOCKS);
     public static final DeferredRegister<ContainerType<?>> CONTAINERS = create(ForgeRegistries.CONTAINERS);
     public static final DeferredRegister<Item> ITEMS = create(ForgeRegistries.ITEMS);
+    public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZERS = create(ForgeRegistries.RECIPE_SERIALIZERS);
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = create(ForgeRegistries.TILE_ENTITIES);
 
     private Registration() {throw new IllegalAccessError("Utility class");}
@@ -30,11 +32,13 @@ public final class Registration {
         BLOCKS.register(modEventBus);
         CONTAINERS.register(modEventBus);
         ITEMS.register(modEventBus);
+        RECIPE_SERIALIZERS.register(modEventBus);
         TILE_ENTITIES.register(modEventBus);
 
         ModBlocks.register();
 //        ModContainers.register();
         ModItems.register();
+        ModRecipes.register();
 //        ModTileEntities.register();
     }
 
