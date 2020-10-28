@@ -56,7 +56,7 @@ class SideProxy implements IProxy {
     @Nullable
     private static ITextComponent getBetaWelcomeMessage(PlayerEntity p) {
         return Config.showBetaWelcomeMessage.get()
-                ? new StringTextComponent("Thanks for trying Silent's Mechanisms! This mod is early in development, expect bugs and changes.")
+                ? new StringTextComponent("Thanks for trying Silent's Mechanisms! This mod is early in development, expect bugs and changes. You can disable this message in the config.")
                 : null;
     }
 
