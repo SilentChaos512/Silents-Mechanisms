@@ -23,7 +23,7 @@ import java.util.Random;
 
 public class LavaGeneratorBlock extends AbstractGeneratorBlock {
 
-    private static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(1, 0, 1, 15, 16, 15));
+    private static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(1, 0, 1, 15, 3, 15), Block.makeCuboidShape(2, 3, 2, 14, 16, 14) );
 
     public LavaGeneratorBlock() {
         super(MachineTier.STANDARD, Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));

@@ -25,7 +25,7 @@ import java.util.Random;
 
 public class MixerBlock extends AbstractMachineBlock {
 
-    private static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(1, 0, 1, 15, 16, 15));
+    private static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(1, 0, 1, 15, 2, 15), Block.makeCuboidShape(1, 6, 1, 15, 8, 15), Block.makeCuboidShape(2, 2, 2, 14, 6, 14), Block.makeCuboidShape(2, 8, 2, 14, 16, 14));
 
     public MixerBlock() {
         super(MachineTier.STANDARD, Block.Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
