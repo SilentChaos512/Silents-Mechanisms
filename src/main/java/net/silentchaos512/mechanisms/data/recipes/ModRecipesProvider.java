@@ -467,7 +467,7 @@ public class ModRecipesProvider extends RecipeProvider {
 
         ExtendedShapelessRecipeBuilder.vanillaBuilder(Items.LEATHER)
                 .addIngredient(CraftingItems.ZOMBIE_LEATHER, 4)
-                .build(consumer);
+                .build(consumer, SilentMechanisms.getId("leather"));
     }
 
     private void registerSmelting(Consumer<IFinishedRecipe> consumer) {
