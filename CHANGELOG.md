@@ -3,11 +3,16 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.7] - 2020-11-07
+### Changed
+- Allow mod to load on 1.16.4 (untested)
+
 ## [0.8.6] - 2020-11-07
 ### Added
 - zh_cn.json (Aemande123) [#104]
 ### Changed
 - Updated ru_ru.json (Smollet777) [#112]
+- Model updates and collision box adjustments (futurenp) [#106]
 ### Fixed
 - Location of leather from zombie leather recipe
 

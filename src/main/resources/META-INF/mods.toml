@@ -25,13 +25,13 @@ authors="SilentChaos512"
 [[dependencies.silents_mechanisms]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.3]"
+    versionRange="[1.16.3,1.17)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.silents_mechanisms]]
     modId="silentlib"
     mandatory=true
-    versionRange="[4.8,)"
+    versionRange="[4.9,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.silents_mechanisms]]
