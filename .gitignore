@@ -22,6 +22,7 @@ build
 eclipse
 run
 classes
+.vscode/*
 
 /README.txt
 /forge-*-changelog.txt
