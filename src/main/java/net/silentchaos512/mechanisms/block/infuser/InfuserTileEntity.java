@@ -84,7 +84,7 @@ public class InfuserTileEntity extends AbstractFluidMachineTileEntity<InfusingRe
 
     @Override
     protected int[] getOutputSlots() {
-        return new int[]{2};
+        return new int[]{SLOT_ITEM_OUT};
     }
 
     @Override
