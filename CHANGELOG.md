@@ -3,6 +3,11 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.8] - 2020-12-14
+### Fixed
+- Weird "Tag not bound" crash with coal generator on some mod packs [#126]
+- Infuser not working [#116]
+
 ## [0.8.7] - 2020-11-07
 ### Changed
 - Allow mod to load on 1.16.4 (untested)
