@@ -7,7 +7,7 @@
   ],
   "type": "woodcutter:woodcutting",
   "ingredient": {
-    "item": "minecraft:birch_plank"
+    "item": "minecraft:birch_planks"
   },
   "result": "silents_mechanisms:birch_drying_rack",
   "count": 1

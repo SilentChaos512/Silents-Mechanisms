@@ -7,7 +7,7 @@
   ],
   "type": "woodcutter:woodcutting",
   "ingredient": {
-    "item": "minecraft:oak_plank"
+    "item": "minecraft:oak_planks"
   },
   "result": "silents_mechanisms:oak_drying_rack",
   "count": 1
