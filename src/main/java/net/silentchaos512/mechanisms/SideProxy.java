@@ -6,6 +6,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.tags.TagRegistryManager;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
@@ -53,6 +54,9 @@ class SideProxy implements IProxy {
         Greetings.addMessage(ModBlocks::checkForMissingLootTables);
     }
 
+    @Override
+    public void tryFetchTagsHack() {}
+
     @Nullable
     private static ITextComponent getBetaWelcomeMessage(PlayerEntity p) {
         return Config.showBetaWelcomeMessage.get()
@@ -87,6 +91,11 @@ class SideProxy implements IProxy {
             FMLJavaModLoadingContext.get().getModEventBus().addListener(this::clientSetup);
 
             MinecraftForge.EVENT_BUS.addListener(this::setFog);
+        }
+
+        @Override
+        public void tryFetchTagsHack() {
+            TagRegistryManager.fetchTags();
         }
 
         private void clientSetup(FMLClientSetupEvent event) {

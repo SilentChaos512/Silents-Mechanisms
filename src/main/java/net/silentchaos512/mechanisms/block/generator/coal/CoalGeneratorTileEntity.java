@@ -5,11 +5,11 @@ import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.item.ItemStack;
-import net.minecraft.tags.TagRegistryManager;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraftforge.common.ForgeHooks;
+import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.block.generator.AbstractGeneratorTileEntity;
 import net.silentchaos512.mechanisms.init.ModTags;
 import net.silentchaos512.mechanisms.init.ModTileEntities;
@@ -29,13 +29,18 @@ public class CoalGeneratorTileEntity extends AbstractGeneratorTileEntity {
     }
 
     static boolean isFuel(ItemStack stack) {
+        return isFuel(stack, true);
+    }
+
+    private static boolean isFuel(ItemStack stack, boolean firstAttempt) {
         // Workaround for https://github.com/SilentChaos512/Silents-Mechanisms/issues/126
         try {
             return stack.getItem().isIn(ModTags.Items.COAL_GENERATOR_FUELS) && AbstractFurnaceTileEntity.isFuel(stack);
         } catch (IllegalStateException ex) {
-            TagRegistryManager.fetchTags();
+            SilentMechanisms.PROXY.tryFetchTagsHack();
         }
-        return stack.getItem().isIn(ModTags.Items.COAL_GENERATOR_FUELS);
+
+        return firstAttempt && isFuel(stack, false);
     }
 
     private static int getBurnTime(ItemStack stack) {
