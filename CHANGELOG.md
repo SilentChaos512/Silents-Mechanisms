@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.9] - 2021-01-15
+### Added
+- Comparators can now check the energy stored by battery boxes [#72]
+### Fixed
+- World gen master switch config being ignored [#129]
+- ConfigureFeatures not being registered [#128]
+- Second attempt at a workaround for coal generator crash (cannot test this myself, as I have no idea what mod causes it) [#126]
+- Drying rack woodcutting recipe errors
+
 ## [0.8.8] - 2020-12-14
 ### Fixed
 - Weird "Tag not bound" crash with coal generator on some mod packs [#126]
