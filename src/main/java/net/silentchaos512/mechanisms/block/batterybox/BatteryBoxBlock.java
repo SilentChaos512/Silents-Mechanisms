@@ -19,6 +19,7 @@ import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.silentchaos512.mechanisms.block.IEnergyHandler;
 
 import javax.annotation.Nullable;
 
@@ -104,5 +105,22 @@ public class BatteryBoxBlock extends Block {
 
             super.onReplaced(state, worldIn, pos, newState, isMoving);
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public boolean hasComparatorInputOverride(BlockState state) {
+        return true;
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
+        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        if (tileEntity instanceof IEnergyHandler) {
+            IEnergyHandler te = (IEnergyHandler) tileEntity;
+            return 15 * te.getEnergyStored() / te.getMaxEnergyStored();
+        }
+        return 0;
     }
 }
