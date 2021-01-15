@@ -29,17 +29,20 @@ public final class SMWorldFeatures {
 
     private SMWorldFeatures() {}
 
+    @SubscribeEvent
     public static void registerFeatures(RegistryEvent.Register<Feature<?>> event) {
         event.getRegistry().register(OilLakesFeature.INSTANCE.setRegistryName(SilentMechanisms.getId("oil_lakes")));
 
         for (Ores ore : Ores.values()) {
-            registerConfiguredFeature(ore.getName() + "_vein", ore.getConfiguredFeature());
+            ore.getConfig().ifPresent(config ->
+                    registerConfiguredFeature(ore.getName() + "_vein", ore.getConfiguredFeature()));
         }
         registerConfiguredFeature("oil_lakes_standard", OIL_LAKES_STANDARD.get());
         registerConfiguredFeature("oil_lakes_common", OIL_LAKES_COMMON.get());
     }
 
     private static void registerConfiguredFeature(String name, ConfiguredFeature<?, ?> configuredFeature) {
+        SilentMechanisms.LOGGER.debug("register configured feature '{}'", name);
         Registry.register(WorldGenRegistries.CONFIGURED_FEATURE, SilentMechanisms.getId(name), configuredFeature);
     }
 
@@ -47,7 +50,11 @@ public final class SMWorldFeatures {
     public static void addFeaturesToBiomes(BiomeLoadingEvent biome) {
         if (biome.getCategory() != Biome.Category.NETHER && biome.getCategory() != Biome.Category.THEEND) {
             for (Ores ore : Ores.values()) {
-                addOre(biome, ore);
+                ore.getConfig().ifPresent(config -> {
+                    if (config.isEnabled()) {
+                        addOre(biome, ore);
+                    }
+                });
             }
 
             addOilLakes(biome);
@@ -67,7 +74,7 @@ public final class SMWorldFeatures {
 
     private static void addOilLakes(BiomeLoadingEvent biome) {
         final int config = Config.worldGenOilLakeChance.get();
-        if (config > 0) {
+        if (config > 0 && biome.getName() != null) {
             // Somewhat more common in deserts
             ConfiguredFeature<?, ?> feature = biome.getName().equals(Biomes.DESERT.getRegistryName())
                     ? OIL_LAKES_COMMON.get() : OIL_LAKES_STANDARD.get();
