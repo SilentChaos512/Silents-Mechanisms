@@ -14,9 +14,9 @@ import java.util.function.Supplier;
 public final class ModRecipes {
     public static final class Types {
         public static final IRecipeType<AlloySmeltingRecipe> ALLOY_SMELTING = registerType(Constants.ALLOY_SMELTING);
-        public static final IRecipeType<CompressingRecipe> COMPRESSING = registerType(Constants.ALLOY_SMELTING);
-        public static final IRecipeType<CrushingRecipe> CRUSHING = registerType(Constants.ALLOY_SMELTING);
-        public static final IRecipeType<DryingRecipe> DRYING = registerType(Constants.ALLOY_SMELTING);
+        public static final IRecipeType<CompressingRecipe> COMPRESSING = registerType(Constants.COMPRESSING);
+        public static final IRecipeType<CrushingRecipe> CRUSHING = registerType(Constants.CRUSHING);
+        public static final IRecipeType<DryingRecipe> DRYING = registerType(Constants.DRYING);
         public static final IRecipeType<InfusingRecipe> INFUSING = registerType(Constants.INFUSING);
         public static final IRecipeType<MixingRecipe> MIXING = registerType(Constants.MIXING);
         public static final IRecipeType<RefiningRecipe> REFINING = registerType(Constants.REFINING);
