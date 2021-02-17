@@ -3,6 +3,14 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.8.10] - 2021-02-17
+### Added
+- Vietnamese (vi_vn) translation (KhanhPham05) [#125]
+- Lolcat (lol_us) and Dutch (nl_nl) translation (Qboi123) [#124]
+- Portuguese translation (SAMUELPV) [#122]
+### Fixed
+- Some recipe types using the wrong ID (jaredlll08) [#134, #132]
+
 ## [0.8.9] - 2021-01-15
 ### Added
 - Comparators can now check the energy stored by battery boxes [#72]
