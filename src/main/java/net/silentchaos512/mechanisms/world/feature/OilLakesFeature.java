@@ -18,11 +18,14 @@ public class OilLakesFeature extends LakesFeature {
     }
 
     @Override
-    public boolean func_241855_a(ISeedReader worldIn, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
+    public boolean generate(ISeedReader worldIn, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
         // Occasionally allow surface lakes
-        if (MathUtils.tryPercentage(0.1))
-            return super.func_241855_a(worldIn, generator, rand, pos, config);
-        // Place around Y 20-40
-        return super.func_241855_a(worldIn, generator, rand, new BlockPos(pos.getX(), rand.nextInt(20) + 20, pos.getZ()), config);
+        if (MathUtils.tryPercentage(0.1)) {
+            return super.generate(worldIn, generator, rand, pos, config);
+        }
+
+        // Place around Y 20-40 normally
+        BlockPos newPos = new BlockPos(pos.getX(), rand.nextInt(20) + 20, pos.getZ());
+        return super.generate(worldIn, generator, rand, newPos, config);
     }
 }
