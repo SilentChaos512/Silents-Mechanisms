@@ -40,3 +40,9 @@ authors="SilentChaos512"
     versionRange="[1.92,)"
     ordering="NONE"
     side="BOTH"
+[[dependencies.silents_mechanisms]]
+    modId="jei"
+    mandatory=false
+    versionRange="[7.6.3,)"
+    ordering="NONE"
+    side="BOTH"
