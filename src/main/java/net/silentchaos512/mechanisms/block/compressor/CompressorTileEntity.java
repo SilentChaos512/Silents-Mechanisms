@@ -47,8 +47,8 @@ public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingR
     @Nullable
     @Override
     protected CompressingRecipe getRecipe() {
-        if (world == null) return null;
-        return world.getRecipeManager().getRecipe(ModRecipes.Types.COMPRESSING, this, world).orElse(null);
+        if (level == null) return null;
+        return level.getRecipeManager().getRecipeFor(ModRecipes.Types.COMPRESSING, this, level).orElse(null);
     }
 
     @Override
@@ -58,12 +58,12 @@ public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingR
 
     @Override
     protected Collection<ItemStack> getProcessResults(CompressingRecipe recipe) {
-        return Collections.singleton(recipe.getCraftingResult(this));
+        return Collections.singleton(recipe.assemble(this));
     }
 
     @Override
     protected void consumeIngredients(CompressingRecipe recipe) {
-        decrStackSize(0, recipe.getIngredientCount());
+        removeItem(0, recipe.getIngredientCount());
     }
 
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
@@ -73,12 +73,12 @@ public class CompressorTileEntity extends AbstractMachineTileEntity<CompressingR
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
+    public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, @Nullable Direction direction) {
         return index == 0;
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index == 1;
     }
 

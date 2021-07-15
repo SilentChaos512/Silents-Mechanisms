@@ -27,9 +27,9 @@ public final class ModItems {
     public static final ItemRegistryObject<BatteryItem> BATTERY = register("battery", BatteryItem::new);
     public static final ItemRegistryObject<HandPumpItem> HAND_PUMP = register("hand_pump", HandPumpItem::new);
     public static final ItemRegistryObject<CanisterItem> CANISTER = register("canister", () ->
-            new CanisterItem(new Item.Properties().group(SilentMechanisms.ITEM_GROUP)));
+            new CanisterItem(new Item.Properties().tab(SilentMechanisms.ITEM_GROUP)));
     public static final ItemRegistryObject<EmptyCanisterItem> EMPTY_CANISTER = register("empty_canister", () ->
-            new EmptyCanisterItem(new Item.Properties().group(SilentMechanisms.ITEM_GROUP)));
+            new EmptyCanisterItem(new Item.Properties().tab(SilentMechanisms.ITEM_GROUP)));
 
     public static final ItemRegistryObject<BucketItem> OIL_BUCKET = register("oil_bucket", () ->
             createBucketItem(() -> ModFluids.OIL));
@@ -55,11 +55,11 @@ public final class ModItems {
     }
 
     private static BucketItem createBucketItem(Supplier<FlowingFluid> fluid) {
-        return new BucketItem(fluid, new Item.Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(1).containerItem(Items.BUCKET));
+        return new BucketItem(fluid, new Item.Properties().tab(SilentMechanisms.ITEM_GROUP).stacksTo(1).craftRemainder(Items.BUCKET));
     }
 
     private static NoPlaceBucketItem createNoPlaceBucketItem(Supplier<Fluid> fluid) {
-        return new NoPlaceBucketItem(fluid, new Item.Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(1).containerItem(Items.BUCKET));
+        return new NoPlaceBucketItem(fluid, new Item.Properties().tab(SilentMechanisms.ITEM_GROUP).stacksTo(1).craftRemainder(Items.BUCKET));
     }
 
     private static <T extends Item> ItemRegistryObject<T> register(String name, Supplier<T> item) {

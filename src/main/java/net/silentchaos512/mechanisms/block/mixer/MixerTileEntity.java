@@ -19,6 +19,8 @@ import net.silentchaos512.mechanisms.util.TextUtil;
 import javax.annotation.Nullable;
 import java.util.Collection;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe> {
     public static final int FIELDS_COUNT = 17;
     public static final int TANK_CAPACITY = 4_000;
@@ -30,7 +32,7 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
 
     @Override
     public void tick() {
-        if (world == null || world.isRemote) return;
+        if (level == null || level.isClientSide) return;
 
         tryFillTanks();
         tryFillFluidContainer();
@@ -45,7 +47,7 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
 
     private void tryFillTanks() {
         // Try fill feedstock tanks with fluid containers
-        ItemStack input = getStackInSlot(0);
+        ItemStack input = getItem(0);
         if (input.isEmpty()) return;
 
         FluidStack fluidStack = IFluidContainer.getBucketOrContainerFluid(input);
@@ -80,16 +82,16 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
         ItemStack containerItem = input.getContainerItem();
         input.shrink(1);
 
-        ItemStack output = getStackInSlot(1);
+        ItemStack output = getItem(1);
         if (output.isEmpty()) {
-            setInventorySlotContents(1, containerItem);
+            setItem(1, containerItem);
         } else {
             output.grow(1);
         }
     }
 
     private boolean canAcceptFluidContainer(ItemStack input, FluidStack fluid, int tank) {
-        ItemStack output = getStackInSlot(1);
+        ItemStack output = getItem(1);
         return !fluid.isEmpty()
                 && this.isFluidValid(tank, fluid)
                 && tanks[tank].fill(fluid, IFluidHandler.FluidAction.SIMULATE) == fluid.getAmount()
@@ -99,7 +101,7 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
 
     private void tryFillFluidContainer() {
         // Fill empty fluid containers with output fluids
-        ItemStack input = getStackInSlot(2);
+        ItemStack input = getItem(2);
         if (input.isEmpty()) return;
 
         FluidStack fluidInInput = IFluidContainer.getBucketOrContainerFluid(input);
@@ -133,8 +135,8 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
     @Nullable
     @Override
     public MixingRecipe getRecipe() {
-        if (world == null) return null;
-        return world.getRecipeManager().getRecipe(ModRecipes.Types.MIXING, this, world).orElse(null);
+        if (level == null) return null;
+        return level.getRecipeManager().getRecipeFor(ModRecipes.Types.MIXING, this, level).orElse(null);
     }
 
     @Override
@@ -153,12 +155,12 @@ public class MixerTileEntity extends AbstractFluidMachineTileEntity<MixingRecipe
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
+    public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
         return (index == 0 && InventoryUtils.isFilledFluidContainer(stack)) || (index == 2 && InventoryUtils.isEmptyFluidContainer(stack));
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index == 1 || index == 3;
     }
 

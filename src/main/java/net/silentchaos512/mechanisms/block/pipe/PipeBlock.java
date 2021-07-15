@@ -27,6 +27,8 @@ import net.silentchaos512.mechanisms.util.EnergyUtils;
 import javax.annotation.Nullable;
 import java.util.Map;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class PipeBlock extends SixWayBlock implements IWrenchable {
     public static final EnumProperty<ConnectionType> NORTH = EnumProperty.create("north", ConnectionType.class);
     public static final EnumProperty<ConnectionType> EAST = EnumProperty.create("east", ConnectionType.class);
@@ -45,13 +47,13 @@ public class PipeBlock extends SixWayBlock implements IWrenchable {
 
     public PipeBlock(Properties properties) {
         super(0.125f, properties);
-        this.setDefaultState(this.stateContainer.getBaseState()
-                .with(NORTH, ConnectionType.NONE)
-                .with(EAST, ConnectionType.NONE)
-                .with(SOUTH, ConnectionType.NONE)
-                .with(WEST, ConnectionType.NONE)
-                .with(UP, ConnectionType.NONE)
-                .with(DOWN, ConnectionType.NONE));
+        this.registerDefaultState(this.stateDefinition.any()
+                .setValue(NORTH, ConnectionType.NONE)
+                .setValue(EAST, ConnectionType.NONE)
+                .setValue(SOUTH, ConnectionType.NONE)
+                .setValue(WEST, ConnectionType.NONE)
+                .setValue(UP, ConnectionType.NONE)
+                .setValue(DOWN, ConnectionType.NONE));
     }
 
     @Override
@@ -67,18 +69,18 @@ public class PipeBlock extends SixWayBlock implements IWrenchable {
 
     @Override
     public ActionResultType onWrench(ItemUseContext context) {
-        BlockPos pos = context.getPos();
-        World world = context.getWorld();
+        BlockPos pos = context.getClickedPos();
+        World world = context.getLevel();
         BlockState state = world.getBlockState(pos);
-        Vector3d relative = context.getHitVec().subtract(pos.getX(), pos.getY(), pos.getZ());
+        Vector3d relative = context.getClickLocation().subtract(pos.getX(), pos.getY(), pos.getZ());
         SilentMechanisms.LOGGER.debug("onWrench: {}", relative);
 
         Direction side = getClickedConnection(relative);
         if (side != null) {
-            TileEntity other = world.getTileEntity(pos.offset(side));
+            TileEntity other = world.getBlockEntity(pos.relative(side));
             if (!(other instanceof PipeTileEntity)) {
                 BlockState state1 = cycleProperty(state, FACING_TO_PROPERTY_MAP.get(side));
-                world.setBlockState(pos, state1, 18);
+                world.setBlock(pos, state1, 18);
                 PipeNetworkManager.invalidateNetwork(world, pos);
                 return ActionResultType.SUCCESS;
             }
@@ -106,38 +108,38 @@ public class PipeBlock extends SixWayBlock implements IWrenchable {
 
     @SuppressWarnings("unchecked")
     private static <T extends Comparable<T>> BlockState cycleProperty(BlockState state, Property<T> propertyIn) {
-        T value = getAdjacentValue(propertyIn.getAllowedValues(), state.get(propertyIn));
+        T value = getAdjacentValue(propertyIn.getPossibleValues(), state.getValue(propertyIn));
         if (value == ConnectionType.NONE)
             value = (T) ConnectionType.IN;
-        return state.with(propertyIn, value);
+        return state.setValue(propertyIn, value);
     }
 
     private static <T> T getAdjacentValue(Iterable<T> p_195959_0_, @Nullable T p_195959_1_) {
-        return Util.getElementAfter(p_195959_0_, p_195959_1_);
+        return Util.findNextInIterable(p_195959_0_, p_195959_1_);
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(NORTH, EAST, SOUTH, WEST, UP, DOWN);
     }
 
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.makeConnections(context.getWorld(), context.getPos());
+        return this.makeConnections(context.getLevel(), context.getClickedPos());
     }
 
     public BlockState makeConnections(IBlockReader worldIn, BlockPos pos) {
-        return this.getDefaultState()
-                .with(DOWN, createConnection(worldIn, pos, Direction.DOWN, ConnectionType.NONE))
-                .with(UP, createConnection(worldIn, pos, Direction.UP, ConnectionType.NONE))
-                .with(NORTH, createConnection(worldIn, pos, Direction.NORTH, ConnectionType.NONE))
-                .with(EAST, createConnection(worldIn, pos, Direction.EAST, ConnectionType.NONE))
-                .with(SOUTH, createConnection(worldIn, pos, Direction.SOUTH, ConnectionType.NONE))
-                .with(WEST, createConnection(worldIn, pos, Direction.WEST, ConnectionType.NONE));
+        return this.defaultBlockState()
+                .setValue(DOWN, createConnection(worldIn, pos, Direction.DOWN, ConnectionType.NONE))
+                .setValue(UP, createConnection(worldIn, pos, Direction.UP, ConnectionType.NONE))
+                .setValue(NORTH, createConnection(worldIn, pos, Direction.NORTH, ConnectionType.NONE))
+                .setValue(EAST, createConnection(worldIn, pos, Direction.EAST, ConnectionType.NONE))
+                .setValue(SOUTH, createConnection(worldIn, pos, Direction.SOUTH, ConnectionType.NONE))
+                .setValue(WEST, createConnection(worldIn, pos, Direction.WEST, ConnectionType.NONE));
     }
 
     private static ConnectionType createConnection(IBlockReader worldIn, BlockPos pos, Direction side, ConnectionType current) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos.offset(side));
+        TileEntity tileEntity = worldIn.getBlockEntity(pos.relative(side));
         if (tileEntity instanceof PipeTileEntity) {
             return ConnectionType.BOTH;
         } else if (tileEntity != null) {
@@ -155,21 +157,21 @@ public class PipeBlock extends SixWayBlock implements IWrenchable {
 
     @SuppressWarnings("deprecation")
     @Override
-    public BlockState updatePostPlacement(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
-        if (worldIn.getTileEntity(facingPos) instanceof PipeTileEntity)
+    public BlockState updateShape(BlockState stateIn, Direction facing, BlockState facingState, IWorld worldIn, BlockPos currentPos, BlockPos facingPos) {
+        if (worldIn.getBlockEntity(facingPos) instanceof PipeTileEntity)
             PipeNetworkManager.invalidateNetwork(worldIn, currentPos);
 
         EnumProperty<ConnectionType> property = FACING_TO_PROPERTY_MAP.get(facing);
-        ConnectionType current = stateIn.get(property);
-        return stateIn.with(property, createConnection(worldIn, currentPos, facing, current));
+        ConnectionType current = stateIn.getValue(property);
+        return stateIn.setValue(property, createConnection(worldIn, currentPos, facing, current));
     }
 
     @Override
-    protected int getShapeIndex(BlockState state) {
+    protected int getAABBIndex(BlockState state) {
         int i = 0;
 
         for(int j = 0; j < Direction.values().length; ++j) {
-            if (state.get(FACING_TO_PROPERTY_MAP.get(Direction.values()[j])) != ConnectionType.NONE) {
+            if (state.getValue(FACING_TO_PROPERTY_MAP.get(Direction.values()[j])) != ConnectionType.NONE) {
                 i |= 1 << j;
             }
         }
@@ -178,6 +180,6 @@ public class PipeBlock extends SixWayBlock implements IWrenchable {
     }
 
     public static ConnectionType getConnection(BlockState state, Direction side) {
-        return state.get(FACING_TO_PROPERTY_MAP.get(side));
+        return state.getValue(FACING_TO_PROPERTY_MAP.get(side));
     }
 }

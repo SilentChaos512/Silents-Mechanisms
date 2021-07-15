@@ -45,11 +45,11 @@ public class AlloySmeltingRecipeBuilder {
     }
 
     public AlloySmeltingRecipeBuilder ingredient(IItemProvider item, int count) {
-        return ingredient(Ingredient.fromItems(item), count);
+        return ingredient(Ingredient.of(item), count);
     }
 
     public AlloySmeltingRecipeBuilder ingredient(ITag<Item> tag, int count) {
-        return ingredient(Ingredient.fromTag(tag), count);
+        return ingredient(Ingredient.of(tag), count);
     }
 
     public AlloySmeltingRecipeBuilder ingredient(Metals metal, int count) {
@@ -78,7 +78,7 @@ public class AlloySmeltingRecipeBuilder {
         }
 
         @Override
-        public void serialize(JsonObject json) {
+        public void serializeRecipeData(JsonObject json) {
             json.addProperty("process_time", builder.processTime);
 
             JsonArray ingredients = new JsonArray();
@@ -96,30 +96,30 @@ public class AlloySmeltingRecipeBuilder {
 
         private JsonElement serializeIngredient(Ingredient ingredient, int count) {
             JsonObject json = new JsonObject();
-            json.add("value", ingredient.serialize());
+            json.add("value", ingredient.toJson());
             json.addProperty("count", count);
             return json;
         }
 
         @Override
-        public ResourceLocation getID() {
+        public ResourceLocation getId() {
             return id;
         }
 
         @Override
-        public IRecipeSerializer<?> getSerializer() {
+        public IRecipeSerializer<?> getType() {
             return ModRecipes.ALLOY_SMELTING.get();
         }
 
         @Nullable
         @Override
-        public JsonObject getAdvancementJson() {
+        public JsonObject serializeAdvancement() {
             return null;
         }
 
         @Nullable
         @Override
-        public ResourceLocation getAdvancementID() {
+        public ResourceLocation getAdvancementId() {
             return null;
         }
     }

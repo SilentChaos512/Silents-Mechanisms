@@ -51,7 +51,7 @@ public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
 
         // Check for non-matching items
         for (int i = 0; i < inv.getInputSlotCount(); ++i) {
-            ItemStack stack = inv.getStackInSlot(i);
+            ItemStack stack = inv.getItem(i);
             if (!stack.isEmpty()) {
                 boolean foundMatch = false;
                 for (Ingredient ingredient : ingredients.keySet()) {
@@ -70,17 +70,17 @@ public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
     }
 
     @Override
-    public ItemStack getCraftingResult(IMachineInventory inv) {
+    public ItemStack assemble(IMachineInventory inv) {
         return result.copy();
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return result;
     }
 
@@ -100,20 +100,20 @@ public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
     }
 
     @Override
-    public boolean isDynamic() {
+    public boolean isSpecial() {
         return true;
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<AlloySmeltingRecipe> {
         @Override
-        public AlloySmeltingRecipe read(ResourceLocation recipeId, JsonObject json) {
+        public AlloySmeltingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             AlloySmeltingRecipe recipe = new AlloySmeltingRecipe(recipeId);
-            recipe.processTime = JSONUtils.getInt(json, "process_time", 400);
-            recipe.result = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
+            recipe.processTime = JSONUtils.getAsInt(json, "process_time", 400);
+            recipe.result = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
 
-            JSONUtils.getJsonArray(json, "ingredients").forEach(element -> {
+            JSONUtils.getAsJsonArray(json, "ingredients").forEach(element -> {
                 Ingredient ingredient = deserializeIngredient(element);
-                int count = JSONUtils.getInt(element.getAsJsonObject(), "count", 1);
+                int count = JSONUtils.getAsInt(element.getAsJsonObject(), "count", 1);
                 recipe.ingredients.put(ingredient, count);
             });
 
@@ -124,22 +124,22 @@ public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
             if (element.isJsonObject()) {
                 JsonObject json = element.getAsJsonObject();
                 if (json.has("value"))
-                    return Ingredient.deserialize(json.get("value"));
+                    return Ingredient.fromJson(json.get("value"));
                 if (json.has("values"))
-                    return Ingredient.deserialize(json.get("values"));
+                    return Ingredient.fromJson(json.get("values"));
             }
-            return Ingredient.deserialize(element);
+            return Ingredient.fromJson(element);
         }
 
         @Override
-        public AlloySmeltingRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+        public AlloySmeltingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
             AlloySmeltingRecipe recipe = new AlloySmeltingRecipe(recipeId);
             recipe.processTime = buffer.readVarInt();
-            recipe.result = buffer.readItemStack();
+            recipe.result = buffer.readItem();
 
             int ingredientCount = buffer.readByte();
             for (int i = 0; i < ingredientCount; ++i) {
-                Ingredient ingredient = Ingredient.read(buffer);
+                Ingredient ingredient = Ingredient.fromNetwork(buffer);
                 int count = buffer.readByte();
                 recipe.ingredients.put(ingredient, count);
             }
@@ -148,13 +148,13 @@ public class AlloySmeltingRecipe implements IRecipe<IMachineInventory> {
         }
 
         @Override
-        public void write(PacketBuffer buffer, AlloySmeltingRecipe recipe) {
+        public void toNetwork(PacketBuffer buffer, AlloySmeltingRecipe recipe) {
             buffer.writeVarInt(recipe.processTime);
-            buffer.writeItemStack(recipe.result);
+            buffer.writeItem(recipe.result);
 
             buffer.writeByte(recipe.ingredients.size());
             recipe.ingredients.forEach((ingredient, count) -> {
-                ingredient.write(buffer);
+                ingredient.toNetwork(buffer);
                 buffer.writeByte(count);
             });
         }

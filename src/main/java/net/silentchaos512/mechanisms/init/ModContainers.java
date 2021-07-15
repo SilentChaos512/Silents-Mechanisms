@@ -70,21 +70,21 @@ public final class ModContainers {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerScreens(FMLClientSetupEvent event) {
-        ScreenManager.registerFactory(MachineType.ALLOY_SMELTER.getContainerType(MachineTier.BASIC), AlloySmelterScreen::new);
-        ScreenManager.registerFactory(MachineType.ALLOY_SMELTER.getContainerType(MachineTier.STANDARD), AlloySmelterScreen::new);
-        ScreenManager.registerFactory(batteryBox, BatteryBoxScreen::new);
-        ScreenManager.registerFactory(coalGenerator, CoalGeneratorScreen::new);
-        ScreenManager.registerFactory(compressor, CompressorScreen::new);
-        ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.BASIC), CrusherScreen::new);
-        ScreenManager.registerFactory(MachineType.CRUSHER.getContainerType(MachineTier.STANDARD), CrusherScreen::new);
-        ScreenManager.registerFactory(dieselGenerator, DieselGeneratorScreen::new);
-        ScreenManager.registerFactory(electricFurnace, ElectricFurnaceScreen::new);
-        ScreenManager.registerFactory(infuser, InfuserScreen::new);
-        ScreenManager.registerFactory(lavaGenerator, LavaGeneratorScreen::new);
-        ScreenManager.registerFactory(mixer, MixerScreen::new);
-        ScreenManager.registerFactory(pump, PumpScreen::new);
-        ScreenManager.registerFactory(refinery, RefineryScreen::new);
-        ScreenManager.registerFactory(solidifier, SolidifierScreen::new);
+        ScreenManager.register(MachineType.ALLOY_SMELTER.getContainerType(MachineTier.BASIC), AlloySmelterScreen::new);
+        ScreenManager.register(MachineType.ALLOY_SMELTER.getContainerType(MachineTier.STANDARD), AlloySmelterScreen::new);
+        ScreenManager.register(batteryBox, BatteryBoxScreen::new);
+        ScreenManager.register(coalGenerator, CoalGeneratorScreen::new);
+        ScreenManager.register(compressor, CompressorScreen::new);
+        ScreenManager.register(MachineType.CRUSHER.getContainerType(MachineTier.BASIC), CrusherScreen::new);
+        ScreenManager.register(MachineType.CRUSHER.getContainerType(MachineTier.STANDARD), CrusherScreen::new);
+        ScreenManager.register(dieselGenerator, DieselGeneratorScreen::new);
+        ScreenManager.register(electricFurnace, ElectricFurnaceScreen::new);
+        ScreenManager.register(infuser, InfuserScreen::new);
+        ScreenManager.register(lavaGenerator, LavaGeneratorScreen::new);
+        ScreenManager.register(mixer, MixerScreen::new);
+        ScreenManager.register(pump, PumpScreen::new);
+        ScreenManager.register(refinery, RefineryScreen::new);
+        ScreenManager.register(solidifier, SolidifierScreen::new);
     }
 
     private static <C extends Container> ContainerType<C> register(String name, ContainerType.IFactory<C> containerFactory) {

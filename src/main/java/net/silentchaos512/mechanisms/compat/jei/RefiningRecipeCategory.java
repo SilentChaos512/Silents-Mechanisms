@@ -130,7 +130,7 @@ public class RefiningRecipeCategory implements IRecipeCategory<RefiningRecipe> {
     }
 
     private static void addFluidContainers(Collection<ItemStack> list, Fluid fluid) {
-        ItemStack bucket = new ItemStack(fluid.getFilledBucket());
+        ItemStack bucket = new ItemStack(fluid.getBucket());
         if (!bucket.isEmpty()) {
             list.add(bucket);
         }

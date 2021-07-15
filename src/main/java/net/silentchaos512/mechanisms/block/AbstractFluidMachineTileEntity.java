@@ -28,6 +28,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.IntStream;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> extends AbstractMachineTileEntity<R> implements IFluidInventory {
     protected final FluidTank[] tanks;
     private final LazyOptional<IFluidHandler> fluidHandlerCap;
@@ -82,7 +84,7 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
         }
 
         @Override
-        public int size() {
+        public int getCount() {
             return 7 + 2 * tanks.length;
         }
     };
@@ -122,7 +124,7 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
 
     @Override
     public void tick() {
-        if (world == null || world.isRemote) return;
+        if (level == null || level.isClientSide) return;
 
         R recipe = getRecipe();
         if (recipe != null && canMachineRun(recipe)) {
@@ -143,7 +145,7 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
                     setInactiveState();
                 }
             } else {
-                sendUpdate(getActiveState(world.getBlockState(pos)));
+                sendUpdate(getActiveState(level.getBlockState(worldPosition)));
             }
         } else {
             if (recipe == null) {
@@ -154,11 +156,11 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
     }
 
     private boolean canMachineRun(R recipe) {
-        return world != null
+        return level != null
                 && getEnergyStored() >= getEnergyUsedPerTick()
                 && hasRoomInOutputTank(getPossibleFluidResults(recipe))
                 && hasRoomInOutput(getPossibleProcessResult(recipe))
-                && redstoneMode.shouldRun(world.getRedstonePowerFromNeighbors(pos) > 0);
+                && redstoneMode.shouldRun(level.getBestNeighborSignal(worldPosition) > 0);
     }
 
     private boolean hasRoomInOutputTank(Iterable<FluidStack> results) {
@@ -208,37 +210,37 @@ public abstract class AbstractFluidMachineTileEntity<R extends IFluidRecipe<?>> 
     protected abstract void consumeIngredients(R recipe);
 
     @Override
-    public void remove() {
-        super.remove();
+    public void setRemoved() {
+        super.setRemoved();
         fluidHandlerCap.invalidate();
     }
 
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.removed && cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        if (!this.remove && cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.orEmpty(cap, fluidHandlerCap.cast());
         }
         return super.getCapability(cap, side);
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tags) {
+    public void load(BlockState state, CompoundNBT tags) {
         ListNBT list = tags.getList("Tanks", 10);
         for (int i = 0; i < tanks.length && i < list.size(); ++i) {
             INBT nbt = list.get(i);
             tanks[i].setFluid(FluidStack.loadFluidStackFromNBT((CompoundNBT) nbt));
         }
-        super.read(state, tags);
+        super.load(state, tags);
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tags) {
+    public CompoundNBT save(CompoundNBT tags) {
         ListNBT list = new ListNBT();
         for (FluidTank tank : tanks) {
             list.add(tank.writeToNBT(new CompoundNBT()));
         }
         tags.put("Tanks", list);
-        return super.write(tags);
+        return super.save(tags);
     }
 
     @Override

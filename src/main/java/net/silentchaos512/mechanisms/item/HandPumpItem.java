@@ -21,21 +21,23 @@ import net.silentchaos512.mechanisms.api.IFluidContainer;
 import net.silentchaos512.mechanisms.util.EnergyUtils;
 import net.silentchaos512.mechanisms.util.InventoryUtils;
 
+import net.minecraft.item.Item.Properties;
+
 public class HandPumpItem extends EnergyStoringItem {
     private static final int MAX_ENERGY = 100_000;
     private static final int MAX_RECEIVE = 100;
     private static final int ENERGY_PER_OPERATION = 500;
 
     public HandPumpItem() {
-        super(new Properties().group(SilentMechanisms.ITEM_GROUP).maxStackSize(1), MAX_ENERGY, MAX_RECEIVE, ENERGY_PER_OPERATION);
+        super(new Properties().tab(SilentMechanisms.ITEM_GROUP).stacksTo(1), MAX_ENERGY, MAX_RECEIVE, ENERGY_PER_OPERATION);
     }
 
     @Override
-    public ActionResultType onItemUse(ItemUseContext context) {
+    public ActionResultType useOn(ItemUseContext context) {
         PlayerEntity player = context.getPlayer();
         if (player == null) return ActionResultType.PASS;
 
-        IEnergyStorage energy = EnergyUtils.getEnergy(context.getItem());
+        IEnergyStorage energy = EnergyUtils.getEnergy(context.getItemInHand());
         if (energy == null) return ActionResultType.PASS;
 
         if (energy.getEnergyStored() < ENERGY_PER_OPERATION) {
@@ -43,11 +45,11 @@ public class HandPumpItem extends EnergyStoringItem {
             return ActionResultType.FAIL;
         }
 
-        World world = context.getWorld();
+        World world = context.getLevel();
 
         // Try to pull fluid from machines
-        BlockPos pos = context.getPos();
-        TileEntity tileEntity = world.getTileEntity(pos);
+        BlockPos pos = context.getClickedPos();
+        TileEntity tileEntity = world.getBlockEntity(pos);
 
         if (tileEntity != null) {
             LazyOptional<IFluidHandler> lazyOptional = tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY);
@@ -58,13 +60,13 @@ public class HandPumpItem extends EnergyStoringItem {
         }
 
         // Or pickup fluids from the world
-        BlockPos posOpposite = context.getPos().offset(context.getFace());
+        BlockPos posOpposite = context.getClickedPos().relative(context.getClickedFace());
         BlockState state = world.getBlockState(posOpposite);
 
         if (state.getBlock() instanceof IBucketPickupHandler) {
             ItemStack emptyContainer = takeFluidContainer(player);
             if (!emptyContainer.isEmpty()) {
-                Fluid fluid = ((IBucketPickupHandler) state.getBlock()).pickupFluid(world, posOpposite, state);
+                Fluid fluid = ((IBucketPickupHandler) state.getBlock()).takeLiquid(world, posOpposite, state);
                 FluidStack fluidStack = new FluidStack(fluid, 1000);
                 if (!fluidStack.isEmpty()) {
                     giveFilledContainer(player, energy, emptyContainer, fluidStack);
@@ -101,12 +103,12 @@ public class HandPumpItem extends EnergyStoringItem {
     }
 
     private static ItemStack takeFluidContainer(PlayerEntity player) {
-        for (int i = 0; i < player.inventory.mainInventory.size(); ++i) {
-            ItemStack stack = player.inventory.getStackInSlot(i);
+        for (int i = 0; i < player.inventory.items.size(); ++i) {
+            ItemStack stack = player.inventory.getItem(i);
             if (InventoryUtils.isEmptyFluidContainer(stack)) {
                 ItemStack split = stack.split(1);
                 if (stack.isEmpty()) {
-                    player.inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+                    player.inventory.setItem(i, ItemStack.EMPTY);
                 }
                 return split;
             }

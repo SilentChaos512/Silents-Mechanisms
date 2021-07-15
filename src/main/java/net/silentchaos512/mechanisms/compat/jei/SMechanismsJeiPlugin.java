@@ -69,8 +69,8 @@ public class SMechanismsJeiPlugin implements IModPlugin {
     }
 
     private static List<IRecipe<?>> getRecipesOfType(IRecipeType<?> recipeType) {
-        assert Minecraft.getInstance().world != null;
-        return Minecraft.getInstance().world.getRecipeManager().getRecipes().stream()
+        assert Minecraft.getInstance().level != null;
+        return Minecraft.getInstance().level.getRecipeManager().getRecipes().stream()
                 .filter(r -> r.getType() == recipeType)
                 .collect(Collectors.toList());
     }

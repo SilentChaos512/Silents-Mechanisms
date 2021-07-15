@@ -12,12 +12,12 @@ public class MachineUpgradeSlot extends Slot {
     }
 
     @Override
-    public boolean isItemValid(ItemStack stack) {
+    public boolean mayPlace(ItemStack stack) {
         return stack.getItem() instanceof MachineUpgradeItem;
     }
 
     @Override
-    public int getItemStackLimit(ItemStack stack) {
+    public int getMaxStackSize(ItemStack stack) {
         return Constants.UPGRADES_PER_SLOT;
     }
 }

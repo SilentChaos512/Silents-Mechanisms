@@ -89,7 +89,7 @@ public class CrushingRecipeCategoryJei implements IRecipeCategory<CrushingRecipe
 
         // Should only be one ingredient...
 //        recipe.getIngredients().forEach(ing -> itemStacks.set(0, Arrays.asList(ing.getMatchingStacks())));
-        itemStacks.set(0, Arrays.asList(recipe.getIngredient().getMatchingStacks()));
+        itemStacks.set(0, Arrays.asList(recipe.getIngredient().getItems()));
         // Outputs
         List<Pair<ItemStack, Float>> results = recipe.getPossibleResultsWithChances();
         for (int i = 0; i < results.size(); ++i) {
@@ -101,7 +101,7 @@ public class CrushingRecipeCategoryJei implements IRecipeCategory<CrushingRecipe
     public void draw(CrushingRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
         arrow.draw(matrixStack, 49 - GUI_START_X, 35 - GUI_START_Y);
 
-        FontRenderer font = Minecraft.getInstance().fontRenderer;
+        FontRenderer font = Minecraft.getInstance().font;
 
         List<Pair<ItemStack, Float>> results = recipe.getPossibleResultsWithChances();
         for (int i = 0; i < results.size(); ++i) {
@@ -109,7 +109,7 @@ public class CrushingRecipeCategoryJei implements IRecipeCategory<CrushingRecipe
             if (chance < 1) {
                 int asPercent = (int) (100 * chance);
                 String text = asPercent < 1 ? "<1%" : asPercent + "%";
-                TextRenderUtils.renderScaled(matrixStack, font, new StringTextComponent(text).func_241878_f(), 57 + 18 * i, 20, 0.75f, 0xFFFFFF, true);
+                TextRenderUtils.renderScaled(matrixStack, font, new StringTextComponent(text).getVisualOrderText(), 57 + 18 * i, 20, 0.75f, 0xFFFFFF, true);
             }
         }
     }

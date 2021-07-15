@@ -78,7 +78,7 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
         }
 
         @Override
-        public int size() {
+        public int getCount() {
             return FIELDS_COUNT;
         }
     };
@@ -96,9 +96,9 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
         if (canAcceptFluidContainer(item, fluid)) {
             tank.fill(fluid, IFluidHandler.FluidAction.EXECUTE);
 
-            ItemStack output = getStackInSlot(1);
+            ItemStack output = getItem(1);
             if (output.isEmpty()) {
-                setInventorySlotContents(1, item.getContainerItem());
+                setItem(1, item.getContainerItem());
             } else {
                 output.grow(1);
             }
@@ -108,7 +108,7 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
     }
 
     private boolean canAcceptFluidContainer(ItemStack item, FluidStack fluid) {
-        ItemStack output = getStackInSlot(1);
+        ItemStack output = getItem(1);
         return !fluid.isEmpty()
                 && tank.isFluidValid(0, fluid)
                 && tank.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == fluid.getAmount()
@@ -126,7 +126,7 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
     public void tick() {
         // Drain fluid containers into internal tank
         if (tank.getFluidAmount() < tank.getTankCapacity(0) - 999) {
-            ItemStack stack = getStackInSlot(0);
+            ItemStack stack = getItem(0);
             if (!stack.isEmpty()) {
                 tryFillTank(stack);
             }
@@ -135,23 +135,23 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tags) {
-        super.read(state, tags);
+    public void load(BlockState state, CompoundNBT tags) {
+        super.load(state, tags);
         if (tags.contains("FluidTank")) {
             this.tank.setFluid(FluidStack.loadFluidStackFromNBT(tags.getCompound("FluidTank")));
         }
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tags) {
+    public CompoundNBT save(CompoundNBT tags) {
         tags.put("FluidTank", this.tank.writeToNBT(new CompoundNBT()));
-        return super.write(tags);
+        return super.save(tags);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         super.onDataPacket(net, packet);
-        CompoundNBT tags = packet.getNbtCompound();
+        CompoundNBT tags = packet.getTag();
         if (tags.contains("FluidTank")) {
             this.tank.setFluid(FluidStack.loadFluidStackFromNBT(tags.getCompound("FluidTank")));
         }
@@ -173,8 +173,8 @@ public abstract class AbstractFluidFuelGeneratorTileEntity extends AbstractGener
     }
 
     @Override
-    public void remove() {
-        super.remove();
+    public void setRemoved() {
+        super.setRemoved();
         fluidHandlerCap.invalidate();
     }
 }

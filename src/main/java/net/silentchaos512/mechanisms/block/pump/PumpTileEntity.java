@@ -75,7 +75,7 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
         }
 
         @Override
-        public int size() {
+        public int getCount() {
             return FIELDS_COUNT;
         }
     };
@@ -106,21 +106,21 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
 
     @Override
     public void tick() {
-        if (world == null || world.isRemote) return;
+        if (level == null || level.isClientSide) return;
 
         tryFillFluidContainer();
 
         // Only pump fluids occasionally
-        if (!canMachineRun() || world.getGameTime() % getPumpDelay() != 0) return;
+        if (!canMachineRun() || level.getGameTime() % getPumpDelay() != 0) return;
 
         // TODO: Could probably optimize this to not iterate over the entire region each time
         BlockPos.Mutable blockPos = new BlockPos.Mutable();
-        for (int y = pos.getY(); y > Math.max(0, pos.getY() - getVerticalRange()); --y) {
+        for (int y = worldPosition.getY(); y > Math.max(0, worldPosition.getY() - getVerticalRange()); --y) {
             int range = getHorizontalRange();
-            for (int x = pos.getX() - range; x <= pos.getX() + range; ++x) {
-                for (int z = pos.getZ() - range; z <= pos.getZ() + range; ++z) {
-                    blockPos.setPos(x, y, z);
-                    BlockState state = world.getBlockState(blockPos);
+            for (int x = worldPosition.getX() - range; x <= worldPosition.getX() + range; ++x) {
+                for (int z = worldPosition.getZ() - range; z <= worldPosition.getZ() + range; ++z) {
+                    blockPos.set(x, y, z);
+                    BlockState state = level.getBlockState(blockPos);
                     if (tryPumpFluid(blockPos, x, y, z, state)) {
                         return;
                     }
@@ -131,8 +131,8 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
 
     private boolean tryPumpFluid(BlockPos.Mutable blockPos, int x, int y, int z, BlockState state) {
         if (state.getBlock() instanceof IBucketPickupHandler) {
-            assert world != null;
-            Fluid fluid = ((IBucketPickupHandler) state.getBlock()).pickupFluid(world, blockPos, state);
+            assert level != null;
+            Fluid fluid = ((IBucketPickupHandler) state.getBlock()).takeLiquid(level, blockPos, state);
             FluidStack fluidStack = new FluidStack(fluid, 1000);
 
             if (!fluidStack.isEmpty() && tank.fill(fluidStack, IFluidHandler.FluidAction.SIMULATE) == 1000) {
@@ -146,7 +146,7 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
 
     private void tryFillFluidContainer() {
         // Fill empty fluid containers with output fluids
-        ItemStack input = getStackInSlot(0);
+        ItemStack input = getItem(0);
         if (input.isEmpty()) return;
 
         FluidStack fluidInInput = IFluidContainer.getBucketOrContainerFluid(input);
@@ -163,10 +163,10 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
     }
 
     private boolean canMachineRun() {
-        return world != null
+        return level != null
                 && getEnergyStored() >= getEnergyPerOperation()
                 && tank.getCapacity() - tank.getFluidAmount() >= 1000
-                && redstoneMode.shouldRun(world.getRedstonePowerFromNeighbors(pos) > 0);
+                && redstoneMode.shouldRun(level.getBestNeighborSignal(worldPosition) > 0);
     }
 
     @Override
@@ -175,12 +175,12 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
+    public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, @Nullable Direction direction) {
         return index == 0 && InventoryUtils.isEmptyFluidContainer(itemStackIn);
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index == 1;
     }
 
@@ -195,20 +195,20 @@ public class PumpTileEntity extends AbstractMachineBaseTileEntity {
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tags) {
+    public void load(BlockState state, CompoundNBT tags) {
         this.tank.readFromNBT(tags.getCompound("Tank"));
-        super.read(state, tags);
+        super.load(state, tags);
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tags) {
+    public CompoundNBT save(CompoundNBT tags) {
         tags.put("Tank", this.tank.writeToNBT(new CompoundNBT()));
-        return super.write(tags);
+        return super.save(tags);
     }
 
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.removed && cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
+        if (!this.remove && cap == CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY) {
             return CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY.orEmpty(cap, fluidCap.cast());
         }
         return super.getCapability(cap, side);

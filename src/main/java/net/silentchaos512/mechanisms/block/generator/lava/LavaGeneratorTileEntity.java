@@ -26,7 +26,7 @@ public class LavaGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEntit
     static final int TANK_CAPACITY = 4000;
 
     public LavaGeneratorTileEntity() {
-        super(ModTileEntities.lavaGenerator, 2, MAX_ENERGY, 0, MAX_SEND, new FluidTank(TANK_CAPACITY, s -> s.getFluid().isIn(FluidTags.LAVA)));
+        super(ModTileEntities.lavaGenerator, 2, MAX_ENERGY, 0, MAX_SEND, new FluidTank(TANK_CAPACITY, s -> s.getFluid().is(FluidTags.LAVA)));
     }
 
     public IFluidHandler getTank() {
@@ -54,12 +54,12 @@ public class LavaGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEntit
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
-        return index == 0 && IFluidContainer.getBucketOrContainerFluid(stack).getFluid().isIn(FluidTags.LAVA);
+    public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
+        return index == 0 && IFluidContainer.getBucketOrContainerFluid(stack).getFluid().is(FluidTags.LAVA);
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index == 1;
     }
 

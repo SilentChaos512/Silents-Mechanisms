@@ -52,8 +52,8 @@ public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe>
     @Nullable
     @Override
     protected CrushingRecipe getRecipe() {
-        if (world == null) return null;
-        return world.getRecipeManager().getRecipe(ModRecipes.Types.CRUSHING, this, world).orElse(null);
+        if (level == null) return null;
+        return level.getRecipeManager().getRecipeFor(ModRecipes.Types.CRUSHING, this, level).orElse(null);
     }
 
     @Override
@@ -78,12 +78,12 @@ public class CrusherTileEntity extends AbstractMachineTileEntity<CrushingRecipe>
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
+    public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, @Nullable Direction direction) {
         return index < INPUT_SLOT_COUNT;
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index >= INPUT_SLOT_COUNT;
     }
 

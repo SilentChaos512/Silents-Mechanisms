@@ -41,24 +41,24 @@ public class BatteryBoxTileEntity extends AbstractMachineBaseTileEntity {
     public void tick() {
         super.tick();
 
-        if (world == null || world.isRemote) return;
+        if (level == null || level.isClientSide) return;
 
         if (energy.getInternalEnergyStored() > 0) {
             // Charge stored batteries
             energy.receiveEnergy(energy.extractInternalEnergy(MAX_SEND / 2, false), false);
         }
 
-        if (world.getGameTime() % 50 == 0) {
+        if (level.getGameTime() % 50 == 0) {
             int batteryCount = 0;
-            for (int i = 0; i < getSizeInventory(); ++i) {
-                if (!getStackInSlot(i).isEmpty()) {
+            for (int i = 0; i < getContainerSize(); ++i) {
+                if (!getItem(i).isEmpty()) {
                     ++batteryCount;
                 }
             }
 
-            int currentCount = world.getBlockState(pos).get(BatteryBoxBlock.BATTERIES);
+            int currentCount = level.getBlockState(worldPosition).getValue(BatteryBoxBlock.BATTERIES);
             if (batteryCount != currentCount) {
-                world.setBlockState(pos, world.getBlockState(pos).with(BatteryBoxBlock.BATTERIES, batteryCount), 3);
+                level.setBlock(worldPosition, level.getBlockState(worldPosition).setValue(BatteryBoxBlock.BATTERIES, batteryCount), 3);
             }
         }
     }
@@ -70,12 +70,12 @@ public class BatteryBoxTileEntity extends AbstractMachineBaseTileEntity {
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
+    public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, @Nullable Direction direction) {
         return itemStackIn.getCapability(CapabilityEnergy.ENERGY).isPresent();
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return false;
     }
 

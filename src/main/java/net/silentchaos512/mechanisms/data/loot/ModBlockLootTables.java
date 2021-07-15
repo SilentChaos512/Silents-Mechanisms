@@ -14,7 +14,7 @@ public class ModBlockLootTables extends BlockLootTables {
         Registration.BLOCKS.getEntries().stream()
                 .map(RegistryObject::get)
                 .filter(block -> block.asItem() != Items.AIR)
-                .forEach(this::registerDropSelfLootTable);
+                .forEach(this::dropSelf);
     }
 
     @Override

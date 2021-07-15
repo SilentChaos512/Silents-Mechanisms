@@ -21,7 +21,7 @@ public final class SMechComputerCraftCompat {
 
     @SuppressWarnings("TypeMayBeWeakened")
     private static LazyOptional<IPeripheral> getPeripheral(World world, BlockPos pos, Direction side) {
-        TileEntity tileEntity = world.getTileEntity(pos);
+        TileEntity tileEntity = world.getBlockEntity(pos);
         if (tileEntity instanceof AbstractMachineBaseTileEntity) {
             return LazyOptional.of(() -> new MachinePeripheral((AbstractMachineBaseTileEntity) tileEntity));
         }

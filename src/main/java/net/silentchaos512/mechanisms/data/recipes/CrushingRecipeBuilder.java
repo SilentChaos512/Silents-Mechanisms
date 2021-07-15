@@ -30,11 +30,11 @@ public final class CrushingRecipeBuilder {
     }
 
     public static CrushingRecipeBuilder builder(IItemProvider ingredient, int processTime) {
-        return builder(Ingredient.fromItems(ingredient), processTime);
+        return builder(Ingredient.of(ingredient), processTime);
     }
 
     public static CrushingRecipeBuilder builder(ITag<Item> ingredient, int processTime) {
-        return builder(Ingredient.fromTag(ingredient), processTime);
+        return builder(Ingredient.of(ingredient), processTime);
     }
 
     public static CrushingRecipeBuilder builder(Ingredient ingredient, int processTime) {
@@ -101,9 +101,9 @@ public final class CrushingRecipeBuilder {
         }
 
         @Override
-        public void serialize(JsonObject json) {
+        public void serializeRecipeData(JsonObject json) {
             json.addProperty("process_time", builder.processTime);
-            json.add("ingredient", builder.ingredient.serialize());
+            json.add("ingredient", builder.ingredient.toJson());
 
             JsonArray results = new JsonArray();
             builder.results.forEach((stack, chance) ->
@@ -124,24 +124,24 @@ public final class CrushingRecipeBuilder {
         }
 
         @Override
-        public ResourceLocation getID() {
+        public ResourceLocation getId() {
             return id;
         }
 
         @Override
-        public IRecipeSerializer<?> getSerializer() {
+        public IRecipeSerializer<?> getType() {
             return ModRecipes.CRUSHING.get();
         }
 
         @Nullable
         @Override
-        public JsonObject getAdvancementJson() {
+        public JsonObject serializeAdvancement() {
             return null;
         }
 
         @Nullable
         @Override
-        public ResourceLocation getAdvancementID() {
+        public ResourceLocation getAdvancementId() {
             return null;
         }
     }

@@ -15,6 +15,8 @@ import net.minecraftforge.fluids.capability.wrappers.FluidBucketWrapper;
 import javax.annotation.Nullable;
 import java.util.function.Supplier;
 
+import net.minecraft.item.Item.Properties;
+
 /**
  * A bucket with right-click functionality removed. Used for fluids without blocks.
  */
@@ -24,8 +26,8 @@ public class NoPlaceBucketItem extends BucketItem {
     }
 
     @Override
-    public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-        return new ActionResult<>(ActionResultType.PASS, playerIn.getHeldItem(handIn));
+    public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+        return new ActionResult<>(ActionResultType.PASS, playerIn.getItemInHand(handIn));
     }
 
     @Override

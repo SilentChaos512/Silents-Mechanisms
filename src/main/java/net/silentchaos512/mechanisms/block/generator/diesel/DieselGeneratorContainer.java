@@ -29,13 +29,13 @@ public class DieselGeneratorContainer extends AbstractFluidGeneratorContainer<Di
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
+    public boolean stillValid(PlayerEntity playerIn) {
         return true;
     }
 
     @Override
     protected boolean isFuel(ItemStack stack) {
         return InventoryUtils.isFilledFluidContainer(stack)
-                && IFluidContainer.getBucketOrContainerFluid(stack).getFluid().isIn(DieselGeneratorTileEntity.FUEL_TAG);
+                && IFluidContainer.getBucketOrContainerFluid(stack).getFluid().is(DieselGeneratorTileEntity.FUEL_TAG);
     }
 }

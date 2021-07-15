@@ -170,7 +170,7 @@ public enum Metals {
         }
         getChunksTag().ifPresent(builder::add);
         getDustTag().ifPresent(builder::add);
-        return Ingredient.fromItemListStream(builder.build().map(Ingredient.TagList::new));
+        return Ingredient.fromValues(builder.build().map(Ingredient.TagList::new));
     }
 
     public static void registerBlocks() {
@@ -179,7 +179,7 @@ public enum Metals {
                 String name = metal.oreName + "_ore";
                 metal.ore = new BlockRegistryObject<>(Registration.BLOCKS.register(name, metal.oreSupplier));
                 Registration.ITEMS.register(name, () ->
-                        new BlockItem(metal.ore.get(), new Item.Properties().group(SilentMechanisms.ITEM_GROUP)));
+                        new BlockItem(metal.ore.get(), new Item.Properties().tab(SilentMechanisms.ITEM_GROUP)));
             }
         }
         for (Metals metal : values()) {
@@ -187,7 +187,7 @@ public enum Metals {
                 String name = metal.getName() + "_block";
                 metal.storageBlock = new BlockRegistryObject<>(Registration.BLOCKS.register(name, metal.storageBlockSupplier));
                 Registration.ITEMS.register(name, () ->
-                        new BlockItem(metal.storageBlock.get(), new Item.Properties().group(SilentMechanisms.ITEM_GROUP)));
+                        new BlockItem(metal.storageBlock.get(), new Item.Properties().tab(SilentMechanisms.ITEM_GROUP)));
             }
         }
     }
@@ -245,11 +245,11 @@ public enum Metals {
         }
 
         Builder ore(Ores ore) {
-            this.ore = () -> new OreBlock(AbstractBlock.Properties.create(Material.ROCK)
-                    .setRequiresTool()
+            this.ore = () -> new OreBlock(AbstractBlock.Properties.of(Material.STONE)
+                    .requiresCorrectToolForDrops()
                     .harvestTool(ToolType.PICKAXE)
                     .harvestLevel(ore.getHarvestLevel())
-                    .hardnessAndResistance(ore.getHardness(), 3)
+                    .strength(ore.getHardness(), 3)
                     .sound(SoundType.STONE));
             this.oreTag = blockTag("ores/" + name);
             return this;
@@ -262,19 +262,19 @@ public enum Metals {
         }
 
         Builder chunks() {
-            this.chunks = () -> new Item(new Item.Properties().group(SilentMechanisms.ITEM_GROUP));
+            this.chunks = () -> new Item(new Item.Properties().tab(SilentMechanisms.ITEM_GROUP));
             this.chunksTag = itemTag(SilentMechanisms.getId("chunks/" + name));
             return this;
         }
 
         Builder dust() {
-            this.dust = () -> new Item(new Item.Properties().group(SilentMechanisms.ITEM_GROUP));
+            this.dust = () -> new Item(new Item.Properties().tab(SilentMechanisms.ITEM_GROUP));
             this.dustTag = itemTag("dusts/" + name);
             return this;
         }
 
         Builder ingot() {
-            this.ingot = () -> new Item(new Item.Properties().group(SilentMechanisms.ITEM_GROUP));
+            this.ingot = () -> new Item(new Item.Properties().tab(SilentMechanisms.ITEM_GROUP));
             this.ingotTag = itemTag("ingots/" + name);
             return this;
         }
@@ -285,7 +285,7 @@ public enum Metals {
         }
 
         Builder nugget() {
-            this.nugget = () -> new Item(new Item.Properties().group(SilentMechanisms.ITEM_GROUP));
+            this.nugget = () -> new Item(new Item.Properties().tab(SilentMechanisms.ITEM_GROUP));
             this.nuggetTag = itemTag("nuggets/" + name);
             return this;
         }
@@ -296,15 +296,15 @@ public enum Metals {
         }
 
         private static ITag.INamedTag<Block> blockTag(String path) {
-            return BlockTags.makeWrapperTag(new ResourceLocation("forge", path).toString());
+            return BlockTags.bind(new ResourceLocation("forge", path).toString());
         }
 
         private static ITag.INamedTag<Item> itemTag(String path) {
-            return ItemTags.makeWrapperTag(new ResourceLocation("forge", path).toString());
+            return ItemTags.bind(new ResourceLocation("forge", path).toString());
         }
 
         private static ITag.INamedTag<Item> itemTag(ResourceLocation tag) {
-            return ItemTags.makeWrapperTag(tag.toString());
+            return ItemTags.bind(tag.toString());
         }
     }
 }

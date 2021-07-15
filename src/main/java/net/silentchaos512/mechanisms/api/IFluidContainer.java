@@ -60,7 +60,7 @@ public interface IFluidContainer {
         Item item = empty.getItem();
         //noinspection ChainOfInstanceofChecks
         if (item instanceof BucketItem) {
-            return new ItemStack(fluid.getFluid().getFilledBucket());
+            return new ItemStack(fluid.getFluid().getBucket());
         }
         if (item instanceof IFluidContainer) {
             return ((IFluidContainer) item).fillWithFluid(empty, fluid);

@@ -49,7 +49,7 @@ public final class WireNetwork implements IEnergyStorage {
     private void updateWireEnergy() {
         int energyPerWire = energyStored / getWireCount();
         connections.keySet().forEach(p -> {
-            TileEntity tileEntity = world.getTileEntity(p);
+            TileEntity tileEntity = world.getBlockEntity(p);
             if (tileEntity instanceof WireTileEntity) {
                 ((WireTileEntity) tileEntity).energyStored = energyPerWire;
             }
@@ -97,7 +97,7 @@ public final class WireNetwork implements IEnergyStorage {
             Set<Connection> connections = entry.getValue();
             for (Connection con : connections) {
                 if (con.type.canExtract()) {
-                    IEnergyStorage energy = EnergyUtils.getEnergy(world, pos.offset(con.side));
+                    IEnergyStorage energy = EnergyUtils.getEnergy(world, pos.relative(con.side));
                     if (energy != null && energy.canReceive()) {
                         int toSend = extractEnergy(TRANSFER_PER_CONNECTION, true);
                         int accepted = energy.receiveEnergy(toSend, false);
@@ -132,7 +132,7 @@ public final class WireNetwork implements IEnergyStorage {
     static WireNetwork buildNetwork(IWorldReader world, BlockPos pos) {
         Set<BlockPos> wires = buildWireSet(world, pos);
         int energyStored = wires.stream().mapToInt(p -> {
-            TileEntity tileEntity = world.getTileEntity(p);
+            TileEntity tileEntity = world.getBlockEntity(p);
             return tileEntity instanceof WireTileEntity ? ((WireTileEntity) tileEntity).energyStored : 0;
         }).sum();
         return new WireNetwork(world, wires, energyStored);
@@ -146,8 +146,8 @@ public final class WireNetwork implements IEnergyStorage {
         // Get all positions that have a wire connected to the wire at pos
         set.add(pos);
         for (Direction side : Direction.values()) {
-            BlockPos pos1 = pos.offset(side);
-            if (!set.contains(pos1) && world.getTileEntity(pos1) instanceof WireTileEntity) {
+            BlockPos pos1 = pos.relative(side);
+            if (!set.contains(pos1) && world.getBlockEntity(pos1) instanceof WireTileEntity) {
                 set.add(pos1);
                 set.addAll(buildWireSet(world, pos1, set));
             }
@@ -167,7 +167,7 @@ public final class WireNetwork implements IEnergyStorage {
         // Get all connections for the wire at pos
         Set<Connection> connections = new HashSet<>();
         for (Direction direction : Direction.values()) {
-            TileEntity te = world.getTileEntity(pos.offset(direction));
+            TileEntity te = world.getBlockEntity(pos.relative(direction));
             if (te != null && !(te instanceof WireTileEntity) && te.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
                 ConnectionType type = WireBlock.getConnection(world.getBlockState(pos), direction);
                 connections.add(new Connection(this, direction, type));

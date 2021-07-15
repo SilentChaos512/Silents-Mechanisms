@@ -93,24 +93,24 @@ public class CrushingRecipe implements IRecipe<IInventory> {
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
-        return this.ingredient.test(inv.getStackInSlot(0));
+        return this.ingredient.test(inv.getItem(0));
     }
 
     @Deprecated
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         // DO NOT USE
-        return getRecipeOutput();
+        return getResultItem();
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
     @Deprecated
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         // DO NOT USE
         return !results.isEmpty() ? results.keySet().iterator().next() : ItemStack.EMPTY;
     }
@@ -131,34 +131,34 @@ public class CrushingRecipe implements IRecipe<IInventory> {
     }
 
     @Override
-    public boolean isDynamic() {
+    public boolean isSpecial() {
         return true;
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CrushingRecipe> {
         @Override
-        public CrushingRecipe read(ResourceLocation recipeId, JsonObject json) {
+        public CrushingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             CrushingRecipe recipe = new CrushingRecipe(recipeId);
-            recipe.processTime = JSONUtils.getInt(json, "process_time", 400);
-            recipe.ingredient = Ingredient.deserialize(json.get("ingredient"));
+            recipe.processTime = JSONUtils.getAsInt(json, "process_time", 400);
+            recipe.ingredient = Ingredient.fromJson(json.get("ingredient"));
             JsonArray resultsArray = json.getAsJsonArray("results");
             for (JsonElement element : resultsArray) {
                 JsonObject obj = element.getAsJsonObject();
-                String itemId = JSONUtils.getString(obj, "item");
-                Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryCreate(itemId));
-                int count = JSONUtils.getInt(obj, "count", 1);
+                String itemId = JSONUtils.getAsString(obj, "item");
+                Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(itemId));
+                int count = JSONUtils.getAsInt(obj, "count", 1);
                 ItemStack stack = new ItemStack(item, count);
-                float chance = JSONUtils.getFloat(obj, "chance", 1);
+                float chance = JSONUtils.getAsFloat(obj, "chance", 1);
                 recipe.results.put(stack, chance);
             }
             return recipe;
         }
 
         @Override
-        public CrushingRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+        public CrushingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
             CrushingRecipe recipe = new CrushingRecipe(recipeId);
             recipe.processTime = buffer.readVarInt();
-            recipe.ingredient = Ingredient.read(buffer);
+            recipe.ingredient = Ingredient.fromNetwork(buffer);
             int resultCount = buffer.readByte();
             for (int i = 0; i < resultCount; ++i) {
                 ResourceLocation itemId = buffer.readResourceLocation();
@@ -171,9 +171,9 @@ public class CrushingRecipe implements IRecipe<IInventory> {
         }
 
         @Override
-        public void write(PacketBuffer buffer, CrushingRecipe recipe) {
+        public void toNetwork(PacketBuffer buffer, CrushingRecipe recipe) {
             buffer.writeVarInt(recipe.processTime);
-            recipe.ingredient.write(buffer);
+            recipe.ingredient.toNetwork(buffer);
             buffer.writeByte(recipe.results.size());
             recipe.results.forEach((stack, chance) -> {
                 buffer.writeResourceLocation(Objects.requireNonNull(stack.getItem().getRegistryName()));

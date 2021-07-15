@@ -48,24 +48,24 @@ public class ElectricFurnaceTileEntity extends AbstractMachineTileEntity<Abstrac
     @Override
     @Nullable
     protected AbstractCookingRecipe getRecipe() {
-        if (world == null) return null;
+        if (level == null) return null;
 
-        RecipeManager recipeManager = world.getRecipeManager();
-        Optional<BlastingRecipe> optional = recipeManager.getRecipe(IRecipeType.BLASTING, this, world);
+        RecipeManager recipeManager = level.getRecipeManager();
+        Optional<BlastingRecipe> optional = recipeManager.getRecipeFor(IRecipeType.BLASTING, this, level);
         if (optional.isPresent()) return optional.get();
 
-        Optional<FurnaceRecipe> optional1 = recipeManager.getRecipe(IRecipeType.SMELTING, this, world);
+        Optional<FurnaceRecipe> optional1 = recipeManager.getRecipeFor(IRecipeType.SMELTING, this, level);
         return optional1.orElse(null);
     }
 
     @Override
     protected int getProcessTime(AbstractCookingRecipe recipe) {
-        return recipe.getCookTime();
+        return recipe.getCookingTime();
     }
 
     @Override
     protected Collection<ItemStack> getProcessResults(AbstractCookingRecipe recipe) {
-        return Collections.singleton(recipe.getCraftingResult(this));
+        return Collections.singleton(recipe.assemble(this));
     }
 
     @SuppressWarnings("AssignmentOrReturnOfFieldWithMutableType")
@@ -75,12 +75,12 @@ public class ElectricFurnaceTileEntity extends AbstractMachineTileEntity<Abstrac
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack itemStackIn, @Nullable Direction direction) {
+    public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, @Nullable Direction direction) {
         return index == 0;
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index == 1;
     }
 

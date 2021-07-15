@@ -76,17 +76,17 @@ public class RefiningRecipe implements IFluidRecipe<IFluidInventory> {
     }
 
     @Override
-    public boolean isDynamic() {
+    public boolean isSpecial() {
         return true;
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<RefiningRecipe> {
         @Override
-        public RefiningRecipe read(ResourceLocation recipeId, JsonObject json) {
+        public RefiningRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             RefiningRecipe recipe = new RefiningRecipe(recipeId);
-            recipe.processTime = JSONUtils.getInt(json, "process_time");
+            recipe.processTime = JSONUtils.getAsInt(json, "process_time");
             recipe.ingredient = FluidIngredient.deserialize(json.getAsJsonObject("ingredient"));
-            for (JsonElement je : JSONUtils.getJsonArray(json, "results")) {
+            for (JsonElement je : JSONUtils.getAsJsonArray(json, "results")) {
                 FluidStack stack = IFluidRecipe.deserializeFluid(je.getAsJsonObject());
                 if (!stack.isEmpty()) {
                     recipe.outputs.add(stack);
@@ -97,7 +97,7 @@ public class RefiningRecipe implements IFluidRecipe<IFluidInventory> {
 
         @Nullable
         @Override
-        public RefiningRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+        public RefiningRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
             RefiningRecipe recipe = new RefiningRecipe(recipeId);
             recipe.processTime = buffer.readVarInt();
             recipe.ingredient = FluidIngredient.read(buffer);
@@ -112,7 +112,7 @@ public class RefiningRecipe implements IFluidRecipe<IFluidInventory> {
         }
 
         @Override
-        public void write(PacketBuffer buffer, RefiningRecipe recipe) {
+        public void toNetwork(PacketBuffer buffer, RefiningRecipe recipe) {
             buffer.writeVarInt(recipe.processTime);
             recipe.ingredient.write(buffer);
             buffer.writeByte(recipe.outputs.size());

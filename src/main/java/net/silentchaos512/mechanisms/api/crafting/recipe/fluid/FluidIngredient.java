@@ -83,12 +83,12 @@ public class FluidIngredient implements Predicate<FluidStack> {
         // TODO: Should change this once I figure out what exactly is going on here...
         try {
             assert this.tag != null;
-            this.tag.getAllElements();
+            this.tag.getValues();
         } catch (IllegalStateException ex) {
             SilentMechanisms.LOGGER.warn("Fluid tags not bound when needed! Trying to fetch tags...");
-            TagRegistryManager.fetchTags();
+            TagRegistryManager.resetAllToEmpty();
         }
-        return this.tag.getAllElements().stream().map(f -> new FluidStack(f, this.amount)).collect(Collectors.toList());
+        return this.tag.getValues().stream().map(f -> new FluidStack(f, this.amount)).collect(Collectors.toList());
     }
 
     public int getAmount() {
@@ -114,7 +114,7 @@ public class FluidIngredient implements Predicate<FluidStack> {
      * @return True if the fluid matches the ingredient, ignoring amount
      */
     public boolean testIgnoreAmount(FluidStack stack) {
-        return (tag != null && stack.getFluid().isIn(tag)) || (fluid != null && stack.getFluid() == fluid);
+        return (tag != null && stack.getFluid().is(tag)) || (fluid != null && stack.getFluid() == fluid);
     }
 
     /**
@@ -129,14 +129,14 @@ public class FluidIngredient implements Predicate<FluidStack> {
             throw new JsonSyntaxException("Fluid ingredient should have 'tag' or 'fluid', not both");
         }
 
-        int amount = JSONUtils.getInt(json, "amount", 1000);
+        int amount = JSONUtils.getAsInt(json, "amount", 1000);
 
         if (json.has("tag")) {
-            ResourceLocation id = new ResourceLocation(JSONUtils.getString(json, "tag"));
-            return new FluidIngredient(FluidTags.makeWrapperTag(id.toString()), amount);
+            ResourceLocation id = new ResourceLocation(JSONUtils.getAsString(json, "tag"));
+            return new FluidIngredient(FluidTags.bind(id.toString()), amount);
         }
         if (json.has("fluid")) {
-            ResourceLocation id = new ResourceLocation(JSONUtils.getString(json, "fluid"));
+            ResourceLocation id = new ResourceLocation(JSONUtils.getAsString(json, "fluid"));
             Fluid fluid = Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(id));
             return new FluidIngredient(fluid, amount);
         }
@@ -170,7 +170,7 @@ public class FluidIngredient implements Predicate<FluidStack> {
         ResourceLocation id = buffer.readResourceLocation();
         int amount = buffer.readVarInt();
         return isTag
-                ? new FluidIngredient(FluidTags.makeWrapperTag(id.toString()), amount)
+                ? new FluidIngredient(FluidTags.bind(id.toString()), amount)
                 : new FluidIngredient(Objects.requireNonNull(ForgeRegistries.FLUIDS.getValue(id)), amount);
     }
 

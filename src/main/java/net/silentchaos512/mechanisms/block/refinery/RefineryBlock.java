@@ -23,12 +23,14 @@ import net.silentchaos512.mechanisms.util.MachineTier;
 import javax.annotation.Nullable;
 import java.util.Random;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class RefineryBlock extends AbstractMachineBlock {
 
-    private static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(1, 0, 1, 15, 16, 15), Block.makeCuboidShape(0, 0, 0, 16, 3, 16));
+    private static final VoxelShape SHAPE = VoxelShapes.or(Block.box(1, 0, 1, 15, 16, 15), Block.box(0, 0, 0, 16, 3, 16));
 
     public RefineryBlock() {
-        super(MachineTier.STANDARD, Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
+        super(MachineTier.STANDARD, Properties.of(Material.METAL).strength(6, 20).sound(SoundType.METAL));
     }
 
     @Override
@@ -37,37 +39,37 @@ public class RefineryBlock extends AbstractMachineBlock {
     }
 
     @Override
-    protected void interactWith(World worldIn, BlockPos pos, PlayerEntity player) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
+    protected void openContainer(World worldIn, BlockPos pos, PlayerEntity player) {
+        TileEntity tileEntity = worldIn.getBlockEntity(pos);
         if (tileEntity instanceof INamedContainerProvider) {
-            player.openContainer((INamedContainerProvider) tileEntity);
+            player.openMenu((INamedContainerProvider) tileEntity);
         }
     }
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public TileEntity newBlockEntity(IBlockReader worldIn) {
         return new RefineryTileEntity();
     }
 
     @Override
     public void animateTick(BlockState stateIn, World worldIn, BlockPos pos, Random rand) {
         // TODO: Unique sound and particles? Copied from BlastFurnaceBlock.
-        if (stateIn.get(LIT)) {
+        if (stateIn.getValue(LIT)) {
             double d0 = (double) pos.getX() + 0.5D;
             double d1 = (double) pos.getY();
             double d2 = (double) pos.getZ() + 0.5D;
             if (rand.nextDouble() < 0.1D) {
-                worldIn.playSound(d0, d1, d2, SoundEvents.BLOCK_BLASTFURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
+                worldIn.playLocalSound(d0, d1, d2, SoundEvents.BLASTFURNACE_FIRE_CRACKLE, SoundCategory.BLOCKS, 1.0F, 1.0F, false);
             }
 
-            Direction direction = stateIn.get(FACING);
+            Direction direction = stateIn.getValue(FACING);
             Direction.Axis direction$axis = direction.getAxis();
             double d3 = 0.52D;
             double d4 = rand.nextDouble() * 0.6D - 0.3D;
-            double d5 = direction$axis == Direction.Axis.X ? (double) direction.getXOffset() * 0.52D : d4;
+            double d5 = direction$axis == Direction.Axis.X ? (double) direction.getStepX() * 0.52D : d4;
             double d6 = rand.nextDouble() * 9.0D / 16.0D;
-            double d7 = direction$axis == Direction.Axis.Z ? (double) direction.getZOffset() * 0.52D : d4;
+            double d7 = direction$axis == Direction.Axis.Z ? (double) direction.getStepZ() * 0.52D : d4;
             worldIn.addParticle(ParticleTypes.SMOKE, d0 + d5, d1 + d6, d2 + d7, 0.0D, 0.0D, 0.0D);
         }
     }

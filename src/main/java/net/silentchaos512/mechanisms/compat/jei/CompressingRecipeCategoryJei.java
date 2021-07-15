@@ -69,7 +69,7 @@ public class CompressingRecipeCategoryJei implements IRecipeCategory<Compressing
     @Override
     public void setIngredients(CompressingRecipe recipe, IIngredients ingredients) {
         ingredients.setInputIngredients(Collections.singletonList(recipe.getIngredient()));
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
     }
 
     @Override
@@ -80,13 +80,13 @@ public class CompressingRecipeCategoryJei implements IRecipeCategory<Compressing
 
         // Should only be one ingredient...
         List<ItemStack> inputs = new ArrayList<>();
-        Arrays.stream(recipe.getIngredient().getMatchingStacks()).map(s -> {
+        Arrays.stream(recipe.getIngredient().getItems()).map(s -> {
             ItemStack stack = s.copy();
             stack.setCount(recipe.getIngredientCount());
             return stack;
         }).forEach(inputs::add);
         itemStacks.set(0, inputs);
-        itemStacks.set(1, recipe.getRecipeOutput());
+        itemStacks.set(1, recipe.getResultItem());
     }
 
     @Override

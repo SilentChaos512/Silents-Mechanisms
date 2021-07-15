@@ -23,14 +23,16 @@ import net.silentchaos512.mechanisms.block.IEnergyHandler;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class BatteryBoxBlock extends Block {
     public static final IntegerProperty BATTERIES = IntegerProperty.create("batteries", 0, 6);
 
-    private static final VoxelShape SHAPE = Block.makeCuboidShape(0, 0, 0, 16, 13, 16);
+    private static final VoxelShape SHAPE = Block.box(0, 0, 0, 16, 13, 16);
 
     public BatteryBoxBlock() {
-        super(Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
-        this.setDefaultState(this.getStateContainer().getBaseState().with(BATTERIES, 0));
+        super(Properties.of(Material.METAL).strength(6, 20).sound(SoundType.METAL));
+        this.registerDefaultState(this.getStateDefinition().any().setValue(BATTERIES, 0));
     }
 
     @Override
@@ -45,19 +47,19 @@ public class BatteryBoxBlock extends Block {
     }
 
     @Override
-    protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
         builder.add(BATTERIES);
     }
 
     @Nullable
     @Override
     public BlockState getStateForPlacement(BlockItemUseContext context) {
-        return this.getDefaultState();
+        return this.defaultBlockState();
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public BlockRenderType getRenderType(BlockState state) {
+    public BlockRenderType getRenderShape(BlockState state) {
         return BlockRenderType.MODEL;
     }
 
@@ -69,54 +71,54 @@ public class BatteryBoxBlock extends Block {
 
     @SuppressWarnings("deprecation")
     @Override
-    public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-        if (!worldIn.isRemote) {
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        if (!worldIn.isClientSide) {
             this.interactWith(worldIn, pos, player);
         }
         return ActionResultType.SUCCESS;
     }
 
     public void interactWith(World worldIn, BlockPos pos, PlayerEntity player) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
+        TileEntity tileEntity = worldIn.getBlockEntity(pos);
         if (tileEntity instanceof BatteryBoxTileEntity) {
-            player.openContainer((INamedContainerProvider) tileEntity);
+            player.openMenu((INamedContainerProvider) tileEntity);
         }
     }
 
     @Override
-    public void onBlockPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
-        if (stack.hasDisplayName()) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+    public void setPlacedBy(World worldIn, BlockPos pos, BlockState state, LivingEntity placer, ItemStack stack) {
+        if (stack.hasCustomHoverName()) {
+            TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof BatteryBoxTileEntity) {
-                ((BatteryBoxTileEntity) tileentity).setCustomName(stack.getDisplayName());
+                ((BatteryBoxTileEntity) tileentity).setCustomName(stack.getHoverName());
             }
         }
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof BatteryBoxTileEntity) {
-                InventoryHelper.dropInventoryItems(worldIn, pos, (BatteryBoxTileEntity)tileentity);
-                worldIn.updateComparatorOutputLevel(pos, this);
+                InventoryHelper.dropContents(worldIn, pos, (BatteryBoxTileEntity)tileentity);
+                worldIn.updateNeighbourForOutputSignal(pos, this);
             }
 
-            super.onReplaced(state, worldIn, pos, newState, isMoving);
+            super.onRemove(state, worldIn, pos, newState, isMoving);
         }
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public boolean hasComparatorInputOverride(BlockState state) {
+    public boolean hasAnalogOutputSignal(BlockState state) {
         return true;
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
+    public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
+        TileEntity tileEntity = worldIn.getBlockEntity(pos);
         if (tileEntity instanceof IEnergyHandler) {
             IEnergyHandler te = (IEnergyHandler) tileEntity;
             return 15 * te.getEnergyStored() / te.getMaxEnergyStored();

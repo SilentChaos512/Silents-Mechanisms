@@ -35,11 +35,11 @@ public final class InfusingRecipeBuilder {
     }
 
     public static InfusingRecipeBuilder builder(IItemProvider result, int count, int processTime, ITag<Item> ingredient, FluidIngredient fluid) {
-        return builder(result, count, processTime, Ingredient.fromTag(ingredient), fluid);
+        return builder(result, count, processTime, Ingredient.of(ingredient), fluid);
     }
 
     public static InfusingRecipeBuilder builder(IItemProvider result, int count, int processTime, IItemProvider ingredient, FluidIngredient fluid) {
-        return builder(result, count, processTime, Ingredient.fromItems(ingredient), fluid);
+        return builder(result, count, processTime, Ingredient.of(ingredient), fluid);
     }
 
     public void build(Consumer<IFinishedRecipe> consumer) {
@@ -64,10 +64,10 @@ public final class InfusingRecipeBuilder {
         }
 
         @Override
-        public void serialize(JsonObject json) {
+        public void serializeRecipeData(JsonObject json) {
             json.addProperty("process_time", builder.processTime);
 
-            json.add("ingredient", builder.ingredient.serialize());
+            json.add("ingredient", builder.ingredient.toJson());
             json.add("fluid", builder.fluid.serialize());
 
             JsonObject result = new JsonObject();
@@ -79,24 +79,24 @@ public final class InfusingRecipeBuilder {
         }
 
         @Override
-        public ResourceLocation getID() {
+        public ResourceLocation getId() {
             return id;
         }
 
         @Override
-        public IRecipeSerializer<?> getSerializer() {
+        public IRecipeSerializer<?> getType() {
             return ModRecipes.INFUSING.get();
         }
 
         @Nullable
         @Override
-        public JsonObject getAdvancementJson() {
+        public JsonObject serializeAdvancement() {
             return null;
         }
 
         @Nullable
         @Override
-        public ResourceLocation getAdvancementID() {
+        public ResourceLocation getAdvancementId() {
             return null;
         }
     }

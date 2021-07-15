@@ -86,7 +86,7 @@ public class SolidifyingRecipeCategory implements IRecipeCategory<SolidifyingRec
         // Output fluid containers and recipe result
         ingredients.setOutputLists(VanillaTypes.ITEM, Arrays.asList(
                 emptyContainers,
-                Collections.singletonList(recipe.getRecipeOutput())
+                Collections.singletonList(recipe.getResultItem())
         ));
     }
 
@@ -114,7 +114,7 @@ public class SolidifyingRecipeCategory implements IRecipeCategory<SolidifyingRec
     }
 
     private static void addFluidContainers(Collection<ItemStack> list, Fluid fluid) {
-        ItemStack bucket = new ItemStack(fluid.getFilledBucket());
+        ItemStack bucket = new ItemStack(fluid.getBucket());
         if (!bucket.isEmpty()) {
             list.add(bucket);
         }

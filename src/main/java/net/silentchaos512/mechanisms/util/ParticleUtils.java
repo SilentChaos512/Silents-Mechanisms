@@ -15,7 +15,7 @@ public class ParticleUtils {
 
     public static <T extends IParticleData> void spawn(World world, T type, double x, double y, double z, int particleCount, double xOffset, double yOffset, double zOffset, double speed) {
         if (world instanceof ServerWorld) {
-            ((ServerWorld) world).spawnParticle(type, x, y, z, particleCount, xOffset, yOffset, zOffset, speed);
+            ((ServerWorld) world).sendParticles(type, x, y, z, particleCount, xOffset, yOffset, zOffset, speed);
         }
     }
 }

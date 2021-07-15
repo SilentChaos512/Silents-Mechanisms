@@ -18,6 +18,8 @@ import net.silentchaos512.mechanisms.util.TextUtil;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
+import net.minecraft.item.Item.Properties;
+
 public class CanisterItem extends Item implements IFluidContainer {
     public CanisterItem(Properties properties) {
         super(properties);
@@ -53,7 +55,7 @@ public class CanisterItem extends Item implements IFluidContainer {
         if (!(stack.getItem() instanceof CanisterItem)) {
             return FluidStack.EMPTY;
         }
-        ResourceLocation fluidId = ResourceLocation.tryCreate(getFluidKey(stack));
+        ResourceLocation fluidId = ResourceLocation.tryParse(getFluidKey(stack));
         if (fluidId == null) {
             return FluidStack.EMPTY;
         }
@@ -70,10 +72,10 @@ public class CanisterItem extends Item implements IFluidContainer {
     }
 
     @Override
-    public ITextComponent getDisplayName(ItemStack stack) {
+    public ITextComponent getName(ItemStack stack) {
         FluidStack fluid = getFluid(stack);
         ITextComponent fluidText = fluid.isEmpty() ? TextUtil.translate("misc", "empty") : fluid.getDisplayName();
-        return new TranslationTextComponent(this.getTranslationKey(), fluidText);
+        return new TranslationTextComponent(this.getDescriptionId(), fluidText);
     }
 
     @Override
@@ -87,11 +89,11 @@ public class CanisterItem extends Item implements IFluidContainer {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (isInGroup(group)) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (allowdedIn(group)) {
             items.add(getStack(null));
             ForgeRegistries.FLUIDS.getValues().stream()
-                    .filter(f -> f.isSource(f.getDefaultState()))
+                    .filter(f -> f.isSource(f.defaultFluidState()))
                     .map(CanisterItem::getStack)
                     .forEach(items::add);
         }

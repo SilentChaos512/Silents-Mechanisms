@@ -15,11 +15,11 @@ public class ModTags {
         private Blocks() {}
 
         private static ITag.INamedTag<Block> forge(String path) {
-            return BlockTags.makeWrapperTag(forgeId(path).toString());
+            return BlockTags.bind(forgeId(path).toString());
         }
 
         private static ITag.INamedTag<Block> mod(String path) {
-            return BlockTags.makeWrapperTag(modId(path).toString());
+            return BlockTags.bind(modId(path).toString());
         }
     }
 
@@ -35,11 +35,11 @@ public class ModTags {
         private Items() {}
 
         private static ITag.INamedTag<Item> forge(String path) {
-            return ItemTags.makeWrapperTag(forgeId(path).toString());
+            return ItemTags.bind(forgeId(path).toString());
         }
 
         private static ITag.INamedTag<Item> mod(String path) {
-            return ItemTags.makeWrapperTag(modId(path).toString());
+            return ItemTags.bind(modId(path).toString());
         }
     }
 

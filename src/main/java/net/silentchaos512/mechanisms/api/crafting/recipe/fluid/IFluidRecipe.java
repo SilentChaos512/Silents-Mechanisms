@@ -50,17 +50,17 @@ public interface IFluidRecipe<C extends IFluidInventory> extends IRecipe<C> {
     List<FluidIngredient> getFluidIngredients();
 
     @Override
-    default ItemStack getCraftingResult(C inv) {
-        return getRecipeOutput();
+    default ItemStack assemble(C inv) {
+        return getResultItem();
     }
 
     @Override
-    default ItemStack getRecipeOutput() {
+    default ItemStack getResultItem() {
         return ItemStack.EMPTY;
     }
 
     @Override
-    default boolean canFit(int width, int height) {
+    default boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
@@ -72,8 +72,8 @@ public interface IFluidRecipe<C extends IFluidInventory> extends IRecipe<C> {
      * @throws JsonSyntaxException If the object cannot be parsed or the fluid does not exist.
      */
     static FluidStack deserializeFluid(JsonObject json) {
-        ResourceLocation fluidId = new ResourceLocation(JSONUtils.getString(json, "fluid"));
-        int amount = JSONUtils.getInt(json, "amount", 1000);
+        ResourceLocation fluidId = new ResourceLocation(JSONUtils.getAsString(json, "fluid"));
+        int amount = JSONUtils.getAsInt(json, "amount", 1000);
         Fluid fluid = ForgeRegistries.FLUIDS.getValue(fluidId);
         if (fluid == null) {
             throw new JsonSyntaxException("Unknown fluid: " + fluidId);

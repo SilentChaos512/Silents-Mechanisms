@@ -42,7 +42,7 @@ public final class ColorGetter {
             return 0x0094FF;
         }
         if (ModList.get().isLoaded("jei")) {
-            TextureAtlasSprite[] sprites = ForgeHooksClient.getFluidSprites(Minecraft.getInstance().world, BlockPos.ZERO, fluid.getDefaultState());
+            TextureAtlasSprite[] sprites = ForgeHooksClient.getFluidSprites(Minecraft.getInstance().level, BlockPos.ZERO, fluid.defaultFluidState());
             if (sprites.length > 0) {
                 return getColor(sprites[0]);
             }

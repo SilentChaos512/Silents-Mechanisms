@@ -13,6 +13,8 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.IItemProvider;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ExistingFileHelper;
+import net.silentchaos512.mechanisms.SilentMechanisms;
 import net.silentchaos512.mechanisms.init.Metals;
 import net.silentchaos512.mechanisms.init.ModTags;
 import net.silentchaos512.mechanisms.item.CraftingItems;
@@ -28,31 +30,33 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 
+import net.minecraft.data.TagsProvider.Builder;
+
 public class ModItemTagsProvider extends ItemTagsProvider {
-    public ModItemTagsProvider(DataGenerator generatorIn, ModBlockTagsProvider blockTags) {
-        super(generatorIn, blockTags);
+    public ModItemTagsProvider(DataGenerator generatorIn, ModBlockTagsProvider blockTags, ExistingFileHelper existingFileHelper) {
+        super(generatorIn, blockTags, SilentMechanisms.MOD_ID, existingFileHelper);
     }
 
     @Override
-    protected void registerTags() {
+    protected void addTags() {
         // Empties
         builder(forgeId("nuggets/coal"));
         builder(forgeId("storage_blocks/charcoal"));
 
-        getOrCreateBuilder(ModTags.Items.PLASTIC).add(CraftingItems.PLASTIC_SHEET.asItem());
+        tag(ModTags.Items.PLASTIC).add(CraftingItems.PLASTIC_SHEET.asItem());
 
-        getOrCreateBuilder(ModTags.Items.STEELS)
+        tag(ModTags.Items.STEELS)
                 .addTag(Metals.ALUMINUM_STEEL.getIngotTag().get())
                 .addTag(Metals.BISMUTH_STEEL.getIngotTag().get())
                 .addTag(Metals.STEEL.getIngotTag().get());
-        getOrCreateBuilder(ModTags.Items.COAL_GENERATOR_FUELS)
+        tag(ModTags.Items.COAL_GENERATOR_FUELS)
                 .addTag(ItemTags.COALS)
                 .addTag(itemTag(forgeId("nuggets/coal")))
                 .addTag(itemTag(forgeId("storage_blocks/charcoal")))
                 .addTag(Tags.Items.STORAGE_BLOCKS_COAL);
         copy(ModTags.Blocks.DRYING_RACKS, ModTags.Items.DRYING_RACKS);
 
-        getOrCreateBuilder(ModTags.Items.DUSTS_COAL).add(CraftingItems.COAL_DUST.asItem());
+        tag(ModTags.Items.DUSTS_COAL).add(CraftingItems.COAL_DUST.asItem());
 
         for (Metals metal : Metals.values()) {
             metal.getOreTag().ifPresent(tag ->
@@ -60,15 +64,15 @@ public class ModItemTagsProvider extends ItemTagsProvider {
             metal.getStorageBlockTag().ifPresent(tag ->
                     copy(tag, metal.getStorageBlockItemTag().get()));
             metal.getChunksTag().ifPresent(tag ->
-                    getOrCreateBuilder(tag).add(metal.getChunks().get()));
+                    tag(tag).add(metal.getChunks().get()));
             metal.getDustTag().ifPresent(tag ->
-                    getOrCreateBuilder(tag).add(metal.getDust().get()));
+                    tag(tag).add(metal.getDust().get()));
             metal.getIngotTag().ifPresent(tag ->
                     metal.getIngot().ifPresent(item ->
-                            getOrCreateBuilder(tag).add(item)));
+                            tag(tag).add(item)));
             metal.getNuggetTag().ifPresent(tag ->
                     metal.getNugget().ifPresent(item ->
-                            getOrCreateBuilder(tag).add(item)));
+                            tag(tag).add(item)));
         }
 
         copy(Tags.Blocks.ORES, Tags.Items.ORES);
@@ -82,7 +86,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
 
     @SafeVarargs
     private final void groupBuilder(ITag.INamedTag<Item> tag, Function<Metals, Optional<ITag.INamedTag<Item>>> tagGetter, ITag.INamedTag<Item>... extras) {
-        Builder<Item> builder = getOrCreateBuilder(tag);
+        Builder<Item> builder = tag(tag);
         for (Metals metal : Metals.values()) {
             tagGetter.apply(metal).ifPresent(builder::addTag);
         }
@@ -92,11 +96,11 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     }
 
     private void builder(ResourceLocation id, IItemProvider... items) {
-        getOrCreateBuilder(itemTag(id)).add(Arrays.stream(items).map(IItemProvider::asItem).toArray(Item[]::new));
+        tag(itemTag(id)).add(Arrays.stream(items).map(IItemProvider::asItem).toArray(Item[]::new));
     }
 
     private static ITag.INamedTag<Item> itemTag(ResourceLocation id) {
-        return ItemTags.makeWrapperTag(id.toString());
+        return ItemTags.bind(id.toString());
     }
 
     private static ResourceLocation forgeId(String path) {
@@ -112,20 +116,20 @@ public class ModItemTagsProvider extends ItemTagsProvider {
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
 
     @Override
-    public void act(DirectoryCache cache) {
+    public void run(DirectoryCache cache) {
         // Temp fix that removes the broken safety check
-        this.tagToBuilder.clear();
-        this.registerTags();
-        this.tagToBuilder.forEach((p_240524_4_, p_240524_5_) -> {
-            JsonObject jsonobject = p_240524_5_.serialize();
-            Path path = this.makePath(p_240524_4_);
+        this.builders.clear();
+        this.addTags();
+        this.builders.forEach((p_240524_4_, p_240524_5_) -> {
+            JsonObject jsonobject = p_240524_5_.serializeToJson();
+            Path path = this.getPath(p_240524_4_);
             if (path == null)
                 return; //Forge: Allow running this data provider without writing it. Recipe provider needs valid tags.
 
             try {
                 String s = GSON.toJson((JsonElement) jsonobject);
-                String s1 = HASH_FUNCTION.hashUnencodedChars(s).toString();
-                if (!Objects.equals(cache.getPreviousHash(path), s1) || !Files.exists(path)) {
+                String s1 = SHA1.hashUnencodedChars(s).toString();
+                if (!Objects.equals(cache.getHash(path), s1) || !Files.exists(path)) {
                     Files.createDirectories(path.getParent());
 
                     try (BufferedWriter bufferedwriter = Files.newBufferedWriter(path)) {
@@ -133,7 +137,7 @@ public class ModItemTagsProvider extends ItemTagsProvider {
                     }
                 }
 
-                cache.recordHash(path, s1);
+                cache.putNew(path, s1);
             } catch (IOException ioexception) {
                 LOGGER.error("Couldn't save tags to {}", path, ioexception);
             }

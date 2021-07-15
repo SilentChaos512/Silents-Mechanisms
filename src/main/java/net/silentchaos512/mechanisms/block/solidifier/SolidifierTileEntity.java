@@ -31,7 +31,7 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
 
     @Override
     public void tick() {
-        if (world == null || world.isRemote) return;
+        if (level == null || level.isClientSide) return;
 
         tryFillTank();
 
@@ -45,7 +45,7 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
 
     private void tryFillTank() {
         // Try fill feedstock tank with fluid containers
-        ItemStack input = getStackInSlot(0);
+        ItemStack input = getItem(0);
         if (input.isEmpty()) return;
 
         FluidStack fluidStack = IFluidContainer.getBucketOrContainerFluid(input);
@@ -55,9 +55,9 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
             ItemStack containerItem = input.getContainerItem();
             input.shrink(1);
 
-            ItemStack output = getStackInSlot(1);
+            ItemStack output = getItem(1);
             if (output.isEmpty()) {
-                setInventorySlotContents(1, containerItem);
+                setItem(1, containerItem);
             } else {
                 output.grow(1);
             }
@@ -65,7 +65,7 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
     }
 
     private boolean canAcceptFluidContainer(ItemStack input, FluidStack fluid) {
-        ItemStack output = getStackInSlot(1);
+        ItemStack output = getItem(1);
         return !fluid.isEmpty()
                 && this.isFluidValid(0, fluid)
                 && this.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == 1000
@@ -96,8 +96,8 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
     @Nullable
     @Override
     public SolidifyingRecipe getRecipe() {
-        if (world == null) return null;
-        return world.getRecipeManager().getRecipe(ModRecipes.Types.SOLIDIFYING, this, world).orElse(null);
+        if (level == null) return null;
+        return level.getRecipeManager().getRecipeFor(ModRecipes.Types.SOLIDIFYING, this, level).orElse(null);
     }
 
     @Override
@@ -107,7 +107,7 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
 
     @Override
     protected Collection<ItemStack> getProcessResults(SolidifyingRecipe recipe) {
-        return Collections.singletonList(recipe.getCraftingResult(this));
+        return Collections.singletonList(recipe.assemble(this));
     }
 
     @Override
@@ -121,12 +121,12 @@ public class SolidifierTileEntity extends AbstractFluidMachineTileEntity<Solidif
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
+    public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
         return index == 0 && InventoryUtils.isFilledFluidContainer(stack);
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index == 1 || index == 2;
     }
 

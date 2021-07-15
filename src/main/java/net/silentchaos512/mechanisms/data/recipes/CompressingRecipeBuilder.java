@@ -34,11 +34,11 @@ public class CompressingRecipeBuilder {
     }
 
     public static CompressingRecipeBuilder builder(ITag<Item> ingredient, int ingredientCount, IItemProvider result, int resultCount, int processTime) {
-        return builder(Ingredient.fromTag(ingredient), ingredientCount, result, resultCount, processTime);
+        return builder(Ingredient.of(ingredient), ingredientCount, result, resultCount, processTime);
     }
 
     public static CompressingRecipeBuilder builder(IItemProvider ingredient, int ingredientCount, IItemProvider result, int resultCount, int processTime) {
-        return builder(Ingredient.fromItems(ingredient), ingredientCount, result, resultCount, processTime);
+        return builder(Ingredient.of(ingredient), ingredientCount, result, resultCount, processTime);
     }
 
     public void build(Consumer<IFinishedRecipe> consumer) {
@@ -63,11 +63,11 @@ public class CompressingRecipeBuilder {
         }
 
         @Override
-        public void serialize(JsonObject json) {
+        public void serializeRecipeData(JsonObject json) {
             json.addProperty("process_time", builder.processTime);
 
             JsonObject ingredient = new JsonObject();
-            ingredient.add("value", builder.ingredient.serialize());
+            ingredient.add("value", builder.ingredient.toJson());
             ingredient.addProperty("count", builder.ingredientCount);
             json.add("ingredient", ingredient);
 
@@ -80,24 +80,24 @@ public class CompressingRecipeBuilder {
         }
 
         @Override
-        public ResourceLocation getID() {
+        public ResourceLocation getId() {
             return id;
         }
 
         @Override
-        public IRecipeSerializer<?> getSerializer() {
+        public IRecipeSerializer<?> getType() {
             return ModRecipes.COMPRESSING.get();
         }
 
         @Nullable
         @Override
-        public JsonObject getAdvancementJson() {
+        public JsonObject serializeAdvancement() {
             return null;
         }
 
         @Nullable
         @Override
-        public ResourceLocation getAdvancementID() {
+        public ResourceLocation getAdvancementId() {
             return null;
         }
     }

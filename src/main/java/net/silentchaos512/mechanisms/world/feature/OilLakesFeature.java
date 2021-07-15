@@ -11,21 +11,21 @@ import net.silentchaos512.utils.MathUtils;
 import java.util.Random;
 
 public class OilLakesFeature extends LakesFeature {
-    public static final OilLakesFeature INSTANCE = new OilLakesFeature(BlockStateFeatureConfig.field_236455_a_);
+    public static final OilLakesFeature INSTANCE = new OilLakesFeature(BlockStateFeatureConfig.CODEC);
 
     public OilLakesFeature(Codec<BlockStateFeatureConfig> codec) {
         super(codec);
     }
 
     @Override
-    public boolean generate(ISeedReader worldIn, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
+    public boolean place(ISeedReader worldIn, ChunkGenerator generator, Random rand, BlockPos pos, BlockStateFeatureConfig config) {
         // Occasionally allow surface lakes
         if (MathUtils.tryPercentage(0.1)) {
-            return super.generate(worldIn, generator, rand, pos, config);
+            return super.place(worldIn, generator, rand, pos, config);
         }
 
         // Place around Y 20-40 normally
         BlockPos newPos = new BlockPos(pos.getX(), rand.nextInt(20) + 20, pos.getZ());
-        return super.generate(worldIn, generator, rand, newPos, config);
+        return super.place(worldIn, generator, rand, newPos, config);
     }
 }

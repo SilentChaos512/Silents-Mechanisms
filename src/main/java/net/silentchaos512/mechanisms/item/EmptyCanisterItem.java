@@ -5,6 +5,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.NonNullList;
 import net.minecraftforge.fluids.FluidStack;
 
+import net.minecraft.item.Item.Properties;
+
 public class EmptyCanisterItem extends CanisterItem {
     public EmptyCanisterItem(Properties properties) {
         super(properties);
@@ -16,8 +18,8 @@ public class EmptyCanisterItem extends CanisterItem {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (isInGroup(group)) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (allowdedIn(group)) {
             items.add(new ItemStack(this));
         }
     }

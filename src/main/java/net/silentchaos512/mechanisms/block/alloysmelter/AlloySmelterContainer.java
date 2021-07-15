@@ -31,43 +31,43 @@ public class AlloySmelterContainer extends AbstractMachineContainer<AlloySmelter
     }
 
     @Override
-    public ItemStack transferStackInSlot(PlayerEntity playerIn, int index) {
+    public ItemStack quickMoveStack(PlayerEntity playerIn, int index) {
         ItemStack itemstack = ItemStack.EMPTY;
-        Slot slot = this.inventorySlots.get(index);
-        if (slot != null && slot.getHasStack()) {
-            ItemStack itemstack1 = slot.getStack();
+        Slot slot = this.slots.get(index);
+        if (slot != null && slot.hasItem()) {
+            ItemStack itemstack1 = slot.getItem();
             itemstack = itemstack1.copy();
 
-            final int inventorySize = this.tileEntity.getSizeInventory();
+            final int inventorySize = this.tileEntity.getContainerSize();
             final int playerInventoryEnd = inventorySize + 27;
             final int playerHotbarEnd = playerInventoryEnd + 9;
 
             if (index == inventorySize - 1) {
-                if (!this.mergeItemStack(itemstack1, inventorySize, playerHotbarEnd, true)) {
+                if (!this.moveItemStackTo(itemstack1, inventorySize, playerHotbarEnd, true)) {
                     return ItemStack.EMPTY;
                 }
 
-                slot.onSlotChange(itemstack1, itemstack);
+                slot.onQuickCraft(itemstack1, itemstack);
             } else if (index >= inventorySize) {
                 if (this.isAlloySmeltingIngredient(itemstack1)) {
-                    if (!this.mergeItemStack(itemstack1, 0, inventorySize - 1, false)) {
+                    if (!this.moveItemStackTo(itemstack1, 0, inventorySize - 1, false)) {
                         return ItemStack.EMPTY;
                     }
                 } else if (index < playerInventoryEnd) {
-                    if (!this.mergeItemStack(itemstack1, playerInventoryEnd, playerHotbarEnd, false)) {
+                    if (!this.moveItemStackTo(itemstack1, playerInventoryEnd, playerHotbarEnd, false)) {
                         return ItemStack.EMPTY;
                     }
-                } else if (index < playerHotbarEnd && !this.mergeItemStack(itemstack1, inventorySize, playerInventoryEnd, false)) {
+                } else if (index < playerHotbarEnd && !this.moveItemStackTo(itemstack1, inventorySize, playerInventoryEnd, false)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!this.mergeItemStack(itemstack1, inventorySize, playerHotbarEnd, false)) {
+            } else if (!this.moveItemStackTo(itemstack1, inventorySize, playerHotbarEnd, false)) {
                 return ItemStack.EMPTY;
             }
 
             if (itemstack1.isEmpty()) {
-                slot.putStack(ItemStack.EMPTY);
+                slot.set(ItemStack.EMPTY);
             } else {
-                slot.onSlotChanged();
+                slot.setChanged();
             }
 
             if (itemstack1.getCount() == itemstack.getCount()) {

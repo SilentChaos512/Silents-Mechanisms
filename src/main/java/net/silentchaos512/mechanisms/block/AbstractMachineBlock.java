@@ -13,6 +13,8 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.silentchaos512.mechanisms.util.MachineTier;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public abstract class AbstractMachineBlock extends AbstractFurnaceBlock {
     protected final MachineTier tier;
 
@@ -22,34 +24,34 @@ public abstract class AbstractMachineBlock extends AbstractFurnaceBlock {
     }
 
     @Override
-    protected void interactWith(World worldIn, BlockPos pos, PlayerEntity player) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
+    protected void openContainer(World worldIn, BlockPos pos, PlayerEntity player) {
+        TileEntity tileEntity = worldIn.getBlockEntity(pos);
         if (tileEntity instanceof INamedContainerProvider) {
-            player.openContainer((INamedContainerProvider) tileEntity);
+            player.openMenu((INamedContainerProvider) tileEntity);
         }
     }
 
     @Override
-    public void onReplaced(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+    public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
-            TileEntity tileentity = worldIn.getTileEntity(pos);
+            TileEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof IInventory) {
-                InventoryHelper.dropInventoryItems(worldIn, pos, (IInventory) tileentity);
-                worldIn.updateComparatorOutputLevel(pos, this);
+                InventoryHelper.dropContents(worldIn, pos, (IInventory) tileentity);
+                worldIn.updateNeighbourForOutputSignal(pos, this);
             }
 
-            super.onReplaced(state, worldIn, pos, newState, isMoving);
+            super.onRemove(state, worldIn, pos, newState, isMoving);
         }
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    public int getComparatorInputOverride(BlockState blockState, World worldIn, BlockPos pos) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
+    public int getAnalogOutputSignal(BlockState blockState, World worldIn, BlockPos pos) {
+        TileEntity tileEntity = worldIn.getBlockEntity(pos);
         if (tileEntity instanceof AbstractMachineBaseTileEntity) {
             return calcRedstoneFromInventory((AbstractMachineBaseTileEntity) tileEntity);
         }
-        return super.getComparatorInputOverride(blockState, worldIn, pos);
+        return super.getAnalogOutputSignal(blockState, worldIn, pos);
     }
 
     private static int calcRedstoneFromInventory(AbstractMachineBaseTileEntity inv) {
@@ -57,15 +59,15 @@ public abstract class AbstractMachineBlock extends AbstractFurnaceBlock {
         int slotsFilled = 0;
         float fillRatio = 0.0F;
 
-        for (int i = 0; i < inv.getSizeInventory() - inv.getMachineTier().getUpgradeSlots(); ++i) {
-            ItemStack itemstack = inv.getStackInSlot(i);
+        for (int i = 0; i < inv.getContainerSize() - inv.getMachineTier().getUpgradeSlots(); ++i) {
+            ItemStack itemstack = inv.getItem(i);
             if (!itemstack.isEmpty()) {
-                fillRatio += (float) itemstack.getCount() / Math.min(inv.getInventoryStackLimit(), itemstack.getMaxStackSize());
+                fillRatio += (float) itemstack.getCount() / Math.min(inv.getMaxStackSize(), itemstack.getMaxStackSize());
                 ++slotsFilled;
             }
         }
 
-        fillRatio = fillRatio / (float) inv.getSizeInventory();
+        fillRatio = fillRatio / (float) inv.getContainerSize();
         return MathHelper.floor(fillRatio * 14.0F) + (slotsFilled > 0 ? 1 : 0);
     }
 }

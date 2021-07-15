@@ -72,7 +72,7 @@ public class DryingRecipeCategoryJei implements IRecipeCategory<DryingRecipe> {
     @Override
     public void setIngredients(DryingRecipe recipe, IIngredients ingredients) {
         ingredients.setInputIngredients(Collections.singletonList(recipe.getIngredient()));
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
     }
 
     @Override
@@ -81,15 +81,15 @@ public class DryingRecipeCategoryJei implements IRecipeCategory<DryingRecipe> {
         itemStacks.init(0, true, 55 - GUI_START_X, 34 - GUI_START_Y);
         itemStacks.init(1, false, 115 - GUI_START_X, 34 - GUI_START_Y);
 
-        itemStacks.set(0, new ArrayList<>(Arrays.asList(recipe.getIngredient().getMatchingStacks())));
-        itemStacks.set(1, recipe.getRecipeOutput());
+        itemStacks.set(0, new ArrayList<>(Arrays.asList(recipe.getIngredient().getItems())));
+        itemStacks.set(1, recipe.getResultItem());
     }
 
     @Override
     public void draw(DryingRecipe recipe, MatrixStack matrixStack, double mouseX, double mouseY) {
         arrow.draw(matrixStack, 79 - GUI_START_X, 35 - GUI_START_Y);
-        FontRenderer font = Minecraft.getInstance().fontRenderer;
+        FontRenderer font = Minecraft.getInstance().font;
         ITextComponent text = TextUtil.translate("misc", "timeInSeconds", recipe.getProcessTime() / 20);
-        TextRenderUtils.renderScaled(matrixStack, font, text.func_241878_f(), 24, 20, 0.67f, 0xFFFFFF, true);
+        TextRenderUtils.renderScaled(matrixStack, font, text.getVisualOrderText(), 24, 20, 0.67f, 0xFFFFFF, true);
     }
 }

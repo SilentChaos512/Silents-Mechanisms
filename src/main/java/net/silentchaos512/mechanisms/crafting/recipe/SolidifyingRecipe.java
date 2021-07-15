@@ -59,12 +59,12 @@ public class SolidifyingRecipe implements IFluidRecipe<IFluidInventory> {
     }
 
     @Override
-    public ItemStack getCraftingResult(IFluidInventory inv) {
-        return getRecipeOutput();
+    public ItemStack assemble(IFluidInventory inv) {
+        return getResultItem();
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return result.copy();
     }
 
@@ -84,35 +84,35 @@ public class SolidifyingRecipe implements IFluidRecipe<IFluidInventory> {
     }
 
     @Override
-    public boolean isDynamic() {
+    public boolean isSpecial() {
         return true;
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<SolidifyingRecipe> {
         @Override
-        public SolidifyingRecipe read(ResourceLocation recipeId, JsonObject json) {
+        public SolidifyingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             SolidifyingRecipe recipe = new SolidifyingRecipe(recipeId);
-            recipe.processTime = JSONUtils.getInt(json, "process_time");
+            recipe.processTime = JSONUtils.getAsInt(json, "process_time");
             recipe.ingredient = FluidIngredient.deserialize(json.getAsJsonObject("ingredient"));
-            recipe.result = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
+            recipe.result = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
             return recipe;
         }
 
         @Nullable
         @Override
-        public SolidifyingRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+        public SolidifyingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
             SolidifyingRecipe recipe = new SolidifyingRecipe(recipeId);
             recipe.processTime = buffer.readVarInt();
             recipe.ingredient = FluidIngredient.read(buffer);
-            recipe.result = buffer.readItemStack();
+            recipe.result = buffer.readItem();
             return recipe;
         }
 
         @Override
-        public void write(PacketBuffer buffer, SolidifyingRecipe recipe) {
+        public void toNetwork(PacketBuffer buffer, SolidifyingRecipe recipe) {
             buffer.writeVarInt(recipe.processTime);
             recipe.ingredient.write(buffer);
-            buffer.writeItemStack(recipe.result);
+            buffer.writeItem(recipe.result);
         }
     }
 }

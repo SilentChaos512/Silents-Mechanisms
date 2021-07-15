@@ -26,7 +26,7 @@ public final class EnergyUtils {
     }
 
     public static void trySendTo(IBlockReader world, BlockPos pos, IEnergyHandler energyHandler, int maxSend, Direction side) {
-        TileEntity tileEntity = world.getTileEntity(pos.offset(side));
+        TileEntity tileEntity = world.getBlockEntity(pos.relative(side));
         if (tileEntity != null) {
             IEnergyStorage energy = energyHandler.getEnergy(side).orElse(new EnergyStorage(0));
             tileEntity.getCapability(CapabilityEnergy.ENERGY, side.getOpposite()).ifPresent(other -> trySendEnergy(maxSend, energy, other));
@@ -55,7 +55,7 @@ public final class EnergyUtils {
     @Nullable
     public static IEnergyStorage getEnergy(IWorldReader world, BlockPos pos) {
         if (!world.isAreaLoaded(pos, 1)) return null;
-        TileEntity tileEntity = world.getTileEntity(pos);
+        TileEntity tileEntity = world.getBlockEntity(pos);
         return tileEntity != null ? tileEntity.getCapability(CapabilityEnergy.ENERGY).orElse(null) : null;
     }
 

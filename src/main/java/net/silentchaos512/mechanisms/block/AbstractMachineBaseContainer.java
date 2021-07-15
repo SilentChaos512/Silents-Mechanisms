@@ -13,7 +13,7 @@ public class AbstractMachineBaseContainer<T extends AbstractMachineBaseTileEntit
 
     protected final void addUpgradeSlots() {
         int upgradeSlots = this.tileEntity.tier.getUpgradeSlots();
-        int inventorySize = this.tileEntity.getSizeInventory();
+        int inventorySize = this.tileEntity.getContainerSize();
         for (int i = 0; i < upgradeSlots; ++i) {
             int index = inventorySize - upgradeSlots + i;
             int xPosition = 6 + 18 * i;

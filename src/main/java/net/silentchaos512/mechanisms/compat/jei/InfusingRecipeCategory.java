@@ -83,13 +83,13 @@ public class InfusingRecipeCategory implements IRecipeCategory<InfusingRecipe> {
         recipe.getFluidIngredient().getFluids().forEach(fluid -> addFluidContainers(feedstockContainers, fluid.getFluid()));
         ingredients.setInputLists(VanillaTypes.ITEM, Arrays.asList(
                 feedstockContainers,
-                Arrays.asList(recipe.getIngredient().getMatchingStacks())
+                Arrays.asList(recipe.getIngredient().getItems())
         ));
 
         // Output fluid containers and recipe result
         ingredients.setOutputLists(VanillaTypes.ITEM, Arrays.asList(
                 emptyContainers,
-                Collections.singletonList(recipe.getRecipeOutput())
+                Collections.singletonList(recipe.getResultItem())
         ));
     }
 
@@ -119,7 +119,7 @@ public class InfusingRecipeCategory implements IRecipeCategory<InfusingRecipe> {
     }
 
     private static void addFluidContainers(Collection<ItemStack> list, Fluid fluid) {
-        ItemStack bucket = new ItemStack(fluid.getFilledBucket());
+        ItemStack bucket = new ItemStack(fluid.getBucket());
         if (!bucket.isEmpty()) {
             list.add(bucket);
         }

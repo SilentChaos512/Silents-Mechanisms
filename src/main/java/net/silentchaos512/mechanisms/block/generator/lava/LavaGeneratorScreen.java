@@ -25,37 +25,37 @@ public class LavaGeneratorScreen extends AbstractMachineBaseScreen<LavaGenerator
     public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
-        this.renderHoveredTooltip(matrixStack, mouseX, mouseY);
+        this.renderTooltip(matrixStack, mouseX, mouseY);
     }
 
     @Override
-    protected void renderHoveredTooltip(MatrixStack matrixStack, int x, int y) {
-        if (isPointInRegion(135, 17, 13, 51, x, y)) {
-            ITextComponent text = TextUtil.fluidWithMax(container.getFluidInTank(), LavaGeneratorTileEntity.TANK_CAPACITY);
+    protected void renderTooltip(MatrixStack matrixStack, int x, int y) {
+        if (isHovering(135, 17, 13, 51, x, y)) {
+            ITextComponent text = TextUtil.fluidWithMax(menu.getFluidInTank(), LavaGeneratorTileEntity.TANK_CAPACITY);
             renderTooltip(matrixStack, text, x, y);
         }
-        if (isPointInRegion(153, 17, 13, 51, x, y)) {
-            ITextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
+        if (isHovering(153, 17, 13, 51, x, y)) {
+            ITextComponent text = TextUtil.energyWithMax(menu.getEnergyStored(), menu.getMaxEnergyStored());
             renderTooltip(matrixStack, text, x, y);
         }
-        super.renderHoveredTooltip(matrixStack, x, y);
+        super.renderTooltip(matrixStack, x, y);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
-        super.drawGuiContainerBackgroundLayer(matrixStack, partialTicks, x, y);
+    protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
+        super.renderBg(matrixStack, partialTicks, x, y);
 
         if (minecraft == null) return;
-        int xPos = (this.width - this.xSize) / 2;
-        int yPos = (this.height - this.ySize) / 2;
+        int xPos = (this.width - this.imageWidth) / 2;
+        int yPos = (this.height - this.imageHeight) / 2;
 
         // Energy meter
-        int energyBarHeight = container.getEnergyBarHeight();
+        int energyBarHeight = menu.getEnergyBarHeight();
         if (energyBarHeight > 0) {
             blit(matrixStack, xPos + 154, yPos + 68 - energyBarHeight, 176, 31, 12, energyBarHeight);
         }
 
         // Fluid tank
-        RenderUtils.renderGuiTank(container.getFluidInTank(), LavaGeneratorTileEntity.TANK_CAPACITY, xPos + 136, yPos + 18, 0, 12, 50);
+        RenderUtils.renderGuiTank(menu.getFluidInTank(), LavaGeneratorTileEntity.TANK_CAPACITY, xPos + 136, yPos + 18, 0, 12, 50);
     }
 }

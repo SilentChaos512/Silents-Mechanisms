@@ -18,12 +18,14 @@ import net.silentchaos512.mechanisms.util.MachineTier;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.block.AbstractBlock.Properties;
+
 public class PumpBlock extends AbstractMachineBlock {
 
-    private static final VoxelShape SHAPE = VoxelShapes.or(Block.makeCuboidShape(1, 0, 1, 15, 15, 15));
+    private static final VoxelShape SHAPE = VoxelShapes.or(Block.box(1, 0, 1, 15, 15, 15));
 
     public PumpBlock() {
-        super(MachineTier.STANDARD, Properties.create(Material.IRON).hardnessAndResistance(6, 20).sound(SoundType.METAL));
+        super(MachineTier.STANDARD, Properties.of(Material.METAL).strength(6, 20).sound(SoundType.METAL));
     }
 
     @Override
@@ -33,15 +35,15 @@ public class PumpBlock extends AbstractMachineBlock {
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public TileEntity newBlockEntity(IBlockReader worldIn) {
         return new PumpTileEntity();
     }
 
     @Override
-    protected void interactWith(World worldIn, BlockPos pos, PlayerEntity player) {
-        TileEntity tileEntity = worldIn.getTileEntity(pos);
+    protected void openContainer(World worldIn, BlockPos pos, PlayerEntity player) {
+        TileEntity tileEntity = worldIn.getBlockEntity(pos);
         if (tileEntity instanceof INamedContainerProvider) {
-            player.openContainer((INamedContainerProvider) tileEntity);
+            player.openMenu((INamedContainerProvider) tileEntity);
         }
     }
 }

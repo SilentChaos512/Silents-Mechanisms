@@ -62,7 +62,7 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
         }
 
         @Override
-        public int size() {
+        public int getCount() {
             return FIELDS_COUNT;
         }
     };
@@ -78,11 +78,11 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
     protected abstract int getEnergyCreatedPerTick();
 
     protected BlockState getActiveState() {
-        return getBlockState().with(AbstractFurnaceBlock.LIT, true);
+        return getBlockState().setValue(AbstractFurnaceBlock.LIT, true);
     }
 
     protected BlockState getInactiveState() {
-        return getBlockState().with(AbstractFurnaceBlock.LIT, false);
+        return getBlockState().setValue(AbstractFurnaceBlock.LIT, false);
     };
 
     @Override
@@ -105,38 +105,38 @@ public abstract class AbstractGeneratorTileEntity extends AbstractMachineBaseTil
     }
 
     protected boolean canRun() {
-        return world != null
-                && redstoneMode.shouldRun(world.isBlockPowered(pos))
+        return level != null
+                && redstoneMode.shouldRun(level.hasNeighborSignal(worldPosition))
                 && getEnergyStored() < getMaxEnergyStored();
     }
 
     protected void sendUpdate(BlockState newState, boolean force) {
-        if (world == null) return;
-        BlockState oldState = world.getBlockState(pos);
+        if (level == null) return;
+        BlockState oldState = level.getBlockState(worldPosition);
         if (oldState != newState || force) {
-            world.setBlockState(pos, newState, 3);
-            world.notifyBlockUpdate(pos, oldState, newState, 3);
+            level.setBlock(worldPosition, newState, 3);
+            level.sendBlockUpdated(worldPosition, oldState, newState, 3);
         }
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tags) {
-        super.read(state, tags);
+    public void load(BlockState state, CompoundNBT tags) {
+        super.load(state, tags);
         this.burnTime = tags.getInt("BurnTime");
         this.totalBurnTime = tags.getInt("TotalBurnTime");
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tags) {
+    public CompoundNBT save(CompoundNBT tags) {
         tags.putInt("BurnTime", this.burnTime);
         tags.putInt("TotalBurnTime", this.totalBurnTime);
-        return super.write(tags);
+        return super.save(tags);
     }
 
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         super.onDataPacket(net, packet);
-        CompoundNBT tags = packet.getNbtCompound();
+        CompoundNBT tags = packet.getTag();
         this.burnTime = tags.getInt("BurnTime");
         this.totalBurnTime = tags.getInt("TotalBurnTime");
     }

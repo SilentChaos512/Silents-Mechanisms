@@ -39,10 +39,10 @@ public enum Ores implements IBlockProvider {
         OreConfig config = this.getConfig().get();
         int bottom = config.getMinHeight();
         return Feature.ORE
-                .withConfiguration(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.BASE_STONE_OVERWORLD, this.asBlockState(), config.getVeinSize()))
-                .withPlacement(Placement.RANGE.configure(new TopSolidRangeConfig(bottom, bottom, config.getMaxHeight())))
-                .square()
-                .func_242731_b(config.getVeinCount());
+                .configured(new OreFeatureConfig(OreFeatureConfig.FillerBlockType.NATURAL_STONE, this.asBlockState(), config.getVeinSize()))
+                .decorated(Placement.RANGE.configured(new TopSolidRangeConfig(bottom, bottom, config.getMaxHeight())))
+                .squared()
+                .count(config.getVeinCount());
     });
 
     Ores(Supplier<Metals> metal, int hardness, int harvestLevel, DefaultOreConfigs defaultOreConfigs) {

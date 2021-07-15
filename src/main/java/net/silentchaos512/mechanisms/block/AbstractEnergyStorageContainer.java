@@ -15,11 +15,11 @@ public class AbstractEnergyStorageContainer<T extends AbstractEnergyInventoryTil
         this.tileEntity = tileEntityIn;
         this.fields = fieldsIn;
 
-        trackIntArray(this.fields);
+        addDataSlots(this.fields);
     }
 
     @Override
-    public boolean canInteractWith(PlayerEntity playerIn) {
+    public boolean stillValid(PlayerEntity playerIn) {
         // TODO
         return true;
     }

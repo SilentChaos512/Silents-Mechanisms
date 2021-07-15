@@ -9,6 +9,8 @@ import net.silentchaos512.mechanisms.api.RedstoneMode;
 import net.silentchaos512.mechanisms.block.AbstractMachineBaseContainer;
 import net.silentchaos512.utils.EnumUtils;
 
+import net.minecraft.client.gui.widget.button.Button.IPressable;
+
 public class RedstoneModeButton extends Button {
     private final AbstractMachineBaseContainer container;
 
@@ -34,10 +36,10 @@ public class RedstoneModeButton extends Button {
     @Override
     public void renderButton(MatrixStack matrixStack, int p_renderButton_1_, int p_renderButton_2_, float p_renderButton_3_) {
         Minecraft minecraft = Minecraft.getInstance();
-        minecraft.getTextureManager().bindTexture(container.getRedstoneMode().getTexture());
-        GlStateManager.disableDepthTest();
+        minecraft.getTextureManager().bind(container.getRedstoneMode().getTexture());
+        GlStateManager._disableDepthTest();
 
         blit(matrixStack, this.x, this.y, 0, 0, this.width, this.height, 16, 16);
-        GlStateManager.enableDepthTest();
+        GlStateManager._enableDepthTest();
     }
 }

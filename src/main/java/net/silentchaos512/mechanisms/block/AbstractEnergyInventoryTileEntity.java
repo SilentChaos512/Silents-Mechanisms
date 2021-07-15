@@ -51,7 +51,7 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
         }
 
         @Override
-        public int size() {
+        public int getCount() {
             return 4;
         }
     };
@@ -73,23 +73,23 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
 
     @Override
     public void tick() {
-        if (world == null || world.isRemote) return;
+        if (level == null || level.isClientSide) return;
 
         if (maxExtract > 0) {
-            EnergyUtils.trySendToNeighbors(world, pos, this, maxExtract);
+            EnergyUtils.trySendToNeighbors(level, worldPosition, this, maxExtract);
         }
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tags) {
-        super.read(state, tags);
+    public void load(BlockState state, CompoundNBT tags) {
+        super.load(state, tags);
         SyncVariable.Helper.readSyncVars(this, tags);
         readEnergy(tags);
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tags) {
-        super.write(tags);
+    public CompoundNBT save(CompoundNBT tags) {
+        super.save(tags);
         SyncVariable.Helper.writeSyncVars(this, tags, SyncVariable.Type.WRITE);
         writeEnergy(tags);
         return tags;
@@ -98,8 +98,8 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         super.onDataPacket(net, packet);
-        SyncVariable.Helper.readSyncVars(this, packet.getNbtCompound());
-        readEnergy(packet.getNbtCompound());
+        SyncVariable.Helper.readSyncVars(this, packet.getTag());
+        readEnergy(packet.getTag());
     }
 
     @Override
@@ -112,15 +112,15 @@ public abstract class AbstractEnergyInventoryTileEntity extends LockableSidedInv
 
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (!this.removed && cap == CapabilityEnergy.ENERGY) {
+        if (!this.remove && cap == CapabilityEnergy.ENERGY) {
             return getEnergy(side).cast();
         }
         return super.getCapability(cap, side);
     }
 
     @Override
-    public void remove() {
-        super.remove();
+    public void setRemoved() {
+        super.setRemoved();
         energy.invalidate();
     }
 }

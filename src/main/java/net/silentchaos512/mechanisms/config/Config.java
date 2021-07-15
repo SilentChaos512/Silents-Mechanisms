@@ -52,8 +52,8 @@ public final class Config {
             worldGenOilDimensionBlacklist = builder
                     .comment("The dimensions that oil lakes are not allow to generate in")
                     .define("oilLake.dimensionBlacklist", ImmutableList.of(
-                            World.THE_NETHER.getLocation().toString(),
-                            World.THE_END.getLocation().toString()
+                            World.NETHER.location().toString(),
+                            World.END.location().toString()
                     ), o -> o instanceof List);
 
             builder.comment("Configs for specific ores. Set veinCount to zero to disable an ore.");

@@ -26,10 +26,10 @@ public class DieselGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEnt
     public static final int ENERGY_CREATED_PER_TICK = 120;
     public static final int TICKS_PER_MILLIBUCKET = 10;
 
-    static final ITag.INamedTag<Fluid> FUEL_TAG = FluidTags.makeWrapperTag(new ResourceLocation("forge", "diesel").toString());
+    static final ITag.INamedTag<Fluid> FUEL_TAG = FluidTags.bind(new ResourceLocation("forge", "diesel").toString());
 
     public DieselGeneratorTileEntity() {
-        super(ModTileEntities.dieselGenerator, 2, MAX_ENERGY, 0, MAX_SEND, new FluidTank(4000, s -> s.getFluid().isIn(FUEL_TAG)));
+        super(ModTileEntities.dieselGenerator, 2, MAX_ENERGY, 0, MAX_SEND, new FluidTank(4000, s -> s.getFluid().is(FUEL_TAG)));
     }
 
     @Override
@@ -53,14 +53,14 @@ public class DieselGeneratorTileEntity extends AbstractFluidFuelGeneratorTileEnt
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
+    public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
         return index == 0
                 && InventoryUtils.isFilledFluidContainer(stack)
                 && tank.isFluidValid(IFluidContainer.getBucketOrContainerFluid(stack));
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index == 1;
     }
 

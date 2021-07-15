@@ -51,7 +51,7 @@ public enum CraftingItems implements IItemProvider {
     }
 
     private static Item.Properties createProperties(@Nullable Food food) {
-        Item.Properties result = new Item.Properties().group(SilentMechanisms.ITEM_GROUP);
+        Item.Properties result = new Item.Properties().tab(SilentMechanisms.ITEM_GROUP);
         if (food != null) {
             result.food(food);
         }

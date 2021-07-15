@@ -75,19 +75,19 @@ public final class SMWorldFeatures {
             // Read the blacklist from the config file
             Collection<RegistryKey<World>> blacklist = new ArrayList<>();
             for (String str : Config.worldGenOilDimensionBlacklist.get()) {
-                ResourceLocation id = ResourceLocation.tryCreate(str);
+                ResourceLocation id = ResourceLocation.tryParse(str);
                 if (id != null) {
-                    RegistryKey<World> key = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, id);
+                    RegistryKey<World> key = RegistryKey.create(Registry.DIMENSION_REGISTRY, id);
                     blacklist.add(key);
                 }
             }
 
             return OilLakesFeature.INSTANCE
-                    .withConfiguration(new BlockStateFeatureConfig(ModBlocks.OIL.asBlockState()))
-                    .withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig((int) (multi * config))))
-                    .withPlacement(LibPlacements.DIMENSION_FILTER.configure(new DimensionFilterConfig(false, blacklist)));
+                    .configured(new BlockStateFeatureConfig(ModBlocks.OIL.asBlockState()))
+                    .decorated(Placement.WATER_LAKE.configured(new ChanceConfig((int) (multi * config))))
+                    .decorated(LibPlacements.DIMENSION_FILTER.configured(new DimensionFilterConfig(false, blacklist)));
         } else {
-            return Feature.NO_OP.withConfiguration(new NoFeatureConfig());
+            return Feature.NO_OP.configured(new NoFeatureConfig());
         }
     }
 
@@ -97,11 +97,11 @@ public final class SMWorldFeatures {
             // Somewhat more common in deserts
             ConfiguredFeature<?, ?> feature = biome.getName().equals(Biomes.DESERT.getRegistryName())
                     ? OIL_LAKES_COMMON.get() : OIL_LAKES_STANDARD.get();
-            biome.getGeneration().withFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, feature);
+            biome.getGeneration().addFeature(GenerationStage.Decoration.LOCAL_MODIFICATIONS, feature);
         }
     }
 
     private static void addOre(BiomeLoadingEvent biome, Ores ore) {
-        biome.getGeneration().withFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ore.getConfiguredFeature());
+        biome.getGeneration().addFeature(GenerationStage.Decoration.UNDERGROUND_ORES, ore.getConfiguredFeature());
     }
 }

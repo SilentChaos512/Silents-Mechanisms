@@ -85,24 +85,24 @@ public class MixingRecipe implements IFluidRecipe<IFluidInventory> {
     }
 
     @Override
-    public boolean isDynamic() {
+    public boolean isSpecial() {
         return true;
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<MixingRecipe> {
         @Override
-        public MixingRecipe read(ResourceLocation recipeId, JsonObject json) {
+        public MixingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             MixingRecipe recipe = new MixingRecipe(recipeId);
-            recipe.processTime = JSONUtils.getInt(json, "process_time");
-            JSONUtils.getJsonArray(json, "ingredients").forEach(e ->
+            recipe.processTime = JSONUtils.getAsInt(json, "process_time");
+            JSONUtils.getAsJsonArray(json, "ingredients").forEach(e ->
                     recipe.ingredients.add(FluidIngredient.deserialize(e.getAsJsonObject())));
-            recipe.result = IFluidRecipe.deserializeFluid(JSONUtils.getJsonObject(json, "result"));
+            recipe.result = IFluidRecipe.deserializeFluid(JSONUtils.getAsJsonObject(json, "result"));
             return recipe;
         }
 
         @Nullable
         @Override
-        public MixingRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+        public MixingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
             MixingRecipe recipe = new MixingRecipe(recipeId);
             recipe.processTime = buffer.readVarInt();
             int ingredientCount = buffer.readByte();
@@ -114,7 +114,7 @@ public class MixingRecipe implements IFluidRecipe<IFluidInventory> {
         }
 
         @Override
-        public void write(PacketBuffer buffer, MixingRecipe recipe) {
+        public void toNetwork(PacketBuffer buffer, MixingRecipe recipe) {
             buffer.writeVarInt(recipe.processTime);
             buffer.writeByte(recipe.ingredients.size());
             recipe.ingredients.forEach(ingredient -> ingredient.write(buffer));

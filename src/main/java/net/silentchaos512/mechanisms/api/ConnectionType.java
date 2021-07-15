@@ -11,7 +11,7 @@ public enum ConnectionType implements IStringSerializable {
     BOTH;
 
     @Override
-    public String getString() {
+    public String getSerializedName() {
         return name().toLowerCase(Locale.ROOT);
     }
 

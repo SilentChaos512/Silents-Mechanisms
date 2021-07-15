@@ -35,7 +35,7 @@ public class CoalGeneratorTileEntity extends AbstractGeneratorTileEntity {
     private static boolean isFuel(ItemStack stack, boolean firstAttempt) {
         // Workaround for https://github.com/SilentChaos512/Silents-Mechanisms/issues/126
         try {
-            return stack.getItem().isIn(ModTags.Items.COAL_GENERATOR_FUELS) && AbstractFurnaceTileEntity.isFuel(stack);
+            return stack.getItem().is(ModTags.Items.COAL_GENERATOR_FUELS) && AbstractFurnaceTileEntity.isFuel(stack);
         } catch (IllegalStateException ex) {
             SilentMechanisms.PROXY.tryFetchTagsHack();
         }
@@ -49,22 +49,22 @@ public class CoalGeneratorTileEntity extends AbstractGeneratorTileEntity {
 
     @Override
     protected boolean hasFuel() {
-        return isFuel(getStackInSlot(0));
+        return isFuel(getItem(0));
     }
 
     @Override
     protected void consumeFuel() {
-        ItemStack fuel = getStackInSlot(0);
+        ItemStack fuel = getItem(0);
         burnTime = getBurnTime(fuel);
         if (burnTime > 0) {
             totalBurnTime = burnTime;
 
             if (fuel.hasContainerItem()) {
-                setInventorySlotContents(0, fuel.getContainerItem());
+                setItem(0, fuel.getContainerItem());
             } else if (!fuel.isEmpty()) {
                 fuel.shrink(1);
                 if (fuel.isEmpty()) {
-                    setInventorySlotContents(0, fuel.getContainerItem());
+                    setItem(0, fuel.getContainerItem());
                 }
             }
         }
@@ -77,12 +77,12 @@ public class CoalGeneratorTileEntity extends AbstractGeneratorTileEntity {
 
     @Override
     protected BlockState getActiveState() {
-        return getBlockState().with(AbstractFurnaceBlock.LIT, true);
+        return getBlockState().setValue(AbstractFurnaceBlock.LIT, true);
     }
 
     @Override
     protected BlockState getInactiveState() {
-        return getBlockState().with(AbstractFurnaceBlock.LIT, false);
+        return getBlockState().setValue(AbstractFurnaceBlock.LIT, false);
     }
 
     @Override
@@ -91,12 +91,12 @@ public class CoalGeneratorTileEntity extends AbstractGeneratorTileEntity {
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
+    public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
         return isFuel(stack);
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return !isFuel(stack);
     }
 

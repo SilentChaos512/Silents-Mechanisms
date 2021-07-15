@@ -24,6 +24,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class EnergyStoringItem extends Item {
     public static final ResourceLocation CHARGE = SilentMechanisms.getId("charge");
 
@@ -66,7 +68,7 @@ public class EnergyStoringItem extends Item {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
         // Apparently, addInformation can be called before caps are initialized
         if (CapabilityEnergy.ENERGY == null) return;
 
@@ -75,8 +77,8 @@ public class EnergyStoringItem extends Item {
     }
 
     @Override
-    public void fillItemGroup(ItemGroup group, NonNullList<ItemStack> items) {
-        if (this.isInGroup(group)) {
+    public void fillItemCategory(ItemGroup group, NonNullList<ItemStack> items) {
+        if (this.allowdedIn(group)) {
             items.add(new ItemStack(this));
 
             ItemStack full = new ItemStack(this);
@@ -97,6 +99,6 @@ public class EnergyStoringItem extends Item {
 
     @Override
     public int getRGBDurabilityForDisplay(ItemStack stack) {
-        return MathHelper.hsvToRGB((1 + getChargeRatio(stack)) / 3.0F, 1.0F, 1.0F);
+        return MathHelper.hsvToRgb((1 + getChargeRatio(stack)) / 3.0F, 1.0F, 1.0F);
     }
 }

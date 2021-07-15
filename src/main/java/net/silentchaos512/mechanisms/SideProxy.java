@@ -95,7 +95,7 @@ class SideProxy implements IProxy {
 
         @Override
         public void tryFetchTagsHack() {
-            TagRegistryManager.fetchTags();
+            TagRegistryManager.resetAllToEmpty();
         }
 
         private void clientSetup(FMLClientSetupEvent event) {
@@ -106,8 +106,8 @@ class SideProxy implements IProxy {
         }
 
         public void setFog(EntityViewRenderEvent.FogColors fog) {
-            World w = fog.getInfo().getRenderViewEntity().getEntityWorld();
-            BlockPos pos = fog.getInfo().getBlockPos();
+            World w = fog.getInfo().getEntity().getCommandSenderWorld();
+            BlockPos pos = fog.getInfo().getBlockPosition();
             BlockState bs = w.getBlockState(pos);
             Block b = bs.getBlock();
 

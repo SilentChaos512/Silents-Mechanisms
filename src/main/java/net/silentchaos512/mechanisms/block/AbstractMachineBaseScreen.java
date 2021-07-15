@@ -25,48 +25,48 @@ public abstract class AbstractMachineBaseScreen<C extends AbstractMachineBaseCon
     @Override
     protected void init() {
         super.init();
-        this.addButton(new RedstoneModeButton(container, this.guiLeft - 16, this.guiTop, 16, 16, button -> {
+        this.addButton(new RedstoneModeButton(menu, this.leftPos - 16, this.topPos, 16, 16, button -> {
             RedstoneMode mode = ((RedstoneModeButton) button).getMode();
             Network.channel.sendToServer(new SetRedstoneModePacket(mode));
         }));
     }
 
     @Override
-    protected void renderHoveredTooltip(MatrixStack matrixStack, int x, int y) {
-        if (isPointInRegion(153, 17, 13, 51, x, y)) {
-            IFormattableTextComponent text = TextUtil.energyWithMax(container.getEnergyStored(), container.getMaxEnergyStored());
+    protected void renderTooltip(MatrixStack matrixStack, int x, int y) {
+        if (isHovering(153, 17, 13, 51, x, y)) {
+            IFormattableTextComponent text = TextUtil.energyWithMax(menu.getEnergyStored(), menu.getMaxEnergyStored());
             renderTooltip(matrixStack, text, x, y);
         }
-        if (hoveredSlot instanceof MachineUpgradeSlot && !hoveredSlot.getHasStack()) {
+        if (hoveredSlot instanceof MachineUpgradeSlot && !hoveredSlot.hasItem()) {
             renderTooltip(matrixStack, TextUtil.translate("misc", "upgradeSlot"), x, y);
         }
-        super.renderHoveredTooltip(matrixStack, x, y);
+        super.renderTooltip(matrixStack, x, y);
     }
 
     @Override
-    protected void drawGuiContainerBackgroundLayer(MatrixStack matrixStack, float partialTicks, int x, int y) {
+    protected void renderBg(MatrixStack matrixStack, float partialTicks, int x, int y) {
         if (minecraft == null) return;
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        minecraft.getTextureManager().bindTexture(getGuiTexture());
-        int xPos = (this.width - this.xSize) / 2;
-        int yPos = (this.height - this.ySize) / 2;
-        blit(matrixStack, xPos, yPos, 0, 0, this.xSize, this.ySize);
+        GlStateManager._color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        minecraft.getTextureManager().bind(getGuiTexture());
+        int xPos = (this.width - this.imageWidth) / 2;
+        int yPos = (this.height - this.imageHeight) / 2;
+        blit(matrixStack, xPos, yPos, 0, 0, this.imageWidth, this.imageHeight);
 
         // Upgrade slots
-        for (int i = 0; i < this.container.tileEntity.tier.getUpgradeSlots(); ++i) {
+        for (int i = 0; i < this.menu.tileEntity.tier.getUpgradeSlots(); ++i) {
             blit(matrixStack, xPos + 5 + 18 * i, yPos - 11, 190, 0, 18, 14);
         }
     }
 
     @Override
-    protected void drawGuiContainerForegroundLayer(MatrixStack matrixStack, int x, int y) {
-        this.font.drawString(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
+    protected void renderLabels(MatrixStack matrixStack, int x, int y) {
+        this.font.draw(matrixStack, this.title.getString(), 8.0F, 6.0F, 4210752);
 //        this.font.drawString(this.playerInventory.getDisplayName().getFormattedText(), 8.0F, (float)(this.ySize - 96 + 2), 4210752);
 
         for (Widget widget : this.buttons) {
             if (widget.isHovered() && widget instanceof RedstoneModeButton) {
                 RedstoneMode mode = ((RedstoneModeButton) widget).getMode();
-                renderTooltip(matrixStack, TextUtil.translate("misc", "redstoneMode", mode.name()), x - guiLeft, y - guiTop);
+                renderTooltip(matrixStack, TextUtil.translate("misc", "redstoneMode", mode.name()), x - leftPos, y - topPos);
             }
         }
     }

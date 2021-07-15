@@ -70,7 +70,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
         }
 
         @Override
-        public int size() {
+        public int getCount() {
             return FIELDS_COUNT;
         }
     };
@@ -87,11 +87,11 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     protected abstract int getEnergyUsedPerTick();
 
     protected BlockState getActiveState(BlockState currentState) {
-        return currentState.with(AbstractFurnaceBlock.LIT, true);
+        return currentState.setValue(AbstractFurnaceBlock.LIT, true);
     }
 
     protected BlockState getInactiveState(BlockState currentState) {
-        return currentState.with(AbstractFurnaceBlock.LIT, false);
+        return currentState.setValue(AbstractFurnaceBlock.LIT, false);
     }
 
     /**
@@ -154,22 +154,22 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     }
 
     protected void sendUpdate(BlockState newState) {
-        if (world == null) return;
-        BlockState oldState = world.getBlockState(pos);
+        if (level == null) return;
+        BlockState oldState = level.getBlockState(worldPosition);
         if (oldState != newState) {
-            world.setBlockState(pos, newState, 3);
-            world.notifyBlockUpdate(pos, oldState, newState, 3);
+            level.setBlock(worldPosition, newState, 3);
+            level.sendBlockUpdated(worldPosition, oldState, newState, 3);
         }
     }
 
     protected void setInactiveState() {
-        if (world == null) return;
-        sendUpdate(getInactiveState(world.getBlockState(pos)));
+        if (level == null) return;
+        sendUpdate(getInactiveState(level.getBlockState(worldPosition)));
     }
 
     @Override
     public void tick() {
-        if (world == null || world.isRemote) return;
+        if (level == null || level.isClientSide) return;
 
         R recipe = getRecipe();
         if (recipe != null && canMachineRun(recipe)) {
@@ -188,7 +188,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
                     setInactiveState();
                 }
             } else {
-                sendUpdate(getActiveState(world.getBlockState(pos)));
+                sendUpdate(getActiveState(level.getBlockState(worldPosition)));
             }
         } else {
             if (recipe == null) {
@@ -199,10 +199,10 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     }
 
     private boolean canMachineRun(R recipe) {
-        return world != null
+        return level != null
                 && getEnergyStored() >= getEnergyUsedPerTick()
                 && hasRoomInOutput(getPossibleProcessResult(recipe))
-                && redstoneMode.shouldRun(world.getRedstonePowerFromNeighbors(pos) > 0);
+                && redstoneMode.shouldRun(level.getBestNeighborSignal(worldPosition) > 0);
     }
 
     protected boolean hasRoomInOutput(Iterable<ItemStack> results) {
@@ -216,7 +216,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
 
     private boolean hasRoomForOutputItem(ItemStack stack) {
         for (int i : getOutputSlots()) {
-            ItemStack output = getStackInSlot(i);
+            ItemStack output = getItem(i);
             if (InventoryUtils.canItemsStack(stack, output)) {
                 return true;
             }
@@ -227,10 +227,10 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     protected void storeResultItem(ItemStack stack) {
         // Merge the item into any output slot it can fit in
         for (int i : getOutputSlots()) {
-            ItemStack output = getStackInSlot(i);
+            ItemStack output = getItem(i);
             if (InventoryUtils.canItemsStack(stack, output)) {
                 if (output.isEmpty()) {
-                    setInventorySlotContents(i, stack);
+                    setItem(i, stack);
                 } else {
                     output.setCount(output.getCount() + stack.getCount());
                 }
@@ -240,7 +240,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     }
 
     protected void consumeIngredients(R recipe) {
-        decrStackSize(0, 1);
+        removeItem(0, 1);
     }
 
     @Override
@@ -249,15 +249,15 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tags) {
-        super.read(state, tags);
+    public void load(BlockState state, CompoundNBT tags) {
+        super.load(state, tags);
         this.progress = tags.getInt("Progress");
         this.processTime = tags.getInt("ProcessTime");
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tags) {
-        super.write(tags);
+    public CompoundNBT save(CompoundNBT tags) {
+        super.save(tags);
         tags.putInt("Progress", (int) this.progress);
         tags.putInt("ProcessTime", this.processTime);
         return tags;
@@ -266,7 +266,7 @@ public abstract class AbstractMachineTileEntity<R extends IRecipe<?>> extends Ab
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         super.onDataPacket(net, packet);
-        CompoundNBT tags = packet.getNbtCompound();
+        CompoundNBT tags = packet.getTag();
         this.progress = tags.getInt("Progress");
         this.processTime = tags.getInt("ProcessTime");
     }

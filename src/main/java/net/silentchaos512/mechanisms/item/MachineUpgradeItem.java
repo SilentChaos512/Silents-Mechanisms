@@ -14,11 +14,13 @@ import net.silentchaos512.utils.MathUtils;
 import javax.annotation.Nullable;
 import java.util.List;
 
+import net.minecraft.item.Item.Properties;
+
 public class MachineUpgradeItem extends Item {
     private final IMachineUpgrade upgrade;
 
     public MachineUpgradeItem(IMachineUpgrade upgrade) {
-        super(new Properties().group(SilentMechanisms.ITEM_GROUP));
+        super(new Properties().tab(SilentMechanisms.ITEM_GROUP));
         this.upgrade = upgrade;
     }
 
@@ -27,11 +29,11 @@ public class MachineUpgradeItem extends Item {
     }
 
     @Override
-    public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
-        super.addInformation(stack, worldIn, tooltip, flagIn);
+    public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+        super.appendHoverText(stack, worldIn, tooltip, flagIn);
 
         // Upgrade description and value
-        tooltip.add(new TranslationTextComponent(this.getTranslationKey() + ".desc", upgrade.getDisplayValue()));
+        tooltip.add(new TranslationTextComponent(this.getDescriptionId() + ".desc", upgrade.getDisplayValue()));
 
         // Energy usage multiplier
         float energyCost = upgrade.getEnergyUsageMultiplier();

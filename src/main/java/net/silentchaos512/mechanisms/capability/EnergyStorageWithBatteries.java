@@ -41,8 +41,8 @@ public class EnergyStorageWithBatteries<T extends TileEntity & IInventory> exten
 
     private int getBatteryCount() {
         int count = 0;
-        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-            if (isBattery(inventory.getStackInSlot(i))) {
+        for (int i = 0; i < inventory.getContainerSize(); ++i) {
+            if (isBattery(inventory.getItem(i))) {
                 ++count;
             }
         }
@@ -58,8 +58,8 @@ public class EnergyStorageWithBatteries<T extends TileEntity & IInventory> exten
         if (batteryCount > 0) {
             int perBattery = left / batteryCount;
 
-            for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-                ItemStack stack = inventory.getStackInSlot(i);
+            for (int i = 0; i < inventory.getContainerSize(); ++i) {
+                ItemStack stack = inventory.getItem(i);
                 LazyOptional<IEnergyStorage> optional = stack.getCapability(CapabilityEnergy.ENERGY);
 
                 if (optional.isPresent()) {
@@ -89,8 +89,8 @@ public class EnergyStorageWithBatteries<T extends TileEntity & IInventory> exten
         if (batteryCount > 0) {
             int perBattery = (maxExtract - internalExtract) / batteryCount;
 
-            for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-                ItemStack stack = inventory.getStackInSlot(i);
+            for (int i = 0; i < inventory.getContainerSize(); ++i) {
+                ItemStack stack = inventory.getItem(i);
                 LazyOptional<IEnergyStorage> optional = stack.getCapability(CapabilityEnergy.ENERGY);
 
                 if (optional.isPresent()) {
@@ -114,8 +114,8 @@ public class EnergyStorageWithBatteries<T extends TileEntity & IInventory> exten
     @Override
     public int getEnergyStored() {
         int ret = energyInternal;
-        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-            ItemStack stack = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.getContainerSize(); ++i) {
+            ItemStack stack = inventory.getItem(i);
             LazyOptional<IEnergyStorage> optional = stack.getCapability(CapabilityEnergy.ENERGY);
 
             if (optional.isPresent()) {
@@ -128,8 +128,8 @@ public class EnergyStorageWithBatteries<T extends TileEntity & IInventory> exten
     @Override
     public int getMaxEnergyStored() {
         int ret = capacityInternal;
-        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-            ItemStack stack = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.getContainerSize(); ++i) {
+            ItemStack stack = inventory.getItem(i);
             LazyOptional<IEnergyStorage> optional = stack.getCapability(CapabilityEnergy.ENERGY);
 
             if (optional.isPresent()) {

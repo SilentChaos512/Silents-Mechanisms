@@ -20,39 +20,39 @@ public class WireTileEntity extends TileEntity {
     }
 
     public String getWireNetworkData() {
-        if (world == null) return "world is null";
+        if (level == null) return "world is null";
 
-        WireNetwork net = WireNetworkManager.get(world, pos);
+        WireNetwork net = WireNetworkManager.get(level, worldPosition);
         return net != null ? net.toString() : "null";
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT compound) {
+    public void load(BlockState state, CompoundNBT compound) {
         this.energyStored = compound.getInt("EnergyStored");
-        super.read(state, compound);
+        super.load(state, compound);
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT compound) {
+    public CompoundNBT save(CompoundNBT compound) {
         compound.putInt("EnergyStored", energyStored);
-        return super.write(compound);
+        return super.save(compound);
     }
 
     @Override
-    public void remove() {
-        if (world != null) {
-            WireNetworkManager.invalidateNetwork(world, pos);
+    public void setRemoved() {
+        if (level != null) {
+            WireNetworkManager.invalidateNetwork(level, worldPosition);
         }
-        super.remove();
+        super.setRemoved();
     }
 
     @Nonnull
     @Override
     public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-        if (world != null && !removed && cap == CapabilityEnergy.ENERGY && side != null) {
-            LazyOptional<WireNetwork> networkOptional = WireNetworkManager.getLazy(world, pos);
+        if (level != null && !remove && cap == CapabilityEnergy.ENERGY && side != null) {
+            LazyOptional<WireNetwork> networkOptional = WireNetworkManager.getLazy(level, worldPosition);
             if (networkOptional.isPresent()) {
-                return networkOptional.orElseThrow(IllegalStateException::new).getConnection(pos, side).getLazyOptional().cast();
+                return networkOptional.orElseThrow(IllegalStateException::new).getConnection(worldPosition, side).getLazyOptional().cast();
             }
         }
         return LazyOptional.empty();

@@ -68,9 +68,9 @@ public class AlloySmeltingRecipeCategoryJei implements IRecipeCategory<AlloySmel
     @Override
     public void setIngredients(AlloySmeltingRecipe recipe, IIngredients ingredients) {
         ingredients.setInputLists(VanillaTypes.ITEM, recipe.getIngredientMap().keySet().stream()
-                .map(ingredient -> Arrays.asList(ingredient.getMatchingStacks()))
+                .map(ingredient -> Arrays.asList(ingredient.getItems()))
                 .collect(Collectors.toList()));
-        ingredients.setOutput(VanillaTypes.ITEM, recipe.getRecipeOutput());
+        ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
     }
 
     @Override
@@ -86,7 +86,7 @@ public class AlloySmeltingRecipeCategoryJei implements IRecipeCategory<AlloySmel
         for (Map.Entry<Ingredient, Integer> entry : recipe.getIngredientMap().entrySet()) {
             Ingredient ingredient = entry.getKey();
             Integer count = entry.getValue();
-            itemStacks.set(i++, Arrays.stream(ingredient.getMatchingStacks())
+            itemStacks.set(i++, Arrays.stream(ingredient.getItems())
                     .map(s -> {
                         ItemStack stack = s.copy();
                         stack.setCount(count);
@@ -95,7 +95,7 @@ public class AlloySmeltingRecipeCategoryJei implements IRecipeCategory<AlloySmel
                     .collect(Collectors.toList())
             );
         }
-        itemStacks.set(4, recipe.getRecipeOutput());
+        itemStacks.set(4, recipe.getResultItem());
     }
 
     @Override

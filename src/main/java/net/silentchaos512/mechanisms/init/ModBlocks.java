@@ -62,9 +62,9 @@ public final class ModBlocks {
     public static final BlockRegistryObject<DryingRackBlock> ACACIA_DRYING_RACK = register("acacia_drying_rack", DryingRackBlock::new);
 
     public static final BlockRegistryObject<MachineFrameBlock> STONE_MACHINE_FRAME = register("stone_machine_frame", () ->
-            new MachineFrameBlock(Block.Properties.create(Material.ROCK).hardnessAndResistance(3, 10).sound(SoundType.STONE).notSolid()));
+            new MachineFrameBlock(Block.Properties.of(Material.STONE).strength(3, 10).sound(SoundType.STONE).noOcclusion()));
     public static final BlockRegistryObject<MachineFrameBlock> ALLOY_MACHINE_FRAME = register("alloy_machine_frame", () ->
-            new MachineFrameBlock(Block.Properties.create(Material.IRON).hardnessAndResistance(3, 10).sound(SoundType.METAL).notSolid()));
+            new MachineFrameBlock(Block.Properties.of(Material.METAL).strength(3, 10).sound(SoundType.METAL).noOcclusion()));
 
     public static final BlockRegistryObject<AlloySmelterBlock> BASIC_ALLOY_SMELTER = register("basic_alloy_smelter", () ->
             new AlloySmelterBlock(MachineTier.BASIC));
@@ -86,9 +86,9 @@ public final class ModBlocks {
     public static final BlockRegistryObject<DieselGeneratorBlock> DIESEL_GENERATOR = register("diesel_generator", DieselGeneratorBlock::new);
     public static final BlockRegistryObject<BatteryBoxBlock> BATTERY_BOX = register("battery_box", BatteryBoxBlock::new);
     public static final BlockRegistryObject<WireBlock> WIRE = register("wire", () ->
-            new WireBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
+            new WireBlock(Block.Properties.of(Material.DECORATION).strength(1, 5)));
     public static final BlockRegistryObject<PipeBlock> PIPE = register("pipe", () ->
-            new PipeBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(1, 5)));
+            new PipeBlock(Block.Properties.of(Material.DECORATION).strength(1, 5)));
 
     public static final BlockRegistryObject<FlowingFluidBlock> OIL = registerFluid("oil", () -> ModFluids.OIL);
     public static final BlockRegistryObject<FlowingFluidBlock> DIESEL = registerFluid("diesel", () -> ModFluids.DIESEL);
@@ -99,10 +99,10 @@ public final class ModBlocks {
 
     @OnlyIn(Dist.CLIENT)
     public static void registerRenderTypes(FMLClientSetupEvent event) {
-        RenderTypeLookup.setRenderLayer(STONE_MACHINE_FRAME.get(), RenderType.getCutout());
-        RenderTypeLookup.setRenderLayer(ALLOY_MACHINE_FRAME.get(), RenderType.getCutout());
+        RenderTypeLookup.setRenderLayer(STONE_MACHINE_FRAME.get(), RenderType.cutout());
+        RenderTypeLookup.setRenderLayer(ALLOY_MACHINE_FRAME.get(), RenderType.cutout());
         Registration.getBlocks(AbstractMachineBlock.class).forEach(block ->
-                RenderTypeLookup.setRenderLayer(block, RenderType.getTranslucent()));
+                RenderTypeLookup.setRenderLayer(block, RenderType.translucent()));
     }
 
     private static <T extends Block> BlockRegistryObject<T> registerNoItem(String name, Supplier<T> block) {
@@ -121,25 +121,25 @@ public final class ModBlocks {
 
     private static BlockRegistryObject<FlowingFluidBlock> registerFluid(String name, Supplier<FlowingFluid> fluid) {
         return registerNoItem(name, () ->
-                new FlowingFluidBlock(fluid, Block.Properties.create(Material.WATER).doesNotBlockMovement().hardnessAndResistance(100.0F).noDrops()));
+                new FlowingFluidBlock(fluid, Block.Properties.of(Material.WATER).noCollission().strength(100.0F).noDrops()));
     }
 
     private static <T extends Block> Supplier<BlockItem> defaultItem(BlockRegistryObject<T> block) {
-        return () -> new BlockItem(block.get(), new Item.Properties().group(SilentMechanisms.ITEM_GROUP));
+        return () -> new BlockItem(block.get(), new Item.Properties().tab(SilentMechanisms.ITEM_GROUP));
     }
 
     @Nullable
     public static ITextComponent checkForMissingLootTables(PlayerEntity player) {
         // Checks for missing block loot tables, but only in dev
-        if (!(player.world instanceof ServerWorld) || !SilentMechanisms.isDevBuild()) return null;
+        if (!(player.level instanceof ServerWorld) || !SilentMechanisms.isDevBuild()) return null;
 
-        LootTableManager lootTableManager = ((ServerWorld) player.world).getServer().getLootTableManager();
+        LootTableManager lootTableManager = ((ServerWorld) player.level).getServer().getLootTables();
         Collection<String> missing = new ArrayList<>();
 
         for (Block block : ForgeRegistries.BLOCKS.getValues()) {
             ResourceLocation lootTable = block.getLootTable();
             // The AirBlock check filters out removed blocks
-            if (lootTable.getNamespace().equals(SilentMechanisms.MOD_ID) && !(block instanceof AirBlock) && !lootTableManager.getLootTableKeys().contains(lootTable)) {
+            if (lootTable.getNamespace().equals(SilentMechanisms.MOD_ID) && !(block instanceof AirBlock) && !lootTableManager.getIds().contains(lootTable)) {
                 SilentMechanisms.LOGGER.error("Missing block loot table '{}' for {}", lootTable, block.getRegistryName());
                 missing.add(lootTable.toString());
             }
@@ -147,7 +147,7 @@ public final class ModBlocks {
 
         if (!missing.isEmpty()) {
             String list = String.join(", ", missing);
-            return new StringTextComponent("The following block loot tables are missing: " + list).mergeStyle(TextFormatting.RED);
+            return new StringTextComponent("The following block loot tables are missing: " + list).withStyle(TextFormatting.RED);
         }
 
         return null;

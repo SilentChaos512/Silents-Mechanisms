@@ -68,7 +68,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
                     .modelFile(models()
                             .withExistingParent(name, modLoc("block/drying_rack"))
                             .texture("wood", mcLoc(texture)))
-                    .rotationY((int) state.get(DryingRackBlock.FACING).getHorizontalAngle())
+                    .rotationY((int) state.getValue(DryingRackBlock.FACING).toYRot())
                     .build();
         }, DryingRackBlock.WATERLOGGED);
     }

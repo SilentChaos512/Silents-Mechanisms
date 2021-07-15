@@ -17,6 +17,8 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.*;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 public final class PipeNetwork implements IFluidHandler {
     private final IWorldReader world;
     private final Map<BlockPos, Set<Connection>> connections = new HashMap<>();
@@ -69,8 +71,8 @@ public final class PipeNetwork implements IFluidHandler {
         // Get all positions that have a wire connected to the wire at pos
         set.add(pos);
         for (Direction side : Direction.values()) {
-            BlockPos pos1 = pos.offset(side);
-            if (!set.contains(pos1) && world.getTileEntity(pos1) instanceof PipeTileEntity) {
+            BlockPos pos1 = pos.relative(side);
+            if (!set.contains(pos1) && world.getBlockEntity(pos1) instanceof PipeTileEntity) {
                 set.add(pos1);
                 set.addAll(buildPipeSet(world, pos1, set));
             }
@@ -90,7 +92,7 @@ public final class PipeNetwork implements IFluidHandler {
         // Get all connections for the wire at pos
         Set<Connection> connections = new HashSet<>();
         for (Direction direction : Direction.values()) {
-            TileEntity te = world.getTileEntity(pos.offset(direction));
+            TileEntity te = world.getBlockEntity(pos.relative(direction));
             if (te != null && !(te instanceof PipeTileEntity) && te.getCapability(CapabilityEnergy.ENERGY).isPresent()) {
                 ConnectionType type = PipeBlock.getConnection(world.getBlockState(pos), direction);
                 connections.add(new Connection(this, direction, type));
@@ -136,7 +138,7 @@ public final class PipeNetwork implements IFluidHandler {
 
     @Nullable
     private static IFluidHandler getFluidHandler(IBlockReader world, BlockPos pos, Direction side) {
-        TileEntity tileEntity = world.getTileEntity(pos.offset(side));
+        TileEntity tileEntity = world.getBlockEntity(pos.relative(side));
         if (tileEntity != null) {
             //noinspection ConstantConditions
             return tileEntity.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, side.getOpposite()).orElse(null);

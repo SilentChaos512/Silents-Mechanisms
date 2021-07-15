@@ -19,6 +19,8 @@ import net.silentchaos512.mechanisms.util.TextUtil;
 import javax.annotation.Nullable;
 import java.util.Collection;
 
+import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
+
 public class RefineryTileEntity extends AbstractFluidMachineTileEntity<RefiningRecipe> {
     public static final int FIELDS_COUNT = 17;
     public static final int TANK_CAPACITY = 4_000;
@@ -31,8 +33,8 @@ public class RefineryTileEntity extends AbstractFluidMachineTileEntity<RefiningR
     @Nullable
     @Override
     public RefiningRecipe getRecipe() {
-        if (world == null) return null;
-        return world.getRecipeManager().getRecipe(ModRecipes.Types.REFINING, this, world).orElse(null);
+        if (level == null) return null;
+        return level.getRecipeManager().getRecipeFor(ModRecipes.Types.REFINING, this, level).orElse(null);
     }
 
     @Override
@@ -62,7 +64,7 @@ public class RefineryTileEntity extends AbstractFluidMachineTileEntity<RefiningR
 
     @Override
     public void tick() {
-        if (world == null || world.isRemote) return;
+        if (level == null || level.isClientSide) return;
 
         tryFillTank();
         tryFillFluidContainer();
@@ -77,7 +79,7 @@ public class RefineryTileEntity extends AbstractFluidMachineTileEntity<RefiningR
 
     private void tryFillTank() {
         // Try fill feedstock tank with fluid containers
-        ItemStack input = getStackInSlot(0);
+        ItemStack input = getItem(0);
         if (input.isEmpty()) return;
 
         FluidStack fluidStack = IFluidContainer.getBucketOrContainerFluid(input);
@@ -87,9 +89,9 @@ public class RefineryTileEntity extends AbstractFluidMachineTileEntity<RefiningR
             ItemStack containerItem = input.getContainerItem();
             input.shrink(1);
 
-            ItemStack output = getStackInSlot(1);
+            ItemStack output = getItem(1);
             if (output.isEmpty()) {
-                setInventorySlotContents(1, containerItem);
+                setItem(1, containerItem);
             } else {
                 output.grow(1);
             }
@@ -97,7 +99,7 @@ public class RefineryTileEntity extends AbstractFluidMachineTileEntity<RefiningR
     }
 
     private boolean canAcceptFluidContainer(ItemStack input, FluidStack fluid) {
-        ItemStack output = getStackInSlot(1);
+        ItemStack output = getItem(1);
         return !fluid.isEmpty()
                 && this.isFluidValid(0, fluid)
                 && this.fill(fluid, IFluidHandler.FluidAction.SIMULATE) == 1000
@@ -107,7 +109,7 @@ public class RefineryTileEntity extends AbstractFluidMachineTileEntity<RefiningR
 
     private void tryFillFluidContainer() {
         // Fill empty fluid containers with output fluids
-        ItemStack input = getStackInSlot(2);
+        ItemStack input = getItem(2);
         if (input.isEmpty()) return;
 
         FluidStack fluidInInput = IFluidContainer.getBucketOrContainerFluid(input);
@@ -132,12 +134,12 @@ public class RefineryTileEntity extends AbstractFluidMachineTileEntity<RefiningR
     }
 
     @Override
-    public boolean canInsertItem(int index, ItemStack stack, @Nullable Direction direction) {
+    public boolean canPlaceItemThroughFace(int index, ItemStack stack, @Nullable Direction direction) {
         return (index == 0 && InventoryUtils.isFilledFluidContainer(stack)) || (index == 2 && InventoryUtils.isEmptyFluidContainer(stack));
     }
 
     @Override
-    public boolean canExtractItem(int index, ItemStack stack, Direction direction) {
+    public boolean canTakeItemThroughFace(int index, ItemStack stack, Direction direction) {
         return index == 1 || index == 3;
     }
 

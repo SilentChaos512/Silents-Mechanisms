@@ -37,22 +37,22 @@ public class CompressingRecipe implements IRecipe<IInventory> {
 
     @Override
     public boolean matches(IInventory inv, World worldIn) {
-        ItemStack stack = inv.getStackInSlot(0);
+        ItemStack stack = inv.getItem(0);
         return ingredient.test(stack) && stack.getCount() >= ingredientCount;
     }
 
     @Override
-    public ItemStack getCraftingResult(IInventory inv) {
+    public ItemStack assemble(IInventory inv) {
         return result.copy();
     }
 
     @Override
-    public boolean canFit(int width, int height) {
+    public boolean canCraftInDimensions(int width, int height) {
         return true;
     }
 
     @Override
-    public ItemStack getRecipeOutput() {
+    public ItemStack getResultItem() {
         return result;
     }
 
@@ -72,44 +72,44 @@ public class CompressingRecipe implements IRecipe<IInventory> {
     }
 
     @Override
-    public boolean isDynamic() {
+    public boolean isSpecial() {
         return true;
     }
 
     public static class Serializer extends ForgeRegistryEntry<IRecipeSerializer<?>> implements IRecipeSerializer<CompressingRecipe> {
         @Override
-        public CompressingRecipe read(ResourceLocation recipeId, JsonObject json) {
+        public CompressingRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
             CompressingRecipe recipe = new CompressingRecipe(recipeId);
-            recipe.processTime = JSONUtils.getInt(json, "process_time", 400);
+            recipe.processTime = JSONUtils.getAsInt(json, "process_time", 400);
             JsonElement ingredientJson = json.get("ingredient");
             if (ingredientJson.isJsonObject() && ingredientJson.getAsJsonObject().has("value")) {
                 JsonObject obj = ingredientJson.getAsJsonObject();
-                recipe.ingredient = Ingredient.deserialize(obj.get("value"));
-                recipe.ingredientCount = JSONUtils.getInt(obj, "count", 1);
+                recipe.ingredient = Ingredient.fromJson(obj.get("value"));
+                recipe.ingredientCount = JSONUtils.getAsInt(obj, "count", 1);
             } else {
-                recipe.ingredient = Ingredient.deserialize(ingredientJson);
-                recipe.ingredientCount = JSONUtils.getInt(ingredientJson.getAsJsonObject(), "count", 1);
+                recipe.ingredient = Ingredient.fromJson(ingredientJson);
+                recipe.ingredientCount = JSONUtils.getAsInt(ingredientJson.getAsJsonObject(), "count", 1);
             }
-            recipe.result = ShapedRecipe.deserializeItem(JSONUtils.getJsonObject(json, "result"));
+            recipe.result = ShapedRecipe.itemFromJson(JSONUtils.getAsJsonObject(json, "result"));
             return recipe;
         }
 
         @Override
-        public CompressingRecipe read(ResourceLocation recipeId, PacketBuffer buffer) {
+        public CompressingRecipe fromNetwork(ResourceLocation recipeId, PacketBuffer buffer) {
             CompressingRecipe recipe = new CompressingRecipe(recipeId);
             recipe.processTime = buffer.readVarInt();
-            recipe.ingredient = Ingredient.read(buffer);
+            recipe.ingredient = Ingredient.fromNetwork(buffer);
             recipe.ingredientCount = buffer.readByte();
-            recipe.result = buffer.readItemStack();
+            recipe.result = buffer.readItem();
             return recipe;
         }
 
         @Override
-        public void write(PacketBuffer buffer, CompressingRecipe recipe) {
+        public void toNetwork(PacketBuffer buffer, CompressingRecipe recipe) {
             buffer.writeVarInt(recipe.processTime);
-            recipe.ingredient.write(buffer);
+            recipe.ingredient.toNetwork(buffer);
             buffer.writeByte(recipe.ingredientCount);
-            buffer.writeItemStack(recipe.result);
+            buffer.writeItem(recipe.result);
         }
     }
 }

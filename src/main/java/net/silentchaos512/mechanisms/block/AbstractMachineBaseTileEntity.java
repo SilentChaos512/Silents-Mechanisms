@@ -53,7 +53,7 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
         }
 
         @Override
-        public int size() {
+        public int getCount() {
             return FIELDS_COUNT;
         }
     };
@@ -77,8 +77,8 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
 
     public int getUpgradeCount(IItemProvider upgradeItem) {
         int count = 0;
-        for (int i = getSizeInventory() - tier.getUpgradeSlots(); i < getSizeInventory(); ++i) {
-            ItemStack stack = getStackInSlot(i);
+        for (int i = getContainerSize() - tier.getUpgradeSlots(); i < getContainerSize(); ++i) {
+            ItemStack stack = getItem(i);
             if (!stack.isEmpty() && stack.getItem() == upgradeItem.asItem()) {
                 count += stack.getCount();
             }
@@ -88,8 +88,8 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
 
     protected float getUpgradesEnergyMultiplier() {
         float cost = 1f;
-        for (int i = getSizeInventory() - tier.getUpgradeSlots(); i < getSizeInventory(); ++i) {
-            ItemStack stack = getStackInSlot(i);
+        for (int i = getContainerSize() - tier.getUpgradeSlots(); i < getContainerSize(); ++i) {
+            ItemStack stack = getItem(i);
             if (!stack.isEmpty() && stack.getItem() instanceof MachineUpgradeItem) {
                 cost += stack.getCount() * ((MachineUpgradeItem) stack.getItem()).getUpgrade().getEnergyUsageMultiplier();
             }
@@ -103,14 +103,14 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
     }
 
     @Override
-    public void read(BlockState state, CompoundNBT tags) {
-        super.read(state, tags);
+    public void load(BlockState state, CompoundNBT tags) {
+        super.load(state, tags);
         this.redstoneMode = EnumUtils.byOrdinal(tags.getByte("RedstoneMode"), RedstoneMode.IGNORED);
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT tags) {
-        super.write(tags);
+    public CompoundNBT save(CompoundNBT tags) {
+        super.save(tags);
         tags.putByte("RedstoneMode", (byte) this.redstoneMode.ordinal());
         return tags;
     }
@@ -118,7 +118,7 @@ public abstract class AbstractMachineBaseTileEntity extends AbstractEnergyInvent
     @Override
     public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket packet) {
         super.onDataPacket(net, packet);
-        CompoundNBT tags = packet.getNbtCompound();
+        CompoundNBT tags = packet.getTag();
         this.redstoneMode = EnumUtils.byOrdinal(tags.getByte("RedstoneMode"), RedstoneMode.IGNORED);
     }
 

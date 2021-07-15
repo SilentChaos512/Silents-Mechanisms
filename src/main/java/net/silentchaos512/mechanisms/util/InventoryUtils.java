@@ -24,8 +24,8 @@ public final class InventoryUtils {
      */
     public static int getTotalCount(IInventory inventory, Predicate<ItemStack> ingredient) {
         int total = 0;
-        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-            ItemStack stack = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.getContainerSize(); ++i) {
+            ItemStack stack = inventory.getItem(i);
             if (!stack.isEmpty() && ingredient.test(stack)) {
                 total += stack.getCount();
             }
@@ -43,14 +43,14 @@ public final class InventoryUtils {
      */
     public static void consumeItems(IInventory inventory, Predicate<ItemStack> ingredient, int amount) {
         int amountLeft = amount;
-        for (int i = 0; i < inventory.getSizeInventory(); ++i) {
-            ItemStack stack = inventory.getStackInSlot(i);
+        for (int i = 0; i < inventory.getContainerSize(); ++i) {
+            ItemStack stack = inventory.getItem(i);
             if (!stack.isEmpty() && ingredient.test(stack)) {
                 int toRemove = Math.min(amountLeft, stack.getCount());
 
                 stack.shrink(toRemove);
                 if (stack.isEmpty()) {
-                    inventory.setInventorySlotContents(i, ItemStack.EMPTY);
+                    inventory.setItem(i, ItemStack.EMPTY);
                 }
 
                 amountLeft -= toRemove;
@@ -68,9 +68,9 @@ public final class InventoryUtils {
     }
 
     public static boolean mergeItem(IInventory inventory, ItemStack stack, int slot) {
-        ItemStack current = inventory.getStackInSlot(slot);
+        ItemStack current = inventory.getItem(slot);
         if (current.isEmpty()) {
-            inventory.setInventorySlotContents(slot, stack);
+            inventory.setItem(slot, stack);
             return true;
         } else if (canItemsStack(stack, current)) {
             current.grow(stack.getCount());
