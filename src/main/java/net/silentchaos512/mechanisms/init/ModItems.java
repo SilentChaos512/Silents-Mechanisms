@@ -1,68 +1,70 @@
 package net.silentchaos512.mechanisms.init;
 
-import net.minecraft.fluid.FlowingFluid;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraftforge.event.RegistryEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.lib.registry.ItemRegistryObject;
-import net.silentchaos512.mechanisms.SilentMechanisms;
-import net.silentchaos512.mechanisms.item.*;
-import net.silentchaos512.mechanisms.util.color.ColorGetter;
+import net.silentchaos512.mechanisms.SilentsMechanisms;
 
 import java.util.function.Supplier;
 
-public final class ModItems {
+//Added this one so intellij won't give any stupid warnings for unused registries
+@Mod.EventBusSubscriber(modid = SilentsMechanisms.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@SuppressWarnings("unused")
+public class ModItems {
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SilentsMechanisms.MODID);
+    public static final Table<Metals.Material, Metals.Type, ItemRegistryObject<Item>> ALL_ALLOYS;
+    public static final Table<Metals.OreMetal, Metals.OreMetalType, ItemRegistryObject<Item>> ALL_ORE_METALS;
+
     static {
-        Metals.registerItems();
-        CraftingItems.register();
-        MachineUpgrades.register();
-    }
-
-    public static final ItemRegistryObject<WrenchItem> WRENCH = register("wrench", WrenchItem::new);
-    public static final ItemRegistryObject<DebugItem> DEBUG_ITEM = register("debug_item", DebugItem::new);
-    public static final ItemRegistryObject<BatteryItem> BATTERY = register("battery", BatteryItem::new);
-    public static final ItemRegistryObject<HandPumpItem> HAND_PUMP = register("hand_pump", HandPumpItem::new);
-    public static final ItemRegistryObject<CanisterItem> CANISTER = register("canister", () ->
-            new CanisterItem(new Item.Properties().tab(SilentMechanisms.ITEM_GROUP)));
-    public static final ItemRegistryObject<EmptyCanisterItem> EMPTY_CANISTER = register("empty_canister", () ->
-            new EmptyCanisterItem(new Item.Properties().tab(SilentMechanisms.ITEM_GROUP)));
-
-    public static final ItemRegistryObject<BucketItem> OIL_BUCKET = register("oil_bucket", () ->
-            createBucketItem(() -> ModFluids.OIL));
-    public static final ItemRegistryObject<BucketItem> DIESEL_BUCKET = register("diesel_bucket", () ->
-            createBucketItem(() -> ModFluids.DIESEL));
-    public static final ItemRegistryObject<NoPlaceBucketItem> ETHANE_BUCKET = register("ethane_bucket", () ->
-            createNoPlaceBucketItem(() -> ModFluids.ETHANE));
-    public static final ItemRegistryObject<NoPlaceBucketItem> POLYETHYLENE_BUCKET = register("polyethylene_bucket", () ->
-            createNoPlaceBucketItem(() -> ModFluids.POLYETHYLENE));
-
-    private ModItems() {}
-
-    static void register() {}
-
-    @OnlyIn(Dist.CLIENT)
-    public static void registerItemColors(ColorHandlerEvent.Item event) {
-        event.getItemColors().register((stack, tintIndex) -> {
-            if (tintIndex == 1) {
-                return ColorGetter.getColor(CANISTER.get().getFluid(stack).getFluid());
+        ALL_ALLOYS = HashBasedTable.create();
+        for (Metals.Material material : Metals.Material.values()) {
+            for (Metals.Type type : Metals.Type.values()) {
+                ALL_ALLOYS.put(material, type, register(material.toString().toLowerCase() + '_' + type.toString().toLowerCase()));
             }
-            return 0xFFFFFF;
-        }, CANISTER);
+        }
+
+        ALL_ORE_METALS = HashBasedTable.create();
+        for (Metals.OreMetal oreMetal : Metals.OreMetal.values()) {
+            for (Metals.OreMetalType oreMetalType : Metals.OreMetalType.values()) {
+                ALL_ORE_METALS.put(oreMetal, oreMetalType, register(oreMetal.name().toLowerCase() + '_' + oreMetalType.name().toLowerCase()));
+            }
+        }
     }
 
-    private static BucketItem createBucketItem(Supplier<FlowingFluid> fluid) {
-        return new BucketItem(fluid, new Item.Properties().tab(SilentMechanisms.ITEM_GROUP).stacksTo(1).craftRemainder(Items.BUCKET));
+    public static final ItemRegistryObject<Item> COMPRESSED_IRON_INGOT = register("compressed_iron_ingot");
+
+    public static final ItemRegistryObject<Item> IRON_CHUNK = register("iron_chunks");
+    public static final ItemRegistryObject<Item> IRON_DUST = register("iron_dust");
+
+    public static final ItemRegistryObject<Item> GOLD_CHUNK = register("gold_chunks");
+    public static final ItemRegistryObject<Item> GOLD_DUST = register("gold_dust");
+
+
+
+    private static ItemRegistryObject<Item> register(String name) {
+        return register(name, () -> new Item(new Item.Properties().tab(SilentsMechanisms.TAB)));
     }
 
-    private static NoPlaceBucketItem createNoPlaceBucketItem(Supplier<Fluid> fluid) {
-        return new NoPlaceBucketItem(fluid, new Item.Properties().tab(SilentMechanisms.ITEM_GROUP).stacksTo(1).craftRemainder(Items.BUCKET));
+    private static <ITEM extends Item> ItemRegistryObject<ITEM> register(String name, Supplier<ITEM> itemSupplier) {
+        return new ItemRegistryObject<>(ITEMS.register(name, itemSupplier));
     }
 
-    private static <T extends Item> ItemRegistryObject<T> register(String name, Supplier<T> item) {
-        return new ItemRegistryObject<>(Registration.ITEMS.register(name, item));
+    @SubscribeEvent
+    public static void onItemRegistration(RegistryEvent.Register<Item> registration) {
+        IForgeRegistry<Item> registry = registration.getRegistry();
+        ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).forEach(block -> registry.register(new BlockItem(block, new Item.Properties().tab(SilentsMechanisms.TAB)).setRegistryName(SilentsMechanisms.loc(block.getRegistryName().getPath()))));
+    }
+
+    public static void init(IEventBus eventBus) {
+        ITEMS.register(eventBus);
     }
 }

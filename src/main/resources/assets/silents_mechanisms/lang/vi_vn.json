@@ -99,7 +99,7 @@
   "item.silents_mechanisms.aluminum_steel_ingot": "Thỏi Nhôm Thép",
   "item.silents_mechanisms.aluminum_steel_nugget": "Hạt Nhôm Thép",
   "item.silents_mechanisms.battery": "Pin",
-  "item.silents_mechanisms.bauxite_chunks": "Mảnh Quặng Bô Xít",
+  "item.silents_mechanisms.aluminum_chunks": "Mảnh Quặng Nhôm",
   "item.silents_mechanisms.beef_jerky": "Thịt Bò khô",
   "item.silents_mechanisms.bismuth_chunks": "mảnh Quặng Bismuth",
   "item.silents_mechanisms.bismuth_dust": "Bột Bismuth",
@@ -152,7 +152,6 @@
   "item.silents_mechanisms.lead_chunks": "Mảnh Quặng Chì",
   "item.silents_mechanisms.lead_dust": "Bột Chì",
   "item.silents_mechanisms.lead_ingot": "Thỏi Chì",
-  
   "item.silents_mechanisms.lead_nugget": "Bột Chì",
   "item.silents_mechanisms.lumium_dust": "Bột Lumium",
   "item.silents_mechanisms.lumium_ingot": "Thỏi Lumium",

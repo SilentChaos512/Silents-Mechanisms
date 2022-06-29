@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:smelting",
-  "ingredient": {
-    "tag": "forge:dusts/aluminum_steel"
-  },
-  "result": "silents_mechanisms:aluminum_steel_ingot",
-  "experience": 1.0,
-  "cookingtime": 200
-}

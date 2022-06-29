@@ -1,6 +1,0 @@
-{
-  "parent": "silents_mechanisms:block/drying_rack",
-  "textures": {
-    "wood": "minecraft:block/acacia_planks"
-  }
-}
