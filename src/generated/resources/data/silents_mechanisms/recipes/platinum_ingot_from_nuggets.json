@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/platinum"
+    },
+    {
+      "tag": "forge:nuggets/platinum"
+    },
+    {
+      "tag": "forge:nuggets/platinum"
+    },
+    {
+      "tag": "forge:nuggets/platinum"
+    },
+    {
+      "tag": "forge:nuggets/platinum"
+    },
+    {
+      "tag": "forge:nuggets/platinum"
+    },
+    {
+      "tag": "forge:nuggets/platinum"
+    },
+    {
+      "tag": "forge:nuggets/platinum"
+    },
+    {
+      "tag": "forge:nuggets/platinum"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:platinum_ingot"
+  }
+}

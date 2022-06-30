@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "tag": "forge:ingots/silver"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:silver_block"
+  }
+}

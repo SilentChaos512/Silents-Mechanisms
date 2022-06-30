@@ -16,7 +16,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.silentchaos512.mechanisms.data.loot.ModLootTable;
+import net.silentchaos512.mechanisms.data.recipes.ModRecipeProvider;
 import net.silentchaos512.mechanisms.data.tag.ModBlockTagProvider;
+import net.silentchaos512.mechanisms.data.tag.ModItemTags;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
 import net.silentchaos512.mechanisms.worldgen.ModOreFeatures;
@@ -53,8 +55,12 @@ public class SilentsMechanisms {
             DataGenerator dataGenerator = event.getGenerator();
             ExistingFileHelper fileHelper = event.getExistingFileHelper();
 
-            dataGenerator.addProvider(new ModBlockTagProvider(dataGenerator, SilentsMechanisms.MODID, fileHelper));
+
+            ModBlockTagProvider blockTagProvider = new ModBlockTagProvider(dataGenerator, SilentsMechanisms.MODID, fileHelper);
+            dataGenerator.addProvider(blockTagProvider);
+            dataGenerator.addProvider(new ModItemTags.Provider(dataGenerator, blockTagProvider, SilentsMechanisms.MODID, fileHelper));
             dataGenerator.addProvider(new ModLootTable(dataGenerator));
+            dataGenerator.addProvider(new ModRecipeProvider(dataGenerator));
         }
 
 

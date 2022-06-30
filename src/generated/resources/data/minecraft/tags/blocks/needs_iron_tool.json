@@ -1,10 +1,10 @@
 {
   "replace": false,
   "values": [
-    "silents_mechanisms:nickel_ore",
     "silents_mechanisms:platinum_ore",
     "silents_mechanisms:lead_ore",
-    "silents_mechanisms:uranium_ore",
-    "silents_mechanisms:silver_ore"
+    "silents_mechanisms:nickel_ore",
+    "silents_mechanisms:silver_ore",
+    "silents_mechanisms:uranium_ore"
   ]
 }

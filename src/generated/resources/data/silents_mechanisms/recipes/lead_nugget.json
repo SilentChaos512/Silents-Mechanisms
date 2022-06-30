@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silents_mechanisms:lead_ingot"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:lead_nugget",
+    "count": 9
+  }
+}

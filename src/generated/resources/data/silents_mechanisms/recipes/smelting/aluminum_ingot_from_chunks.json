@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:chunks/aluminum"
+  },
+  "result": "silents_mechanisms:aluminum_ingot",
+  "experience": 0.2,
+  "cookingtime": 200
+}

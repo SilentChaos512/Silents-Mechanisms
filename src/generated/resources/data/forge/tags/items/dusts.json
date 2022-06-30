@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:dusts/tin",
+    "#forge:dusts/silver",
+    "#forge:dusts/lead",
+    "#forge:dusts/nickel",
+    "#forge:dusts/platinum",
+    "#forge:dusts/zinc",
+    "#forge:dusts/bismuth",
+    "#forge:dusts/aluminum",
+    "#forge:dusts/uranium"
+  ]
+}

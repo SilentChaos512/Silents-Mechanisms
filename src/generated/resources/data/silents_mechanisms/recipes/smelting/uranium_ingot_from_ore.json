@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "silents_mechanisms:uranium_ore"
+  },
+  "result": "silents_mechanisms:uranium_ingot",
+  "experience": 0.2,
+  "cookingtime": 200
+}

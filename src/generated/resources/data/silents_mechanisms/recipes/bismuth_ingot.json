@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:storage_blocks/bismuth"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:bismuth_ingot"
+  }
+}

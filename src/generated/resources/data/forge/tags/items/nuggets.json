@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "#forge:nuggets/tin",
+    "#forge:nuggets/silver",
+    "#forge:nuggets/lead",
+    "#forge:nuggets/nickel",
+    "#forge:nuggets/platinum",
+    "#forge:nuggets/zinc",
+    "#forge:nuggets/bismuth",
+    "#forge:nuggets/aluminum",
+    "#forge:nuggets/uranium"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/tin"
+    },
+    {
+      "tag": "forge:nuggets/tin"
+    },
+    {
+      "tag": "forge:nuggets/tin"
+    },
+    {
+      "tag": "forge:nuggets/tin"
+    },
+    {
+      "tag": "forge:nuggets/tin"
+    },
+    {
+      "tag": "forge:nuggets/tin"
+    },
+    {
+      "tag": "forge:nuggets/tin"
+    },
+    {
+      "tag": "forge:nuggets/tin"
+    },
+    {
+      "tag": "forge:nuggets/tin"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:tin_ingot"
+  }
+}

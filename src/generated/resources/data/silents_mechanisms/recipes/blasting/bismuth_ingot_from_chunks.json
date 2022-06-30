@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "forge:chunks/bismuth"
+  },
+  "result": "silents_mechanisms:bismuth_ingot",
+  "experience": 0.2,
+  "cookingtime": 100
+}

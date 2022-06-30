@@ -60,7 +60,7 @@ public final class Metals {
 
         public final TagKey<Block> tookLevelTag;
         public final OreGenValues oreGenValues;
-        private final OreMetal respectiveMetal;
+        public final OreMetal respectiveMetal;
 
         Ore(OreMetal respectiveMetal, TagKey<Block> tookLevelTag, OreGenValues oreGenValues) {
             this.respectiveMetal = respectiveMetal;
