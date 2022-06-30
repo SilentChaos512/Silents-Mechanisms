@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/electrum_nugget"
+    },
+    {
+      "tag": "forge:nuggets/electrum_nugget"
+    },
+    {
+      "tag": "forge:nuggets/electrum_nugget"
+    },
+    {
+      "tag": "forge:nuggets/electrum_nugget"
+    },
+    {
+      "tag": "forge:nuggets/electrum_nugget"
+    },
+    {
+      "tag": "forge:nuggets/electrum_nugget"
+    },
+    {
+      "tag": "forge:nuggets/electrum_nugget"
+    },
+    {
+      "tag": "forge:nuggets/electrum_nugget"
+    },
+    {
+      "tag": "forge:nuggets/electrum_nugget"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:electrum_ingot"
+  }
+}

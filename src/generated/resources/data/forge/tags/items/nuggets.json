@@ -9,6 +9,17 @@
     "#forge:nuggets/zinc",
     "#forge:nuggets/bismuth",
     "#forge:nuggets/aluminum",
-    "#forge:nuggets/uranium"
+    "#forge:nuggets/uranium",
+    "#forge:nuggets/redstone_alloy_nugget",
+    "#forge:nuggets/bronze_nugget",
+    "#forge:nuggets/brass_nugget",
+    "#forge:nuggets/invar_nugget",
+    "#forge:nuggets/electrum_nugget",
+    "#forge:nuggets/steel_nugget",
+    "#forge:nuggets/bismuth_brass_nugget",
+    "#forge:nuggets/aluminum_steel_nugget",
+    "#forge:nuggets/signalum_nugget",
+    "#forge:nuggets/lumium_nugget",
+    "#forge:nuggets/enderium_nugget"
   ]
 }

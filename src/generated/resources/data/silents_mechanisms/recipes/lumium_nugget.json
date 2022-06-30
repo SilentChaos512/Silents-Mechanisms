@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silents_mechanisms:lumium_ingot"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:lumium_nugget",
+    "count": 9
+  }
+}

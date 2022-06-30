@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/brass_nugget"
+    },
+    {
+      "tag": "forge:nuggets/brass_nugget"
+    },
+    {
+      "tag": "forge:nuggets/brass_nugget"
+    },
+    {
+      "tag": "forge:nuggets/brass_nugget"
+    },
+    {
+      "tag": "forge:nuggets/brass_nugget"
+    },
+    {
+      "tag": "forge:nuggets/brass_nugget"
+    },
+    {
+      "tag": "forge:nuggets/brass_nugget"
+    },
+    {
+      "tag": "forge:nuggets/brass_nugget"
+    },
+    {
+      "tag": "forge:nuggets/brass_nugget"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:brass_ingot"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "silents_mechanisms:signalum_ingot"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:signalum_nugget",
+    "count": 9
+  }
+}

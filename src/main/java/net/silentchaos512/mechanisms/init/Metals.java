@@ -10,7 +10,7 @@ public final class Metals {
     private Metals() {
     }
 
-    public enum Material {
+    public enum Alloy {
         REDSTONE_ALLOY,
         BRONZE,
         BRASS,
@@ -23,7 +23,7 @@ public final class Metals {
         LUMIUM,
         ENDERIUM;
 
-        Material() {
+        Alloy() {
         }
     }
 
@@ -73,7 +73,7 @@ public final class Metals {
         }
     }
 
-    public enum Type {
+    public enum AlloyType {
         DUST,
         INGOT,
         NUGGET;

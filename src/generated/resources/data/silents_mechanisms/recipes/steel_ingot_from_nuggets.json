@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/steel_nugget"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:steel_ingot"
+  }
+}

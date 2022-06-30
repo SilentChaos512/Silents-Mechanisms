@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:iron_ingot_from_blasting_iron_chunks"
+    ]
+  },
+  "criteria": {
+    "has_iron_chunks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "silents_mechanisms:iron_chunks"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:iron_ingot_from_blasting_iron_chunks"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_iron_chunks",
+      "has_the_recipe"
+    ]
+  ]
+}

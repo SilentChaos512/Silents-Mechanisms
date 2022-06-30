@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "silents_mechanisms:signalum_ingot_from_nuggets"
+    ]
+  },
+  "criteria": {
+    "get_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "forge:nuggets/signalum_nugget"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "silents_mechanisms:signalum_ingot_from_nuggets"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "get_item",
+      "has_the_recipe"
+    ]
+  ]
+}

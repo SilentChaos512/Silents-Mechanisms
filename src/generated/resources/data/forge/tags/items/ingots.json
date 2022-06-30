@@ -9,6 +9,17 @@
     "#forge:ingots/zinc",
     "#forge:ingots/bismuth",
     "#forge:ingots/aluminum",
-    "#forge:ingots/uranium"
+    "#forge:ingots/uranium",
+    "#forge:ingots/redstone_alloy_ingot",
+    "#forge:ingots/bronze_ingot",
+    "#forge:ingots/brass_ingot",
+    "#forge:ingots/invar_ingot",
+    "#forge:ingots/electrum_ingot",
+    "#forge:ingots/steel_ingot",
+    "#forge:ingots/bismuth_brass_ingot",
+    "#forge:ingots/aluminum_steel_ingot",
+    "#forge:ingots/signalum_ingot",
+    "#forge:ingots/lumium_ingot",
+    "#forge:ingots/enderium_ingot"
   ]
 }

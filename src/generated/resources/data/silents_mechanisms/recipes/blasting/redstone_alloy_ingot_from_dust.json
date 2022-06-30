@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "tag": "forge:dusts/redstone_alloy_dust"
+  },
+  "result": "silents_mechanisms:redstone_alloy_ingot",
+  "experience": 0.2,
+  "cookingtime": 100
+}

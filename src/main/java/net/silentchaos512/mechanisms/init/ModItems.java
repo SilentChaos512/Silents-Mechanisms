@@ -21,14 +21,14 @@ import java.util.function.Supplier;
 @SuppressWarnings("unused")
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SilentsMechanisms.MODID);
-    public static final Table<Metals.Material, Metals.Type, ItemRegistryObject<Item>> ALL_ALLOYS;
+    public static final Table<Metals.Alloy, Metals.AlloyType, ItemRegistryObject<Item>> ALL_ALLOYS;
     public static final Table<Metals.OreMetal, Metals.OreMetalType, ItemRegistryObject<Item>> ALL_ORE_METALS;
 
     static {
         ALL_ALLOYS = HashBasedTable.create();
-        for (Metals.Material material : Metals.Material.values()) {
-            for (Metals.Type type : Metals.Type.values()) {
-                ALL_ALLOYS.put(material, type, register(material.toString().toLowerCase() + '_' + type.toString().toLowerCase()));
+        for (Metals.Alloy alloy : Metals.Alloy.values()) {
+            for (Metals.AlloyType alloyType : Metals.AlloyType.values()) {
+                ALL_ALLOYS.put(alloy, alloyType, register(alloy.toString().toLowerCase() + '_' + alloyType.toString().toLowerCase()));
             }
         }
 

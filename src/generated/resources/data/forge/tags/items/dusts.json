@@ -9,6 +9,17 @@
     "#forge:dusts/zinc",
     "#forge:dusts/bismuth",
     "#forge:dusts/aluminum",
-    "#forge:dusts/uranium"
+    "#forge:dusts/uranium",
+    "#forge:dusts/redstone_alloy_dust",
+    "#forge:dusts/bronze_dust",
+    "#forge:dusts/brass_dust",
+    "#forge:dusts/invar_dust",
+    "#forge:dusts/electrum_dust",
+    "#forge:dusts/steel_dust",
+    "#forge:dusts/bismuth_brass_dust",
+    "#forge:dusts/aluminum_steel_dust",
+    "#forge:dusts/signalum_dust",
+    "#forge:dusts/lumium_dust",
+    "#forge:dusts/enderium_dust"
   ]
 }

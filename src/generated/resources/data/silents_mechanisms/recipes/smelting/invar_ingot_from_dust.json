@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "tag": "forge:dusts/invar_dust"
+  },
+  "result": "silents_mechanisms:invar_ingot",
+  "experience": 0.2,
+  "cookingtime": 200
+}

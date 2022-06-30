@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/redstone_alloy_nugget"
+    },
+    {
+      "tag": "forge:nuggets/redstone_alloy_nugget"
+    },
+    {
+      "tag": "forge:nuggets/redstone_alloy_nugget"
+    },
+    {
+      "tag": "forge:nuggets/redstone_alloy_nugget"
+    },
+    {
+      "tag": "forge:nuggets/redstone_alloy_nugget"
+    },
+    {
+      "tag": "forge:nuggets/redstone_alloy_nugget"
+    },
+    {
+      "tag": "forge:nuggets/redstone_alloy_nugget"
+    },
+    {
+      "tag": "forge:nuggets/redstone_alloy_nugget"
+    },
+    {
+      "tag": "forge:nuggets/redstone_alloy_nugget"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:redstone_alloy_ingot"
+  }
+}

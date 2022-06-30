@@ -1,0 +1,34 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "minecraft:gold_ingot_from_smelting_gold_chunks"
+    ]
+  },
+  "criteria": {
+    "has_gold_chunks": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "silents_mechanisms:gold_chunks"
+            ]
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "minecraft:gold_ingot_from_smelting_gold_chunks"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "has_gold_chunks",
+      "has_the_recipe"
+    ]
+  ]
+}

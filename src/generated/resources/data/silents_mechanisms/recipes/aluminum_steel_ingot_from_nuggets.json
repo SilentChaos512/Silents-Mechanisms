@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/aluminum_steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/aluminum_steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/aluminum_steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/aluminum_steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/aluminum_steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/aluminum_steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/aluminum_steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/aluminum_steel_nugget"
+    },
+    {
+      "tag": "forge:nuggets/aluminum_steel_nugget"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:aluminum_steel_ingot"
+  }
+}
