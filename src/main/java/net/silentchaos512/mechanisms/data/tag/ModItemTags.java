@@ -22,6 +22,7 @@ public class ModItemTags {
     public static final HashBasedTable<Metals.OreMetal, Metals.OreMetalType, TagKey<Item>> ALL_METAL_TAGS;
     public static final HashMap<Metals.OreMetal, TagKey<Item>> ALL_STORAGE_BLOCKS_TAGS;
     public static final HashBasedTable<Metals.Alloy, Metals.AlloyType, TagKey<Item>> ALL_ALLOY_TAGS;
+    public static final HashMap<Metals.Alloy, TagKey<Item>> ALL_ALLOY_STORAGE_BLOCKS_TAGS;
 
     static {
         ALL_METAL_TAGS = HashBasedTable.create();
@@ -46,6 +47,7 @@ public class ModItemTags {
         }
 
         ALL_ALLOY_TAGS = HashBasedTable.create();
+        ALL_ALLOY_STORAGE_BLOCKS_TAGS = new HashMap<>();
         for (Metals.Alloy alloy : Metals.Alloy.values()) {
             for (Metals.AlloyType alloyType : Metals.AlloyType.values()) {
                 switch (alloyType) {
@@ -54,7 +56,9 @@ public class ModItemTags {
                     case NUGGET -> ALL_ALLOY_TAGS.put(alloy, alloyType, ItemTags.create(new ResourceLocation("forge", "nuggets/" + alloy.name().toLowerCase() + '_' + alloyType.name().toLowerCase())));
                 }
             }
+            ALL_ALLOY_STORAGE_BLOCKS_TAGS.put(alloy, ItemTags.create(new ResourceLocation("forge", "storage_blocks/" + alloy.name().toLowerCase())));
         }
+
     }
 
     public static final class Provider extends ItemTagsProvider {
@@ -76,6 +80,12 @@ public class ModItemTags {
                 super.tag(Tags.Items.STORAGE_BLOCKS).addTag(itemTagKey);
                 super.tag(itemTagKey).add(ModBlocks.ALL_STORAGE_BLOCKS.get(oreMetal).get().asItem());
             });
+
+            ALL_ALLOY_STORAGE_BLOCKS_TAGS.forEach((alloy, tag) -> {
+                super.tag(Tags.Items.STORAGE_BLOCKS).addTag(tag);
+                super.tag(tag).add(ModBlocks.ALL_ALLOY_STORAGE_BLOCKS.get(alloy).get().asItem());
+            });
+
             for (Table.Cell<Metals.Alloy, Metals.AlloyType, TagKey<Item>> cell : ALL_ALLOY_TAGS.cellSet()) {
                 switch(cell.getColumnKey()) {
                     case DUST -> super.tag(Tags.Items.DUSTS).addTag(cell.getValue());

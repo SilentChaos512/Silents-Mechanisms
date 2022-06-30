@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "tag": "forge:ingots/bismuth_brass_ingot"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:bismuth_brass_block"
+  }
+}

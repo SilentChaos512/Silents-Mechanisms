@@ -15,7 +15,10 @@ import java.util.Map;
 public class ModBlocks {
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, SilentsMechanisms.MODID);
     public static final Map<Metals.Ore, BlockRegistryObject<Block>> ALL_ORE_BLOCKS;
+    //missing alloys :P
     public static final Map<Metals.OreMetal, BlockRegistryObject<Block>> ALL_STORAGE_BLOCKS;
+    //this will add the alloys
+    public static final Map<Metals.Alloy, BlockRegistryObject<Block>> ALL_ALLOY_STORAGE_BLOCKS;
 
     static {
         ALL_ORE_BLOCKS = new HashMap<>();
@@ -28,7 +31,10 @@ public class ModBlocks {
             BlockRegistryObject<Block> oreBlock = new BlockRegistryObject<>(BLOCKS.register(ore.name().toLowerCase() + "_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE))));
             ALL_ORE_BLOCKS.put(ore, oreBlock);
         }
-
+        ALL_ALLOY_STORAGE_BLOCKS = new HashMap<>();
+        for (Metals.Alloy alloy : Metals.Alloy.values()) {
+            ALL_ALLOY_STORAGE_BLOCKS.put(alloy, new BlockRegistryObject<>(BLOCKS.register(alloy.name().toLowerCase() + "_block", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK)))));
+        }
     }
 
     public static void init(IEventBus eventBus) {

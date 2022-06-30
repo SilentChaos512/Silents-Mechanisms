@@ -92,6 +92,26 @@ public class ModRecipeProvider extends RecipeProvider {
                 }
         );
 
+        ModBlocks.ALL_ALLOY_STORAGE_BLOCKS.forEach((alloy, block) -> {
+                    TagKey<Item> respectiveIngotTag = ModItemTags.ALL_ALLOY_TAGS.get(alloy, Metals.AlloyType.INGOT);
+                    ShapedRecipeBuilder.shaped(block.get())
+                            .pattern("AAA")
+                            .pattern("AAA")
+                            .pattern("AAA")
+                            .define('A', respectiveIngotTag)
+                            .unlockedBy("get_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(respectiveIngotTag).build()))
+                            .save(consumer);
+
+
+                    ShapelessRecipeBuilder.shapeless(ModItems.ALL_ALLOYS.get(alloy, Metals.AlloyType.INGOT).get())
+                            .requires(ModItemTags.ALL_ALLOY_STORAGE_BLOCKS_TAGS.get(alloy))
+                            .unlockedBy("get_item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ALL_ALLOYS.get(alloy, Metals.AlloyType.INGOT).get()))
+                            .save(consumer);
+
+
+                }
+        );
+
         //nugget -> ingot
         //ingot -> nugget
         ModItems.ALL_ORE_METALS.column(Metals.OreMetalType.INGOT).forEach((oreMetal, itemItemRegistryObject) -> {

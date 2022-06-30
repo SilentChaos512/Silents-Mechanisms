@@ -47,8 +47,13 @@ public class ModLootTable extends LootTableProvider {
 
         @Override
         protected void addTables() {
-            ModBlocks.ALL_STORAGE_BLOCKS.values().stream().map(Supplier::get).forEach(this::dropSelf);
+            ModBlocks.ALL_STORAGE_BLOCKS.values().forEach(this::dropSelf);
             ModBlocks.ALL_ORE_BLOCKS.forEach(((ore, block) -> super.add(block.get(), createOreDrop(block.get(), ore.getChunkItem()))));
+            ModBlocks.ALL_ALLOY_STORAGE_BLOCKS.values().forEach(this::dropSelf);
+        }
+
+        private void dropSelf(Supplier<? extends Block> block) {
+            this.dropSelf(block.get());
         }
     }
 }

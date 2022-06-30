@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "tag": "forge:ingots/redstone_alloy_ingot"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:redstone_alloy_block"
+  }
+}

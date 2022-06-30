@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "tag": "forge:ingots/invar_ingot"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:invar_block"
+  }
+}
