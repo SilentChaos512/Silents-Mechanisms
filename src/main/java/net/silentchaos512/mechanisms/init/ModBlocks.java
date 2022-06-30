@@ -27,7 +27,6 @@ public class ModBlocks {
         for (Metals.Ore ore : Metals.Ore.values()) {
             BlockRegistryObject<Block> oreBlock = new BlockRegistryObject<>(BLOCKS.register(ore.name().toLowerCase() + "_ore", () -> new Block(BlockBehaviour.Properties.copy(Blocks.IRON_ORE))));
             ALL_ORE_BLOCKS.put(ore, oreBlock);
-            ore.setOreBlock(oreBlock);
         }
 
     }

@@ -15,6 +15,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.silentchaos512.mechanisms.data.loot.ModLootTable;
 import net.silentchaos512.mechanisms.data.tag.ModBlockTagProvider;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
@@ -36,7 +37,6 @@ public class SilentsMechanisms {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModBlocks.init(eventBus);
         ModItems.init(eventBus);
-        //ModOreFeatures.init();
     }
 
     public static ResourceLocation loc(String loc) {
@@ -54,6 +54,7 @@ public class SilentsMechanisms {
             ExistingFileHelper fileHelper = event.getExistingFileHelper();
 
             dataGenerator.addProvider(new ModBlockTagProvider(dataGenerator, SilentsMechanisms.MODID, fileHelper));
+            dataGenerator.addProvider(new ModLootTable(dataGenerator));
         }
 
 
