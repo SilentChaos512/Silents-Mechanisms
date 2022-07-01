@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA"
+  ],
+  "key": {
+    "A": {
+      "item": "minecraft:spruce_slab"
+    }
+  },
+  "result": {
+    "item": "silents_mechanisms:spruce_drying_rack"
+  }
+}

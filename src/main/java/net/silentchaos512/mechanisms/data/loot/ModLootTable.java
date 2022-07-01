@@ -35,8 +35,8 @@ public class ModLootTable extends LootTableProvider {
     }
 
     @Override
-    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationtracker) {
-        map.forEach((rl, loot) -> LootTables.validate(validationtracker, rl, loot));
+    protected void validate(Map<ResourceLocation, LootTable> map, ValidationContext validationTracker) {
+        map.forEach((rl, loot) -> LootTables.validate(validationTracker, rl, loot));
     }
 
     private static final class BlockLoots extends BlockLoot {
@@ -50,9 +50,10 @@ public class ModLootTable extends LootTableProvider {
             ModBlocks.ALL_STORAGE_BLOCKS.values().forEach(this::dropSelf);
             ModBlocks.ALL_ORE_BLOCKS.forEach(((ore, block) -> super.add(block.get(), createOreDrop(block.get(), ore.getChunkItem()))));
             ModBlocks.ALL_ALLOY_STORAGE_BLOCKS.values().forEach(this::dropSelf);
+            ModBlocks.DRYING_RACK_BLOCKS.forEach(this::dropSelf);
         }
 
-        private void dropSelf(Supplier<? extends Block> block) {
+        private <T extends Block> void dropSelf(Supplier<T> block) {
             this.dropSelf(block.get());
         }
     }

@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms;
 
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -13,12 +14,15 @@ import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.silentchaos512.mechanisms.blocks.dryingracks.DryingRackRenderer;
 import net.silentchaos512.mechanisms.data.loot.ModLootTable;
 import net.silentchaos512.mechanisms.data.recipes.ModRecipeProvider;
 import net.silentchaos512.mechanisms.data.tag.ModBlockTagProvider;
 import net.silentchaos512.mechanisms.data.tag.ModItemTags;
+import net.silentchaos512.mechanisms.init.ModBlockEntities;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
 import net.silentchaos512.mechanisms.worldgen.ModOreFeatures;
@@ -39,6 +43,7 @@ public class SilentsMechanisms {
         IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModBlocks.init(eventBus);
         ModItems.init(eventBus);
+        ModBlockEntities.init(eventBus);
     }
 
     public static ResourceLocation loc(String loc) {
@@ -63,7 +68,10 @@ public class SilentsMechanisms {
             dataGenerator.addProvider(new ModRecipeProvider(dataGenerator));
         }
 
-
+        @SubscribeEvent
+        public static void onClientSetup(FMLClientSetupEvent clientSetupEvent) {
+            BlockEntityRenderers.register(ModBlockEntities.DRYING_RACKS.get(), DryingRackRenderer::new);
+        }
     }
 
     @Mod.EventBusSubscriber(modid = SilentsMechanisms.MODID)

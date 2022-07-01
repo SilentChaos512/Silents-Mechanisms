@@ -1,0 +1,8 @@
+{
+  "type": "silents_mechanisms:rack_drying",
+  "ingredient": {
+    "item": "minecraft:chicken"
+  },
+  "result": "silents_mechanisms:chicken_jerky",
+  "duration": 400
+}

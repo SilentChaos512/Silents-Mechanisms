@@ -16,9 +16,10 @@ import net.silentchaos512.mechanisms.init.ModItems;
 
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
- * <b> WARNING : </b> This may be very brainstorming
+ * <b> WARNING : This may be very brainstorming </b>
  */
 public class ModRecipeProvider extends RecipeProvider {
     public ModRecipeProvider(DataGenerator pGenerator) {
@@ -123,5 +124,8 @@ public class ModRecipeProvider extends RecipeProvider {
             ShapelessRecipeBuilder.shapeless(alloyItem.get()).requires(Ingredient.of(ModItemTags.ALL_ALLOY_TAGS.get(alloy, Metals.AlloyType.NUGGET)), 9).unlockedBy("get_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(ModItemTags.ALL_ALLOY_TAGS.get(alloy, Metals.AlloyType.NUGGET)).build())).save(consumer, SilentsMechanisms.loc(alloyItem.get().getRegistryName().getPath() + "_from_nuggets"));
             ShapelessRecipeBuilder.shapeless(ModItems.ALL_ALLOYS.get(alloy, Metals.AlloyType.NUGGET).get(), 9).requires(alloyItem.get()).unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(alloyItem.get())).save(consumer);
         });
+
+        ShapedRecipeBuilder.shaped(Items.LEATHER).pattern("AA").pattern("AA").define('A', ModItems.ZOMBIE_LEATHER.get()).unlockedBy("get_item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ZOMBIE_LEATHER.get())).save(consumer);
+        ModBlocks.DRYING_RACK_BLOCKS.stream().map(Supplier::get).forEach(dryingRackBlock -> ShapedRecipeBuilder.shaped(dryingRackBlock).pattern("AAA").define('A', dryingRackBlock.woodMaterial).unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(dryingRackBlock.woodMaterial)).save(consumer));
     }
 }

@@ -1,0 +1,8 @@
+{
+  "type": "silents_mechanisms:rack_drying",
+  "ingredient": {
+    "item": "minecraft:wet_sponge"
+  },
+  "result": "minecraft:sponge",
+  "duration": 800
+}

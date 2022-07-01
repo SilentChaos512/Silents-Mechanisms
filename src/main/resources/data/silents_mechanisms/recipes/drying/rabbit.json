@@ -1,0 +1,8 @@
+{
+  "type": "silents_mechanisms:rack_drying",
+  "ingredient": {
+    "item": "minecraft:rabbit"
+  },
+  "result": "silents_mechanisms:rabbit_jerky",
+  "duration": 400
+}

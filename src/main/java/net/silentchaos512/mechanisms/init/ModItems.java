@@ -2,6 +2,8 @@ package net.silentchaos512.mechanisms.init;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.food.Foods;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.event.RegistryEvent;
@@ -23,6 +25,21 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SilentsMechanisms.MODID);
     public static final Table<Metals.Alloy, Metals.AlloyType, ItemRegistryObject<Item>> ALL_ALLOYS;
     public static final Table<Metals.OreMetal, Metals.OreMetalType, ItemRegistryObject<Item>> ALL_ORE_METALS;
+    public static final ItemRegistryObject<Item> COMPRESSED_IRON_INGOT = register("compressed_iron_ingot");
+    public static final ItemRegistryObject<Item> IRON_CHUNK = register("iron_chunks");
+    public static final ItemRegistryObject<Item> IRON_DUST = register("iron_dust");
+    public static final ItemRegistryObject<Item> GOLD_CHUNK = register("gold_chunks");
+    public static final ItemRegistryObject<Item> GOLD_DUST = register("gold_dust");
+
+    //FOODS & DRYING RACK RESULTS
+    public static final ItemRegistryObject<Item> ZOMBIE_LEATHER = register("zombie_leather");
+    public static final ItemRegistryObject<Item> BEEF_JERKY = registerFood("beef_jerky", Foods.COOKED_BEEF);
+    public static final ItemRegistryObject<Item> PORK_JERKY = registerFood("pork_jerky", Foods.COOKED_PORKCHOP);
+    public static final ItemRegistryObject<Item> CHICKEN_JERKY = registerFood("chicken_jerky", Foods.COOKED_CHICKEN);
+    public static final ItemRegistryObject<Item> MUTTON_JERKY = registerFood("mutton_jerky", Foods.COOKED_MUTTON);
+    public static final ItemRegistryObject<Item> RABBIT_JERKY = registerFood("rabbit_jerky", Foods.COOKED_RABBIT);
+    public static final ItemRegistryObject<Item> COD_JERKY = registerFood("cod_jerky", Foods.COOKED_COD);
+    public static final ItemRegistryObject<Item> SALMON_JERKY = registerFood("salmon_jerky", Foods.COOKED_SALMON);
 
     static {
         ALL_ALLOYS = HashBasedTable.create();
@@ -40,18 +57,12 @@ public class ModItems {
         }
     }
 
-    public static final ItemRegistryObject<Item> COMPRESSED_IRON_INGOT = register("compressed_iron_ingot");
-
-    public static final ItemRegistryObject<Item> IRON_CHUNK = register("iron_chunks");
-    public static final ItemRegistryObject<Item> IRON_DUST = register("iron_dust");
-
-    public static final ItemRegistryObject<Item> GOLD_CHUNK = register("gold_chunks");
-    public static final ItemRegistryObject<Item> GOLD_DUST = register("gold_dust");
-
-
-
     private static ItemRegistryObject<Item> register(String name) {
         return register(name, () -> new Item(new Item.Properties().tab(SilentsMechanisms.TAB)));
+    }
+
+    private static ItemRegistryObject<Item> registerFood(String name, FoodProperties foodProperties) {
+        return register(name, () -> new Item(new Item.Properties().tab(SilentsMechanisms.TAB).food(foodProperties)));
     }
 
     private static <ITEM extends Item> ItemRegistryObject<ITEM> register(String name, Supplier<ITEM> itemSupplier) {

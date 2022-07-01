@@ -1,0 +1,8 @@
+{
+  "type": "silents_mechanisms:rack_drying",
+  "ingredient": {
+    "item": "minecraft:porkchop"
+  },
+  "result": "silents_mechanisms:pork_jerky",
+  "duration": 400
+}

@@ -1,14 +1,14 @@
 {
   "replace": false,
   "values": [
-    "silents_mechanisms:tin_ore",
-    "silents_mechanisms:lead_ore",
     "silents_mechanisms:bauxite_ore",
-    "silents_mechanisms:nickel_ore",
     "silents_mechanisms:bismuth_ore",
+    "silents_mechanisms:nickel_ore",
     "silents_mechanisms:platinum_ore",
+    "silents_mechanisms:silver_ore",
+    "silents_mechanisms:tin_ore",
     "silents_mechanisms:zinc_ore",
-    "silents_mechanisms:uranium_ore",
-    "silents_mechanisms:silver_ore"
+    "silents_mechanisms:lead_ore",
+    "silents_mechanisms:uranium_ore"
   ]
 }
