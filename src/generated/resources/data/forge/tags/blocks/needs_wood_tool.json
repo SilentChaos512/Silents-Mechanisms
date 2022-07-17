@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "silents_mechanisms:oak_drying_rack",
+    "silents_mechanisms:spruce_drying_rack",
+    "silents_mechanisms:birch_drying_rack",
+    "silents_mechanisms:jungle_drying_rack",
+    "silents_mechanisms:acacia_drying_rack",
+    "silents_mechanisms:dark_oak_drying_rack",
+    "silents_mechanisms:stone_machine_frame",
+    "silents_mechanisms:alloy_machine_frame",
+    "silents_mechanisms:coal_generator"
+  ]
+}

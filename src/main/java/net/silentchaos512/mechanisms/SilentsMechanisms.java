@@ -1,8 +1,12 @@
 package net.silentchaos512.mechanisms;
 
+import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.client.renderer.ItemBlockRenderTypes;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
@@ -10,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -17,15 +22,18 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
+import net.minecraftforge.registries.IForgeRegistry;
+import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.mechanisms.blocks.dryingracks.DryingRackRenderer;
+import net.silentchaos512.mechanisms.blocks.generators.coalgenerator.CoalGeneratorScreen;
 import net.silentchaos512.mechanisms.data.loot.ModLootTable;
 import net.silentchaos512.mechanisms.data.recipes.ModRecipeProvider;
 import net.silentchaos512.mechanisms.data.tag.ModBlockTagProvider;
 import net.silentchaos512.mechanisms.data.tag.ModItemTags;
-import net.silentchaos512.mechanisms.init.ModBlockEntities;
-import net.silentchaos512.mechanisms.init.ModBlocks;
-import net.silentchaos512.mechanisms.init.ModItems;
+import net.silentchaos512.mechanisms.init.*;
 import net.silentchaos512.mechanisms.worldgen.ModOreFeatures;
+
+import java.util.function.Supplier;
 
 @Mod(SilentsMechanisms.MODID)
 public class SilentsMechanisms {
@@ -69,8 +77,18 @@ public class SilentsMechanisms {
         }
 
         @SubscribeEvent
+        public static void onMenuRegistration(RegistryEvent.Register<MenuType<?>> event) {
+            IForgeRegistry<MenuType<?>> registry = event.getRegistry();
+            ModMenus.ALL_MENUS.forEach(registry::register);
+        }
+
+        @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent clientSetupEvent) {
             BlockEntityRenderers.register(ModBlockEntities.DRYING_RACKS.get(), DryingRackRenderer::new);
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.STONE_MACHINE_FRAME.get(), RenderType.cutout());
+            ItemBlockRenderTypes.setRenderLayer(ModBlocks.ALLOY_MACHINE_FRAME.get(), RenderType.cutout());
+
+            MenuScreens.register(ModMenus.COAL_GENERATOR_MENU, CoalGeneratorScreen::new);
         }
     }
 

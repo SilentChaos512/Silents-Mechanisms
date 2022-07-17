@@ -7,11 +7,13 @@ import net.minecraft.data.loot.BlockLoot;
 import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
-import net.minecraft.world.level.storage.loot.ValidationContext;
+import net.minecraft.world.level.storage.loot.*;
+import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.CopyNbtFunction;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
+import net.minecraft.world.level.storage.loot.providers.nbt.ContextNbtProvider;
+import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 
 import java.util.List;
@@ -42,7 +44,7 @@ public class ModLootTable extends LootTableProvider {
     private static final class BlockLoots extends BlockLoot {
         @Override
         protected Iterable<Block> getKnownBlocks() {
-            return ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).toList();
+            return ModBlocks.BLOCK_REGISTRY.getEntries().stream().map(Supplier::get).toList();
         }
 
         @Override
@@ -51,6 +53,9 @@ public class ModLootTable extends LootTableProvider {
             ModBlocks.ALL_ORE_BLOCKS.forEach(((ore, block) -> super.add(block.get(), createOreDrop(block.get(), ore.getChunkItem()))));
             ModBlocks.ALL_ALLOY_STORAGE_BLOCKS.values().forEach(this::dropSelf);
             ModBlocks.DRYING_RACK_BLOCKS.forEach(this::dropSelf);
+            dropSelf(ModBlocks.STONE_MACHINE_FRAME);
+            dropSelf(ModBlocks.ALLOY_MACHINE_FRAME);
+            super.add(ModBlocks.COAL_GENERATOR.get(), (block) -> LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(LootItem.lootTableItem(block).apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy("EnergyStored", "BlockEntityTag.EnergyStored")))));
         }
 
         private <T extends Block> void dropSelf(Supplier<T> block) {

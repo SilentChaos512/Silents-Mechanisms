@@ -20,7 +20,7 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 import net.silentchaos512.lib.util.PlayerUtils;
-import net.silentchaos512.mechanisms.blocks.TickableBlockEntity;
+import net.silentchaos512.mechanisms.abstracts.TickableBlockEntity;
 import net.silentchaos512.mechanisms.init.ModBlockEntities;
 import net.silentchaos512.mechanisms.recipes.RackDryingRecipe;
 import org.jetbrains.annotations.NotNull;

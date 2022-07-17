@@ -1,14 +1,15 @@
 package net.silentchaos512.mechanisms.recipes;
 
 import com.google.gson.JsonObject;
+import net.minecraft.core.NonNullList;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
-import net.silentchaos512.mechanisms.JsonNames;
-import net.silentchaos512.mechanisms.MechanismsUtils;
+import net.silentchaos512.mechanisms.utls.JsonNames;
+import net.silentchaos512.mechanisms.utls.MechanismsUtils;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.blocks.dryingracks.DryingRackBlockEntity;
 import net.silentchaos512.mechanisms.init.ModRecipeSerializers;
@@ -34,6 +35,17 @@ public class RackDryingRecipe implements Recipe<DryingRackBlockEntity> {
     @Override
     public boolean matches(DryingRackBlockEntity pContainer, Level pLevel) {
         return this.input.test(pContainer.getItem(0));
+    }
+
+    @Override
+    public NonNullList<Ingredient> getIngredients() {
+        NonNullList<Ingredient> nonNullList = NonNullList.create();
+        nonNullList.add(this.input);
+        return nonNullList;
+    }
+
+    public Ingredient getInput() {
+        return input;
     }
 
     @Override

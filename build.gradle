@@ -89,12 +89,6 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-    /*maven {
-        url = uri("https://maven.pkg.github.com/silentchaos512/silentlib")
-    }
-    maven {
-        url = uri("https://maven.pkg.github.com/silentchaos512/silent-utils")
-    }*/
     maven { // JEI
         name = "Progwml6 maven"
         url = "https://dvs1.progwml6.com/files/maven/"
@@ -109,17 +103,17 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.52'
-    //compileOnly fg.deobf("net.silentchaos512:silent-lib:${lib_ver}")
+    minecraft 'net.minecraftforge:forge:1.18.2-40.1.60'
+
     implementation fg.deobf("curse.maven:silent-lib-242998:3708359")
+
+    //JEI
     compileOnly fg.deobf("mezz.jei:jei-${mc_ver}:${jei_ver}:api")
-    // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_ver}:${jei_ver}")
 
     //Well, my pc is a potato so these 2 may help me a bit
     runtimeOnly fg.deobf("curse.maven:ferritecore-429235:3767288")
     runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")
-    //runtimeOnly fg.deobf("curse.maven:radium-reforged-570017:3707226")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

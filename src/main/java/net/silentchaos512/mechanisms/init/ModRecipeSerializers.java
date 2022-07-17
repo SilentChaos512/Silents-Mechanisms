@@ -12,7 +12,7 @@ import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.recipes.RackDryingRecipe;
 
 @Mod.EventBusSubscriber(modid = SilentsMechanisms.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
-public class ModRecipeSerializers {
+public final class ModRecipeSerializers {
 
     private ModRecipeSerializers() {}
 

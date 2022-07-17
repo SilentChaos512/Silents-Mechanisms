@@ -40,8 +40,8 @@ public class ModOreFeatures {
 
         public OreVein(Metals.Ore ore) {
             List<OreConfiguration.TargetBlockState> targetBlockStates = ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ModBlocks.ALL_ORE_BLOCKS.get(ore).get().defaultBlockState()));
-            Holder<ConfiguredFeature<OreConfiguration, ?>> configuredFeatureHolder = FeatureUtils.register("ore_" + ore.name().toLowerCase(), Feature.ORE, new OreConfiguration(targetBlockStates, ore.oreGenValues.veinSize()));
-            this.orePlacedFeature = PlacementUtils.register("ore" + ore.name().toLowerCase(), configuredFeatureHolder, commonOrePlacement(ore.oreGenValues.veinCount(), HeightRangePlacement.uniform(VerticalAnchor.absolute(ore.oreGenValues.maxHeight()), VerticalAnchor.absolute(ore.oreGenValues.minHeight()))));
+            Holder<ConfiguredFeature<OreConfiguration, ?>> configuredFeatureHolder = FeatureUtils.register("ore_" + ore.name().toLowerCase(), Feature.ORE, new OreConfiguration(targetBlockStates, ore.oreVeinValues.veinSize()));
+            this.orePlacedFeature = PlacementUtils.register("ore" + ore.name().toLowerCase(), configuredFeatureHolder, commonOrePlacement(ore.oreVeinValues.veinCount(), HeightRangePlacement.uniform(VerticalAnchor.absolute(ore.oreVeinValues.maxHeight()), VerticalAnchor.absolute(ore.oreVeinValues.minHeight()))));
         }
 
         private static List<PlacementModifier> orePlacement(PlacementModifier modifier1, PlacementModifier modifier2) {

@@ -1,4 +1,4 @@
-package net.silentchaos512.mechanisms;
+package net.silentchaos512.mechanisms.utls;
 
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;

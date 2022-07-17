@@ -9,8 +9,10 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.init.Metals;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
@@ -23,6 +25,9 @@ public class ModItemTags {
     public static final HashMap<Metals.OreMetal, TagKey<Item>> ALL_STORAGE_BLOCKS_TAGS;
     public static final HashBasedTable<Metals.Alloy, Metals.AlloyType, TagKey<Item>> ALL_ALLOY_TAGS;
     public static final HashMap<Metals.Alloy, TagKey<Item>> ALL_ALLOY_STORAGE_BLOCKS_TAGS;
+
+    //STANDALONE TAGS
+    public static final TagKey<Item> COAL_GENERATOR_FUELS = ItemTags.create(SilentsMechanisms.loc("coal_generator_fuels"));
 
     static {
         ALL_METAL_TAGS = HashBasedTable.create();
@@ -95,6 +100,8 @@ public class ModItemTags {
 
                 super.tag(cell.getValue()).add(ModItems.ALL_ALLOYS.get(cell.getRowKey(), cell.getColumnKey()).get());
             }
+
+            super.tag(COAL_GENERATOR_FUELS).add(Items.COAL, Items.CHARCOAL, Items.COAL_BLOCK);
         }
     }
 }

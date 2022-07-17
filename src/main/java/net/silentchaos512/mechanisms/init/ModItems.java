@@ -21,7 +21,7 @@ import java.util.function.Supplier;
 //Added this one so intellij won't give any stupid warnings for unused registries
 @Mod.EventBusSubscriber(modid = SilentsMechanisms.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 @SuppressWarnings("unused")
-public class ModItems {
+public final class ModItems {
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, SilentsMechanisms.MODID);
     public static final Table<Metals.Alloy, Metals.AlloyType, ItemRegistryObject<Item>> ALL_ALLOYS;
     public static final Table<Metals.OreMetal, Metals.OreMetalType, ItemRegistryObject<Item>> ALL_ORE_METALS;
@@ -30,6 +30,7 @@ public class ModItems {
     public static final ItemRegistryObject<Item> IRON_DUST = register("iron_dust");
     public static final ItemRegistryObject<Item> GOLD_CHUNK = register("gold_chunks");
     public static final ItemRegistryObject<Item> GOLD_DUST = register("gold_dust");
+    public static final ItemRegistryObject<Item> COAL_DUST = register("coal_dust");
 
     //FOODS & DRYING RACK RESULTS
     public static final ItemRegistryObject<Item> ZOMBIE_LEATHER = register("zombie_leather");
@@ -40,6 +41,26 @@ public class ModItems {
     public static final ItemRegistryObject<Item> RABBIT_JERKY = registerFood("rabbit_jerky", Foods.COOKED_RABBIT);
     public static final ItemRegistryObject<Item> COD_JERKY = registerFood("cod_jerky", Foods.COOKED_COD);
     public static final ItemRegistryObject<Item> SALMON_JERKY = registerFood("salmon_jerky", Foods.COOKED_SALMON);
+
+    //ALL ITEMS BELLOWS ARE REGISTERED BUT IS UNUSED ATM, I  WILL ADD ITS FUNCTIONALITIES SOON
+
+    //CRAFTING_COMPONENT
+    public static final ItemRegistryObject<Item> PLASTIC_SHEET = register("plastic_sheet");
+    public static final ItemRegistryObject<Item> PLASTIC_PELLETS = register("plastic_pellets");
+    public static final ItemRegistryObject<Item> HEATING_ELEMENT = register("heating_element");
+    public static final ItemRegistryObject<Item> CIRCUIT_BOARD = register("circus_board");
+
+    //UPGRADES
+    public static final ItemRegistryObject<Item> UPGRADE_BASE = register("upgrade_case");
+    public static final ItemRegistryObject<Item> ENERGY_CAPACITY_UPGRADE = register("energy_capacity_upgrade");
+    public static final ItemRegistryObject<Item> ENERGY_EFFICIENCY_UPGRADE = register("energy_efficiency_upgrade");
+    public static final ItemRegistryObject<Item> OUTPUT_CHANCE_UPGRADE = register("output_chance_upgrade");
+    public static final ItemRegistryObject<Item> PROCESSING_SPEED_UPGRADE = register("processing_speed_upgrade");
+    public static final ItemRegistryObject<Item> RANGE_UPGRADE = register("range_upgrade");
+
+    //UTILS
+    public static final ItemRegistryObject<Item> WRENCH = register("wrench");
+    public static final ItemRegistryObject<Item> ALTERNATOR = register("alternator");
 
     static {
         ALL_ALLOYS = HashBasedTable.create();
@@ -72,7 +93,7 @@ public class ModItems {
     @SubscribeEvent
     public static void onItemRegistration(RegistryEvent.Register<Item> registration) {
         IForgeRegistry<Item> registry = registration.getRegistry();
-        ModBlocks.BLOCKS.getEntries().stream().map(Supplier::get).forEach(block -> registry.register(new BlockItem(block, new Item.Properties().tab(SilentsMechanisms.TAB)).setRegistryName(SilentsMechanisms.loc(block.getRegistryName().getPath()))));
+        ModBlocks.BLOCK_REGISTRY.getEntries().stream().map(Supplier::get).forEach(block -> registry.register(new BlockItem(block, new Item.Properties().tab(SilentsMechanisms.TAB)).setRegistryName(SilentsMechanisms.loc(block.getRegistryName().getPath()))));
     }
 
     public static void init(IEventBus eventBus) {

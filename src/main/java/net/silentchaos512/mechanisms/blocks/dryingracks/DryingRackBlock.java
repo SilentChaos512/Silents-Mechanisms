@@ -2,6 +2,7 @@ package net.silentchaos512.mechanisms.blocks.dryingracks;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -23,7 +24,8 @@ import net.minecraft.world.level.material.MaterialColor;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.silentchaos512.mechanisms.blocks.AbstractEntityBlock;
+import net.minecraftforge.common.Tags;
+import net.silentchaos512.mechanisms.blocks.abstracts.AbstractEntityBlock;
 import net.silentchaos512.mechanisms.init.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
 
@@ -34,11 +36,11 @@ public class DryingRackBlock extends AbstractEntityBlock<DryingRackBlockEntity> 
     private static final VoxelShape SHAPE_SOUTH = Block.box(0, 12, 0, 16, 16, 4);
     private static final VoxelShape SHAPE_WEST = Block.box(12, 12, 0, 16, 16, 16);
     private static final VoxelShape SHAPE_EAST = Block.box(0, 12, 0, 4, 16, 16);
-
     //Define the kind of wood that this rack is made from
     public final Block woodMaterial;
+
     public DryingRackBlock(Block woodMaterial) {
-        super(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2f, 3f).sound(SoundType.WOOD));
+        super(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2f, 3f).sound(SoundType.WOOD), BlockTags.MINEABLE_WITH_AXE, Tags.Blocks.NEEDS_WOOD_TOOL);
         this.woodMaterial = woodMaterial;
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
     }
@@ -48,7 +50,6 @@ public class DryingRackBlock extends AbstractEntityBlock<DryingRackBlockEntity> 
         pBuilder.add(FACING, WATERLOGGED);
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public InteractionResult use(BlockState pState, Level pLevel, BlockPos pPos, Player pPlayer, InteractionHand pHand, BlockHitResult pHit) {
         if (pLevel.getBlockEntity(pPos) instanceof DryingRackBlockEntity dryingRack) {
@@ -76,7 +77,6 @@ public class DryingRackBlock extends AbstractEntityBlock<DryingRackBlockEntity> 
     public VoxelShape getShape(BlockState pState, BlockGetter pLevel, BlockPos pPos, CollisionContext pContext) {
         Direction facing = pState.getValue(FACING);
         return switch (facing) {
-            case NORTH -> SHAPE_NORTH;
             case SOUTH -> SHAPE_SOUTH;
             case WEST -> SHAPE_WEST;
             case EAST -> SHAPE_EAST;

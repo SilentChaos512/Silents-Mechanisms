@@ -1,4 +1,4 @@
-package net.silentchaos512.mechanisms;
+package net.silentchaos512.mechanisms.utls;
 
 public class JsonNames {
     public static final String DURATION = "duration";
