@@ -12,8 +12,10 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,7 +25,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.forge.event.lifecycle.GatherDataEvent;
 import net.minecraftforge.registries.IForgeRegistry;
-import net.minecraftforge.registries.RegistryObject;
 import net.silentchaos512.mechanisms.blocks.dryingracks.DryingRackRenderer;
 import net.silentchaos512.mechanisms.blocks.generators.coalgenerator.CoalGeneratorScreen;
 import net.silentchaos512.mechanisms.data.loot.ModLootTable;
@@ -31,9 +32,7 @@ import net.silentchaos512.mechanisms.data.recipes.ModRecipeProvider;
 import net.silentchaos512.mechanisms.data.tag.ModBlockTagProvider;
 import net.silentchaos512.mechanisms.data.tag.ModItemTags;
 import net.silentchaos512.mechanisms.init.*;
-import net.silentchaos512.mechanisms.worldgen.ModOreFeatures;
-
-import java.util.function.Supplier;
+import net.silentchaos512.mechanisms.worldgen.ModFeatures;
 
 @Mod(SilentsMechanisms.MODID)
 public class SilentsMechanisms {
@@ -90,6 +89,11 @@ public class SilentsMechanisms {
 
             MenuScreens.register(ModMenus.COAL_GENERATOR_MENU, CoalGeneratorScreen::new);
         }
+
+        @SubscribeEvent
+        public static void onFluidRegistration(RegistryEvent.Register<Fluid> event) {
+            ModFluids.registerAllFluids();
+        }
     }
 
     @Mod.EventBusSubscriber(modid = SilentsMechanisms.MODID)
@@ -97,8 +101,10 @@ public class SilentsMechanisms {
         @SubscribeEvent
         public static void onBiomeLoad(BiomeLoadingEvent event) {
             Biome.BiomeCategory category = event.getCategory();
+            BiomeGenerationSettingsBuilder generationSettingsBuilder = event.getGeneration();
             if (category != Biome.BiomeCategory.NETHER && category != Biome.BiomeCategory.THEEND) {
-                ModOreFeatures.VEINS.forEach(vein -> event.getGeneration().addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, vein.orePlacedFeature));
+                ModFeatures.VEINS.forEach(vein -> generationSettingsBuilder.addFeature(GenerationStep.Decoration.UNDERGROUND_ORES, vein.orePlacedFeature));
+                generationSettingsBuilder.addFeature(GenerationStep.Decoration.LAKES, ModFeatures.OIL_LAKE_FEATURE);
             }
         }
     }

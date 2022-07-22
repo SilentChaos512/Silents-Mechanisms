@@ -5,18 +5,23 @@ import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
+import net.minecraft.world.level.levelgen.feature.LakeFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
+import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.silentchaos512.mechanisms.init.Metals;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 
 import java.util.List;
 
-public class ModOreFeatures {
+@SuppressWarnings("deprecation")
+public class ModFeatures {
 
+    // ====== ORES
     private static final OreVein ORE_TIN = new OreVein(Metals.Ore.TIN);
     private static final OreVein ORE_SILVER = new OreVein(Metals.Ore.SILVER);
     private static final OreVein ORE_LEAD = new OreVein(Metals.Ore.LEAD);
@@ -28,7 +33,12 @@ public class ModOreFeatures {
     private static final OreVein ORE_URANIUM = new OreVein(Metals.Ore.URANIUM);
     public static final List<OreVein> VEINS = ImmutableList.of(ORE_TIN, ORE_SILVER, ORE_LEAD, ORE_NICKEL, ORE_PLATINUM, ORE_ZINC, ORE_BISMUTH, ORE_BAUXITE, ORE_URANIUM);
 
-    public ModOreFeatures() {
+    //===== OIL LAKES
+
+    private static final Holder<ConfiguredFeature<LakeFeature.Configuration, ?>> OIL_LAKE_CONFIG = FeatureUtils.register("silents_mechanisms:oil_lake", Feature.LAKE, new LakeFeature.Configuration(BlockStateProvider.simple(ModBlocks.FLUID_OIL.get()), BlockStateProvider.simple(Blocks.STONE)));
+    public static final Holder<PlacedFeature> OIL_LAKE_FEATURE = PlacementUtils.register("silents_mechanisms:oil_lake_surface", OIL_LAKE_CONFIG, RarityFilter.onAverageOnceEvery(7), InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.absolute(32), VerticalAnchor.absolute(128)));
+
+    public ModFeatures() {
     }
 
     public static void init() {

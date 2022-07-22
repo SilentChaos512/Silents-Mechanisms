@@ -4,10 +4,14 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fluids.ForgeFlowingFluid;
+import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.lib.registry.BlockRegistryObject;
@@ -21,6 +25,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 //Seriously, pls do not re-format this class in your IDE, it will mess up the blocks categories
+@SuppressWarnings("deprecation")
 public final class ModBlocks {
     public static final DeferredRegister<Block> BLOCK_REGISTRY = DeferredRegister.create(ForgeRegistries.BLOCKS, SilentsMechanisms.MODID);
 
@@ -40,6 +45,13 @@ public final class ModBlocks {
     public static final BlockRegistryObject<CoalGeneratorBlock> COAL_GENERATOR = register("coal_generator", () -> new CoalGeneratorBlock(BlockBehaviour.Properties.of(Material.METAL).strength(6, 20).sound(SoundType.METAL)));
 
 
+    /*
+        -------------------- FLUID BLOCKS --------------------
+     */
+
+    public static final BlockRegistryObject<LiquidBlock> FLUID_OIL = register("oil",() ->  new LiquidBlock(ModFluids.OIL, BlockBehaviour.Properties.copy(Blocks.WATER)));
+    public static final BlockRegistryObject<LiquidBlock> FLUID_DIESEL = register("diesel", () -> new LiquidBlock(ModFluids.DIESEL, BlockBehaviour.Properties.copy(Blocks.WATER)));
+
 
     /*
         -----------------------  BLOCKS COLLECTIONS --------------------------
@@ -58,7 +70,7 @@ public final class ModBlocks {
 
     private static <BLOCK extends Block> BlockRegistryObject<BLOCK> register(String name, Supplier<BLOCK> blockSupplier) {
         return new BlockRegistryObject<>(BLOCK_REGISTRY.register(name, blockSupplier));
-    };
+    }
 
     static {
         ALL_ORE_BLOCKS = new HashMap<>();
