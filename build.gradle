@@ -16,15 +16,14 @@ apply plugin: 'maven-publish'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
 
-version = '1.18.2-2.0+01'
+version = '1.19.2-2.0+01'
 group = 'net.silentchaos512'
 archivesBaseName = 'silents_mechanisms'
-
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'parchment', version: '2022.06.26-1.18.2'
+    mappings channel: 'parchment', version: '2022.08.28-1.19.2'
 
     // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
 
@@ -103,17 +102,20 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.18.2-40.1.60'
+    minecraft "net.minecraftforge:forge:${mc_ver}-${forge_ver}"
 
-    implementation fg.deobf("curse.maven:silent-lib-242998:3708359")
+    implementation fg.deobf("curse.maven:silent-lib-242998:3959211")
 
-    //JEI
-    compileOnly fg.deobf("mezz.jei:jei-${mc_ver}:${jei_ver}:api")
-    runtimeOnly fg.deobf("mezz.jei:jei-${mc_ver}:${jei_ver}")
+
+    // compile against the JEI API but do not include it at runtime
+    compileOnly(fg.deobf("mezz.jei:jei-${mc_ver}-common-api:${jei_ver}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${mc_ver}-forge-api:${jei_ver}"))
+    // at runtime, use the full JEI jar for Forge
+    runtimeOnly(fg.deobf("mezz.jei:jei-${mc_ver}-forge:${jei_ver}"))
 
     //Well, my pc is a potato so these 2 may help me a bit
-    runtimeOnly fg.deobf("curse.maven:ferritecore-429235:3767288")
-    runtimeOnly fg.deobf("curse.maven:lazydfu-433518:3209972")
+    runtimeOnly fg.deobf("curse.maven:ferritecore-429235:3875371")
+    runtimeOnly fg.deobf("curse.maven:lazy-dfu-forge-460819:3831644")
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

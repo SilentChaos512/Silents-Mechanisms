@@ -91,7 +91,7 @@ public final class Metals {
         }
 
         public Item getChunkItem() {
-            return ModItems.ALL_ORE_METALS.get(respectiveMetal, OreMetalType.CHUNKS).get();
+            return ModItems.ALL_ORE_METALS.get(respectiveMetal, OreMetalType.CHUNKS);
         }
     }
 

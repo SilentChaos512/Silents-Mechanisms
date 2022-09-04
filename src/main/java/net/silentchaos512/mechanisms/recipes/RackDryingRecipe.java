@@ -11,8 +11,8 @@ import net.minecraft.world.level.Level;
 import net.silentchaos512.mechanisms.utls.JsonNames;
 import net.silentchaos512.mechanisms.utls.MechanismsUtils;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
-import net.silentchaos512.mechanisms.blocks.dryingracks.DryingRackBlockEntity;
-import net.silentchaos512.mechanisms.init.ModRecipeSerializers;
+import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlockEntity;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 
 public class RackDryingRecipe implements Recipe<DryingRackBlockEntity> {
     public static final RecipeType<RackDryingRecipe> RECIPE_TYPE = MechanismsUtils.makeRecipeType("rack_drying");
@@ -70,7 +70,7 @@ public class RackDryingRecipe implements Recipe<DryingRackBlockEntity> {
 
     @Override
     public RecipeSerializer<?> getSerializer() {
-        return ModRecipeSerializers.RACK_DRYING;
+        return ModRecipes.RACK_DRYING;
     }
 
     @Override
@@ -79,7 +79,7 @@ public class RackDryingRecipe implements Recipe<DryingRackBlockEntity> {
     }
 
     public static final class Serializer extends SimpleRecipeSerializer<RackDryingRecipe> {
-        private static final ResourceLocation ID = SilentsMechanisms.loc("rack_drying");
+        private static final ResourceLocation ID = SilentsMechanisms.location("rack_drying");
 
         @Override
         public RackDryingRecipe fromJson(ResourceLocation pRecipeId, JsonObject json) {
@@ -105,7 +105,7 @@ public class RackDryingRecipe implements Recipe<DryingRackBlockEntity> {
         }
 
         @Override
-        protected ResourceLocation getSerializerId() {
+        public ResourceLocation getSerializerId() {
             return ID;
         }
     }

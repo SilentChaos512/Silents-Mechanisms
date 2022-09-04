@@ -7,8 +7,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
-import net.silentchaos512.mechanisms.abstracts.BaseMenuContainer;
-import net.silentchaos512.mechanisms.abstracts.BaseMenuScreen;
+import net.silentchaos512.mechanisms.common.abstracts.BaseMenuContainer;
+import net.silentchaos512.mechanisms.common.abstracts.BaseMenuScreen;
 
 public class MenuUtils {
     //U.C
@@ -39,7 +39,7 @@ public class MenuUtils {
     public static void renderMenuScreen(AbstractContainerScreen<?> screen, PoseStack pose, String imageLoc, int width, int height) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, SilentsMechanisms.loc("textures/gui/" + imageLoc));
+        RenderSystem.setShaderTexture(0, SilentsMechanisms.location("textures/gui/" + imageLoc));
         screen.blit(pose, screen.getGuiLeft(), screen.getGuiTop(), 0, 0, width, height);
     }
 

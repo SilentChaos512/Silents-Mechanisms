@@ -8,15 +8,15 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.ShapedRecipe;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 import net.silentchaos512.mechanisms.utls.JsonNames;
 
-public abstract class SimpleRecipeSerializer<T extends Recipe<?>> extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<T> {
+public abstract class SimpleRecipeSerializer<T extends Recipe<?>> implements RecipeSerializer<T> {
     public SimpleRecipeSerializer() {
-        super.setRegistryName(getSerializerId());
+        ModRecipes.ALL_SERIALIZERS.put(this.getSerializerId(), this);
     }
 
-    protected abstract ResourceLocation getSerializerId();
+    public abstract ResourceLocation getSerializerId();
 
     @SuppressWarnings("deprecation")
     protected final ItemStack getItemStack(JsonObject json) {

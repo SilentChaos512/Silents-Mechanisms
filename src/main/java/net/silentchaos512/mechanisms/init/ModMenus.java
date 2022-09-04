@@ -1,16 +1,17 @@
 package net.silentchaos512.mechanisms.init;
 
-import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraftforge.registries.RegisterEvent;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
-import net.silentchaos512.mechanisms.abstracts.BaseMenuContainer;
-import net.silentchaos512.mechanisms.blocks.generators.coalgenerator.CoalGeneratorMenu;
+import net.silentchaos512.mechanisms.common.abstracts.BaseMenuContainer;
+import net.silentchaos512.mechanisms.common.blocks.generators.coalgenerator.CoalGeneratorMenu;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 public final class ModMenus {
-    public static final Set<MenuType<?>> ALL_MENUS = new HashSet<>();
+    public static final Map<ResourceLocation, MenuType<?>> ALL_MENUS = new HashMap<>();
 
     public static final MenuType<CoalGeneratorMenu> COAL_GENERATOR_MENU;
 
@@ -18,9 +19,13 @@ public final class ModMenus {
         COAL_GENERATOR_MENU = register("coal_generator_menu", CoalGeneratorMenu::new);
     }
 
-    static <T extends BaseMenuContainer> MenuType<T> register(String name, MenuType.MenuSupplier<T> menu) {
+    public static <T extends BaseMenuContainer> MenuType<T> register(String name, MenuType.MenuSupplier<T> menu) {
         MenuType<T> menuType = new MenuType<>(menu);
-        ALL_MENUS.add(menuType.setRegistryName(SilentsMechanisms.loc(name)));
+        ALL_MENUS.put(SilentsMechanisms.location(name), menuType);
         return menuType;
+    }
+
+    public static void register(RegisterEvent.RegisterHelper<MenuType<?>> helper) {
+        ALL_MENUS.forEach(helper::register);
     }
 }

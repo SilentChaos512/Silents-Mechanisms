@@ -5,20 +5,17 @@ import net.minecraft.core.Holder;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.data.worldgen.features.OreFeatures;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.LakeFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
 import net.silentchaos512.mechanisms.init.Metals;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 
 import java.util.List;
 
-@SuppressWarnings("deprecation")
+@SuppressWarnings("unused")
 public class ModFeatures {
 
     // ====== ORES
@@ -35,8 +32,8 @@ public class ModFeatures {
 
     //===== OIL LAKES
 
-    private static final Holder<ConfiguredFeature<LakeFeature.Configuration, ?>> OIL_LAKE_CONFIG = FeatureUtils.register("silents_mechanisms:oil_lake", Feature.LAKE, new LakeFeature.Configuration(BlockStateProvider.simple(ModBlocks.FLUID_OIL.get()), BlockStateProvider.simple(Blocks.STONE)));
-    public static final Holder<PlacedFeature> OIL_LAKE_FEATURE = PlacementUtils.register("silents_mechanisms:oil_lake_surface", OIL_LAKE_CONFIG, RarityFilter.onAverageOnceEvery(7), InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.absolute(32), VerticalAnchor.absolute(128)));
+    //private static final Holder<ConfiguredFeature<LakeFeature.Configuration, ?>> OIL_LAKE_CONFIG = FeatureUtils.register("silents_mechanisms:oil_lake", Feature.LAKE, new LakeFeature.Configuration(BlockStateProvider.simple(ModBlocks.FLUID_OIL.get()), BlockStateProvider.simple(Blocks.STONE)));
+    //public static final Holder<PlacedFeature> OIL_LAKE_FEATURE = PlacementUtils.register("silents_mechanisms:oil_lake_surface", OIL_LAKE_CONFIG, RarityFilter.onAverageOnceEvery(7), InSquarePlacement.spread(), HeightRangePlacement.uniform(VerticalAnchor.absolute(32), VerticalAnchor.absolute(128)));
 
     public ModFeatures() {
     }
@@ -49,7 +46,7 @@ public class ModFeatures {
         public final Holder<PlacedFeature> orePlacedFeature;
 
         public OreVein(Metals.Ore ore) {
-            List<OreConfiguration.TargetBlockState> targetBlockStates = ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ModBlocks.ALL_ORE_BLOCKS.get(ore).get().defaultBlockState()));
+            List<OreConfiguration.TargetBlockState> targetBlockStates = ImmutableList.of(OreConfiguration.target(OreFeatures.STONE_ORE_REPLACEABLES, ModBlocks.ALL_ORE_BLOCKS.get(ore).defaultBlockState()));
             Holder<ConfiguredFeature<OreConfiguration, ?>> configuredFeatureHolder = FeatureUtils.register("ore_" + ore.name().toLowerCase(), Feature.ORE, new OreConfiguration(targetBlockStates, ore.oreVeinValues.veinSize()));
             this.orePlacedFeature = PlacementUtils.register("ore" + ore.name().toLowerCase(), configuredFeatureHolder, commonOrePlacement(ore.oreVeinValues.veinCount(), HeightRangePlacement.uniform(VerticalAnchor.absolute(ore.oreVeinValues.maxHeight()), VerticalAnchor.absolute(ore.oreVeinValues.minHeight()))));
         }

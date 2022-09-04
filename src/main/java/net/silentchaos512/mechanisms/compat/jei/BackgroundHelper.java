@@ -7,7 +7,7 @@ import net.silentchaos512.mechanisms.SilentsMechanisms;
 
 public record BackgroundHelper(ResourceLocation textureLocation, int width, int height) {
     public static ResourceLocation makeGui(String guiName) {
-        return SilentsMechanisms.loc("textures/jei/" + guiName + ".png");
+        return SilentsMechanisms.location("textures/jei/" + guiName + ".png");
     }
 
     public IDrawable createBackground(IGuiHelper guiHelper) {

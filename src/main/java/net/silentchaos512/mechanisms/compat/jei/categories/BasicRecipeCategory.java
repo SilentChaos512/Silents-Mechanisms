@@ -18,7 +18,6 @@ import net.silentchaos512.mechanisms.compat.jei.BackgroundHelper;
 
 import java.util.List;
 
-@SuppressWarnings("removal")
 public abstract class BasicRecipeCategory<T> implements IRecipeCategory<T> {
     protected final RecipeType<T> recipeType;
     protected final Component title;
@@ -47,6 +46,11 @@ public abstract class BasicRecipeCategory<T> implements IRecipeCategory<T> {
     }
 
     @Override
+    public RecipeType<T> getRecipeType() {
+        return recipeType;
+    }
+
+    @Override
     public final Component getTitle() {
         return this.title;
     }
@@ -60,17 +64,6 @@ public abstract class BasicRecipeCategory<T> implements IRecipeCategory<T> {
     public final IDrawable getIcon() {
         return this.icon;
     }
-
-    @Override
-    public final ResourceLocation getUid() {
-        return this.recipeType.getUid();
-    }
-
-    @Override
-    public final Class<? extends T> getRecipeClass() {
-        return this.recipeType.getRecipeClass();
-    }
-
     public abstract void addRecipes(IRecipeRegistration registration, RecipeManager recipeManager);
 
     public void addRecipeCatalysts(IRecipeCatalystRegistration registration) {

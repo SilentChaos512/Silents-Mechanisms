@@ -44,22 +44,19 @@ public class ModLootTable extends LootTableProvider {
     private static final class BlockLoots extends BlockLoot {
         @Override
         protected Iterable<Block> getKnownBlocks() {
-            return ModBlocks.BLOCK_REGISTRY.getEntries().stream().map(Supplier::get).toList();
+            return ModBlocks.BLOCK_DIRECT_REGISTRY.getEntries();
         }
 
         @Override
         protected void addTables() {
             ModBlocks.ALL_STORAGE_BLOCKS.values().forEach(this::dropSelf);
-            ModBlocks.ALL_ORE_BLOCKS.forEach(((ore, block) -> super.add(block.get(), createOreDrop(block.get(), ore.getChunkItem()))));
+            ModBlocks.ALL_ORE_BLOCKS.forEach(((ore, block) -> super.add(block, createOreDrop(block, ore.getChunkItem()))));
             ModBlocks.ALL_ALLOY_STORAGE_BLOCKS.values().forEach(this::dropSelf);
             ModBlocks.DRYING_RACK_BLOCKS.forEach(this::dropSelf);
             dropSelf(ModBlocks.STONE_MACHINE_FRAME);
             dropSelf(ModBlocks.ALLOY_MACHINE_FRAME);
-            super.add(ModBlocks.COAL_GENERATOR.get(), (block) -> LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(LootItem.lootTableItem(block).apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy("EnergyStored", "BlockEntityTag.EnergyStored")))));
+            super.add(ModBlocks.COAL_GENERATOR, (block) -> LootTable.lootTable().withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f)).add(LootItem.lootTableItem(block).apply(CopyNbtFunction.copyData(ContextNbtProvider.BLOCK_ENTITY).copy("EnergyStored", "BlockEntityTag.EnergyStored")))));
         }
 
-        private <T extends Block> void dropSelf(Supplier<T> block) {
-            this.dropSelf(block.get());
-        }
     }
 }

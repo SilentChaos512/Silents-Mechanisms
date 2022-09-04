@@ -27,7 +27,7 @@ public class ModItemTags {
     public static final HashMap<Metals.Alloy, TagKey<Item>> ALL_ALLOY_STORAGE_BLOCKS_TAGS;
 
     //STANDALONE TAGS
-    public static final TagKey<Item> COAL_GENERATOR_FUELS = ItemTags.create(SilentsMechanisms.loc("coal_generator_fuels"));
+    public static final TagKey<Item> COAL_GENERATOR_FUELS = ItemTags.create(SilentsMechanisms.location("coal_generator_fuels"));
 
     static {
         ALL_METAL_TAGS = HashBasedTable.create();
@@ -66,6 +66,7 @@ public class ModItemTags {
 
     }
 
+    @SuppressWarnings("ConstantConditions")
     public static final class Provider extends ItemTagsProvider {
         public Provider(DataGenerator pGenerator, BlockTagsProvider pBlockTagsProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
             super(pGenerator, pBlockTagsProvider, modId, existingFileHelper);
@@ -79,16 +80,16 @@ public class ModItemTags {
                     case DUST -> super.tag(Tags.Items.DUSTS).addTag(cell.getValue());
                     case NUGGET -> super.tag(Tags.Items.NUGGETS).addTag(cell.getValue());
                 }
-                super.tag(cell.getValue()).add(ModItems.ALL_ORE_METALS.get(cell.getRowKey(), cell.getColumnKey()).get());
+                super.tag(cell.getValue()).add(ModItems.ALL_ORE_METALS.get(cell.getRowKey(), cell.getColumnKey()));
             }
             ALL_STORAGE_BLOCKS_TAGS.forEach((oreMetal, itemTagKey) -> {
                 super.tag(Tags.Items.STORAGE_BLOCKS).addTag(itemTagKey);
-                super.tag(itemTagKey).add(ModBlocks.ALL_STORAGE_BLOCKS.get(oreMetal).get().asItem());
+                super.tag(itemTagKey).add(ModBlocks.ALL_STORAGE_BLOCKS.get(oreMetal).asItem());
             });
 
             ALL_ALLOY_STORAGE_BLOCKS_TAGS.forEach((alloy, tag) -> {
                 super.tag(Tags.Items.STORAGE_BLOCKS).addTag(tag);
-                super.tag(tag).add(ModBlocks.ALL_ALLOY_STORAGE_BLOCKS.get(alloy).get().asItem());
+                super.tag(tag).add(ModBlocks.ALL_ALLOY_STORAGE_BLOCKS.get(alloy).asItem());
             });
 
             for (Table.Cell<Metals.Alloy, Metals.AlloyType, TagKey<Item>> cell : ALL_ALLOY_TAGS.cellSet()) {
@@ -98,7 +99,7 @@ public class ModItemTags {
                     case NUGGET -> super.tag(Tags.Items.NUGGETS).addTag(cell.getValue());
                 }
 
-                super.tag(cell.getValue()).add(ModItems.ALL_ALLOYS.get(cell.getRowKey(), cell.getColumnKey()).get());
+                super.tag(cell.getValue()).add(ModItems.ALL_ALLOYS.get(cell.getRowKey(), cell.getColumnKey()));
             }
 
             super.tag(COAL_GENERATOR_FUELS).add(Items.COAL, Items.CHARCOAL, Items.COAL_BLOCK);

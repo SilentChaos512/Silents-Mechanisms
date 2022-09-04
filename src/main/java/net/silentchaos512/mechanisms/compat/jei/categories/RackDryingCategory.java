@@ -9,7 +9,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.silentchaos512.lib.util.TextRenderUtils;
@@ -18,18 +18,16 @@ import net.silentchaos512.mechanisms.compat.jei.BackgroundHelper;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.recipes.RackDryingRecipe;
 
-import java.util.function.Supplier;
-
 public class RackDryingCategory extends BasicRecipeCategory<RackDryingRecipe> {
-    public static final ResourceLocation RECIPE_TYPE_UID = SilentsMechanisms.loc("rack_drying");
+    public static final ResourceLocation RECIPE_TYPE_UID = SilentsMechanisms.location("rack_drying");
 
     private final IDrawableAnimated arrow;
 
     public RackDryingCategory(IGuiHelper helper) {
         super(helper,
                 new RecipeType<>(RECIPE_TYPE_UID, RackDryingRecipe.class),
-                new TranslatableComponent("jei.silents_mechanisms.category.drying"),
-                ModBlocks.DRYING_RACK_BLOCKS.stream().map(Supplier::get).toList(),
+                Component.translatable("jei.silents_mechanisms.category.drying"),
+                ModBlocks.DRYING_RACK_BLOCKS,
                 new BackgroundHelper(BackgroundHelper.makeGui("drying_category"), 114, 38));
 
         var arrowStatic = helper.createDrawable(guiLocation, 114, 0, 50, 16);
@@ -45,7 +43,7 @@ public class RackDryingCategory extends BasicRecipeCategory<RackDryingRecipe> {
     @Override
     public void draw(RackDryingRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
         arrow.draw(stack, 32, 9);
-        TextRenderUtils.renderScaled(stack, super.font, new TranslatableComponent("misc.silents_mechanisms.timeInSeconds", recipe.getDryingTime() / 20).getVisualOrderText(), 0, 26, 1f, 0xffffff, true);
+        TextRenderUtils.renderScaled(stack, super.font, Component.translatable("misc.silents_mechanisms.timeInSeconds", recipe.getDryingTime() / 20).getVisualOrderText(), 0, 26, 1f, 0xffffff, true);
     }
 
     @Override

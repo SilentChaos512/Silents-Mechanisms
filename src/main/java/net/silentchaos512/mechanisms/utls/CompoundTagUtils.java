@@ -1,7 +1,7 @@
 package net.silentchaos512.mechanisms.utls;
 
 import net.minecraft.nbt.CompoundTag;
-import net.silentchaos512.mechanisms.abstracts.BaseEnergyBlockEntity;
+import net.silentchaos512.mechanisms.common.abstracts.BaseEnergyBlockEntity;
 
 public final class CompoundTagUtils {
     private CompoundTagUtils() {

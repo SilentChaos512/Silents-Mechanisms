@@ -1,37 +1,27 @@
 package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
-import net.silentchaos512.mechanisms.SilentsMechanisms;
-import net.silentchaos512.mechanisms.blocks.dryingracks.DryingRackBlockEntity;
-import net.silentchaos512.mechanisms.blocks.generators.coalgenerator.CoalGeneratorBlockEntity;
+import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlock;
+import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlockEntity;
+import net.silentchaos512.mechanisms.common.blocks.generators.coalgenerator.CoalGeneratorBlockEntity;
+import net.silentchaos512.mechanisms.registration.DirectRegistry;
 
+@SuppressWarnings("ALL")
 public final class ModBlockEntities {
-    public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, SilentsMechanisms.MODID);
-
-    public static void init(IEventBus eventBus) {
-        BLOCK_ENTITY_TYPES.register(eventBus);
-    }
-
-    public static final RegistryObject<BlockEntityType<DryingRackBlockEntity>> DRYING_RACKS;
-    public static final RegistryObject<BlockEntityType<CoalGeneratorBlockEntity>> COAL_GENERATOR;
+    public static final DirectRegistry<BlockEntityType<?>> DIRECT_BE_TPYES = new DirectRegistry<>();
+    public static final BlockEntityType<DryingRackBlockEntity> DRYING_RACKS;
+    public static final BlockEntityType<CoalGeneratorBlockEntity> COAL_GENERATOR;
 
     static {
-        DRYING_RACKS = BLOCK_ENTITY_TYPES.register("drying_racks",
-                () -> BlockEntityType.Builder.of(DryingRackBlockEntity::new,
-                                ModBlocks.OAK_DRYING_RACK.get(),
-                                ModBlocks.SPRUCE_DRYING_RANK.get(),
-                                ModBlocks.BIRCH_DRYING_RACK.get(),
-                                ModBlocks.JUNGLE_DRYING_RACK.get(),
-                                ModBlocks.ACACIA_DRYING_RACK.get(),
-                                ModBlocks.DARK_OAK_DRYING_RACK.get())
+        DRYING_RACKS = DIRECT_BE_TPYES.register("drying_racks",
+                BlockEntityType.Builder.of(DryingRackBlockEntity::new, ModBlocks.DRYING_RACK_BLOCKS.toArray(new DryingRackBlock[0]))
                         .build(null));
-        COAL_GENERATOR = BLOCK_ENTITY_TYPES.register("coal_generators",
-                () ->  BlockEntityType.Builder.of(CoalGeneratorBlockEntity::new, ModBlocks.COAL_GENERATOR.get())
+        COAL_GENERATOR = DIRECT_BE_TPYES.register("coal_generators",
+                BlockEntityType.Builder.of(CoalGeneratorBlockEntity::new, ModBlocks.COAL_GENERATOR)
                         .build(null));
     }
 
+    public static void staticInitializing() {
+
+    }
 }

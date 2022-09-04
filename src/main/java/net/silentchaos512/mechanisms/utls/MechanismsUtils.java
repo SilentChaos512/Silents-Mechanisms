@@ -1,7 +1,11 @@
 package net.silentchaos512.mechanisms.utls;
 
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.silentchaos512.mechanisms.SilentsMechanisms;
+import net.silentchaos512.mechanisms.init.ModRecipes;
 
 public class MechanismsUtils {
     private MechanismsUtils() {
@@ -9,11 +13,12 @@ public class MechanismsUtils {
     }
 
     public static <T extends Recipe<?>> RecipeType<T> makeRecipeType(String name) {
-        return new RecipeType<T>() {
-            @Override
-            public String toString() {
-                return name;
-            }
-        };
+        RecipeType<T> recipeType = RecipeType.simple(SilentsMechanisms.location(name));
+        ModRecipes.ALL_RECIPE_TYPES.add(recipeType);
+        return recipeType;
+    }
+
+    public static <T> ResourceLocation getRegistryName(Registry<T> registry, T object) {
+        return registry.getKey(object);
     }
 }

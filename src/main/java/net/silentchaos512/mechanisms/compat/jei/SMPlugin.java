@@ -18,7 +18,7 @@ import java.util.List;
 
 @JeiPlugin
 public class SMPlugin implements IModPlugin {
-    public static final ResourceLocation PLUGIN_ID = SilentsMechanisms.loc("sm_jei_plugin");
+    public static final ResourceLocation PLUGIN_ID = SilentsMechanisms.location("sm_jei_plugin");
     private static List<BasicRecipeCategory<?>> BASIC_RECIPE_CATEGORIES;
 
     @Override
