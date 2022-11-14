@@ -23,9 +23,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
 minecraft {
-    mappings channel: 'parchment', version: '2022.08.28-1.19.2'
-
-    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg') // Currently, this location cannot be changed from the default.
+    mappings channel: 'parchment', version: '2022.11.06-1.19.2'
 
     runs {
         client {
@@ -87,6 +85,11 @@ minecraft {
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
+def gpr_credentials = {
+    username = property('gpr.username')
+    password = property('gpr.token')
+}
+
 repositories {
     maven { // JEI
         name = "Progwml6 maven"
@@ -99,13 +102,18 @@ repositories {
     maven {
         url = "https://cursemaven.com"
     }
+    maven {
+        url = uri("https://maven.pkg.github.com/silentchaos512/silentlib")
+        credentials gpr_credentials
+    }
+    maven {
+        url = uri("https://maven.pkg.github.com/silentchaos512/silent-utils")
+        credentials gpr_credentials
+    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_ver}-${forge_ver}"
-
-    implementation fg.deobf("curse.maven:silent-lib-242998:3959211")
-
 
     // compile against the JEI API but do not include it at runtime
     compileOnly(fg.deobf("mezz.jei:jei-${mc_ver}-common-api:${jei_ver}"))
@@ -116,6 +124,11 @@ dependencies {
     //Well, my pc is a potato so these 2 may help me a bit
     runtimeOnly fg.deobf("curse.maven:ferritecore-429235:3875371")
     runtimeOnly fg.deobf("curse.maven:lazy-dfu-forge-460819:3831644")
+
+    implementation fg.deobf("net.silentchaos512:silent-lib:${mc_ver}-${silent_lib_version}") {
+        exclude module: "forge"
+    }
+
 }
 
 // Example for how to get properties into the manifest for reading at runtime.

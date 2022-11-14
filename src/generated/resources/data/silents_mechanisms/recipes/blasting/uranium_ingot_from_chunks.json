@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
+  "cookingtime": 100,
+  "experience": 0.2,
   "ingredient": {
     "tag": "forge:chunks/uranium"
   },
-  "result": "silents_mechanisms:uranium_ingot",
-  "experience": 0.2,
-  "cookingtime": 100
+  "result": "silents_mechanisms:uranium_ingot"
 }

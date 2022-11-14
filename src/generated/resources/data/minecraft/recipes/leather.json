@@ -1,14 +1,14 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "AA",
-    "AA"
-  ],
   "key": {
     "A": {
       "item": "silents_mechanisms:zombie_leather"
     }
   },
+  "pattern": [
+    "AA",
+    "AA"
+  ],
   "result": {
     "item": "minecraft:leather"
   }

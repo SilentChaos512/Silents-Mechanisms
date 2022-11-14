@@ -16,12 +16,13 @@ import net.minecraft.world.item.crafting.RecipeManager;
 import net.minecraft.world.level.ItemLike;
 import net.silentchaos512.mechanisms.compat.jei.BackgroundHelper;
 
+import java.util.Collection;
 import java.util.List;
 
 public abstract class BasicRecipeCategory<T> implements IRecipeCategory<T> {
     protected final RecipeType<T> recipeType;
     protected final Component title;
-    protected final List<? extends ItemLike> catalystIcons;
+    protected final Collection<? extends ItemLike> catalystIcons;
     protected final ResourceLocation guiLocation;
     protected final Font font = Minecraft.getInstance().font;
     private final IDrawable icon;
@@ -35,10 +36,6 @@ public abstract class BasicRecipeCategory<T> implements IRecipeCategory<T> {
         this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, makeStack(catalystIcons.get(0)));
         this.background = backgroundHelper.createBackground(guiHelper);
         this.guiLocation = backgroundHelper.textureLocation();
-    }
-
-    public BasicRecipeCategory(IGuiHelper guiHelper, RecipeType<T> recipeType, Component title, ItemLike catalystIcon, BackgroundHelper backgroundHelper) {
-        this(guiHelper, recipeType, title, List.of(catalystIcon), backgroundHelper);
     }
 
     protected final ItemStack makeStack(ItemLike item) {

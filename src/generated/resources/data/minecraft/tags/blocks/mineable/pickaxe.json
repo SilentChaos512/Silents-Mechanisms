@@ -1,37 +1,7 @@
 {
-  "replace": false,
   "values": [
     "silents_mechanisms:stone_machine_frame",
-    "silents_mechanisms:alloy_machine_frame",
     "silents_mechanisms:coal_generator",
-    "silents_mechanisms:tin_block",
-    "silents_mechanisms:silver_block",
-    "silents_mechanisms:lead_block",
-    "silents_mechanisms:nickel_block",
-    "silents_mechanisms:platinum_block",
-    "silents_mechanisms:zinc_block",
-    "silents_mechanisms:bismuth_block",
-    "silents_mechanisms:aluminum_block",
-    "silents_mechanisms:uranium_block",
-    "silents_mechanisms:tin_ore",
-    "silents_mechanisms:silver_ore",
-    "silents_mechanisms:lead_ore",
-    "silents_mechanisms:nickel_ore",
-    "silents_mechanisms:platinum_ore",
-    "silents_mechanisms:zinc_ore",
-    "silents_mechanisms:bismuth_ore",
-    "silents_mechanisms:bauxite_ore",
-    "silents_mechanisms:uranium_ore",
-    "silents_mechanisms:redstone_alloy_block",
-    "silents_mechanisms:bronze_block",
-    "silents_mechanisms:brass_block",
-    "silents_mechanisms:invar_block",
-    "silents_mechanisms:electrum_block",
-    "silents_mechanisms:steel_block",
-    "silents_mechanisms:bismuth_brass_block",
-    "silents_mechanisms:aluminum_steel_block",
-    "silents_mechanisms:signalum_block",
-    "silents_mechanisms:lumium_block",
-    "silents_mechanisms:enderium_block"
+    "silents_mechanisms:alloy_machine_frame"
   ]
 }

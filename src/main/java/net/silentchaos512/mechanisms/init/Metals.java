@@ -4,13 +4,18 @@ import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.silentchaos512.mechanisms.data.tag.ModItemTags;
 import net.silentchaos512.mechanisms.worldgen.OreVeinValues;
+
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
 
 public final class Metals {
     private Metals() {
     }
 
-    public enum Alloy {
+    public enum Alloy implements StorageBlockProvider {
         REDSTONE_ALLOY,
         BRONZE,
         BRASS,
@@ -25,9 +30,29 @@ public final class Metals {
 
         Alloy() {
         }
+
+        @Override
+        public Item getIngot() {
+            return ModItems.ALL_ALLOYS.get(this, AlloyType.INGOT);
+        }
+
+        @Override
+        public TagKey<Item> getIngredientTag() {
+            return ModItemTags.ALL_ALLOY_TAGS.get(this, AlloyType.INGOT);
+        }
+
+        @Override
+        public TagKey<Block> getHarvestToolTag() {
+            return BlockTags.NEEDS_IRON_TOOL;
+        }
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase(Locale.ROOT);
+        }
     }
 
-    public enum OreMetal {
+    public enum OreMetal implements StorageBlockProvider {
         TIN(BlockTags.NEEDS_STONE_TOOL),
         SILVER(BlockTags.NEEDS_IRON_TOOL),
         LEAD(BlockTags.NEEDS_IRON_TOOL),
@@ -42,10 +67,27 @@ public final class Metals {
 
         OreMetal(TagKey<Block> harvestLevelTag) {
             this.harvestLevelTag = harvestLevelTag;
+
         }
 
-        public TagKey<Block> getHarvestLevelTag() {
-            return harvestLevelTag;
+        @Override
+        public Item getIngot() {
+            return ModItems.ALL_ORE_METALS.get(this, OreMetalType.INGOT);
+        }
+
+        @Override
+        public TagKey<Item> getIngredientTag() {
+            return ModItemTags.ALL_METAL_TAGS.get(this, OreMetalType.INGOT);
+        }
+
+        @Override
+        public TagKey<Block> getHarvestToolTag() {
+            return this.harvestLevelTag;
+        }
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase(Locale.ROOT);
         }
     }
 
@@ -53,14 +95,14 @@ public final class Metals {
         INGOT,
         DUST,
         CHUNKS,
-        NUGGET;
+        NUGGET
     }
 
     //1.18 introduced copper so copper in the mod is removed
     public enum Ore {
         TIN(OreMetal.TIN, BlockTags.NEEDS_STONE_TOOL, new OreVeinValues(8, 8, 20, 80)),
         SILVER(OreMetal.SILVER, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(4, 8, 0, 40)),
-        LEAD(OreMetal.LEAD, BlockTags.NEEDS_IRON_TOOL,new OreVeinValues(4, 8, 0, 30)),
+        LEAD(OreMetal.LEAD, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(4, 8, 0, 30)),
         NICKEL(OreMetal.NICKEL, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(1, 6, 0, 24)),
         PLATINUM(OreMetal.PLATINUM, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(1, 8, 5, 20)),
         ZINC(OreMetal.ZINC, BlockTags.NEEDS_STONE_TOOL, new OreVeinValues(4, 8, 20, 60)),
@@ -86,12 +128,13 @@ public final class Metals {
             return oreVeinValues;
         }
 
-        public OreMetal getRespectiveMetal() {
-            return respectiveMetal;
-        }
-
         public Item getChunkItem() {
             return ModItems.ALL_ORE_METALS.get(respectiveMetal, OreMetalType.CHUNKS);
+        }
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase(Locale.ROOT);
         }
     }
 
@@ -99,5 +142,26 @@ public final class Metals {
         DUST,
         INGOT,
         NUGGET;
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase(Locale.ROOT);
+        }
+    }
+
+    public interface StorageBlockProvider {
+        List<StorageBlockProvider> ALL_PROVIDERS = new LinkedList<>();
+
+        Item getIngot();
+
+        TagKey<Item> getIngredientTag();
+
+        TagKey<Block> getHarvestToolTag();
+
+        String toString();
+
+        default Block getStorageBlock() {
+            return ModBlocks.METAL_STORAGE_BLOCKS.get(this);
+        }
     }
 }

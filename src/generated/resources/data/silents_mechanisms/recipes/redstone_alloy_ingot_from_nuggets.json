@@ -2,31 +2,31 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "forge:nuggets/redstone_alloy_nugget"
+      "tag": "forge:nuggets/redstone_alloy"
     },
     {
-      "tag": "forge:nuggets/redstone_alloy_nugget"
+      "tag": "forge:nuggets/redstone_alloy"
     },
     {
-      "tag": "forge:nuggets/redstone_alloy_nugget"
+      "tag": "forge:nuggets/redstone_alloy"
     },
     {
-      "tag": "forge:nuggets/redstone_alloy_nugget"
+      "tag": "forge:nuggets/redstone_alloy"
     },
     {
-      "tag": "forge:nuggets/redstone_alloy_nugget"
+      "tag": "forge:nuggets/redstone_alloy"
     },
     {
-      "tag": "forge:nuggets/redstone_alloy_nugget"
+      "tag": "forge:nuggets/redstone_alloy"
     },
     {
-      "tag": "forge:nuggets/redstone_alloy_nugget"
+      "tag": "forge:nuggets/redstone_alloy"
     },
     {
-      "tag": "forge:nuggets/redstone_alloy_nugget"
+      "tag": "forge:nuggets/redstone_alloy"
     },
     {
-      "tag": "forge:nuggets/redstone_alloy_nugget"
+      "tag": "forge:nuggets/redstone_alloy"
     }
   ],
   "result": {

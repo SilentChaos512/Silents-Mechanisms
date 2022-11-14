@@ -29,7 +29,13 @@ import net.silentchaos512.mechanisms.common.blocks.abstracts.AbstractEntityBlock
 import net.silentchaos512.mechanisms.init.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class DryingRackBlock extends AbstractEntityBlock<DryingRackBlockEntity> {
+    public static final List<DryingRackBlock> ALL_RACKS = new ArrayList<>();
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     private static final VoxelShape SHAPE_NORTH = Block.box(0, 12, 12, 16, 16, 16);
@@ -42,6 +48,7 @@ public class DryingRackBlock extends AbstractEntityBlock<DryingRackBlockEntity> 
     public DryingRackBlock(Block woodMaterial) {
         super(BlockBehaviour.Properties.of(Material.WOOD, MaterialColor.WOOD).strength(2f, 3f).sound(SoundType.WOOD), BlockTags.MINEABLE_WITH_AXE, Tags.Blocks.NEEDS_WOOD_TOOL);
         this.woodMaterial = woodMaterial;
+        ALL_RACKS.add(this);
         registerDefaultState(defaultBlockState().setValue(FACING, Direction.NORTH).setValue(WATERLOGGED, false));
     }
 

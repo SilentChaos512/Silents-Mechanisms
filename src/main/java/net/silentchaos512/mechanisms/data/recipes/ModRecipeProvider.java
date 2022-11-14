@@ -2,14 +2,16 @@ package net.silentchaos512.mechanisms.data.recipes;
 
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.ItemPredicate;
-import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.recipes.*;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
+import net.minecraftforge.registries.ForgeRegistries;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
+import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlock;
 import net.silentchaos512.mechanisms.data.tag.ModItemTags;
 import net.silentchaos512.mechanisms.init.Metals;
 import net.silentchaos512.mechanisms.init.ModBlocks;
@@ -29,9 +31,8 @@ public class ModRecipeProvider extends RecipeProvider {
 
     }
 
-    @SuppressWarnings("deprecation")
-    private static String getRegistryPath(Item item) {
-        return MechanismsUtils.getRegistryName(Registry.ITEM, item).getPath();
+    private static String getRegistryPath(ItemLike item) {
+        return MechanismsUtils.getRegistryName(ForgeRegistries.ITEMS, item.asItem()).getPath();
     }
 
     @Override
@@ -47,7 +48,6 @@ public class ModRecipeProvider extends RecipeProvider {
 
         oreBlasting(consumer, List.of(ModItems.IRON_DUST, ModItems.IRON_CHUNK), Items.IRON_INGOT, 0.2f, 100, "");
         oreSmelting(consumer, List.of(ModItems.IRON_DUST, ModItems.IRON_CHUNK), Items.IRON_INGOT, 0.2f, 200, "");
-
 
         //Ore Chunks -> Ingot
         ModItems.ALL_ORE_METALS.column(Metals.OreMetalType.INGOT).forEach((oreMetal, ingotItem) -> {
@@ -79,45 +79,20 @@ public class ModRecipeProvider extends RecipeProvider {
 
         //ingot -> storage blocks
         //storage block -> ingots
-        ModBlocks.ALL_STORAGE_BLOCKS.forEach((metal, block) -> {
-                    TagKey<Item> respectiveIngotTag = ModItemTags.ALL_METAL_TAGS.get(metal, Metals.OreMetalType.INGOT);
-                    ShapedRecipeBuilder.shaped(block)
-                            .pattern("AAA")
-                            .pattern("AAA")
-                            .pattern("AAA")
-                            .define('A', respectiveIngotTag)
-                            .unlockedBy("get_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(respectiveIngotTag).build()))
-                            .save(consumer);
-
-
-                    ShapelessRecipeBuilder.shapeless(ModItems.ALL_ORE_METALS.get(metal, Metals.OreMetalType.INGOT))
-                            .requires(ModItemTags.ALL_STORAGE_BLOCKS_TAGS.get(metal))
-                            .unlockedBy("get_item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ALL_ORE_METALS.get(metal, Metals.OreMetalType.INGOT)))
-                            .save(consumer);
-
-
-                }
-        );
-
-        ModBlocks.ALL_ALLOY_STORAGE_BLOCKS.forEach((alloy, block) -> {
-                    TagKey<Item> respectiveIngotTag = ModItemTags.ALL_ALLOY_TAGS.get(alloy, Metals.AlloyType.INGOT);
-                    ShapedRecipeBuilder.shaped(block)
-                            .pattern("AAA")
-                            .pattern("AAA")
-                            .pattern("AAA")
-                            .define('A', respectiveIngotTag)
-                            .unlockedBy("get_item", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(respectiveIngotTag).build()))
-                            .save(consumer);
-
-
-                    ShapelessRecipeBuilder.shapeless(ModItems.ALL_ALLOYS.get(alloy, Metals.AlloyType.INGOT))
-                            .requires(ModItemTags.ALL_ALLOY_STORAGE_BLOCKS_TAGS.get(alloy))
-                            .unlockedBy("get_item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ALL_ALLOYS.get(alloy, Metals.AlloyType.INGOT)))
-                            .save(consumer);
-
-
-                }
-        );
+        for (Metals.StorageBlockProvider provider : Metals.StorageBlockProvider.ALL_PROVIDERS) {
+            TagKey<Item> ingredient = provider.getIngredientTag();
+            ShapedRecipeBuilder.shaped(provider.getStorageBlock())
+                    .pattern("AAA")
+                    .pattern("AAA")
+                    .pattern("AAA")
+                    .define('A', ingredient)
+                    .unlockedBy("hasItem", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(ingredient).build()))
+                    .save(consumer, SilentsMechanisms.location("crafting/" + getRegistryPath(provider.getStorageBlock())));
+            ShapelessRecipeBuilder.shapeless(provider.getIngot(), 9)
+                    .requires(provider.getStorageBlock())
+                    .unlockedBy("hasItem", InventoryChangeTrigger.TriggerInstance.hasItems(provider.getStorageBlock()))
+                    .save(consumer, SilentsMechanisms.location("crafting/" + getRegistryPath(provider.getIngot())));
+        }
 
         //nugget -> ingot
         //ingot -> nugget
@@ -132,6 +107,6 @@ public class ModRecipeProvider extends RecipeProvider {
         });
 
         ShapedRecipeBuilder.shaped(Items.LEATHER).pattern("AA").pattern("AA").define('A', ModItems.ZOMBIE_LEATHER).unlockedBy("get_item", InventoryChangeTrigger.TriggerInstance.hasItems(ModItems.ZOMBIE_LEATHER)).save(consumer);
-        ModBlocks.DRYING_RACK_BLOCKS.forEach(dryingRackBlock -> ShapedRecipeBuilder.shaped(dryingRackBlock).pattern("AAA").define('A', dryingRackBlock.woodMaterial).unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(dryingRackBlock.woodMaterial)).save(consumer));
+        DryingRackBlock.ALL_RACKS.forEach(dryingRackBlock -> ShapedRecipeBuilder.shaped(dryingRackBlock).pattern("AAA").define('A', dryingRackBlock.woodMaterial).unlockedBy("has_item", InventoryChangeTrigger.TriggerInstance.hasItems(dryingRackBlock.woodMaterial)).save(consumer));
     }
 }

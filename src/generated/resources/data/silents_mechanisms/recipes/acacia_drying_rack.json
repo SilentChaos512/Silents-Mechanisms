@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "AAA"
-  ],
   "key": {
     "A": {
       "item": "minecraft:acacia_slab"
     }
   },
+  "pattern": [
+    "AAA"
+  ],
   "result": {
     "item": "silents_mechanisms:acacia_drying_rack"
   }

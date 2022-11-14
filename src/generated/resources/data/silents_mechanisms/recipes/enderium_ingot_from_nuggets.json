@@ -2,31 +2,31 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "forge:nuggets/enderium_nugget"
+      "tag": "forge:nuggets/enderium"
     },
     {
-      "tag": "forge:nuggets/enderium_nugget"
+      "tag": "forge:nuggets/enderium"
     },
     {
-      "tag": "forge:nuggets/enderium_nugget"
+      "tag": "forge:nuggets/enderium"
     },
     {
-      "tag": "forge:nuggets/enderium_nugget"
+      "tag": "forge:nuggets/enderium"
     },
     {
-      "tag": "forge:nuggets/enderium_nugget"
+      "tag": "forge:nuggets/enderium"
     },
     {
-      "tag": "forge:nuggets/enderium_nugget"
+      "tag": "forge:nuggets/enderium"
     },
     {
-      "tag": "forge:nuggets/enderium_nugget"
+      "tag": "forge:nuggets/enderium"
     },
     {
-      "tag": "forge:nuggets/enderium_nugget"
+      "tag": "forge:nuggets/enderium"
     },
     {
-      "tag": "forge:nuggets/enderium_nugget"
+      "tag": "forge:nuggets/enderium"
     }
   ],
   "result": {

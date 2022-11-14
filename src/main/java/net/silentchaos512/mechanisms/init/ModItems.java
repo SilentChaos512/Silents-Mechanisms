@@ -13,7 +13,7 @@ import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.registration.DirectRegistry;
 
 //Added this suppresses warnings one so intellij won't give any stupid warnings for unused registries
-@SuppressWarnings({"unused", "deprecation"})
+@SuppressWarnings({"unused"})
 public final class ModItems {
     public static final DirectRegistry<Item> ITEM_DIRECT_REGISTRY = new DirectRegistry<>();
     // ============== ITEM COLLECTIONS
@@ -100,7 +100,7 @@ public final class ModItems {
 
     public static void registerAllItems(RegisterEvent.RegisterHelper<Item> helper) {
         ITEM_DIRECT_REGISTRY.registerAll(helper);
-        ModBlocks.BLOCK_DIRECT_REGISTRY.getMappings().forEach((id, block) -> {
+        ModBlocks.BLOCK_DIRECT_REGISTRY.getMappings().forEach((block, id) -> {
             if (!(block instanceof LiquidBlock))
                 helper.register(id, new BlockItem(block, new Item.Properties().tab(SilentsMechanisms.TAB)));
         });

@@ -19,51 +19,51 @@ import net.silentchaos512.mechanisms.init.ModItems;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ModItemTags {
-    public static final HashBasedTable<Metals.OreMetal, Metals.OreMetalType, TagKey<Item>> ALL_METAL_TAGS;
-    public static final HashMap<Metals.OreMetal, TagKey<Item>> ALL_STORAGE_BLOCKS_TAGS;
     public static final HashBasedTable<Metals.Alloy, Metals.AlloyType, TagKey<Item>> ALL_ALLOY_TAGS;
-    public static final HashMap<Metals.Alloy, TagKey<Item>> ALL_ALLOY_STORAGE_BLOCKS_TAGS;
+    public static final HashBasedTable<Metals.OreMetal, Metals.OreMetalType, TagKey<Item>> ALL_METAL_TAGS;
+    public static final Map<Metals.StorageBlockProvider, TagKey<Item>> ALL_METAL_BLOCK_TAGS;
 
     //STANDALONE TAGS
     public static final TagKey<Item> COAL_GENERATOR_FUELS = ItemTags.create(SilentsMechanisms.location("coal_generator_fuels"));
 
     static {
+        ALL_METAL_BLOCK_TAGS = Metals.StorageBlockProvider.ALL_PROVIDERS.stream().collect(Collectors.toMap(provider -> provider, provider -> ItemTags.create(new ResourceLocation("forge", "storage_blocks/" + provider.toString()))));
+
+
         ALL_METAL_TAGS = HashBasedTable.create();
         for (Metals.OreMetal oreMetal : Metals.OreMetal.values()) {
             for (Metals.OreMetalType metalType : Metals.OreMetalType.values()) {
                 switch (metalType) {
                     case INGOT ->
-                            ALL_METAL_TAGS.put(oreMetal, metalType, ItemTags.create(new ResourceLocation("forge", "ingots/" + oreMetal.name().toLowerCase())));
+                            ALL_METAL_TAGS.put(oreMetal, metalType, forge("ingots", oreMetal.name().toLowerCase()));
                     case DUST ->
-                            ALL_METAL_TAGS.put(oreMetal, metalType, ItemTags.create(new ResourceLocation("forge", "dusts/" + oreMetal.name().toLowerCase())));
+                            ALL_METAL_TAGS.put(oreMetal, metalType, forge("dusts", oreMetal.name().toLowerCase()));
                     case CHUNKS ->
-                            ALL_METAL_TAGS.put(oreMetal, metalType, ItemTags.create(new ResourceLocation("forge", "chunks/" + oreMetal.name().toLowerCase())));
+                            ALL_METAL_TAGS.put(oreMetal, metalType, forge("chunks", oreMetal.name().toLowerCase()));
                     case NUGGET ->
-                            ALL_METAL_TAGS.put(oreMetal, metalType, ItemTags.create(new ResourceLocation("forge", "nuggets/" + oreMetal.name().toLowerCase())));
+                            ALL_METAL_TAGS.put(oreMetal, metalType, forge("nuggets", oreMetal.name().toLowerCase()));
                 }
             }
-        }
-
-        ALL_STORAGE_BLOCKS_TAGS = new HashMap<>();
-        for (Metals.OreMetal metal : Metals.OreMetal.values()) {
-            ALL_STORAGE_BLOCKS_TAGS.put(metal, ItemTags.create(new ResourceLocation("forge", "storage_blocks/" + metal.name().toLowerCase())));
         }
 
         ALL_ALLOY_TAGS = HashBasedTable.create();
-        ALL_ALLOY_STORAGE_BLOCKS_TAGS = new HashMap<>();
         for (Metals.Alloy alloy : Metals.Alloy.values()) {
             for (Metals.AlloyType alloyType : Metals.AlloyType.values()) {
-                switch (alloyType) {
-                    case DUST -> ALL_ALLOY_TAGS.put(alloy, alloyType, ItemTags.create(new ResourceLocation("forge", "dusts/" + alloy.name().toLowerCase() + '_' + alloyType.name().toLowerCase())));
-                    case INGOT -> ALL_ALLOY_TAGS.put(alloy, alloyType, ItemTags.create(new ResourceLocation("forge", "ingots/" + alloy.name().toLowerCase() + '_' + alloyType.name().toLowerCase())));
-                    case NUGGET -> ALL_ALLOY_TAGS.put(alloy, alloyType, ItemTags.create(new ResourceLocation("forge", "nuggets/" + alloy.name().toLowerCase() + '_' + alloyType.name().toLowerCase())));
-                }
+                ALL_ALLOY_TAGS.put(alloy, alloyType, forge(alloyType.toString().concat("s"), alloy.toString()));
             }
-            ALL_ALLOY_STORAGE_BLOCKS_TAGS.put(alloy, ItemTags.create(new ResourceLocation("forge", "storage_blocks/" + alloy.name().toLowerCase())));
         }
+    }
 
+    private static TagKey<Item> create(String name) {
+        return ItemTags.create(SilentsMechanisms.location(name));
+    }
+
+    private static TagKey<Item> forge(String prefix, String suffix) {
+        return ItemTags.create(new ResourceLocation("forge", prefix + "/" + suffix));
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -82,15 +82,11 @@ public class ModItemTags {
                 }
                 super.tag(cell.getValue()).add(ModItems.ALL_ORE_METALS.get(cell.getRowKey(), cell.getColumnKey()));
             }
-            ALL_STORAGE_BLOCKS_TAGS.forEach((oreMetal, itemTagKey) -> {
-                super.tag(Tags.Items.STORAGE_BLOCKS).addTag(itemTagKey);
-                super.tag(itemTagKey).add(ModBlocks.ALL_STORAGE_BLOCKS.get(oreMetal).asItem());
-            });
 
-            ALL_ALLOY_STORAGE_BLOCKS_TAGS.forEach((alloy, tag) -> {
+            ALL_METAL_BLOCK_TAGS.forEach(((provider, tag) -> {
                 super.tag(Tags.Items.STORAGE_BLOCKS).addTag(tag);
-                super.tag(tag).add(ModBlocks.ALL_ALLOY_STORAGE_BLOCKS.get(alloy).asItem());
-            });
+                super.tag(tag).add(provider.getStorageBlock().asItem());
+            }));
 
             for (Table.Cell<Metals.Alloy, Metals.AlloyType, TagKey<Item>> cell : ALL_ALLOY_TAGS.cellSet()) {
                 switch(cell.getColumnKey()) {

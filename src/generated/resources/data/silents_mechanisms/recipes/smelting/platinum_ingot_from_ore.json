@@ -1,9 +1,9 @@
 {
   "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.2,
   "ingredient": {
     "item": "silents_mechanisms:platinum_ore"
   },
-  "result": "silents_mechanisms:platinum_ingot",
-  "experience": 0.2,
-  "cookingtime": 200
+  "result": "silents_mechanisms:platinum_ingot"
 }

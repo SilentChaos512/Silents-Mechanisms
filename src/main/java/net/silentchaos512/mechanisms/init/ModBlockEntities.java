@@ -14,14 +14,10 @@ public final class ModBlockEntities {
 
     static {
         DRYING_RACKS = DIRECT_BE_TPYES.register("drying_racks",
-                BlockEntityType.Builder.of(DryingRackBlockEntity::new, ModBlocks.DRYING_RACK_BLOCKS.toArray(new DryingRackBlock[0]))
+                BlockEntityType.Builder.of(DryingRackBlockEntity::new, DryingRackBlock.ALL_RACKS.toArray(new DryingRackBlock[0]))
                         .build(null));
         COAL_GENERATOR = DIRECT_BE_TPYES.register("coal_generators",
                 BlockEntityType.Builder.of(CoalGeneratorBlockEntity::new, ModBlocks.COAL_GENERATOR)
                         .build(null));
-    }
-
-    public static void staticInitializing() {
-
     }
 }

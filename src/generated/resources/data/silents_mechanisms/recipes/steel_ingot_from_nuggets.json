@@ -2,31 +2,31 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "forge:nuggets/steel_nugget"
+      "tag": "forge:nuggets/steel"
     },
     {
-      "tag": "forge:nuggets/steel_nugget"
+      "tag": "forge:nuggets/steel"
     },
     {
-      "tag": "forge:nuggets/steel_nugget"
+      "tag": "forge:nuggets/steel"
     },
     {
-      "tag": "forge:nuggets/steel_nugget"
+      "tag": "forge:nuggets/steel"
     },
     {
-      "tag": "forge:nuggets/steel_nugget"
+      "tag": "forge:nuggets/steel"
     },
     {
-      "tag": "forge:nuggets/steel_nugget"
+      "tag": "forge:nuggets/steel"
     },
     {
-      "tag": "forge:nuggets/steel_nugget"
+      "tag": "forge:nuggets/steel"
     },
     {
-      "tag": "forge:nuggets/steel_nugget"
+      "tag": "forge:nuggets/steel"
     },
     {
-      "tag": "forge:nuggets/steel_nugget"
+      "tag": "forge:nuggets/steel"
     }
   ],
   "result": {

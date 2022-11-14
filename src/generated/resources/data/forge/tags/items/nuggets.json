@@ -1,5 +1,4 @@
 {
-  "replace": false,
   "values": [
     "#forge:nuggets/tin",
     "#forge:nuggets/silver",
@@ -10,16 +9,16 @@
     "#forge:nuggets/bismuth",
     "#forge:nuggets/aluminum",
     "#forge:nuggets/uranium",
-    "#forge:nuggets/redstone_alloy_nugget",
-    "#forge:nuggets/bronze_nugget",
-    "#forge:nuggets/brass_nugget",
-    "#forge:nuggets/invar_nugget",
-    "#forge:nuggets/electrum_nugget",
-    "#forge:nuggets/steel_nugget",
-    "#forge:nuggets/bismuth_brass_nugget",
-    "#forge:nuggets/aluminum_steel_nugget",
-    "#forge:nuggets/signalum_nugget",
-    "#forge:nuggets/lumium_nugget",
-    "#forge:nuggets/enderium_nugget"
+    "#forge:nuggets/redstone_alloy",
+    "#forge:nuggets/bronze",
+    "#forge:nuggets/brass",
+    "#forge:nuggets/invar",
+    "#forge:nuggets/electrum",
+    "#forge:nuggets/steel",
+    "#forge:nuggets/bismuth_brass",
+    "#forge:nuggets/aluminum_steel",
+    "#forge:nuggets/signalum",
+    "#forge:nuggets/lumium",
+    "#forge:nuggets/enderium"
   ]
 }

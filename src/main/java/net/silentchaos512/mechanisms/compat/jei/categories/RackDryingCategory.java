@@ -14,6 +14,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.RecipeManager;
 import net.silentchaos512.lib.util.TextRenderUtils;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
+import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlock;
 import net.silentchaos512.mechanisms.compat.jei.BackgroundHelper;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.recipes.RackDryingRecipe;
@@ -27,7 +28,7 @@ public class RackDryingCategory extends BasicRecipeCategory<RackDryingRecipe> {
         super(helper,
                 new RecipeType<>(RECIPE_TYPE_UID, RackDryingRecipe.class),
                 Component.translatable("jei.silents_mechanisms.category.drying"),
-                ModBlocks.DRYING_RACK_BLOCKS,
+                DryingRackBlock.ALL_RACKS,
                 new BackgroundHelper(BackgroundHelper.makeGui("drying_category"), 114, 38));
 
         var arrowStatic = helper.createDrawable(guiLocation, 114, 0, 50, 16);

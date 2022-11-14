@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "AAA"
-  ],
   "key": {
     "A": {
       "item": "minecraft:dark_oak_slab"
     }
   },
+  "pattern": [
+    "AAA"
+  ],
   "result": {
     "item": "silents_mechanisms:dark_oak_drying_rack"
   }

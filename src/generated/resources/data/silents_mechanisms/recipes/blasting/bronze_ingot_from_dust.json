@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "forge:dusts/bronze_dust"
-  },
-  "result": "silents_mechanisms:bronze_ingot",
+  "cookingtime": 100,
   "experience": 0.2,
-  "cookingtime": 100
+  "ingredient": {
+    "tag": "forge:dusts/bronze"
+  },
+  "result": "silents_mechanisms:bronze_ingot"
 }

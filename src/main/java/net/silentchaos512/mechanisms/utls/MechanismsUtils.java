@@ -1,9 +1,9 @@
 package net.silentchaos512.mechanisms.utls;
 
-import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.crafting.Recipe;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.registries.IForgeRegistry;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.init.ModRecipes;
 
@@ -18,7 +18,7 @@ public class MechanismsUtils {
         return recipeType;
     }
 
-    public static <T> ResourceLocation getRegistryName(Registry<T> registry, T object) {
+    public static <T> ResourceLocation getRegistryName(IForgeRegistry<T> registry, T object) {
         return registry.getKey(object);
     }
 }

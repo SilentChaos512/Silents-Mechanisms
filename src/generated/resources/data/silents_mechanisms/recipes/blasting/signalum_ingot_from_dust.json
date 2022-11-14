@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "forge:dusts/signalum_dust"
-  },
-  "result": "silents_mechanisms:signalum_ingot",
+  "cookingtime": 100,
   "experience": 0.2,
-  "cookingtime": 100
+  "ingredient": {
+    "tag": "forge:dusts/signalum"
+  },
+  "result": "silents_mechanisms:signalum_ingot"
 }

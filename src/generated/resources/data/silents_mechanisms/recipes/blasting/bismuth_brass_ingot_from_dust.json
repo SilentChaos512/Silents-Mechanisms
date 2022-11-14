@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
-  "ingredient": {
-    "tag": "forge:dusts/bismuth_brass_dust"
-  },
-  "result": "silents_mechanisms:bismuth_brass_ingot",
+  "cookingtime": 100,
   "experience": 0.2,
-  "cookingtime": 100
+  "ingredient": {
+    "tag": "forge:dusts/bismuth_brass"
+  },
+  "result": "silents_mechanisms:bismuth_brass_ingot"
 }
