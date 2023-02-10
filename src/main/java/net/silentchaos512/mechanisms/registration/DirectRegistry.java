@@ -7,12 +7,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public final class DirectRegistry<T> {
     public static final Logger LOGGER = LogManager.getLogger("SM Registry Debug");
-    private final Map<T, ResourceLocation> entries = new HashMap<>();
+    private final Map<T, ResourceLocation> entries = new LinkedHashMap<>();
     private final boolean debug;
 
     public DirectRegistry() {
