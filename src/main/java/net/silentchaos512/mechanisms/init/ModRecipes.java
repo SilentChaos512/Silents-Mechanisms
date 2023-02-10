@@ -1,51 +1,31 @@
 package net.silentchaos512.mechanisms.init;
 
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.IRecipeType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
-import net.minecraftforge.fml.RegistryObject;
-import net.silentchaos512.mechanisms.crafting.recipe.*;
-import net.silentchaos512.mechanisms.util.Constants;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraftforge.registries.RegisterEvent;
+import net.silentchaos512.mechanisms.SilentsMechanisms;
+import net.silentchaos512.mechanisms.recipes.RackDryingRecipe;
 
-import java.util.function.Supplier;
+import java.util.HashMap;
+import java.util.HashSet;
 
+@Mod.EventBusSubscriber(modid = SilentsMechanisms.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class ModRecipes {
-    public static final class Types {
-        public static final IRecipeType<AlloySmeltingRecipe> ALLOY_SMELTING = registerType(Constants.ALLOY_SMELTING);
-        public static final IRecipeType<CompressingRecipe> COMPRESSING = registerType(Constants.COMPRESSING);
-        public static final IRecipeType<CrushingRecipe> CRUSHING = registerType(Constants.CRUSHING);
-        public static final IRecipeType<DryingRecipe> DRYING = registerType(Constants.DRYING);
-        public static final IRecipeType<InfusingRecipe> INFUSING = registerType(Constants.INFUSING);
-        public static final IRecipeType<MixingRecipe> MIXING = registerType(Constants.MIXING);
-        public static final IRecipeType<RefiningRecipe> REFINING = registerType(Constants.REFINING);
-        public static final IRecipeType<SolidifyingRecipe> SOLIDIFYING = registerType(Constants.SOLIDIFYING);
+
+    public static final HashSet<RecipeType<?>> ALL_RECIPE_TYPES = new HashSet<>();
+    public static final HashMap<ResourceLocation, RecipeSerializer<?>> ALL_SERIALIZERS = new HashMap<>();
+    public static final RecipeSerializer<RackDryingRecipe> RACK_DRYING = new RackDryingRecipe.Serializer();
+
+    private ModRecipes() {
     }
 
-    public static final RegistryObject<IRecipeSerializer<?>> ALLOY_SMELTING = registerSerializer(Constants.ALLOY_SMELTING, AlloySmeltingRecipe.Serializer::new);
-    public static final RegistryObject<IRecipeSerializer<?>> COMPRESSING = registerSerializer(Constants.COMPRESSING, CompressingRecipe.Serializer::new);
-    public static final RegistryObject<IRecipeSerializer<?>> CRUSHING = registerSerializer(Constants.CRUSHING, CrushingRecipe.Serializer::new);
-    public static final RegistryObject<IRecipeSerializer<?>> DRYING = registerSerializer(Constants.DRYING, DryingRecipe.Serializer::new);
-    public static final RegistryObject<IRecipeSerializer<?>> INFUSING = registerSerializer(Constants.INFUSING, InfusingRecipe.Serializer::new);
-    public static final RegistryObject<IRecipeSerializer<?>> MIXING = registerSerializer(Constants.MIXING, MixingRecipe.Serializer::new);
-    public static final RegistryObject<IRecipeSerializer<?>> REFINING = registerSerializer(Constants.REFINING, RefiningRecipe.Serializer::new);
-    public static final RegistryObject<IRecipeSerializer<?>> SOLIDIFYING = registerSerializer(Constants.SOLIDIFYING, SolidifyingRecipe.Serializer::new);
-
-    private ModRecipes() {}
-
-    static void register() {}
-
-    private static RegistryObject<IRecipeSerializer<?>> registerSerializer(ResourceLocation name, Supplier<IRecipeSerializer<?>> serializer) {
-        return Registration.RECIPE_SERIALIZERS.register(name.getPath(), serializer);
-    }
-
-    private static <T extends IRecipe<?>> IRecipeType<T> registerType(ResourceLocation name) {
-        return Registry.register(Registry.RECIPE_TYPE, name, new IRecipeType<T>() {
-            @Override
-            public String toString() {
-                return name.toString();
-            }
-        });
+    @SubscribeEvent
+    public static void onRecipeSerializerRegistration(RegisterEvent event) {
+        event.register(ForgeRegistries.Keys.RECIPE_SERIALIZERS, helper -> ALL_SERIALIZERS.forEach(helper::register));
+        event.register(ForgeRegistries.Keys.RECIPE_TYPES, helper -> ALL_RECIPE_TYPES.forEach(recipeType -> helper.register(new ResourceLocation(recipeType.toString()), recipeType)));
     }
 }

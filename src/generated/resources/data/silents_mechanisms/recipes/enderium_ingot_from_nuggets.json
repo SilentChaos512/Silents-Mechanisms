@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/enderium"
+    },
+    {
+      "tag": "forge:nuggets/enderium"
+    },
+    {
+      "tag": "forge:nuggets/enderium"
+    },
+    {
+      "tag": "forge:nuggets/enderium"
+    },
+    {
+      "tag": "forge:nuggets/enderium"
+    },
+    {
+      "tag": "forge:nuggets/enderium"
+    },
+    {
+      "tag": "forge:nuggets/enderium"
+    },
+    {
+      "tag": "forge:nuggets/enderium"
+    },
+    {
+      "tag": "forge:nuggets/enderium"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:enderium_ingot"
+  }
+}

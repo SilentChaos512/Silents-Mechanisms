@@ -1,9 +1,7 @@
 {
-  "replace": false,
   "values": [
-    "#minecraft:coals",
-    "#forge:nuggets/coal",
-    "#forge:storage_blocks/charcoal",
-    "#forge:storage_blocks/coal"
+    "minecraft:coal",
+    "minecraft:charcoal",
+    "minecraft:coal_block"
   ]
 }

@@ -1,13 +1,13 @@
 {
   "type": "minecraft:crafting_shaped",
-  "pattern": [
-    "###"
-  ],
   "key": {
-    "#": {
+    "A": {
       "item": "minecraft:jungle_slab"
     }
   },
+  "pattern": [
+    "AAA"
+  ],
   "result": {
     "item": "silents_mechanisms:jungle_drying_rack"
   }

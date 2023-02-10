@@ -1,6 +1,0 @@
-{
-  "parent": "silents_mechanisms:block/machine_frame",
-  "textures": {
-    "all": "silents_mechanisms:block/machine_frame/alloy"
-  }
-}

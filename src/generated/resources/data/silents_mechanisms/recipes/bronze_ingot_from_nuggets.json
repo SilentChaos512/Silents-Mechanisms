@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/bronze"
+    },
+    {
+      "tag": "forge:nuggets/bronze"
+    },
+    {
+      "tag": "forge:nuggets/bronze"
+    },
+    {
+      "tag": "forge:nuggets/bronze"
+    },
+    {
+      "tag": "forge:nuggets/bronze"
+    },
+    {
+      "tag": "forge:nuggets/bronze"
+    },
+    {
+      "tag": "forge:nuggets/bronze"
+    },
+    {
+      "tag": "forge:nuggets/bronze"
+    },
+    {
+      "tag": "forge:nuggets/bronze"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:bronze_ingot"
+  }
+}

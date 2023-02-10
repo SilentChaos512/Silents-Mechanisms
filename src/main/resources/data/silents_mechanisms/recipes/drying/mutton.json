@@ -1,0 +1,8 @@
+{
+  "type": "silents_mechanisms:rack_drying",
+  "ingredient": {
+    "item": "minecraft:mutton"
+  },
+  "result": "silents_mechanisms:mutton_jerky",
+  "duration": 400
+}

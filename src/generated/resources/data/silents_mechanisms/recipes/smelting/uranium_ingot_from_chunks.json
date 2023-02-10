@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.2,
+  "ingredient": {
+    "tag": "forge:chunks/uranium"
+  },
+  "result": "silents_mechanisms:uranium_ingot"
+}

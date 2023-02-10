@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "tag": "forge:nuggets/uranium"
+    },
+    {
+      "tag": "forge:nuggets/uranium"
+    },
+    {
+      "tag": "forge:nuggets/uranium"
+    },
+    {
+      "tag": "forge:nuggets/uranium"
+    },
+    {
+      "tag": "forge:nuggets/uranium"
+    },
+    {
+      "tag": "forge:nuggets/uranium"
+    },
+    {
+      "tag": "forge:nuggets/uranium"
+    },
+    {
+      "tag": "forge:nuggets/uranium"
+    },
+    {
+      "tag": "forge:nuggets/uranium"
+    }
+  ],
+  "result": {
+    "item": "silents_mechanisms:uranium_ingot"
+  }
+}

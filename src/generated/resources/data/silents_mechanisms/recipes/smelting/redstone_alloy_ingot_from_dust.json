@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.2,
+  "ingredient": {
+    "tag": "forge:dusts/redstone_alloy"
+  },
+  "result": "silents_mechanisms:redstone_alloy_ingot"
+}

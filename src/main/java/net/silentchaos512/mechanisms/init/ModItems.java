@@ -1,68 +1,111 @@
 package net.silentchaos512.mechanisms.init;
 
-import net.minecraft.fluid.FlowingFluid;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.item.BucketItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.silentchaos512.lib.registry.ItemRegistryObject;
-import net.silentchaos512.mechanisms.SilentMechanisms;
-import net.silentchaos512.mechanisms.item.*;
-import net.silentchaos512.mechanisms.util.color.ColorGetter;
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.food.Foods;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.BucketItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraftforge.registries.RegisterEvent;
+import net.silentchaos512.mechanisms.SilentsMechanisms;
+import net.silentchaos512.mechanisms.registration.DirectRegistry;
 
-import java.util.function.Supplier;
-
+//Added this suppresses warnings one so intellij won't give any stupid warnings for unused registries
+@SuppressWarnings({"unused"})
 public final class ModItems {
+    public static final DirectRegistry<Item> ITEM_DIRECT_REGISTRY = new DirectRegistry<>();
+    // ============== ITEM COLLECTIONS
+    public static final Table<Metals.Alloy, Metals.AlloyType, Item> ALL_ALLOYS;
+    public static final Table<Metals.OreMetal, Metals.OreMetalType, Item> ALL_ORE_METALS;
+
+    //=============== STANDALONE ITEMS
+    public static final Item.Properties GENERAL_PROPERTIES = new Item.Properties().tab(SilentsMechanisms.TAB);
+
+    public static final Item COMPRESSED_IRON_INGOT = register("compressed_iron_ingot");
+    public static final Item IRON_CHUNK = register("iron_chunks");
+    public static final Item IRON_DUST = register("iron_dust");
+    public static final Item GOLD_CHUNK = register("gold_chunks");
+    public static final Item GOLD_DUST = register("gold_dust");
+    public static final Item COAL_DUST = register("coal_dust");
+
+    //FOODS & DRYING RACK RESULTS
+    public static final Item ZOMBIE_LEATHER = register("zombie_leather");
+    public static final Item BEEF_JERKY = registerFood("beef_jerky", Foods.COOKED_BEEF);
+    public static final Item PORK_JERKY = registerFood("pork_jerky", Foods.COOKED_PORKCHOP);
+    public static final Item CHICKEN_JERKY = registerFood("chicken_jerky", Foods.COOKED_CHICKEN);
+    public static final Item MUTTON_JERKY = registerFood("mutton_jerky", Foods.COOKED_MUTTON);
+    public static final Item RABBIT_JERKY = registerFood("rabbit_jerky", Foods.COOKED_RABBIT);
+    public static final Item COD_JERKY = registerFood("cod_jerky", Foods.COOKED_COD);
+    public static final Item SALMON_JERKY = registerFood("salmon_jerky", Foods.COOKED_SALMON);
+
+    //ALL ITEMS BELLOWS ARE REGISTERED BUT IS UNUSED ATM, I  WILL ADD ITS FUNCTIONALITIES SOON
+
+    //CRAFTING_COMPONENT
+    public static final Item PLASTIC_SHEET = register("plastic_sheet");
+    public static final Item PLASTIC_PELLETS = register("plastic_pellets");
+    public static final Item HEATING_ELEMENT = register("heating_element");
+    public static final Item CIRCUIT_BOARD = register("circuit_board");
+
+    //UPGRADES
+    public static final Item UPGRADE_BASE = register("upgrade_case");
+    public static final Item ENERGY_CAPACITY_UPGRADE = register("energy_capacity_upgrade");
+    public static final Item ENERGY_EFFICIENCY_UPGRADE = register("energy_efficiency_upgrade");
+    public static final Item OUTPUT_CHANCE_UPGRADE = register("output_chance_upgrade");
+    public static final Item PROCESSING_SPEED_UPGRADE = register("processing_speed_upgrade");
+    public static final Item RANGE_UPGRADE = register("range_upgrade");
+
+    //UTILS
+    public static final Item WRENCH = register("wrench");
+    public static final Item ALTERNATOR = register("alternator");
+
+    //BUCKET ITEMS
+    public static final Item OIL_BUCKET = register("oil_bucket", new BucketItem(() -> ModFluids.OIL, getProperties().stacksTo(1)));
+    public static final Item BUCKET_DIESEL = register("diesel_bucket", new BucketItem(() -> ModFluids.DIESEL, getProperties().stacksTo(1)));
+    public static final Item BUCKET_ETHANE = register("ethane_bucket", new Item(getProperties().stacksTo(1)));
+    public static final Item BUCKET_POLYETHYLENE = register("polyethylene_bucket", new Item(getProperties().stacksTo(1)));
+
     static {
-        Metals.registerItems();
-        CraftingItems.register();
-        MachineUpgrades.register();
-    }
-
-    public static final ItemRegistryObject<WrenchItem> WRENCH = register("wrench", WrenchItem::new);
-    public static final ItemRegistryObject<DebugItem> DEBUG_ITEM = register("debug_item", DebugItem::new);
-    public static final ItemRegistryObject<BatteryItem> BATTERY = register("battery", BatteryItem::new);
-    public static final ItemRegistryObject<HandPumpItem> HAND_PUMP = register("hand_pump", HandPumpItem::new);
-    public static final ItemRegistryObject<CanisterItem> CANISTER = register("canister", () ->
-            new CanisterItem(new Item.Properties().tab(SilentMechanisms.ITEM_GROUP)));
-    public static final ItemRegistryObject<EmptyCanisterItem> EMPTY_CANISTER = register("empty_canister", () ->
-            new EmptyCanisterItem(new Item.Properties().tab(SilentMechanisms.ITEM_GROUP)));
-
-    public static final ItemRegistryObject<BucketItem> OIL_BUCKET = register("oil_bucket", () ->
-            createBucketItem(() -> ModFluids.OIL));
-    public static final ItemRegistryObject<BucketItem> DIESEL_BUCKET = register("diesel_bucket", () ->
-            createBucketItem(() -> ModFluids.DIESEL));
-    public static final ItemRegistryObject<NoPlaceBucketItem> ETHANE_BUCKET = register("ethane_bucket", () ->
-            createNoPlaceBucketItem(() -> ModFluids.ETHANE));
-    public static final ItemRegistryObject<NoPlaceBucketItem> POLYETHYLENE_BUCKET = register("polyethylene_bucket", () ->
-            createNoPlaceBucketItem(() -> ModFluids.POLYETHYLENE));
-
-    private ModItems() {}
-
-    static void register() {}
-
-    @OnlyIn(Dist.CLIENT)
-    public static void registerItemColors(ColorHandlerEvent.Item event) {
-        event.getItemColors().register((stack, tintIndex) -> {
-            if (tintIndex == 1) {
-                return ColorGetter.getColor(CANISTER.get().getFluid(stack).getFluid());
+        ALL_ALLOYS = HashBasedTable.create();
+        for (Metals.Alloy alloy : Metals.Alloy.values()) {
+            for (Metals.AlloyType alloyType : Metals.AlloyType.values()) {
+                ALL_ALLOYS.put(alloy, alloyType, register(alloy.toString().toLowerCase() + '_' + alloyType.toString().toLowerCase()));
             }
-            return 0xFFFFFF;
-        }, CANISTER);
+        }
+
+        ALL_ORE_METALS = HashBasedTable.create();
+        for (Metals.OreMetal oreMetal : Metals.OreMetal.values()) {
+            for (Metals.OreMetalType oreMetalType : Metals.OreMetalType.values()) {
+                ALL_ORE_METALS.put(oreMetal, oreMetalType, register(oreMetal.name().toLowerCase() + '_' + oreMetalType.name().toLowerCase()));
+            }
+        }
     }
 
-    private static BucketItem createBucketItem(Supplier<FlowingFluid> fluid) {
-        return new BucketItem(fluid, new Item.Properties().tab(SilentMechanisms.ITEM_GROUP).stacksTo(1).craftRemainder(Items.BUCKET));
+    private static Item.Properties getProperties() {
+        return new Item.Properties().tab(SilentsMechanisms.TAB);
     }
 
-    private static NoPlaceBucketItem createNoPlaceBucketItem(Supplier<Fluid> fluid) {
-        return new NoPlaceBucketItem(fluid, new Item.Properties().tab(SilentMechanisms.ITEM_GROUP).stacksTo(1).craftRemainder(Items.BUCKET));
+    private static Item register(String name) {
+        return register(name, new Item(new Item.Properties().tab(SilentsMechanisms.TAB)));
     }
 
-    private static <T extends Item> ItemRegistryObject<T> register(String name, Supplier<T> item) {
-        return new ItemRegistryObject<>(Registration.ITEMS.register(name, item));
+    private static Item registerFood(String name, FoodProperties foodProperties) {
+        return register(name, new Item(new Item.Properties().tab(SilentsMechanisms.TAB).food(foodProperties)));
+    }
+
+    private static <ITEM extends Item> Item register(String name, ITEM item) {
+        return ITEM_DIRECT_REGISTRY.register(name, item);
+    }
+
+    public static void registerAllItems(RegisterEvent.RegisterHelper<Item> helper) {
+        ITEM_DIRECT_REGISTRY.registerAll(helper);
+        ModBlocks.BLOCK_DIRECT_REGISTRY.getMappings().forEach((block, id) -> {
+            if (!(block instanceof LiquidBlock))
+                helper.register(id, new BlockItem(block, new Item.Properties().tab(SilentsMechanisms.TAB)));
+        });
+    }
+
+    public static void staticInitializing() {
     }
 }

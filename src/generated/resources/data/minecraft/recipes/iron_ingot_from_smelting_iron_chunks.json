@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.2,
+  "ingredient": {
+    "item": "silents_mechanisms:iron_chunks"
+  },
+  "result": "minecraft:iron_ingot"
+}

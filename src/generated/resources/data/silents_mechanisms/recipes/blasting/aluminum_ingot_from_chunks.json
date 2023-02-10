@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "cookingtime": 100,
+  "experience": 0.2,
+  "ingredient": {
+    "tag": "forge:chunks/aluminum"
+  },
+  "result": "silents_mechanisms:aluminum_ingot"
+}

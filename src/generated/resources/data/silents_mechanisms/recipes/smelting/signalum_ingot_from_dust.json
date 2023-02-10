@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "cookingtime": 200,
+  "experience": 0.2,
+  "ingredient": {
+    "tag": "forge:dusts/signalum"
+  },
+  "result": "silents_mechanisms:signalum_ingot"
+}

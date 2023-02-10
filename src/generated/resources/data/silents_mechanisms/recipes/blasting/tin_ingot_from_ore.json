@@ -1,9 +1,9 @@
 {
   "type": "minecraft:blasting",
+  "cookingtime": 100,
+  "experience": 0.2,
   "ingredient": {
-    "tag": "forge:ores/tin"
+    "item": "silents_mechanisms:tin_ore"
   },
-  "result": "silents_mechanisms:tin_ingot",
-  "experience": 1.0,
-  "cookingtime": 100
+  "result": "silents_mechanisms:tin_ingot"
 }
