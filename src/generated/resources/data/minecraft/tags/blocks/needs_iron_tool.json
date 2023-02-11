@@ -20,6 +20,11 @@
     "silents_mechanisms:lead_ore",
     "silents_mechanisms:nickel_ore",
     "silents_mechanisms:platinum_ore",
-    "silents_mechanisms:uranium_ore"
+    "silents_mechanisms:uranium_ore",
+    "silents_mechanisms:deepslate_silver_ore",
+    "silents_mechanisms:deepslate_lead_ore",
+    "silents_mechanisms:deepslate_nickel_ore",
+    "silents_mechanisms:deepslate_platinum_ore",
+    "silents_mechanisms:deepslate_uranium_ore"
   ]
 }

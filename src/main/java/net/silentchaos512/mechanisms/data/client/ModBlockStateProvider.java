@@ -15,6 +15,7 @@ public class ModBlockStateProvider extends BlockStateProvider {
     protected void registerStatesAndModels() {
         for (Metals.Ore metal : Metals.Ore.values()) {
             simpleBlock(metal.getOreBlock());
+            simpleBlock(metal.getDeepslateOreBlock());
         }
 
         for (Metals.OreMetal metal : Metals.OreMetal.values()) {

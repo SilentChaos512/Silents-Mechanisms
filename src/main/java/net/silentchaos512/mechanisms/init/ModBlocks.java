@@ -7,6 +7,7 @@ import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MaterialColor;
 import net.silentchaos512.mechanisms.common.blocks.HarvestableBlock;
 import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlock;
 import net.silentchaos512.mechanisms.common.blocks.generators.coalgenerator.CoalGeneratorBlock;
@@ -24,6 +25,7 @@ public final class ModBlocks {
            Mainly used for data gen
     */
     public static final Map<Metals.Ore, Block> ALL_ORE_BLOCKS = new LinkedHashMap<>();
+    public static final Map<Metals.Ore, Block> ALL_DEEPSLATE_ORE_BLOCKS = new LinkedHashMap<>();
     public static final Map<Metals.StorageBlockProvider, Block> METAL_STORAGE_BLOCKS = new LinkedHashMap<>();
 
     /*
@@ -71,6 +73,16 @@ public final class ModBlocks {
     public static final Block BAUXITE_ORE = registerOre(Metals.Ore.BAUXITE);
     public static final Block URANIUM_ORE = registerOre(Metals.Ore.URANIUM);
 
+    public static final Block DEEPSLATE_TIN_ORE = registerDeepslateOre(Metals.Ore.TIN);
+    public static final Block DEEPSLATE_SILVER_ORE = registerDeepslateOre(Metals.Ore.SILVER);
+    public static final Block DEEPSLATE_LEAD_ORE = registerDeepslateOre(Metals.Ore.LEAD);
+    public static final Block DEEPSLATE_NICKEL_ORE = registerDeepslateOre(Metals.Ore.NICKEL);
+    public static final Block DEEPSLATE_ZINC_ORE = registerDeepslateOre(Metals.Ore.ZINC);
+    public static final Block DEEPSLATE_PLATINUM_ORE = registerDeepslateOre(Metals.Ore.PLATINUM);
+    public static final Block DEEPSLATE_BISMUTH_ORE = registerDeepslateOre(Metals.Ore.BISMUTH);
+    public static final Block DEEPSLATE_BAUXITE_ORE = registerDeepslateOre(Metals.Ore.BAUXITE);
+    public static final Block DEEPSLATE_URANIUM_ORE = registerDeepslateOre(Metals.Ore.URANIUM);
+
     /*
         -------------------- FLUID BLOCKS --------------------
      */
@@ -83,9 +95,23 @@ public final class ModBlocks {
         =========================== HELPER METHODS & INSTANCES INITIALIZATION ===================================
      */
 
-    private static Block registerOre(Metals.Ore oreType) {
-        Block oreBlock = register(oreType.toString() + "_ore", new HarvestableBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE), oreType.getHarvestLevelTag()));
-        ALL_ORE_BLOCKS.put(oreType, oreBlock);
+    private static Block registerOre(Metals.Ore metal) {
+        Block oreBlock = register(metal.toString() + "_ore", new HarvestableBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE), metal.getHarvestLevelTag()));
+        ALL_ORE_BLOCKS.put(metal, oreBlock);
+        return oreBlock;
+    }
+
+    private static Block registerDeepslateOre(Metals.Ore metal) {
+        Block oreBlock = register("deepslate_" + metal.toString() + "_ore",
+                new HarvestableBlock(
+                        BlockBehaviour.Properties.copy(Blocks.IRON_ORE)
+                                .color(MaterialColor.DEEPSLATE)
+                                .strength(4.5f, 3.0f)
+                                .sound(SoundType.DEEPSLATE),
+                        metal.getHarvestLevelTag()
+                )
+        );
+        ALL_DEEPSLATE_ORE_BLOCKS.put(metal, oreBlock);
         return oreBlock;
     }
 

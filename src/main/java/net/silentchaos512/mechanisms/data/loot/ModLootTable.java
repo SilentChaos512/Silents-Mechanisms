@@ -53,6 +53,7 @@ public class ModLootTable extends LootTableProvider {
         @Override
         protected void addTables() {
             ModBlocks.ALL_ORE_BLOCKS.forEach(((ore, block) -> super.add(block, createOreDrop(block, ore.getRawOreItem()))));
+            ModBlocks.ALL_DEEPSLATE_ORE_BLOCKS.forEach((ore, block) -> super.add(block, createOreDrop(block, ore.getRawOreItem())));
             ModBlocks.METAL_STORAGE_BLOCKS.values().forEach(this::dropSelf);
             DryingRackBlock.ALL_RACKS.forEach(this::dropSelf);
             dropSelf(ModBlocks.STONE_MACHINE_FRAME);

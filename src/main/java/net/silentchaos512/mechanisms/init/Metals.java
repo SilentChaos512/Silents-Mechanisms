@@ -170,6 +170,10 @@ public final class Metals {
             return ModBlocks.ALL_ORE_BLOCKS.get(this);
         }
 
+        public Block getDeepslateOreBlock() {
+            return ModBlocks.ALL_DEEPSLATE_ORE_BLOCKS.get(this);
+        }
+
         public Item getRawOreItem() {
             return ModItems.ALL_ORE_METALS.get(respectiveMetal, OreMetalType.RAW);
         }
