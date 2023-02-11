@@ -14,11 +14,9 @@ import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.init.Metals;
-import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -33,7 +31,6 @@ public class ModItemTags {
     static {
         ALL_METAL_BLOCK_TAGS = Metals.StorageBlockProvider.ALL_PROVIDERS.stream().collect(Collectors.toMap(provider -> provider, provider -> ItemTags.create(new ResourceLocation("forge", "storage_blocks/" + provider.toString()))));
 
-
         ALL_METAL_TAGS = HashBasedTable.create();
         for (Metals.OreMetal oreMetal : Metals.OreMetal.values()) {
             for (Metals.OreMetalType metalType : Metals.OreMetalType.values()) {
@@ -42,8 +39,8 @@ public class ModItemTags {
                             ALL_METAL_TAGS.put(oreMetal, metalType, forge("ingots", oreMetal.name().toLowerCase()));
                     case DUST ->
                             ALL_METAL_TAGS.put(oreMetal, metalType, forge("dusts", oreMetal.name().toLowerCase()));
-                    case CHUNKS ->
-                            ALL_METAL_TAGS.put(oreMetal, metalType, forge("chunks", oreMetal.name().toLowerCase()));
+                    case RAW ->
+                            ALL_METAL_TAGS.put(oreMetal, metalType, forge("raw_materials", oreMetal.name().toLowerCase()));
                     case NUGGET ->
                             ALL_METAL_TAGS.put(oreMetal, metalType, forge("nuggets", oreMetal.name().toLowerCase()));
                 }

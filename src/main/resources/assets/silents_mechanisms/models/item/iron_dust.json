@@ -1,6 +1,0 @@
-{
-  "parent": "item/generated",
-  "textures": {
-    "layer0": "silents_mechanisms:item/iron_dust"
-  }
-}

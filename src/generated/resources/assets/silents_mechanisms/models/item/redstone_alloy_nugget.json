@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "silents_mechanisms:item/redstone_alloy_nugget"
+  }
+}

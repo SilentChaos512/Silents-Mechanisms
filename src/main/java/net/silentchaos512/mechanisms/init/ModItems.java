@@ -17,18 +17,17 @@ import net.silentchaos512.mechanisms.registration.DirectRegistry;
 public final class ModItems {
     public static final DirectRegistry<Item> ITEM_DIRECT_REGISTRY = new DirectRegistry<>();
     // ============== ITEM COLLECTIONS
-    public static final Table<Metals.Alloy, Metals.AlloyType, Item> ALL_ALLOYS;
     public static final Table<Metals.OreMetal, Metals.OreMetalType, Item> ALL_ORE_METALS;
+    public static final Table<Metals.Alloy, Metals.AlloyType, Item> ALL_ALLOYS;
 
     //=============== STANDALONE ITEMS
     public static final Item.Properties GENERAL_PROPERTIES = new Item.Properties().tab(SilentsMechanisms.TAB);
 
     public static final Item COMPRESSED_IRON_INGOT = register("compressed_iron_ingot");
-    public static final Item IRON_CHUNK = register("iron_chunks");
-    public static final Item IRON_DUST = register("iron_dust");
-    public static final Item GOLD_CHUNK = register("gold_chunks");
-    public static final Item GOLD_DUST = register("gold_dust");
     public static final Item COAL_DUST = register("coal_dust");
+    public static final Item COPPER_DUST = register("copper_dust");
+    public static final Item IRON_DUST = register("iron_dust");
+    public static final Item GOLD_DUST = register("gold_dust");
 
     //FOODS & DRYING RACK RESULTS
     public static final Item ZOMBIE_LEATHER = register("zombie_leather");
@@ -58,26 +57,25 @@ public final class ModItems {
 
     //UTILS
     public static final Item WRENCH = register("wrench");
-    public static final Item ALTERNATOR = register("alternator");
 
     //BUCKET ITEMS
     public static final Item OIL_BUCKET = register("oil_bucket", new BucketItem(() -> ModFluids.OIL, getProperties().stacksTo(1)));
-    public static final Item BUCKET_DIESEL = register("diesel_bucket", new BucketItem(() -> ModFluids.DIESEL, getProperties().stacksTo(1)));
-    public static final Item BUCKET_ETHANE = register("ethane_bucket", new Item(getProperties().stacksTo(1)));
-    public static final Item BUCKET_POLYETHYLENE = register("polyethylene_bucket", new Item(getProperties().stacksTo(1)));
+    public static final Item DIESEL_BUCKET = register("diesel_bucket", new BucketItem(() -> ModFluids.DIESEL, getProperties().stacksTo(1)));
+    public static final Item ETHANE_BUCKET = register("ethane_bucket", new Item(getProperties().stacksTo(1)));
+    public static final Item POLYETHYLENE_BUCKET = register("polyethylene_bucket", new Item(getProperties().stacksTo(1)));
 
     static {
-        ALL_ALLOYS = HashBasedTable.create();
-        for (Metals.Alloy alloy : Metals.Alloy.values()) {
-            for (Metals.AlloyType alloyType : Metals.AlloyType.values()) {
-                ALL_ALLOYS.put(alloy, alloyType, register(alloy.toString().toLowerCase() + '_' + alloyType.toString().toLowerCase()));
-            }
-        }
-
         ALL_ORE_METALS = HashBasedTable.create();
         for (Metals.OreMetal oreMetal : Metals.OreMetal.values()) {
             for (Metals.OreMetalType oreMetalType : Metals.OreMetalType.values()) {
-                ALL_ORE_METALS.put(oreMetal, oreMetalType, register(oreMetal.name().toLowerCase() + '_' + oreMetalType.name().toLowerCase()));
+                ALL_ORE_METALS.put(oreMetal, oreMetalType, register(oreMetalType.getName(oreMetal)));
+            }
+        }
+
+        ALL_ALLOYS = HashBasedTable.create();
+        for (Metals.Alloy alloy : Metals.Alloy.values()) {
+            for (Metals.AlloyType alloyType : Metals.AlloyType.values()) {
+                ALL_ALLOYS.put(alloy, alloyType, register(alloyType.getName(alloy)));
             }
         }
     }

@@ -37,6 +37,16 @@ public final class Metals {
         }
 
         @Override
+        public Item getNugget() {
+            return ModItems.ALL_ALLOYS.get(this, AlloyType.NUGGET);
+        }
+
+        @Override
+        public Item getDust() {
+            return ModItems.ALL_ALLOYS.get(this, AlloyType.DUST);
+        }
+
+        @Override
         public TagKey<Item> getIngredientTag() {
             return ModItemTags.ALL_ALLOY_TAGS.get(this, AlloyType.INGOT);
         }
@@ -49,6 +59,11 @@ public final class Metals {
         @Override
         public String toString() {
             return super.toString().toLowerCase(Locale.ROOT);
+        }
+
+        @Override
+        public String getName() {
+            return name().toLowerCase(Locale.ROOT);
         }
     }
 
@@ -67,12 +82,21 @@ public final class Metals {
 
         OreMetal(TagKey<Block> harvestLevelTag) {
             this.harvestLevelTag = harvestLevelTag;
-
         }
 
         @Override
         public Item getIngot() {
             return ModItems.ALL_ORE_METALS.get(this, OreMetalType.INGOT);
+        }
+
+        @Override
+        public Item getNugget() {
+            return ModItems.ALL_ORE_METALS.get(this, OreMetalType.NUGGET);
+        }
+
+        @Override
+        public Item getDust() {
+            return ModItems.ALL_ORE_METALS.get(this, OreMetalType.DUST);
         }
 
         @Override
@@ -89,16 +113,30 @@ public final class Metals {
         public String toString() {
             return super.toString().toLowerCase(Locale.ROOT);
         }
+
+        @Override
+        public String getName() {
+            return name().toLowerCase(Locale.ROOT);
+        }
     }
 
     public enum OreMetalType {
         INGOT,
         DUST,
-        CHUNKS,
-        NUGGET
+        RAW,
+        NUGGET;
+
+        public String getName(OreMetal metal) {
+            if (this == RAW) {
+                if (metal == OreMetal.ALUMINUM) {
+                    return "raw_bauxite";
+                }
+                return "raw_" + metal.getName();
+            }
+            return metal.getName() + "_" + name().toLowerCase(Locale.ROOT);
+        }
     }
 
-    //1.18 introduced copper so copper in the mod is removed
     public enum Ore {
         TIN(OreMetal.TIN, BlockTags.NEEDS_STONE_TOOL, new OreVeinValues(8, 8, 20, 80)),
         SILVER(OreMetal.SILVER, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(4, 8, 0, 40)),
@@ -128,8 +166,12 @@ public final class Metals {
             return oreVeinValues;
         }
 
-        public Item getChunkItem() {
-            return ModItems.ALL_ORE_METALS.get(respectiveMetal, OreMetalType.CHUNKS);
+        public Block getOreBlock() {
+            return ModBlocks.ALL_ORE_BLOCKS.get(this);
+        }
+
+        public Item getRawOreItem() {
+            return ModItems.ALL_ORE_METALS.get(respectiveMetal, OreMetalType.RAW);
         }
 
         @Override
@@ -143,6 +185,10 @@ public final class Metals {
         INGOT,
         NUGGET;
 
+        public String getName(Alloy metal) {
+            return metal.getName() + "_" + name().toLowerCase(Locale.ROOT);
+        }
+
         @Override
         public String toString() {
             return super.toString().toLowerCase(Locale.ROOT);
@@ -154,6 +200,10 @@ public final class Metals {
 
         Item getIngot();
 
+        Item getNugget();
+
+        Item getDust();
+
         TagKey<Item> getIngredientTag();
 
         TagKey<Block> getHarvestToolTag();
@@ -163,5 +213,7 @@ public final class Metals {
         default Block getStorageBlock() {
             return ModBlocks.METAL_STORAGE_BLOCKS.get(this);
         }
+
+        String getName();
     }
 }

@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "cookingtime": 100,
+  "experience": 0.2,
+  "ingredient": {
+    "tag": "forge:raw_materials/nickel"
+  },
+  "result": "silents_mechanisms:nickel_ingot"
+}

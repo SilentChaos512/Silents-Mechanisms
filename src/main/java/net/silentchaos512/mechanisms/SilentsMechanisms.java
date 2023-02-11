@@ -18,6 +18,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackRenderer;
 import net.silentchaos512.mechanisms.common.blocks.generators.coalgenerator.CoalGeneratorScreen;
+import net.silentchaos512.mechanisms.data.client.ModBlockStateProvider;
+import net.silentchaos512.mechanisms.data.client.ModItemModelProvider;
 import net.silentchaos512.mechanisms.data.loot.ModLootTable;
 import net.silentchaos512.mechanisms.data.recipes.ModRecipeProvider;
 import net.silentchaos512.mechanisms.data.tag.ModBlockTagProvider;
@@ -61,6 +63,9 @@ public class SilentsMechanisms {
             dataGenerator.addProvider(includeServer, new ModItemTags.Provider(dataGenerator, blockTagProvider, SilentsMechanisms.MODID, fileHelper));
             dataGenerator.addProvider(includeServer, new ModLootTable(dataGenerator));
             dataGenerator.addProvider(includeServer, new ModRecipeProvider(dataGenerator));
+
+            dataGenerator.addProvider(includeServer, new ModBlockStateProvider(dataGenerator, fileHelper));
+            dataGenerator.addProvider(includeServer, new ModItemModelProvider(dataGenerator, fileHelper));
         }
 
         @SubscribeEvent

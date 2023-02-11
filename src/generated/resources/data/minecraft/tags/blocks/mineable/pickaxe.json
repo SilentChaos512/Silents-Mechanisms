@@ -1,7 +1,7 @@
 {
   "values": [
     "silents_mechanisms:stone_machine_frame",
-    "silents_mechanisms:coal_generator",
-    "silents_mechanisms:alloy_machine_frame"
+    "silents_mechanisms:alloy_machine_frame",
+    "silents_mechanisms:coal_generator"
   ]
 }

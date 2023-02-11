@@ -38,7 +38,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "silents_mechanisms:zinc_chunks"
+              "name": "silents_mechanisms:raw_zinc"
             }
           ]
         }

@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class ModLootTable extends LootTableProvider {
     private static final List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> TABLES =
@@ -46,12 +47,12 @@ public class ModLootTable extends LootTableProvider {
     private static final class BlockLoots extends BlockLoot {
         @Override
         protected Iterable<Block> getKnownBlocks() {
-            return ModBlocks.BLOCK_DIRECT_REGISTRY.getEntries().stream().filter(block -> !(block instanceof LiquidBlock)).toList();
+            return ModBlocks.BLOCK_DIRECT_REGISTRY.getEntries().stream().filter(block -> !(block instanceof LiquidBlock)).collect(Collectors.toList());
         }
 
         @Override
         protected void addTables() {
-            ModBlocks.ALL_ORE_BLOCKS.forEach(((ore, block) -> super.add(block, createOreDrop(block, ore.getChunkItem()))));
+            ModBlocks.ALL_ORE_BLOCKS.forEach(((ore, block) -> super.add(block, createOreDrop(block, ore.getRawOreItem()))));
             ModBlocks.METAL_STORAGE_BLOCKS.values().forEach(this::dropSelf);
             DryingRackBlock.ALL_RACKS.forEach(this::dropSelf);
             dropSelf(ModBlocks.STONE_MACHINE_FRAME);

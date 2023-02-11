@@ -12,7 +12,7 @@ import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlock;
 import net.silentchaos512.mechanisms.common.blocks.generators.coalgenerator.CoalGeneratorBlock;
 import net.silentchaos512.mechanisms.registration.DirectRegistry;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 //Seriously, pls do not re-format this class in your IDE, it will mess up the blocks categories
@@ -23,8 +23,8 @@ public final class ModBlocks {
            -----------------------  BLOCKS COLLECTIONS --------------------------
            Mainly used for data gen
     */
-    public static final Map<Metals.Ore, Block> ALL_ORE_BLOCKS = new HashMap<>();
-    public static final Map<Metals.StorageBlockProvider, Block> METAL_STORAGE_BLOCKS = new HashMap<>();
+    public static final Map<Metals.Ore, Block> ALL_ORE_BLOCKS = new LinkedHashMap<>();
+    public static final Map<Metals.StorageBlockProvider, Block> METAL_STORAGE_BLOCKS = new LinkedHashMap<>();
 
     /*
         -----------------------  STANDALONE BLOCKS --------------------------
@@ -40,6 +40,27 @@ public final class ModBlocks {
     public static final Block ALLOY_MACHINE_FRAME = register("alloy_machine_frame", new HarvestableBlock(BlockBehaviour.Properties.copy(STONE_MACHINE_FRAME), BlockTags.MINEABLE_WITH_PICKAXE));
     public static final CoalGeneratorBlock COAL_GENERATOR = register("coal_generator", new CoalGeneratorBlock(BlockBehaviour.Properties.of(Material.METAL).strength(6, 20).sound(SoundType.METAL)));
 
+    public static final Block TIN_BLOCK = storageBlock(Metals.OreMetal.TIN);
+    public static final Block SILVER_BLOCK = storageBlock(Metals.OreMetal.SILVER);
+    public static final Block LEAD_BLOCK = storageBlock(Metals.OreMetal.LEAD);
+    public static final Block NICKEL_BLOCK = storageBlock(Metals.OreMetal.NICKEL);
+    public static final Block PLATINUM_BLOCK = storageBlock(Metals.OreMetal.PLATINUM);
+    public static final Block ZINC_BLOCK = storageBlock(Metals.OreMetal.ZINC);
+    public static final Block BISMUTH_BLOCK = storageBlock(Metals.OreMetal.BISMUTH);
+    public static final Block ALUMINUM_BLOCK = storageBlock(Metals.OreMetal.ALUMINUM);
+    public static final Block URANIUM_BLOCK = storageBlock(Metals.OreMetal.URANIUM);
+    public static final Block REDSTONE_ALLOY_BLOCK = storageBlock(Metals.Alloy.REDSTONE_ALLOY);
+    public static final Block BRONZE_BLOCK = storageBlock(Metals.Alloy.BRONZE);
+    public static final Block BRASS_BLOCK = storageBlock(Metals.Alloy.BRASS);
+    public static final Block INVAR_BLOCK = storageBlock(Metals.Alloy.INVAR);
+    public static final Block ELECTRUM_BLOCK = storageBlock(Metals.Alloy.ELECTRUM);
+    public static final Block STEEL_BLOCK = storageBlock(Metals.Alloy.STEEL);
+    public static final Block BISMUTH_BRASS_BLOCK = storageBlock(Metals.Alloy.BISMUTH_BRASS);
+    public static final Block ALUMINUM_STEEL_BLOCK = storageBlock(Metals.Alloy.ALUMINUM_STEEL);
+    public static final Block SIGNALUM_BLOCK = storageBlock(Metals.Alloy.SIGNALUM);
+    public static final Block LUMIUM_BLOCK = storageBlock(Metals.Alloy.LUMIUM);
+    public static final Block ENDERIUM_BLOCK = storageBlock(Metals.Alloy.ENDERIUM);
+
     public static final Block TIN_ORE = registerOre(Metals.Ore.TIN);
     public static final Block SILVER_ORE = registerOre(Metals.Ore.SILVER);
     public static final Block LEAD_ORE = registerOre(Metals.Ore.LEAD);
@@ -50,12 +71,6 @@ public final class ModBlocks {
     public static final Block BAUXITE_ORE = registerOre(Metals.Ore.BAUXITE);
     public static final Block URANIUM_ORE = registerOre(Metals.Ore.URANIUM);
 
-    private static Block storageBlock(Metals.StorageBlockProvider ingot) {
-        Block storageBlock = register(ingot.toString() + "_block", new HarvestableBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK), ingot.getHarvestToolTag()));
-        return METAL_STORAGE_BLOCKS.put(ingot, storageBlock);
-    }
-
-    //missing alloys :P
     /*
         -------------------- FLUID BLOCKS --------------------
      */
@@ -72,6 +87,11 @@ public final class ModBlocks {
         Block oreBlock = register(oreType.toString() + "_ore", new HarvestableBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE), oreType.getHarvestLevelTag()));
         ALL_ORE_BLOCKS.put(oreType, oreBlock);
         return oreBlock;
+    }
+
+    private static Block storageBlock(Metals.StorageBlockProvider metal) {
+        Block storageBlock = register(metal.getName() + "_block", new HarvestableBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK), metal.getHarvestToolTag()));
+        return METAL_STORAGE_BLOCKS.put(metal, storageBlock);
     }
 
     private static <BLOCK extends Block> BLOCK register(String name, BLOCK block) {

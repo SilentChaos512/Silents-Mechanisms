@@ -1,6 +1,0 @@
-{
-  "parent": "block/cube_all",
-  "textures": {
-    "all": "silents_mechanisms:block/tin_ore"
-  }
-}

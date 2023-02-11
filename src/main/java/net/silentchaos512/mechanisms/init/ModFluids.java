@@ -36,12 +36,12 @@ public class ModFluids {
         OIL = ALL_FLUIDS.register("oil", new ForgeFlowingFluid.Source(oilProperties));
         OIL_FLOWING = ALL_FLUIDS.register("oil_flowing", new ForgeFlowingFluid.Flowing(oilProperties));
 
-        ForgeFlowingFluid.Properties dieselProperties = createFluidProperties(() -> DIESEL_TYPE, ModItems.BUCKET_DIESEL, () -> ModBlocks.FLUID_DIESEL, () -> DIESEL, () -> DIESEL_FLOWING);
+        ForgeFlowingFluid.Properties dieselProperties = createFluidProperties(() -> DIESEL_TYPE, ModItems.DIESEL_BUCKET, () -> ModBlocks.FLUID_DIESEL, () -> DIESEL, () -> DIESEL_FLOWING);
         DIESEL = ALL_FLUIDS.register("diesel", new ForgeFlowingFluid.Source(dieselProperties));
         DIESEL_FLOWING = ALL_FLUIDS.register("diesel_flowing", new ForgeFlowingFluid.Flowing(dieselProperties));
 
-        ForgeFlowingFluid.Properties ethaneProperties = createFluidProperties(() -> ETHANE_TYPE, ModItems.BUCKET_ETHANE, null, () -> ETHANE, () -> ETHANE);
-        ForgeFlowingFluid.Properties polyethyleneProperties = createFluidProperties(() -> POLY_TYPE, ModItems.BUCKET_POLYETHYLENE, null, () -> POLYETHYLENE, () -> POLYETHYLENE);
+        ForgeFlowingFluid.Properties ethaneProperties = createFluidProperties(() -> ETHANE_TYPE, ModItems.ETHANE_BUCKET, null, () -> ETHANE, () -> ETHANE);
+        ForgeFlowingFluid.Properties polyethyleneProperties = createFluidProperties(() -> POLY_TYPE, ModItems.POLYETHYLENE_BUCKET, null, () -> POLYETHYLENE, () -> POLYETHYLENE);
 
         ETHANE = ALL_FLUIDS.register("ethane", new ForgeFlowingFluid.Source(ethaneProperties));
         POLYETHYLENE = ALL_FLUIDS.register("polyethylene", new ForgeFlowingFluid.Source(polyethyleneProperties));

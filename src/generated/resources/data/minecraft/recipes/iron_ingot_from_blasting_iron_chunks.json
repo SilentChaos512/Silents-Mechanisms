@@ -1,9 +1,0 @@
-{
-  "type": "minecraft:blasting",
-  "cookingtime": 100,
-  "experience": 0.2,
-  "ingredient": {
-    "item": "silents_mechanisms:iron_chunks"
-  },
-  "result": "minecraft:iron_ingot"
-}

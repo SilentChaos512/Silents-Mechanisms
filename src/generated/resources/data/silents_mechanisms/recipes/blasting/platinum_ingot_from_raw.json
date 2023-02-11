@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "cookingtime": 100,
+  "experience": 0.2,
+  "ingredient": {
+    "tag": "forge:raw_materials/platinum"
+  },
+  "result": "silents_mechanisms:platinum_ingot"
+}
