@@ -8,11 +8,10 @@ import net.silentchaos512.mechanisms.common.abstracts.BaseEnergyBlockEntity;
 import net.silentchaos512.mechanisms.utls.CompoundTagUtils;
 
 /**
- * <pre>
- *     A special type of {@link net.minecraftforge.energy.EnergyStorage} that allows user to modify the amount of energy stored
- *     Mainly used for tag loading.
- *     @see CompoundTagUtils#loadEnergyToBlockEntity(BaseEnergyBlockEntity, CompoundTag)
- * </pre>
+ * A special type of {@link net.minecraftforge.energy.EnergyStorage} that allows user to modify the amount of energy stored
+ * Mainly used for tag loading.
+ *
+ * @see CompoundTagUtils#loadEnergyToBlockEntity(BaseEnergyBlockEntity, CompoundTag)
  */
 public interface FlexibleEnergyStorage extends IEnergyStorage, INBTSerializable<Tag> {
     void setEnergy(int energy);
