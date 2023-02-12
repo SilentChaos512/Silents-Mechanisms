@@ -139,14 +139,14 @@ public final class Metals {
 
     public enum Ore {
         TIN(OreMetal.TIN, BlockTags.NEEDS_STONE_TOOL, new OreVeinValues(8, 8, 20, 80)),
-        SILVER(OreMetal.SILVER, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(4, 8, 0, 40)),
-        LEAD(OreMetal.LEAD, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(4, 8, 0, 30)),
-        NICKEL(OreMetal.NICKEL, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(1, 6, 0, 24)),
-        PLATINUM(OreMetal.PLATINUM, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(1, 8, 5, 20)),
-        ZINC(OreMetal.ZINC, BlockTags.NEEDS_STONE_TOOL, new OreVeinValues(4, 8, 20, 60)),
-        BISMUTH(OreMetal.BISMUTH, BlockTags.NEEDS_STONE_TOOL, new OreVeinValues(4, 8, 16, 64)),
-        BAUXITE(OreMetal.ALUMINUM, BlockTags.NEEDS_STONE_TOOL, new OreVeinValues(6, 8, 25, 50)),
-        URANIUM(OreMetal.URANIUM, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(1, 4, 0, 18));
+        SILVER(OreMetal.SILVER, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(4, 8, -40, 40)),
+        LEAD(OreMetal.LEAD, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(4, 8, -50, 30)),
+        NICKEL(OreMetal.NICKEL, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(1, 6, -60, 24)),
+        PLATINUM(OreMetal.PLATINUM, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(1, 8, -60, 20)),
+        ZINC(OreMetal.ZINC, BlockTags.NEEDS_STONE_TOOL, new OreVeinValues(4, 8, 0, 60)),
+        BISMUTH(OreMetal.BISMUTH, BlockTags.NEEDS_STONE_TOOL, new OreVeinValues(4, 8, -20, 64)),
+        BAUXITE(OreMetal.ALUMINUM, BlockTags.NEEDS_STONE_TOOL, new OreVeinValues(6, 8, 0, 50)),
+        URANIUM(OreMetal.URANIUM, BlockTags.NEEDS_IRON_TOOL, new OreVeinValues(1, 4, -60, 0));
 
         public final TagKey<Block> harvestLevelTag;
         public final OreVeinValues oreVeinValues;

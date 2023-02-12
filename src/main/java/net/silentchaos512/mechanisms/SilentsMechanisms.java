@@ -2,7 +2,6 @@ package net.silentchaos512.mechanisms;
 
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.core.Registry;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.CreativeModeTab;
@@ -18,6 +17,7 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegisterEvent;
 import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackRenderer;
 import net.silentchaos512.mechanisms.common.blocks.generators.coalgenerator.CoalGeneratorScreen;
+import net.silentchaos512.mechanisms.data.ModWorldGen;
 import net.silentchaos512.mechanisms.data.client.ModBlockStateProvider;
 import net.silentchaos512.mechanisms.data.client.ModItemModelProvider;
 import net.silentchaos512.mechanisms.data.loot.ModLootTable;
@@ -25,7 +25,6 @@ import net.silentchaos512.mechanisms.data.recipes.ModRecipeProvider;
 import net.silentchaos512.mechanisms.data.tag.ModBlockTagProvider;
 import net.silentchaos512.mechanisms.data.tag.ModItemTags;
 import net.silentchaos512.mechanisms.init.*;
-import net.silentchaos512.mechanisms.worldgen.ModFeatures;
 
 @Mod(SilentsMechanisms.MODID)
 public class SilentsMechanisms {
@@ -66,6 +65,8 @@ public class SilentsMechanisms {
 
             dataGenerator.addProvider(includeServer, new ModBlockStateProvider(dataGenerator, fileHelper));
             dataGenerator.addProvider(includeServer, new ModItemModelProvider(dataGenerator, fileHelper));
+
+            ModWorldGen.init(dataGenerator, fileHelper);
         }
 
         @SubscribeEvent
@@ -76,7 +77,6 @@ public class SilentsMechanisms {
             event.register(ForgeRegistries.Keys.ITEMS, ModItems::registerAllItems);
             event.register(ForgeRegistries.Keys.BLOCKS, ModBlocks.BLOCK_DIRECT_REGISTRY::registerAll);
             event.register(ForgeRegistries.Keys.BLOCK_ENTITY_TYPES, ModBlockEntities.DIRECT_BE_TPYES::registerAll);
-            event.register(Registry.PLACED_FEATURE_REGISTRY, ModFeatures::init);
         }
 
         @SubscribeEvent
