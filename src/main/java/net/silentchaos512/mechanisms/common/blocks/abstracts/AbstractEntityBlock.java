@@ -1,9 +1,12 @@
 package net.silentchaos512.mechanisms.common.blocks.abstracts;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.*;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseEntityBlock;
@@ -19,6 +22,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraftforge.common.Tags;
 import net.silentchaos512.mechanisms.common.abstracts.BreakableBlock;
 import net.silentchaos512.mechanisms.common.abstracts.TickableBlockEntity;
+import net.silentchaos512.mechanisms.utls.CompoundTagUtils;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class AbstractEntityBlock<TILE extends BlockEntity & TickableBlockEntity> extends BaseEntityBlock implements EntityBlock, BreakableBlock {
@@ -71,6 +75,7 @@ public abstract class AbstractEntityBlock<TILE extends BlockEntity & TickableBlo
     @Override
     public abstract BlockState getStateForPlacement(BlockPlaceContext pContext);
 
+    @SuppressWarnings("deprecation")
     @Override
     public RenderShape getRenderShape(BlockState pState) {
         return RenderShape.MODEL;
@@ -90,5 +95,19 @@ public abstract class AbstractEntityBlock<TILE extends BlockEntity & TickableBlo
             }
         }
         super.onRemove(pState, pLevel, pPos, pNewState, pIsMoving);
+    }
+
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public final void setPlacedBy(Level pLevel, BlockPos pPos, BlockState pState, @Nullable LivingEntity pPlacer, ItemStack pStack) {
+        CompoundTag blockEntityTag = pStack.getOrCreateTag();
+        BlockEntity blockEntity = pLevel.getBlockEntity(pPos);
+        if (CompoundTagUtils.hasBlockEntityTag(blockEntityTag) && blockEntity != null && blockEntity.getType().equals(getBlockEntityType())) {
+            this.loadTagToBlock(CompoundTagUtils.getBlockEntityTag(blockEntityTag), (TILE) blockEntity);
+        }
+    }
+
+    protected void loadTagToBlock(CompoundTag blockEntityTag, TILE blockEntity) {
     }
 }

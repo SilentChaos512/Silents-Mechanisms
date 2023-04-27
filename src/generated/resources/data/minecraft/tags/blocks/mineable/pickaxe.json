@@ -1,7 +1,17 @@
 {
   "values": [
+    "silents_mechanisms:battery_box",
     "silents_mechanisms:stone_machine_frame",
     "silents_mechanisms:alloy_machine_frame",
-    "silents_mechanisms:coal_generator"
+    "silents_mechanisms:coal_generator",
+    "silents_mechanisms:deepslate_tin_ore",
+    "silents_mechanisms:deepslate_silver_ore",
+    "silents_mechanisms:deepslate_lead_ore",
+    "silents_mechanisms:deepslate_nickel_ore",
+    "silents_mechanisms:deepslate_zinc_ore",
+    "silents_mechanisms:deepslate_platinum_ore",
+    "silents_mechanisms:deepslate_bismuth_ore",
+    "silents_mechanisms:deepslate_bauxite_ore",
+    "silents_mechanisms:deepslate_uranium_ore"
   ]
 }

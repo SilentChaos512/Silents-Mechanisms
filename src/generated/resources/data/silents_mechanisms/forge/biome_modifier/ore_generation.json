@@ -1,0 +1,16 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": [
+    "silents_mechanisms:tin_ores",
+    "silents_mechanisms:silver_ores",
+    "silents_mechanisms:lead_ores",
+    "silents_mechanisms:nickel_ores",
+    "silents_mechanisms:platinum_ores",
+    "silents_mechanisms:zinc_ores",
+    "silents_mechanisms:bismuth_ores",
+    "silents_mechanisms:bauxite_ores",
+    "silents_mechanisms:uranium_ores"
+  ],
+  "step": "underground_ores"
+}

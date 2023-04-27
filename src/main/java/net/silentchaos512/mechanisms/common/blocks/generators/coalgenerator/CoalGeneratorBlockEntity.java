@@ -65,7 +65,7 @@ public class CoalGeneratorBlockEntity extends BaseMachineBlockEntity implements 
                 state = state.setValue(CoalGeneratorBlock.LIT, true);
             } else state = state.setValue(CoalGeneratorBlock.LIT, false);
         } else {
-            super.getEnergyStorage().generateEnergy(ENERGY_PER_TICK);
+            this.getEnergyStorage().generateEnergy(ENERGY_PER_TICK);
             this.burnTime--;
         }
 
@@ -75,6 +75,11 @@ public class CoalGeneratorBlockEntity extends BaseMachineBlockEntity implements 
 
     private boolean isValidFuelItem(ItemStack item) {
         return !item.isEmpty() && item.is(ModItemTags.COAL_GENERATOR_FUELS) && AbstractFurnaceBlockEntity.isFuel(item);
+    }
+
+    @Override
+    public GeneratorEnergyStorage getEnergyStorage() {
+        return (GeneratorEnergyStorage) super.getEnergyStorage();
     }
 
     @Override

@@ -9,6 +9,7 @@ import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.level.material.MaterialColor;
 import net.silentchaos512.mechanisms.common.blocks.HarvestableBlock;
+import net.silentchaos512.mechanisms.common.blocks.batterybox.BatteryBox;
 import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlock;
 import net.silentchaos512.mechanisms.common.blocks.generators.coalgenerator.CoalGeneratorBlock;
 import net.silentchaos512.mechanisms.registration.DirectRegistry;
@@ -37,6 +38,8 @@ public final class ModBlocks {
     public static final DryingRackBlock JUNGLE_DRYING_RACK = register("jungle_drying_rack", new DryingRackBlock(Blocks.JUNGLE_SLAB));
     public static final DryingRackBlock ACACIA_DRYING_RACK = register("acacia_drying_rack", new DryingRackBlock(Blocks.ACACIA_SLAB));
     public static final DryingRackBlock DARK_OAK_DRYING_RACK = register("dark_oak_drying_rack", new DryingRackBlock(Blocks.DARK_OAK_SLAB));
+
+    public static final BatteryBox BATTERY_BOX = register("battery_box", new BatteryBox());
 
     public static final Block STONE_MACHINE_FRAME = register("stone_machine_frame", new HarvestableBlock(BlockBehaviour.Properties.of(Material.STONE).strength(3, 10).sound(SoundType.STONE).noOcclusion(), BlockTags.MINEABLE_WITH_PICKAXE));
     public static final Block ALLOY_MACHINE_FRAME = register("alloy_machine_frame", new HarvestableBlock(BlockBehaviour.Properties.copy(STONE_MACHINE_FRAME), BlockTags.MINEABLE_WITH_PICKAXE));
@@ -86,17 +89,15 @@ public final class ModBlocks {
     /*
         -------------------- FLUID BLOCKS --------------------
      */
-    //public static final BlockRegistryObject<LiquidBlock> FLUID_OIL = register("oil", () -> new LiquidBlock(ModFluids.OIL, BlockBehaviour.Properties.copy(Blocks.WATER)));
     public static final LiquidBlock FLUID_OIL = register("oil", new LiquidBlock(() -> ModFluids.OIL, BlockBehaviour.Properties.copy(Blocks.WATER)));
     public static final LiquidBlock FLUID_DIESEL = register("diesel", new LiquidBlock(() -> ModFluids.DIESEL, BlockBehaviour.Properties.copy(Blocks.WATER)));
-    //public static final BlockRegistryObject<LiquidBlock> FLUID_DIESEL = register("diesel", () -> new LiquidBlock(ModFluids.DIESEL, BlockBehaviour.Properties.copy(Blocks.WATER)));
 
     /*
         =========================== HELPER METHODS & INSTANCES INITIALIZATION ===================================
      */
 
     private static Block registerOre(Metals.Ore metal) {
-        Block oreBlock = register(metal.toString() + "_ore", new HarvestableBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE), metal.getHarvestLevelTag()));
+        Block oreBlock = register(metal.toString() + "_ore", new HarvestableBlock(BlockBehaviour.Properties.copy(Blocks.IRON_ORE), BlockTags.MINEABLE_WITH_PICKAXE, metal.getHarvestLevelTag()));
         ALL_ORE_BLOCKS.put(metal, oreBlock);
         return oreBlock;
     }
@@ -108,15 +109,15 @@ public final class ModBlocks {
                                 .color(MaterialColor.DEEPSLATE)
                                 .strength(4.5f, 3.0f)
                                 .sound(SoundType.DEEPSLATE),
-                        metal.getHarvestLevelTag()
-                )
+                        BlockTags.MINEABLE_WITH_PICKAXE,
+                        metal.getHarvestLevelTag())
         );
         ALL_DEEPSLATE_ORE_BLOCKS.put(metal, oreBlock);
         return oreBlock;
     }
 
     private static Block storageBlock(Metals.StorageBlockProvider metal) {
-        Block storageBlock = register(metal.getName() + "_block", new HarvestableBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK), metal.getHarvestToolTag()));
+        Block storageBlock = register(metal.getName() + "_block", new HarvestableBlock(BlockBehaviour.Properties.copy(Blocks.IRON_BLOCK), BlockTags.MINEABLE_WITH_PICKAXE, metal.getHarvestToolTag()));
         return METAL_STORAGE_BLOCKS.put(metal, storageBlock);
     }
 

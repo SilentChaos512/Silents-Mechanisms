@@ -19,6 +19,10 @@ public class RestrictedEnergyStorage extends EnergyStorage implements FlexibleEn
     public void generateEnergy(int maxGenerate) {
     }
 
+    public static RestrictedEnergyStorage createNoExtract(int cap, int maxReceive) {
+        return new RestrictedEnergyStorage(cap, maxReceive, cap, RestrictionType.NO_EXTRACT);
+    }
+
     @Override
     public boolean canReceive() {
         return restriction.canReceive();

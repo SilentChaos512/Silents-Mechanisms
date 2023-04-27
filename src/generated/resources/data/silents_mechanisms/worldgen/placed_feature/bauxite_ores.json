@@ -1,9 +1,9 @@
 {
-  "feature": "silents_mechanisms:lead_ore",
+  "feature": "silents_mechanisms:bauxite_ores_config",
   "placement": [
     {
       "type": "minecraft:count",
-      "count": 4
+      "count": 6
     },
     {
       "type": "minecraft:in_square"
@@ -11,12 +11,12 @@
     {
       "type": "minecraft:height_range",
       "height": {
-        "type": "minecraft:trapezoid",
+        "type": "minecraft:uniform",
         "max_inclusive": {
-          "absolute": 30
+          "absolute": 0
         },
         "min_inclusive": {
-          "absolute": -50
+          "absolute": 0
         }
       }
     },

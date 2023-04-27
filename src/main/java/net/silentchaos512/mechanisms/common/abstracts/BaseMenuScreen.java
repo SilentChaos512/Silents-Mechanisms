@@ -1,8 +1,11 @@
 package net.silentchaos512.mechanisms.common.abstracts;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 
 public abstract class BaseMenuScreen<T extends BaseMenuContainer> extends AbstractContainerScreen<T> {
@@ -28,8 +31,10 @@ public abstract class BaseMenuScreen<T extends BaseMenuContainer> extends Abstra
         return super.isHovering(pX, pY, pWidth, pHeight, pMouseX, pMouseY);
     }
 
-    @Override
-    public void renderTooltip(PoseStack pPoseStack, int pX, int pY) {
-        super.renderTooltip(pPoseStack, pX, pY);
+    protected final void setupScreen(PoseStack pose, int sizeX, int sizeY, ResourceLocation textureName) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderTexture(0, textureName);
+        super.blit(pose, super.leftPos, super.topPos, 0, 0, sizeX, sizeY);
     }
 }

@@ -6,33 +6,41 @@ import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
+import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlock;
 import net.silentchaos512.mechanisms.init.Metals;
 import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
 
 public class ModItemModelProvider extends ItemModelProvider {
-    public ModItemModelProvider(DataGenerator generator, ExistingFileHelper existingFileHelper) {
-        super(generator, SilentsMechanisms.MODID, existingFileHelper);
+    private final ModBlockStateProvider blockProvider;
+
+
+    public ModItemModelProvider(DataGenerator generator, ModBlockStateProvider provider, ExistingFileHelper fileHelper) {
+        super(generator.getPackOutput(), SilentsMechanisms.MODID, fileHelper);
+        this.blockProvider = provider;
     }
 
     @Override
     protected void registerModels() {
-        for (Block block : ModBlocks.BLOCK_DIRECT_REGISTRY.getEntries()) {
-            blockItemModel(block);
-        }
+        DryingRackBlock.ALL_RACKS.forEach(this::blockItemModel);
 
         for (Metals.Ore metal : Metals.Ore.values()) {
             basicItem(metal.getRawOreItem());
+            blockItemModel(metal.getOreBlock());
+            blockItemModel(metal.getDeepslateOreBlock());
         }
+
         for (Metals.OreMetal metal : Metals.OreMetal.values()) {
             basicItem(metal.getIngot());
             basicItem(metal.getNugget());
             basicItem(metal.getDust());
+            blockItemModel(metal.getStorageBlock());
         }
         for (Metals.Alloy metal : Metals.Alloy.values()) {
             basicItem(metal.getIngot());
             basicItem(metal.getNugget());
             basicItem(metal.getDust());
+            blockItemModel(metal.getStorageBlock());
         }
 
         basicItem(ModItems.BEEF_JERKY);

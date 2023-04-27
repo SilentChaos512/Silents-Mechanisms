@@ -1,5 +1,6 @@
 package net.silentchaos512.mechanisms.registration;
 
+import com.google.common.base.Preconditions;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.registries.RegisterEvent;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
@@ -9,11 +10,13 @@ import org.apache.logging.log4j.Logger;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public final class DirectRegistry<T> {
     public static final Logger LOGGER = LogManager.getLogger("SM Registry Debug");
     private final Map<T, ResourceLocation> entries = new LinkedHashMap<>();
     private final boolean debug;
+    private boolean isLocked;
 
     public DirectRegistry() {
         this(false);
@@ -21,6 +24,7 @@ public final class DirectRegistry<T> {
 
     public DirectRegistry(boolean debug) {
         this.debug = debug;
+        this.isLocked = false;
     }
 
     public <U extends T> U register(String name, U entry) {
@@ -28,6 +32,11 @@ public final class DirectRegistry<T> {
         this.entries.put(entry, SilentsMechanisms.location(name));
 
         return entry;
+    }
+
+    public Stream<T> stream() {
+        Preconditions.checkArgument(this.isLocked, "Registry isn't yet locked.");
+        return getEntries().stream();
     }
 
     public ResourceLocation getId(T entry) {
@@ -40,6 +49,7 @@ public final class DirectRegistry<T> {
             if (debug) LOGGER.info("Registering [{}]", rl);
             helper.register(rl, object);
         });
+        this.isLocked = true;
     }
 
     public Collection<T> getEntries() {

@@ -15,4 +15,24 @@ import net.silentchaos512.mechanisms.utls.CompoundTagUtils;
  */
 public interface FlexibleEnergyStorage extends IEnergyStorage, INBTSerializable<Tag> {
     void setEnergy(int energy);
+
+    default boolean isEmpty() {
+        if (this.getEnergyStored() <= 0) {
+            this.setEnergy(0);
+            return true;
+        }
+        return false;
+    }
+
+    static FlexibleEnergyStorage create(int cap) {
+        return create(cap, cap);
+    }
+
+    static FlexibleEnergyStorage create(int cap, int maxIO) {
+        return create(cap, maxIO, maxIO);
+    }
+
+    static FlexibleEnergyStorage create(int cap, int maxReceive, int maxExtract) {
+        return new LoadableEnergyStorage(cap, maxReceive, maxExtract);
+    }
 }

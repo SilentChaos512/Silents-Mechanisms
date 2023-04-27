@@ -1,5 +1,5 @@
 {
-  "feature": "silents_mechanisms:zinc_ore",
+  "feature": "silents_mechanisms:lead_ores_config",
   "placement": [
     {
       "type": "minecraft:count",
@@ -11,12 +11,12 @@
     {
       "type": "minecraft:height_range",
       "height": {
-        "type": "minecraft:trapezoid",
+        "type": "minecraft:uniform",
         "max_inclusive": {
-          "absolute": 60
+          "absolute": -50
         },
         "min_inclusive": {
-          "absolute": 0
+          "absolute": -50
         }
       }
     },

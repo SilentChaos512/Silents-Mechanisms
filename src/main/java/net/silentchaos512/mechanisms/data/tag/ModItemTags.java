@@ -2,8 +2,8 @@ package net.silentchaos512.mechanisms.data.tag;
 
 import com.google.common.collect.HashBasedTable;
 import com.google.common.collect.Table;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -11,13 +11,16 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.init.Metals;
 import net.silentchaos512.mechanisms.init.ModItems;
 import org.jetbrains.annotations.Nullable;
 
+import javax.annotation.Nonnull;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public class ModItemTags {
@@ -65,12 +68,12 @@ public class ModItemTags {
 
     @SuppressWarnings("ConstantConditions")
     public static final class Provider extends ItemTagsProvider {
-        public Provider(DataGenerator pGenerator, BlockTagsProvider pBlockTagsProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
-            super(pGenerator, pBlockTagsProvider, modId, existingFileHelper);
+        public Provider(DataGenerator pGenerator, CompletableFuture<HolderLookup.Provider> completableFuture, BlockTagsProvider pBlockTagsProvider, String modId, @Nullable ExistingFileHelper existingFileHelper) {
+            super(pGenerator.getPackOutput(), completableFuture, pBlockTagsProvider, modId, existingFileHelper);
         }
 
         @Override
-        protected void addTags() {
+        protected void addTags(@Nonnull HolderLookup.Provider p) {
             for (Table.Cell<Metals.OreMetal, Metals.OreMetalType, TagKey<Item>> cell : ALL_METAL_TAGS.cellSet()) {
                 switch (cell.getColumnKey()) {
                     case INGOT -> super.tag(Tags.Items.INGOTS).addTag(cell.getValue());

@@ -1,47 +1,74 @@
 package net.silentchaos512.mechanisms.data;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.gson.JsonElement;
-import com.mojang.serialization.JsonOps;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
-import net.minecraft.core.RegistryAccess;
+
+import net.minecraft.core.HolderGetter;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DataProvider;
-import net.minecraft.data.worldgen.features.OreFeatures;
-import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BiomeTags;
-import net.minecraft.world.level.biome.Biome;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.features.FeatureUtils;
+import net.minecraft.data.worldgen.placement.PlacementUtils;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.levelgen.VerticalAnchor;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.feature.LakeFeature;
 import net.minecraft.world.level.levelgen.feature.configurations.OreConfiguration;
-import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.placement.*;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.JsonCodecProvider;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
+import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
+import net.minecraftforge.data.event.GatherDataEvent;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.init.Metals;
-import net.silentchaos512.mechanisms.init.ModBlocks;
-import org.jetbrains.annotations.NotNull;
+import net.silentchaos512.mechanisms.worldgen.OreVeinValues;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
+//Content is commented out for 1.19.3 changes
 public class ModWorldGen {
+    private static void registerFeatures(DataGenerator dataGenerator, CompletableFuture<HolderLookup.Provider> lookupProvider, final boolean includeServer) {
+        dataGenerator.addProvider(includeServer, new DatapackBuiltinEntriesProvider(
+                dataGenerator.getPackOutput(),
+                lookupProvider,
+                new RegistrySetBuilder().add(Registries.CONFIGURED_FEATURE, ModWorldGen::registerConfigs).add(Registries.PLACED_FEATURE, ModWorldGen::registerFeatures),
+                Set.of(SilentsMechanisms.MODID)));
+    }
+
+    private static void registerFeatures(BootstapContext<PlacedFeature> bootstrap) {
+        for (Metals.Ore ore : Metals.Ore.values()) {
+            final OreVeinValues values = ore.getOreVeinValues();
+            HolderGetter<ConfiguredFeature<?, ?>> getter = bootstrap.lookup(Registries.CONFIGURED_FEATURE);
+            PlacementUtils.register(bootstrap, ore.getPlacedFeatureKey(), getter.getOrThrow(ore.getFeatureConfigKey()), orePlacement(values.veinCount(), HeightRangePlacement.uniform(VerticalAnchor.absolute(values.minHeight()), VerticalAnchor.absolute(values.minHeight()))));
+
+        }
+    }
+
+    private static void registerConfigs(BootstapContext<ConfiguredFeature<?, ?>> bootstrap) {
+        for (Metals.Ore ore : Metals.Ore.values()) {
+            final OreVeinValues values = ore.getOreVeinValues();
+            final TagMatchTest stoneRule = new TagMatchTest(BlockTags.STONE_ORE_REPLACEABLES);
+            final TagMatchTest deepslateRule = new TagMatchTest(BlockTags.DEEPSLATE_ORE_REPLACEABLES);
+
+            final OreConfiguration.TargetBlockState normal = OreConfiguration.target(stoneRule, ore.getOreBlock().defaultBlockState());
+            final OreConfiguration.TargetBlockState deepslate = OreConfiguration.target(deepslateRule, ore.getDeepslateOreBlock().defaultBlockState());
+
+            FeatureUtils.register(bootstrap, ore.getFeatureConfigKey(), Feature.ORE, new OreConfiguration(List.of(normal, deepslate), values.veinSize()));
+        }
+    }
+
+    private static List<PlacementModifier> orePlacement(int veinsInChunk, PlacementModifier modifier) {
+        return List.of(CountPlacement.of(veinsInChunk), InSquarePlacement.spread(), modifier, BiomeFilter.biome());
+    }
+
+    public static void register(GatherDataEvent event) {
+        registerFeatures(event.getGenerator(), event.getLookupProvider(), event.includeServer());
+    }
+
+    /*
     public static void init(DataGenerator generator, ExistingFileHelper existingFileHelper) {
+
         RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.builtinCopy());
 
         Map<ResourceLocation, ConfiguredFeature<?, ?>> features = new LinkedHashMap<>();
@@ -144,4 +171,5 @@ public class ModWorldGen {
     private static List<PlacementModifier> commonOrePlacement(int count, PlacementModifier modifier) {
         return orePlacement(CountPlacement.of(count), modifier);
     }
+         */
 }

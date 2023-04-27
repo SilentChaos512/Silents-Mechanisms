@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "functions": [
+            {
+              "function": "minecraft:copy_nbt",
+              "ops": [
+                {
+                  "op": "replace",
+                  "source": "EnergyStored",
+                  "target": "BlockEntityTag.EnergyStored"
+                }
+              ],
+              "source": "block_entity"
+            }
+          ],
+          "name": "silents_mechanisms:battery_box"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

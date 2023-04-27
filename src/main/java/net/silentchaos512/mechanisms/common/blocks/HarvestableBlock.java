@@ -19,8 +19,6 @@ public class HarvestableBlock extends Block implements BreakableBlock {
         this.levelTag = levelTag;
     }
 
-
-
     @Override
     public TagKey<Block> getHarvestLevel() {
         return harvestToolTag;

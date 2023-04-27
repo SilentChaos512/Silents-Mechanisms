@@ -29,7 +29,7 @@ public class CoalGeneratorScreen extends BaseMenuScreen<CoalGeneratorMenu> {
     @Override
     public void renderTooltip(PoseStack pPoseStack, int pX, int pY) {
         Component energyWithMax = TranslateUtils.translateEnergyWithMax(menu.getEnergy(), menu.getEnergyCapacity());
-        MenuUtils.renderToolTip(this, pPoseStack,energyWithMax, pX, pY, 153, 17, 13, 52);
+        MenuUtils.renderToolTip(this, pPoseStack, energyWithMax, pX, pY, 153, 17, 13, 52);
         super.renderTooltip(pPoseStack, pX, pY);
     }
 }

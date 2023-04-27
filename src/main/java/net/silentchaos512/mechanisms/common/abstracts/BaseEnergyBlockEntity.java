@@ -3,6 +3,7 @@ package net.silentchaos512.mechanisms.common.abstracts;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
@@ -17,14 +18,28 @@ import org.jetbrains.annotations.NotNull;
 import javax.annotation.Nonnull;
 
 /**
- * <pre>
  * NOTE ! This block entity can only store energy, {@link IItemHandler} not included.
  * For IItemHandler version, see {@link BaseMachineBlockEntity}
- * </pre>
  */
 public abstract class BaseEnergyBlockEntity extends BlockEntity {
     public final FlexibleEnergyStorage energyStorage;
     protected LazyOptional<IEnergyStorage> energyHolder;
+    private final ContainerData energyData = new ContainerData() {
+        @Override
+        public int get(int pIndex) {
+            return pIndex == 0 ? energyStorage.getEnergyStored() : energyStorage.getMaxEnergyStored();
+        }
+
+        @Override
+        public void set(int pIndex, int pValue) {
+
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+    };
 
     public BaseEnergyBlockEntity(BlockEntityType<?> pType, BlockPos pWorldPosition, BlockState pBlockState, FlexibleEnergyStorage energyStorage) {
         super(pType, pWorldPosition, pBlockState);
@@ -61,15 +76,15 @@ public abstract class BaseEnergyBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag pTag) {
+    protected void saveAdditional(@NotNull CompoundTag pTag) {
         super.saveAdditional(pTag);
-        pTag.put("EnergyStored", energyStorage.serializeNBT());
+        pTag.put("energy", energyStorage.serializeNBT());
     }
 
     @Override
-    public void load(CompoundTag pTag) {
+    public void load(@NotNull CompoundTag pTag) {
         super.load(pTag);
-        energyStorage.deserializeNBT(pTag.get("EnergyStored"));
+        energyStorage.deserializeNBT(pTag.get("energy"));
     }
 
     @Override

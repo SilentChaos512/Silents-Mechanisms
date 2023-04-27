@@ -7,8 +7,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
-import net.silentchaos512.mechanisms.common.abstracts.BaseMenuContainer;
-import net.silentchaos512.mechanisms.common.abstracts.BaseMenuScreen;
+import net.silentchaos512.mechanisms.common.abstracts.*;
 
 public class MenuUtils {
     //U.C
@@ -32,8 +31,6 @@ public class MenuUtils {
         for (int k = 0; k < 9; ++k) {
             container.addSlot(k, inventory, topLeftX + k * 18, topLeftY + 58);
         }
-
-        container.waitingForInventory = false;
     }
 
     public static void renderMenuScreen(AbstractContainerScreen<?> screen, PoseStack pose, String imageLoc, int width, int height) {
