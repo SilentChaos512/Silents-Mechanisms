@@ -19,7 +19,7 @@ apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'org.parchmentmc.librarian.forgegradle'
 
-version = '1.19.2-2.0.0'
+version = '1.19.2-2.0.1'
 group = 'net.silentchaos512'
 archivesBaseName = 'silents_mechanisms'
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
@@ -124,10 +124,9 @@ dependencies {
     // at runtime, use the full JEI jar for Forge
     runtimeOnly(fg.deobf("mezz.jei:jei-${mc_ver}-forge:${jei_ver}"))
 
-    runtimeOnly fg.deobf("curse.maven:ferritecore-429235:4147336")
-    runtimeOnly fg.deobf("curse.maven:lazy-dfu-forge-460819:4327266")
+    //runtimeOnly fg.deobf("curse.maven:ferritecore-429235:4147336")
+    //runtimeOnly fg.deobf("curse.maven:lazy-dfu-forge-460819:4327266")
 
-    //runtimeOnly fg.deobf("curse.maven:nbt-tool-451553:3879898")
     runtimeOnly fg.deobf("curse.maven:the-one-probe-245211:4159743")
 
     implementation fg.deobf("net.silentchaos512:silent-lib:${mc_ver}-${silent_lib_version}") {

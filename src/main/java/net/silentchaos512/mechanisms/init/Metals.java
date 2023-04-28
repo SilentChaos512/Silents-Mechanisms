@@ -2,6 +2,7 @@ package net.silentchaos512.mechanisms.init;
 
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -221,6 +222,10 @@ public final class Metals {
 
         default Block getStorageBlock() {
             return ModBlocks.METAL_STORAGE_BLOCKS.get(this);
+        }
+
+        default TagKey<Block> getStorageBlockTag() {
+            return BlockTags.create(new ResourceLocation("forge", "storage_blocks/" + this.getName()));
         }
 
         String getName();

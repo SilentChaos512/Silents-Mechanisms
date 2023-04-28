@@ -10,11 +10,13 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.common.Tags;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.init.Metals;
+import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
 import org.jetbrains.annotations.Nullable;
 
@@ -40,8 +42,7 @@ public class ModItemTags {
                 switch (metalType) {
                     case INGOT ->
                             ALL_METAL_TAGS.put(oreMetal, metalType, forge("ingots", oreMetal.name().toLowerCase()));
-                    case DUST ->
-                            ALL_METAL_TAGS.put(oreMetal, metalType, forge("dusts", oreMetal.name().toLowerCase()));
+                    case DUST -> ALL_METAL_TAGS.put(oreMetal, metalType, forge("dusts", oreMetal.name().toLowerCase()));
                     case RAW ->
                             ALL_METAL_TAGS.put(oreMetal, metalType, forge("raw_materials", oreMetal.name().toLowerCase()));
                     case NUGGET ->
@@ -89,7 +90,7 @@ public class ModItemTags {
             }));
 
             for (Table.Cell<Metals.Alloy, Metals.AlloyType, TagKey<Item>> cell : ALL_ALLOY_TAGS.cellSet()) {
-                switch(cell.getColumnKey()) {
+                switch (cell.getColumnKey()) {
                     case DUST -> super.tag(Tags.Items.DUSTS).addTag(cell.getValue());
                     case INGOT -> super.tag(Tags.Items.INGOTS).addTag(cell.getValue());
                     case NUGGET -> super.tag(Tags.Items.NUGGETS).addTag(cell.getValue());
@@ -97,6 +98,13 @@ public class ModItemTags {
 
                 super.tag(cell.getValue()).add(ModItems.ALL_ALLOYS.get(cell.getRowKey(), cell.getColumnKey()));
             }
+
+            ModBlocks.METAL_STORAGE_BLOCKS.forEach((provider, block) -> {
+                TagKey<Block> blockTag = provider.getStorageBlockTag();
+                TagKey<Item> itemTag = ItemTags.create(blockTag.location());
+                super.copy(blockTag, itemTag);
+                super.tag(Tags.Items.STORAGE_BLOCKS).addTag(itemTag);
+            });
 
             super.tag(COAL_GENERATOR_FUELS).add(Items.COAL, Items.CHARCOAL, Items.COAL_BLOCK);
         }

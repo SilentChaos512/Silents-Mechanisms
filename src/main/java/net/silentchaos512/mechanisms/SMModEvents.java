@@ -1,11 +1,27 @@
 package net.silentchaos512.mechanisms;
 
 
+import com.google.gson.JsonElement;
+import com.mojang.serialization.JsonOps;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.core.Holder;
+import net.minecraft.core.HolderSet;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.data.DataProvider;
+import net.minecraft.resources.RegistryOps;
+import net.minecraft.server.packs.PackType;
+import net.minecraft.tags.BiomeTags;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.levelgen.GenerationStep;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.minecraftforge.common.ForgeMod;
 import net.minecraftforge.common.data.ExistingFileHelper;
+import net.minecraftforge.common.data.JsonCodecProvider;
+import net.minecraftforge.common.world.ForgeBiomeModifiers;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -23,6 +39,10 @@ import net.silentchaos512.mechanisms.data.server.SMBiomeModifiers;
 import net.silentchaos512.mechanisms.data.tag.ModBlockTagProvider;
 import net.silentchaos512.mechanisms.data.tag.ModItemTags;
 import net.silentchaos512.mechanisms.init.*;
+
+import java.util.Arrays;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Mod.EventBusSubscriber(modid = SilentsMechanisms.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public final class SMModEvents {
@@ -45,7 +65,16 @@ public final class SMModEvents {
 
         final boolean includeClient = event.includeClient();
         ModBlockStateProvider blockStateProvider = dataGenerator.addProvider(includeClient, new ModBlockStateProvider(dataGenerator, fileHelper));
-        dataGenerator.addProvider(includeClient, new ModItemModelProvider(dataGenerator, blockStateProvider, fileHelper));
+        dataGenerator.addProvider(includeClient, new ModItemModelProvider(dataGenerator, fileHelper));
+    }
+
+    private static void registerModifier(DataGenerator dataGenerator, ExistingFileHelper fileHelper, boolean includeServer) {
+        RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
+        HolderSet<Biome> biome = ops.getter(Registries.BIOME).orElseThrow().getOrThrow(BiomeTags.IS_OVERWORLD);
+        HolderSet<PlacedFeature> ores = HolderSet.direct(Arrays.stream(Metals.Ore.values()).map(ore -> Holder.Reference.createStandAlone(null, ore.getPlacedFeatureKey())).collect(Collectors.toList()));
+
+        dataGenerator.addProvider(includeServer, new JsonCodecProvider<>(dataGenerator.getPackOutput(), fileHelper, SilentsMechanisms.MODID, JsonOps.INSTANCE, PackType.SERVER_DATA, "forge/biome_modifier", ForgeMod.ADD_FEATURES_BIOME_MODIFIER_TYPE.get(),
+                Map.of(SilentsMechanisms.location("ore_gen"), new ForgeBiomeModifiers.AddFeaturesBiomeModifier(biome, ores, GenerationStep.Decoration.UNDERGROUND_ORES))));
     }
 
     @SubscribeEvent

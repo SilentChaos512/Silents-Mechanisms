@@ -47,7 +47,6 @@ public final class ModItems {
     public static final Item PLASTIC_PELLETS = register("plastic_pellets");
     public static final Item HEATING_ELEMENT = register("heating_element");
     public static final Item CIRCUIT_BOARD = register("circuit_board");
-    public static final Item WIRE = register("wire");
 
     //UPGRADES
     public static final Item UPGRADE_BASE = register("upgrade_case");

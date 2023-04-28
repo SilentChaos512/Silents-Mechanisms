@@ -1,0 +1,6 @@
+{
+  "type": "forge:add_features",
+  "biomes": "#minecraft:is_overworld",
+  "features": "silents_mechanisms:oil_lake",
+  "step": "lakes"
+}

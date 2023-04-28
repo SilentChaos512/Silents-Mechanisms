@@ -8,21 +8,25 @@ import net.silentchaos512.lib.util.NameUtils;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlock;
 import net.silentchaos512.mechanisms.init.Metals;
-import net.silentchaos512.mechanisms.init.ModBlocks;
 import net.silentchaos512.mechanisms.init.ModItems;
 
+import static net.silentchaos512.mechanisms.init.ModBlocks.*;
+
 public class ModItemModelProvider extends ItemModelProvider {
-    private final ModBlockStateProvider blockProvider;
 
 
-    public ModItemModelProvider(DataGenerator generator, ModBlockStateProvider provider, ExistingFileHelper fileHelper) {
+    public ModItemModelProvider(DataGenerator generator, ExistingFileHelper fileHelper) {
         super(generator.getPackOutput(), SilentsMechanisms.MODID, fileHelper);
-        this.blockProvider = provider;
     }
 
     @Override
     protected void registerModels() {
         DryingRackBlock.ALL_RACKS.forEach(this::blockItemModel);
+
+        blockItemModel(COAL_GENERATOR);
+        blockItemModel(ALLOY_MACHINE_FRAME);
+        blockItemModel(STONE_MACHINE_FRAME);
+        blockItemModel(BATTERY_BOX, "battery_box_0");
 
         for (Metals.Ore metal : Metals.Ore.values()) {
             basicItem(metal.getRawOreItem());
@@ -71,10 +75,16 @@ public class ModItemModelProvider extends ItemModelProvider {
         basicItem(ModItems.UPGRADE_BASE);
         basicItem(ModItems.WRENCH);
         basicItem(ModItems.ZOMBIE_LEATHER);
+        basicItem(ModItems.ALTERNATOR);
     }
 
     private void blockItemModel(Block block) {
         String name = NameUtils.fromBlock(block).getPath();
-        withExistingParent(name, modLoc("block/" + name));
+        this.blockItemModel(block, name);
+    }
+
+    private void blockItemModel(Block block, String parentName) {
+        String name = NameUtils.fromBlock(block).getPath();
+        withExistingParent(name, modLoc("block/" + parentName));
     }
 }
