@@ -4,6 +4,7 @@ package net.silentchaos512.mechanisms.common.blocks.generators.coalgenerator;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
@@ -14,16 +15,16 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.level.block.state.properties.DirectionProperty;
-import net.silentchaos512.mechanisms.common.blocks.generators.AbstractGeneratorBlock;
+import net.silentchaos512.mechanisms.common.blocks.abstracts.AbstractEntityBlock;
 import net.silentchaos512.mechanisms.init.ModBlockEntities;
 import net.silentchaos512.mechanisms.utls.CompoundTagUtils;
 
-public class CoalGeneratorBlock extends AbstractGeneratorBlock<CoalGeneratorBlockEntity> {
+public class CoalGeneratorBlock extends AbstractEntityBlock<CoalGeneratorBlockEntity> {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
 
     public CoalGeneratorBlock(BlockBehaviour.Properties properties) {
-        super(properties);
+        super(properties, BlockTags.MINEABLE_WITH_PICKAXE);
         super.registerDefaultState(defaultBlockState().setValue(LIT, false).setValue(FACING, Direction.NORTH));
     }
 
@@ -38,7 +39,7 @@ public class CoalGeneratorBlock extends AbstractGeneratorBlock<CoalGeneratorBloc
     }
 
     @Override
-    public  CoalGeneratorBlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
+    public CoalGeneratorBlockEntity newBlockEntity(BlockPos pPos, BlockState pState) {
         return new CoalGeneratorBlockEntity(pPos, pState);
     }
 

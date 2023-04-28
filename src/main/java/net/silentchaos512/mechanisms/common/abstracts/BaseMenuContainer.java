@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Block;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.util.function.Supplier;
 
 @ParametersAreNonnullByDefault
 @MethodsReturnNonnullByDefault
@@ -18,12 +17,11 @@ public abstract class BaseMenuContainer extends AbstractContainerMenu {
     public final Inventory playerInventory;
     public final ContainerLevelAccess access = ContainerLevelAccess.NULL;
     public final Container container;
+    public final ContainerData data;
     protected final Block blockAccess;
     //Used as coordinate for AUTO inventory label pos calculating and rendering in screen
     public int playerInventoryX;
     public int playerInventoryY;
-    public boolean waitingForInventory = true;
-    public final ContainerData data;
 
     public BaseMenuContainer(@Nonnull MenuType<?> pMenuType, int pContainerId, Inventory playerInventory, Container container, Block blockAccess, ContainerData data) {
         super(pMenuType, pContainerId);
@@ -40,9 +38,7 @@ public abstract class BaseMenuContainer extends AbstractContainerMenu {
     }
 
     protected void addSlot(int index, int x, int y) {
-        if (waitingForInventory) {
-            super.addSlot(new Slot(this.container, index, x, y));
-        } else throw new IllegalStateException("Inventory must be added after container");
+        super.addSlot(new Slot(this.container, index, x, y));
     }
 
     @Override

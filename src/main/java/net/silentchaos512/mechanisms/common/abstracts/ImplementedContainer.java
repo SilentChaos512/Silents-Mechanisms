@@ -17,6 +17,14 @@ public interface ImplementedContainer extends Container, MenuProvider {
 
     @Override
     default boolean isEmpty() {
+        return this.getItemContainer().isEmpty() || this.containsNon();
+    }
+
+    private boolean containsNon() {
+        for (ItemStack itemStack : this.getItemContainer()) {
+            return itemStack.isEmpty();
+        }
+
         return false;
     }
 

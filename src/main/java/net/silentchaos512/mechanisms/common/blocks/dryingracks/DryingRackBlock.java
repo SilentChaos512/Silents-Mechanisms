@@ -25,6 +25,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.Tags;
+import net.silentchaos512.mechanisms.common.abstracts.BreakableBlock;
 import net.silentchaos512.mechanisms.common.blocks.abstracts.AbstractEntityBlock;
 import net.silentchaos512.mechanisms.init.ModBlockEntities;
 import org.jetbrains.annotations.Nullable;
@@ -34,7 +35,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class DryingRackBlock extends AbstractEntityBlock<DryingRackBlockEntity> {
+public class DryingRackBlock extends AbstractEntityBlock<DryingRackBlockEntity> implements BreakableBlock {
     public static final List<DryingRackBlock> ALL_RACKS = new ArrayList<>();
     public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;

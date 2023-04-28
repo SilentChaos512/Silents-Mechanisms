@@ -1,5 +1,5 @@
 {
-  "feature": "silents_mechanisms:oil_lake",
+  "feature": "silents_mechanisms:oil_lake_config",
   "placement": [
     {
       "type": "minecraft:rarity_filter",

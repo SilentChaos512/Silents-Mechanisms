@@ -10,6 +10,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraftforge.registries.RegisterEvent;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
+import net.silentchaos512.mechanisms.common.items.BatteryItem;
 import net.silentchaos512.mechanisms.registration.DirectRegistry;
 
 //Added this suppresses warnings one so intellij won't give any stupid warnings for unused registries
@@ -21,7 +22,7 @@ public final class ModItems {
     public static final Table<Metals.Alloy, Metals.AlloyType, Item> ALL_ALLOYS;
 
     //=============== STANDALONE ITEMS
-    public static final Item.Properties GENERAL_PROPERTIES = new Item.Properties().tab(SilentsMechanisms.TAB);
+    public static final Item.Properties GENERAL_PROPERTIES = new Item.Properties();
 
     public static final Item COMPRESSED_IRON_INGOT = register("compressed_iron_ingot");
     public static final Item COAL_DUST = register("coal_dust");
@@ -57,6 +58,8 @@ public final class ModItems {
 
     //UTILS
     public static final Item WRENCH = register("wrench");
+    public static final Item ALTERNATOR = register("alternator");
+    public static final Item BATTERY = register("battery", new BatteryItem());
 
     //BUCKET ITEMS
     public static final Item OIL_BUCKET = register("oil_bucket", new BucketItem(() -> ModFluids.OIL, getProperties().stacksTo(1)));
@@ -81,15 +84,15 @@ public final class ModItems {
     }
 
     private static Item.Properties getProperties() {
-        return new Item.Properties().tab(SilentsMechanisms.TAB);
+        return new Item.Properties();
     }
 
     private static Item register(String name) {
-        return register(name, new Item(new Item.Properties().tab(SilentsMechanisms.TAB)));
+        return register(name, new Item(new Item.Properties()));
     }
 
     private static Item registerFood(String name, FoodProperties foodProperties) {
-        return register(name, new Item(new Item.Properties().tab(SilentsMechanisms.TAB).food(foodProperties)));
+        return register(name, new Item(new Item.Properties().food(foodProperties)));
     }
 
     private static <ITEM extends Item> Item register(String name, ITEM item) {
@@ -97,13 +100,10 @@ public final class ModItems {
     }
 
     public static void registerAllItems(RegisterEvent.RegisterHelper<Item> helper) {
-        ITEM_DIRECT_REGISTRY.registerAll(helper);
         ModBlocks.BLOCK_DIRECT_REGISTRY.getMappings().forEach((block, id) -> {
             if (!(block instanceof LiquidBlock))
-                helper.register(id, new BlockItem(block, new Item.Properties().tab(SilentsMechanisms.TAB)));
+                ITEM_DIRECT_REGISTRY.register(id.getPath(), new BlockItem(block, new Item.Properties()));
         });
-    }
-
-    public static void staticInitializing() {
+        ITEM_DIRECT_REGISTRY.registerAll(helper);
     }
 }

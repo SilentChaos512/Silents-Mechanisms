@@ -9,13 +9,13 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.silentchaos512.mechanisms.utls.JsonNames;
-import net.silentchaos512.mechanisms.utls.MechanismsUtils;
+import net.silentchaos512.mechanisms.utls.ModUtils;
 import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.common.blocks.dryingracks.DryingRackBlockEntity;
 import net.silentchaos512.mechanisms.init.ModRecipes;
 
 public class RackDryingRecipe implements Recipe<DryingRackBlockEntity> {
-    public static final RecipeType<RackDryingRecipe> RECIPE_TYPE = MechanismsUtils.makeRecipeType("rack_drying");
+    public static final RecipeType<RackDryingRecipe> RECIPE_TYPE = ModUtils.makeRecipeType("rack_drying");
     private final int dryingTime;
     private final Ingredient input;
     private final ItemStack output;

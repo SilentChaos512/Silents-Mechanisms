@@ -1,10 +1,15 @@
 package net.silentchaos512.mechanisms.init;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
-import net.silentchaos512.mechanisms.data.tag.ModItemTags;
+import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
+import net.minecraft.world.level.levelgen.placement.PlacedFeature;
+import net.silentchaos512.mechanisms.SilentsMechanisms;
 import net.silentchaos512.mechanisms.worldgen.OreVeinValues;
 
 import java.util.LinkedList;
@@ -44,11 +49,6 @@ public final class Metals {
         @Override
         public Item getDust() {
             return ModItems.ALL_ALLOYS.get(this, AlloyType.DUST);
-        }
-
-        @Override
-        public TagKey<Item> getIngredientTag() {
-            return ModItemTags.ALL_ALLOY_TAGS.get(this, AlloyType.INGOT);
         }
 
         @Override
@@ -100,11 +100,6 @@ public final class Metals {
         }
 
         @Override
-        public TagKey<Item> getIngredientTag() {
-            return ModItemTags.ALL_METAL_TAGS.get(this, OreMetalType.INGOT);
-        }
-
-        @Override
         public TagKey<Block> getHarvestToolTag() {
             return this.harvestLevelTag;
         }
@@ -152,10 +147,23 @@ public final class Metals {
         public final OreVeinValues oreVeinValues;
         public final OreMetal respectiveMetal;
 
-        Ore(OreMetal respectiveMetal, TagKey<Block> harvestLeveltag, OreVeinValues oreVeinValues) {
+        public final ResourceKey<ConfiguredFeature<?, ?>> featureConfigKey;
+        public final ResourceKey<PlacedFeature> placedFeatureKey;
+
+        Ore(OreMetal respectiveMetal, TagKey<Block> harvestLevelTag, OreVeinValues oreVeinValues) {
             this.respectiveMetal = respectiveMetal;
-            this.harvestLevelTag = harvestLeveltag;
+            this.harvestLevelTag = harvestLevelTag;
             this.oreVeinValues = oreVeinValues;
+            this.featureConfigKey = ResourceKey.create(Registries.CONFIGURED_FEATURE, SilentsMechanisms.location(this + "_ores_config"));
+            this.placedFeatureKey = ResourceKey.create(Registries.PLACED_FEATURE,  SilentsMechanisms.location(this + "_ores"));
+        }
+
+        public ResourceKey<ConfiguredFeature<?, ?>> getFeatureConfigKey() {
+            return featureConfigKey;
+        }
+
+        public ResourceKey<PlacedFeature> getPlacedFeatureKey() {
+            return placedFeatureKey;
         }
 
         public TagKey<Block> getHarvestLevelTag() {
@@ -208,8 +216,6 @@ public final class Metals {
 
         Item getDust();
 
-        TagKey<Item> getIngredientTag();
-
         TagKey<Block> getHarvestToolTag();
 
         String toString();
@@ -218,6 +224,11 @@ public final class Metals {
             return ModBlocks.METAL_STORAGE_BLOCKS.get(this);
         }
 
+        default TagKey<Block> getStorageBlockTag() {
+            return BlockTags.create(new ResourceLocation("forge", "storage_blocks/" + this.getName()));
+        }
+
         String getName();
+
     }
 }

@@ -2,7 +2,7 @@ package net.silentchaos512.mechanisms.common.blocks.dryingracks;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Quaternion;
+import com.mojang.math.Axis;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.block.model.ItemTransforms;
@@ -33,7 +33,9 @@ public class DryingRackRenderer implements BlockEntityRenderer<DryingRackBlockEn
             double posZ = 0.5 + 0.375 * opposite.getStepZ();
 
             pPoseStack.translate(posX, posY, posZ);
-            pPoseStack.mulPose(new Quaternion(0, 180 - facing.toYRot(), 0, true));
+            pPoseStack.mulPose(Axis.XP.rotationDegrees(0));
+            pPoseStack.mulPose(Axis.YP.rotationDegrees(180 - facing.toYRot()));
+            pPoseStack.mulPose(Axis.ZP.rotationDegrees(0));
 
             pPoseStack.scale(.75f, .75f, .75f);
 
